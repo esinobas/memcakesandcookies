@@ -1,0 +1,53 @@
+<?php
+
+
+   /**
+    * File with the definition of the abstract table that allows access to the data image
+    */
+    
+   abstract class AbtractTableImage{
+       
+      private $idM;
+      private $pathM;
+      private $descriptionM;
+      private $existM;
+      
+      protected function __construct(){
+         
+      }         
+      
+      public function __destruct(){
+         
+      }
+      
+      protected function setId($theId){
+      
+         $this->idM = $theId;
+      }
+      
+      public function getId(){
+            
+         return $this->idM;   
+      } 
+      
+      public function setPath($thePath){
+         
+         $this->pathM = $thePath;   
+      }
+      
+      public function getPath() {
+      
+         return $this->pathM;      
+      }
+      
+      public function setDescription($theDesc){
+      
+         $this-> descriptionM = $theDesc;  
+      }
+      
+      public function getDescription(){
+         
+         return $this->descriptionM;      
+      }
+   }
+?>

@@ -1,0 +1,26 @@
+<?php
+   include_once('TableImage.php');
+   
+   class TB_MODELING extends TableImage{
+
+      function __construct(){
+      //   parent::__construct();
+      }
+      
+      public function  __destruct(){
+         
+      }
+      
+      static public function create($thePath, $theDesc){
+         
+         //printf("Cretate TB_CAKES::%s, %s<br>", $thePath, $theDesc);
+         TableImage::insertIntoTable($thePath, $theDesc, TypeModelC);    
+      }
+      
+      static public function getAll(){
+        
+         return TableImage::getAll(TypeModelC);     
+      }
+      
+  }
+?>

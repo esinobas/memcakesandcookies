@@ -1,0 +1,26 @@
+<?php
+   include_once('TableImage.php');
+   
+   class TB_COOKIES extends TableImage{
+
+      function __construct(){
+      //   parent::__construct();
+      }
+      
+      public function  __destruct(){
+         
+      }
+      
+      static public function create($thePath, $theDesc){
+         
+         
+         TableImage::insertIntoTable($thePath, $theDesc, TypeCookieC);    
+      }
+      
+      static public function getAll(){
+        
+         return TableImage::getAll(TypeCookieC);     
+      }
+      
+  }
+?>

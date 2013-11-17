@@ -5,7 +5,7 @@
 
    <meta name="generator" content="Bluefish 2.2.4" >
    <meta name="author" content="Esteban Sinobas Carpio" >
-   <meta name="date" content="2013-11-15T13:38:10+0100" >   
+   <meta name="date" content="2013-11-17T18:43:15+0100" >   
    <meta name="copyright" content="">
    <meta name="ROBOTS" content="INDEX, FOLLOW">
    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
@@ -28,6 +28,9 @@
                <img src="images/logoCMYKwithoutBorder.jpg" alt="MEM cakes and cookies" title="MEM cakes and cookies" >
             </div>
             <div id="Menu">
+               <?php
+                  include()
+               ?>
             </div>
          </div>
          <div id="Cuerpo">
