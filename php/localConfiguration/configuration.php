@@ -5,7 +5,8 @@
     */
      
      
-     
+    define('url','http://memcakesandcookies');    
+    
     define('slideImagesPath', 'images/home-slides');
     define('cakesImagesPath', 'images/cakes');
     define('cookiesImagesPath', 'images/cookies');

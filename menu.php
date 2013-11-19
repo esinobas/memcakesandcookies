@@ -5,6 +5,7 @@
   
 ?>
 <br>
+<br>
 <ul id="menu">
    <?php
    while ($options->next()){
@@ -12,26 +13,33 @@
    <li>
    <?php
       $row = $options->getRow();   
-      printf("%s\n", $row->getOption());
+      
       if (TB_MENUS::hasSubmenu($row->getId()) == true){
+         printf("%s\n", $row->getOption());
          $optionsSubmenu = TB_MENUS::getMenu($row->getId());
          ?>
-         
-         <ul class="submenu">
-         a
+         <div class="submenu">
+                 
          <?php
             while($optionsSubmenu->next()){
             ?>
-               <li>
+         
                   <?php
-                     printf("%s\n",$optionsSubmenu->getRow()->getOption());
+                     printf("%s\n<br>\n",$optionsSubmenu->getRow()->getOption());
                   ?>
-               </li> 
+          
             <?php           
             }
          ?>
-         </ul>
          
+         </div>
+         
+         <?php      
+      }else{
+         ?>
+         <a href=<?php printf("\"%s?pageId=%s\"",url, $row->getId());?>>
+            <?php printf("%s\n", $row->getOption()); ?>
+         </a>
          <?php      
       }
    ?>
