@@ -24,11 +24,13 @@
       function __construct($theId){
          $this->idM = $theId;
       }     
+
       
       function __destruct(){
         
       }
   
+
       protected function setId($theId) {
          
          $this->idM = $theId;
@@ -61,7 +63,8 @@
   
       static public function getMenu($theParentMenu){
  
-         $query = sprintf("select %s, %s, %s from %s where %s = %s"
+
+        $query = sprintf("select %s, %s, %s from %s where %s = %s"
                            ,idC
                            ,optionC
                            ,optionParentC
@@ -137,6 +140,7 @@
          } 
          
               
+
       }
    };
 

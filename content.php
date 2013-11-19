@@ -5,6 +5,7 @@
 
    <meta name="generator" content="Bluefish 2.2.4" >
    <meta name="author" content="Esteban Sinobas Carpio" >
+
    <meta name="date" content="2013-11-19T09:12:07+0100" >   
    <meta name="copyright" content="">
    <meta name="ROBOTS" content="INDEX, FOLLOW">
@@ -27,6 +28,7 @@
             <div id="Logo">
                <img src="images/logoCMYKwithoutBorder.jpg" alt="MEM cakes and cookies" title="MEM cakes and cookies" >
             </div>
+
             <div id="div_menu">
                <?php
                  require_once(dirname(__FILE__).'/menu.php');

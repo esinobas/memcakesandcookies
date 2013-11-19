@@ -1,5 +1,6 @@
 CREATE DATABASE  IF NOT EXISTS `MEMcakesandcookies` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `MEMcakesandcookies`;
+
 -- MySQL dump 10.13  Distrib 5.5.29, for debian-linux-gnu (i686)
 --
 -- Host: localhost    Database: MEMcakesandcookies
@@ -51,4 +52,6 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
+
 -- Dump completed on 2013-11-19 11:15:17
+
