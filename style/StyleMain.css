@@ -80,7 +80,7 @@ html {
    font-family: inherit;
    font-size: inherit;
    font-weight: normal;
-   color: inherit;
+   color:#ff6600;
    background-color: white;
    width: 115px;
    font-family: inherit;
@@ -96,7 +96,7 @@ html {
 }
 
 #menu li a {
-
+  
    text-decoration: none;
 }
 #menu li a:visited{
@@ -104,6 +104,17 @@ html {
 }
 #menu li:hover{
    font-weight: bold;
+}
+
+.submenu a {
+   text-decoration: none;
+   color:#ff6600;
+}
+.submenu a:hover{
+   font-weight: bold;
+}
+.submenu a:visited{
+   color: #ff6600;
 }
 
 #about{

@@ -4,7 +4,7 @@
 <title>MEM Cakes & Cookies</title>
 <meta name="generator" content="Bluefish 2.2.4" >
 <meta name="author" content="Esteban Sinobas Carpio" >
-<meta name="date" content="2013-11-20T10:29:24+0100" >
+<meta name="date" content="2013-11-20T16:36:52+0100" >
 <meta name="copyright" content="">
 <meta name="Description" content="Tartas (cakes) decoradas con fondant. Galletas (cookies) decoradas con fondant. Tartas de fantasia modeladas con fondant. Tartas y galletas de fondant en Madrid. Cakes and cookies with fondant in Madrid. Tartas y galletas para cumpleaños, comuniones y todo tipo de eventos y celebraciones">
 <meta name="keywords" content="memcakesandcookies, cakes, cookies, cake, cookie, cupcakes, cupcake, tartas, galletas, cumpleaños, celebraciones, eventos, catering, bodas, comuniones, dulces">
@@ -18,6 +18,7 @@
 <!-- Scripts -->
 <script type="text/javascript" src="./scripts/jquery-1.9.0.js"></script>
 <script type="text/javascript" src="./scripts/SlideImages.js"></script>
+<script type="text/javascript" src="./plugins/Gallery/Gallery.js"></script>
 
  <!-- Styles -->
    
@@ -49,9 +50,41 @@
          <?php
             if (isset($_GET["pageId"])) {
                $pageId = $_GET["pageId"];
+              
                if ($pageId == "1"){
                   require_once(dirname(__FILE__).'/about.php');            
+               }else{
+                  if ($pageId == "9"){
+                     require_once(dirname(__FILE__).'/contact.php');
+                  }else{
+                     ?>
+                     <div id="Gallery">
+                     <?php
+                     if ($_GET["collection"] == "2"){
+                        //cakes
+                        
+                        if ($_GET["pageId"] == "6"){
+                           //all cakes
+                           $collection = 0;
+                           require_once(dirname(__FILE__).'/getCakes.php');
+                          
+                        }
+                     }
+                     
+                     ?>
+                     </div>
+                     <script type="text/javascript" >
+                        Gallery.show({
+                           size:{width: "940",height:"450"},
+                           columns: 6,
+                           rows: 4
+                        }
+                    );                     
+                     </script>
+                     <?php
+                  }
                }
+           
             }else{
                require_once(dirname(__FILE__).'/start.php');
             }

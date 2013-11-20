@@ -23,10 +23,12 @@
          <?php
             while($optionsSubmenu->next()){
             ?>
-         
+                  <a href=<?php printf("\"%s?pageId=%s&collection=%s\"", url, $optionsSubmenu->getRow()->getId(), $row->getId()); ?>> 
                   <?php
+                  
                      printf("%s\n<br>\n",$optionsSubmenu->getRow()->getOption());
                   ?>
+                  </a>
           
             <?php           
             }
