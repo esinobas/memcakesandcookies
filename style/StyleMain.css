@@ -108,9 +108,20 @@ html {
 
 #about{
    text-align: center;
-   padding-top: 50px; 
+   padding-top: 20px; 
    
 }
+
+#rotateImages {
+  background-color: white;
+  float: left;
+  position: relative;
+  margin-top: 20px;
+  width: 550px;
+  height: 400px;
+  margin-left: 195px;
+}
+
 /*///////*/
 
 #central {
@@ -179,15 +190,7 @@ html {
   padding-bottom: 5px;
  
 }
-#rotateImages {
-  background-color: white;
-  float: left;
-  position: relative;
-  margin-top: 50px;
-  width: 550px;
-  height: 400px;
-  margin-left: 195px;
-}
+
 #galeria {
   text-align: left;
   width: 100%;

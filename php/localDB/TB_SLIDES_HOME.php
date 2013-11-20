@@ -109,7 +109,7 @@
       static public function getAll(){
         
          $query = sprintf("select %s, %s from %s order by %s", IdC, pathC, tableNameC, IdC);
-          
+                  
          $conn = new MySqlDAO(serverC, userC, pwdC, ddbbC);
           
          $conn->connect();

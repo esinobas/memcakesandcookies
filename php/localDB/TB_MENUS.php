@@ -4,7 +4,7 @@
    include_once($_SERVER['DOCUMENT_ROOT']."/php/ddbb/MySqlDAO.php");
    include_once($_SERVER['DOCUMENT_ROOT']."/php/ddbb/DBIterator.php");
    
-   define('tableNameC','TB_MENU');
+   define('tableMenuC','TB_MENU');
    define('idC','ID');
    define('optionC','option_menu');
    define('optionParentC','option_parent');
@@ -68,7 +68,7 @@
                            ,idC
                            ,optionC
                            ,optionParentC
-                           ,tableNameC
+                           ,tableMenuC
                            ,optionParentC
                            ,$theParentMenu);
                            
@@ -115,7 +115,7 @@
  
          $query = sprintf("select count(%s) from %s where %s = %s"
                           ,idC
-                          ,tableNameC
+                          ,tableMenuC
                           ,optionParentC
                           ,$theId);
                           
