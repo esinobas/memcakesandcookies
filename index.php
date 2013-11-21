@@ -4,7 +4,7 @@
 <title>MEM Cakes & Cookies</title>
 <meta name="generator" content="Bluefish 2.2.4" >
 <meta name="author" content="Esteban Sinobas Carpio" >
-<meta name="date" content="2013-11-20T16:36:52+0100" >
+<meta name="date" content="2013-11-21T16:46:16+0100" >
 <meta name="copyright" content="">
 <meta name="Description" content="Tartas (cakes) decoradas con fondant. Galletas (cookies) decoradas con fondant. Tartas de fantasia modeladas con fondant. Tartas y galletas de fondant en Madrid. Cakes and cookies with fondant in Madrid. Tartas y galletas para cumpleaños, comuniones y todo tipo de eventos y celebraciones">
 <meta name="keywords" content="memcakesandcookies, cakes, cookies, cake, cookie, cupcakes, cupcake, tartas, galletas, cumpleaños, celebraciones, eventos, catering, bodas, comuniones, dulces">
@@ -23,6 +23,7 @@
  <!-- Styles -->
    
    <link rel="stylesheet" type="text/css" href="./style/StyleMain.css"> 
+   <link rel="stylesheet" type="text/css" href="./plugins/Gallery/Gallery.css"> 
    
    
 <?php
@@ -76,8 +77,9 @@
                      <script type="text/javascript" >
                         Gallery.show({
                            size:{width: "940",height:"450"},
-                           columns: 6,
-                           rows: 4
+                           columns: 5,
+                           rows: 3,
+                           margin:{horizontal:"20", vertical:"20"}
                         }
                     );                     
                      </script>

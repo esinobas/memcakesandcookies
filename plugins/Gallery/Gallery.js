@@ -49,29 +49,58 @@ var Gallery = {
        heightGallery = theParameters['size']['height']+"px";
        columns = theParameters['columns'];
        rows = theParameters['rows'];
-       paddingHorizontal = null;
-       paddingVertical = null;
+       marginHorizontal = null;
+       marginVertical = null;
        
-       if (theParameters['padding'] != null){
-          paddingHorizontal = theParameters['padding']['horizontal'];
-          paddingVertical = theParameters['padding']['vertical'];
+       if (theParameters['margin'] != null){
+          marginHorizontal = theParameters['margin']['horizontal'];
+          marginVertical = theParameters['margin']['vertical'];
        }
        
-       if (paddingHorizontal == null){
-          paddingHorizontal = "0";
+       if (marginHorizontal == null){
+          marginHorizontal = "5px";
+          this.debug(methodName, "Margin Horizontal is not present in the parameters");
        }else{
-          paddingHorizontal = paddingHorizontal+"px"
+          marginHorizontal = marginHorizontal+"px"
        }
-       if (paddingVertical == null){
-          paddingVertical = "0";
+       if (marginVertical == null){
+          marginVertical = "5px";
+          this.debug(methodName, "Margin Vertical is not present in the parameters");
        }else{
-          paddingVertical = paddingVertical+"px"
+          marginVertical = marginVertical+"px"
        }
        
        this.debug(methodName, "Width [ " + widthGallery +" ]. Height [ " + heightGallery +
-              " ]. columns [ " + columns + " ]. rows [ " + rows +" ].");
+              " ]. columns [ " + columns + " ]. rows [ " + rows +" ]. Margin Horizontal [ " +
+              marginHorizontal + " ]. Margin Vertical [ " + marginVertical +" ]");
               
-       this.debug(methodName,"Get all object images and change per its thumbnail");
+       $("#Gallery").css({
+          "width" : widthGallery,
+          "height" : heightGallery
+       });
+              
+       this.debug(methodName, "Calculate width and height of the div where the images are showed");
+       
+       var divWidth = parseInt(((parseInt(widthGallery) - ( (columns+1 ) * parseInt(marginHorizontal))) / columns)) + "px";
+       var divHeigth = parseInt(((parseInt(heightGallery) - ( (rows + 1 ) * parseInt(marginVertical))) / rows)) + "px"; 
+       this.debug(methodName,"Div width [ " + divWidth + " ]. Div Heigth [ " + divHeigth + "]"); 
+       
+       this.debug(methodName, "Create the tb-images for each img");
+       $("#Gallery").find("img").each(
+          function () {
+             var tbImg = $('<div class="tb-image"></div>');
+             tbImg.css({
+                  "width" : divWidth,
+                  "height" : divHeigth,
+                  "margin-left" : marginHorizontal,
+                  "margin-top" : marginVertical
+                  });
+             tbImg.append($(this));
+             $("#Gallery").append(tbImg);
+          }       
+       );
+              
+      /* this.debug(methodName,"Get all object images and change per its thumbnail");
        $("#Gallery").find('img').each(
           function () {
              var src = $(this).attr("src");
@@ -84,7 +113,7 @@ var Gallery = {
              Gallery.debug("show::#Gallery::img::each","New image source [ "+newSrc+ " ]");
              var src = $(this).attr("src", newSrc);
           }
-       );       
+       );*/       
               
        this.debugExit(methodName);
     }
