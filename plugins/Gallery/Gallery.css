@@ -1,9 +1,6 @@
 .tb-image{
 
-background-color: red;
 float: left;
-
-}
-#Gallery{
-
+border-style: solid;
+border-width: 1px;
 }

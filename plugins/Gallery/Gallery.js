@@ -100,21 +100,7 @@ var Gallery = {
           }       
        );
               
-      /* this.debug(methodName,"Get all object images and change per its thumbnail");
-       $("#Gallery").find('img').each(
-          function () {
-             var src = $(this).attr("src");
-             var arraySrc = src.split("/");
-             var newSrc = "";
-             for (var idx = 0; idx < arraySrc.length -1; idx++ ){
-                newSrc = newSrc +"/"+ arraySrc[idx];             
-             }
-             newSrc = newSrc +"/thumbnails/"+arraySrc[arraySrc.length-1];
-             Gallery.debug("show::#Gallery::img::each","New image source [ "+newSrc+ " ]");
-             var src = $(this).attr("src", newSrc);
-          }
-       );*/       
-              
+      
        this.debugExit(methodName);
     }
  

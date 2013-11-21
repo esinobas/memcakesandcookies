@@ -15,8 +15,11 @@
       $row = $options->getRow();   
       
       if (TB_MENUS::hasSubmenu($row->getId()) == true){
-         printf("%s\n", $row->getOption());
-         $optionsSubmenu = TB_MENUS::getMenu($row->getId());
+         ?>
+         <a href="#">
+         <?php
+            printf("%s", $row->getOption());
+           $optionsSubmenu = TB_MENUS::getMenu($row->getId());
          ?>
          <div class="submenu">
                  
@@ -26,10 +29,10 @@
                   <a href=<?php printf("\"%s?pageId=%s&collection=%s\"", url, $optionsSubmenu->getRow()->getId(), $row->getId()); ?>> 
                   <?php
                   
-                     printf("%s\n<br>\n",$optionsSubmenu->getRow()->getOption());
+                     printf("%s",$optionsSubmenu->getRow()->getOption());
                   ?>
                   </a>
-          
+                  <br>
             <?php           
             }
          ?>
@@ -40,12 +43,12 @@
       }else{
          ?>
          <a href=<?php printf("\"%s?pageId=%s\"",url, $row->getId());?>>
-            <?php printf("%s\n", $row->getOption()); ?>
-         </a>
+            <?php printf("%s", $row->getOption()); ?>
+         
          <?php      
       }
    ?>
-    
+    </a>
    </li>
    <?php
    }
