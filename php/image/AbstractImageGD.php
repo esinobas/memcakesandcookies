@@ -58,7 +58,8 @@
        public function converToThumbnail( $theTargetPath
                                          ,$theThumbWidth = 102
                                          ,$theThumHeight = 76
-                                         ,$theThumPrefix = 'Thumb_'){
+                                         ,$theThumPrefix = 'Thumb_'
+                                         ,$sizeInName = false){
          
          //Set mask to can set permission at the directory and the files
          $oldMask = umask(0);
@@ -66,10 +67,8 @@
                        
             $re = mkdir($theTargetPath, 0777);
          }
-         $fileName = $theTargetPath.'/'.$theThumPrefix.$this->fileM;
-         if (! is_file($fileName)){
-            
-            $imageWidth = imagesx($this->imageM);
+     
+         $imageWidth = imagesx($this->imageM);
             $imageHeight = imagesy($this->imageM);
             
             $widthFactor = 1;
@@ -85,7 +84,20 @@
             
             //Calculate the new width and height
             $thumbnailWidth = $imageWidth * $widthFactor * $heightFactor;
-            $thumbnailHeight = $imageHeight * $widthFactor * $heightFactor;
+            $thumbnailHeight = $imageHeight * $widthFactor * $heightFactor;     
+     
+         $fileName = $theTargetPath.'/'.$theThumPrefix;
+         if ( ! $sizeInName){
+            $fileName = $fileName.$this->fileM;
+         }else{
+            $ext = pathinfo($this->fileM, PATHINFO_EXTENSION);
+            $name =  pathinfo($this->fileM,PATHINFO_FILENAME);
+            $fileName = $fileName.$name.'_['.intval($thumbnailWidth).'x'.intval($thumbnailHeight).'].'.$ext;
+         }
+         
+         if (! is_file($fileName)){
+            
+            
             
             $targetImage = imagecreatetruecolor($thumbnailWidth, $thumbnailHeight);
             imagecopyresampled($targetImage        // target Image
@@ -103,7 +115,8 @@
             
          }
       
-         umask($oldMask);      
+         umask($oldMask);   
+         return  $fileName;   
       }
       
    }

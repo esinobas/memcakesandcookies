@@ -1,6 +1,14 @@
 .tb-image{
-
 float: left;
-border-style: solid;
-border-width: 1px;
+text-align: center;
+position: relative;
+}
+
+.tb-image img{
+   
+  opacity: .5
+}
+
+.tb-image img:hover{
+  opacity: 1;
 }

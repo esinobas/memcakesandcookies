@@ -3,7 +3,7 @@
  * a click is done on the thumbnails the image is showed in its original size
  *
  */
- 
+
  
 var Gallery = {
 
@@ -31,6 +31,29 @@ var Gallery = {
             }
     },
 
+    getHeightFromFileName: function(theFileName){
+    
+        var methodName = "getHeightFromFileName";
+        
+        this.debugEnter(methodName); 
+        this.debug(methodName, "Paremeters: theFileName [ " +theFileName +" ]");
+        var arraySplit = theFileName.split("/");
+        var file = arraySplit[arraySplit.length-1];
+        this.debug(methodName, "File [ " + file +" ]");
+        arraySplit = file.split("[");
+        var aux = arraySplit[arraySplit.length-1];
+        this.debug(methodName, "Aux 1 [ " + aux +" ]");
+        arraySplit = aux.split("]");
+        aux = arraySplit[0];
+        this.debug(methodName, "Aux 2 [ " + aux +" ]");
+        arraySplit = aux.split("x");
+        aux = arraySplit[arraySplit.length-1];
+        this.debug(methodName, "Heigth [ " + aux +" ]");
+        this.debugExit(methodName);
+        return aux; 
+    
+    },
+  
     /**
      * Method that shows the gallery.
      * parameters The parameters used for configure the gallery
@@ -82,21 +105,27 @@ var Gallery = {
        this.debug(methodName, "Calculate width and height of the div where the images are showed");
        
        var divWidth = parseInt(((parseInt(widthGallery) - ( (columns+1 ) * parseInt(marginHorizontal))) / columns)) + "px";
-       var divHeigth = parseInt(((parseInt(heightGallery) - ( (rows + 1 ) * parseInt(marginVertical))) / rows)) + "px"; 
-       this.debug(methodName,"Div width [ " + divWidth + " ]. Div Heigth [ " + divHeigth + "]"); 
+       var divHeight = parseInt(((parseInt(heightGallery) - ( (rows + 1 ) * parseInt(marginVertical))) / rows)) + "px"; 
+       this.debug(methodName,"Div width [ " + divWidth + " ]. Div Heigth [ " + divHeight + "]"); 
        
        this.debug(methodName, "Create the tb-images for each img");
        $("#Gallery").find("img").each(
           function () {
+             var methodName = '"#Gallery").find("img").each';
              var tbImg = $('<div class="tb-image"></div>');
              tbImg.css({
                   "width" : divWidth,
-                  "height" : divHeigth,
+                  "height" : divHeight,
                   "margin-left" : marginHorizontal,
                   "margin-top" : marginVertical
                   });
              tbImg.append($(this));
              $("#Gallery").append(tbImg);
+             
+             var imageMarginTop = parseInt(divHeight)-parseInt(Gallery.getHeightFromFileName($(this).attr('src')));
+             imageMarginTop = parseInt(imageMarginTop/2) + "px";
+             Gallery.debug(methodName, ' Image margin-top [ '  + imageMarginTop + ' ]');
+             $(this).css("margin-top", imageMarginTop);
           }       
        );
               
