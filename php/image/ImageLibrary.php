@@ -22,7 +22,7 @@
     
     return $image->converToThumbnail($theThumbnailPath, $theWitdh, $theHeight,$theThumbnailPrefix, true);
            
-    //return $nameFileThumbnail; 
+     
  }
 
 ?>
