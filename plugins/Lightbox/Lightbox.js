@@ -19,6 +19,9 @@ var Lightbox = {
     textM:"",
     positionTextM: "down", // allowed values: up/down
     
+    maxWidthM: "800px",
+    maxHeightM: "600px",
+       
     enableDebug: true,
     debugSetup: {
                   file: "Lightbox.js"
@@ -70,7 +73,27 @@ var Lightbox = {
        this.debug(methodName, 'image [ ' + imageM + ' ]. width [ ' +imageWidthM  + 
                                           'px ]. height [ ' + imageHeightM + 'px ]');
                                           
-         
+       var widthRatio = 1;
+       var heightRatio = 1;
+       
+       if (parseInt(this.maxWidthM) < parseInt(imageWidthM)){
+          
+          widthRatio = parseInt(this.maxWidthM)/parseInt(imageWidthM);    
+       }  
+       
+       if (parseInt(this.maxHeightM) < parseInt(imageHeightM)){
+          heightRatio = parseInt(this.maxHeightM)/parseInt(imageHeightM);    
+       }       
+       
+       
+       this.debug(methodName,"Width ratio [ " + widthRatio + " ]. Height ratio [ " + heightRatio + " ]");
+       
+       imageWidthM = imageWidthM * widthRatio * heightRatio;
+       imageHeightM = imageHeightM * widthRatio * heightRatio;
+   
+       this.debug(methodName, 'image [ ' + imageM + ' ]. New width [ ' +imageWidthM  + 
+                                          'px ]. New height [ ' + imageHeightM + 'px ]');
+       
        if (labelM != null){
        
           positionTextM = labelM['position'];
