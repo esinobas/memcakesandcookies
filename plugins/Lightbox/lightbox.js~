@@ -1,0 +1,52 @@
+/**
+ * Plugin lightbox that is used to show images within a container
+ * with animation
+ *
+ */
+ 
+ 
+var Lightbox = {
+
+    
+    backGroundColorM = "black";
+    opacityM = 0.75,
+    imageM = "";
+    imageWidthM = "0px";
+    imageHeightM = "0px";
+    lightBoxColorM = "white";
+    paddingTopM = "10px";    
+    paddingLeftM = "10px";
+    paddingBottomM = "10px";
+    paddingRigthM = "10px";
+    textM = "";
+    positionTextM = "down"; // allowed values: up/down
+    
+    enableDebug: false,
+    debugSetup: {
+                  file: "Lightbox.js"
+                                              
+    },
+    debugEnter: function (theMethod) {
+            if (this.enableDebug == true){
+               var textToDebug = this.debugSetup['file'] + '::'+theMethod+'()::Enter';
+               console.debug(textToDebug);
+            }
+    },
+    debugExit: function (theMethod) {
+            if (this.enableDebug == true){
+               var textToDebug = this.debugSetup['file'] + '::'+theMethod+'()::Exit';
+               console.debug(textToDebug);
+            }
+    },
+    debug: function (theMethod, theText) {
+            if (this.enableDebug == true){
+               var textToDebug = this.debugSetup['file'] + '::'+theMethod+'()::'+theText;
+               console.debug(textToDebug);
+            }
+    },
+    show: function (theParameters){
+       var methodName = "show";
+       
+       
+    },
+};
