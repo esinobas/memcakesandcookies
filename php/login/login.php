@@ -24,8 +24,9 @@ function checkLogin($theLogin, $thePassword){
    $user = new TB_USERS();
    
    $user->getUserByLogin($theLogin); 
-  
+    
    if ($user->exists()){
+      echo "El usuario existe";
      
      if ($thePassword == $user->getPassword()){
          return true; 
@@ -33,8 +34,9 @@ function checkLogin($theLogin, $thePassword){
          return false;     
      }   
   }else{  
-     
+      
       return false;
+     
   }
      
 }
