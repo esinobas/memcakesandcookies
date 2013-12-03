@@ -99,6 +99,8 @@
           $query = "select ".columnIdC.",".columnNameC." ,".columnPwdC." ,"; 
           $query .= columnEmailC." from ".tableNameC." where ".columnIdC ."= '".$theLogin."'";
           
+         
+          
           $conn = new MySqlDAO(serverC, userC, pwdC, ddbbC);
            //printf("%s,%s,%s,%s<br>\n", serverC, userC, pwdC, ddbbC);
           $conn->connect();

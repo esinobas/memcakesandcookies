@@ -1,0 +1,144 @@
+body {
+ 
+}
+html {
+ 
+}
+
+#main{
+   width: 960px;
+   margin-left: auto;
+   margin-right: auto;   
+   
+
+   
+}
+#header{
+   width: 960px;
+   height: 100px;
+
+   text-align: center;
+    color: #ff6600;
+    
+}
+#logo{
+   width: 250px;
+   height: inherit;
+   float: left;
+
+   
+   
+}
+#logo img{
+   max-height: 100px;
+   max-width: 250px;
+
+}
+#centerHeader{
+   width: 460px;
+   height: inherit;
+   float: left;
+
+
+}
+
+
+#rightHeader{
+   width: 250px;
+   height: inherit;
+   float: left;
+   
+
+}
+
+#usuario{
+   
+   margin-top: 10px;
+
+}
+#user{
+  margin-top: 10px;
+  color: brown;
+  font-style: italic;
+}
+
+#exit{
+  margin-top: 10px;
+}
+#exit > a{
+   text-decoration: none;
+}
+#exit > a:visited{
+   color: blue;
+
+}
+
+#data{
+  width: 960px;
+  
+}
+#div_menu{
+   width: 960px;
+   /*height: 24px;*/
+   left: 0;
+   
+}
+
+
+#div_menu a{
+  text-decoration: none;
+}
+
+#div_menu a:visited{
+  color: #ff6600;
+}
+
+.menuItem{
+   color:  #ff6600;
+   float: left;
+   width: 238px;
+   text-align: center;
+   display: inline;
+   border-width: 1px;
+   border-color: #ff6600;
+   border-style: solid; 
+   border-top-left-radius:10px;
+   border-top-right-radius:10px;
+   
+}
+.menuItem:hover{
+
+  background-color:#ff6600;
+  color: white;
+}
+
+#controles{
+
+width: 938px;
+float: left;
+padding: 5px 10px 5px; /* top left-right bottom */
+border-top-style: none;
+border-bottom-style: solid;
+border-left-style: solid;
+border-right-style: solid;
+height: 100%;
+border-width: 1px;
+border-color: #ff6600;
+
+}
+
+#toolbar{
+  width: 250px;
+  float: left;
+  padding: 5px;
+  border-right: 1px solid #ff6600;
+  height: 100%;
+  
+  text-align: center;
+  color: #ff6600;
+}
+#comboCollection{
+
+   width: 200px;
+
+}

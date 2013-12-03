@@ -20,14 +20,13 @@ function checkLogin($theLogin, $thePassword){
    
   /*include_once($_SERVER["DOCUMENT_ROOT"]."/php/localDB/TB_USERS.php");*/
   include_once($_SERVER['DOCUMENT_ROOT'].'/php/localDB/TB_USERS.php');
-  
+ 
    $user = new TB_USERS();
    
    $user->getUserByLogin($theLogin); 
-    
+       
    if ($user->exists()){
-      echo "El usuario existe";
-     
+          
      if ($thePassword == $user->getPassword()){
          return true; 
      }else{
