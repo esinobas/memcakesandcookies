@@ -124,7 +124,7 @@ var Lightbox = {
    
        
        
-       var lightbox = $("<div id=\"lightbox\"</div>");
+       var lightbox = $("<div id=\"lightbox\"></div>");
        
        this.debug(methodName, "Create lightbox");
       

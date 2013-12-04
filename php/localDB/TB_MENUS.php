@@ -142,6 +142,60 @@
               
 
       }
+  
+     static public function getIdByOption($theOption){
+    
+        $query = sprintf("select %s from %s where UCASE(%s) = '%s'"
+                         ,idC
+                         ,tableMenuC
+                         ,optionC
+                         ,strtoupper($theOption));
+       
+        $conn = new MySqlDAO(serverC, userC, pwdC, ddbbC); 
+         
+        $conn->connect();
+         
+        $result;
+        $id; 
+       
+        if($conn->isConnected()) {
+             
+           $result = $conn->query($query);
+            
+           if ($result != null){
+              $id = $result[0][idC];     
+           }
+          $conn->closeConnection(); 
+        }
+        
+        return $id;
+     }
+ 
+     static public function insertSubMenu($theParent, $theSubmenu){
+        
+        $query = sprintf("insert into %s (%s,%s) values ('%s',%s)"
+                           ,tableMenuC
+                           ,optionC
+                           ,optionParentC
+                           ,$theSubmenu
+                           ,$theParent);
+                        
+       $conn = new MySqlDAO(serverC, userC, pwdC, ddbbC);
+           
+       $conn->connect();
+       $result = 0;
+                
+       if($conn->isConnected()) {
+             
+       $result = $conn->sqlCommand($query);
+             
+       }
+       $lastId = $conn->getLastId();       
+       $conn->closeConnection();
+       
+       return $lastId;                                 
+     
+     }
    };
 
 ?>

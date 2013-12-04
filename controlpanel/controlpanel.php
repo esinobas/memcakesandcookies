@@ -12,18 +12,21 @@
 
       <link rel="stylesheet" type="text/css" href="style.css">
       <script type="text/javascript" src="../scripts/jquery-1.9.0.js"></script>
+      <script type="text/javascript" src="../plugins/Ajax/Ajax.js"></script>
+      <script type="text/javascript" src="newcollection.js"></script>  
+      <link rel="stylesheet" type="text/css" href="newcollection.css">    
 
    </head>
    <body>
       <script type="text/javascript" >
          function selectTab(theTab){
-            console.debug("controlpanel.php::selectTab::ENTER");
-            console.debug("controlpanel.php::selectTab::tab [ "+theTab+" ]");
+           // console.debug("controlpanel.php::selectTab::ENTER");
+           // console.debug("controlpanel.php::selectTab::tab [ "+theTab+" ]");
             
              $(".menuItem").each(function () {
-	               console.debug("controlpanel.php::selectTab::[ " + $(this).html().trim() + " ]");
+	              // console.debug("controlpanel.php::selectTab::[ " + $(this).html().trim() + " ]");
 	               if ($(this).html().trim().toUpperCase() == theTab.trim().toUpperCase()){
-	                  console.debug("controlpanel.php::selectTab:: The [ " + theTab +" ] has been selected");
+	                  //console.debug("controlpanel.php::selectTab:: The [ " + theTab +" ] has been selected");
 	                  $(this).css("border-bottom-style","none");
 	                  $(this).css("background-color","#ff6600");
 	                  $(this).css("color","white");
@@ -35,7 +38,7 @@
 	               }
                }
             );
-            console.debug("controlpanel.php::selectTab::EXIT");
+           // console.debug("controlpanel.php::selectTab::EXIT");
             
          }
 
@@ -102,14 +105,39 @@
         </script>
         
         <div id="controles">
+           <?php
+              
+              $idOption = TB_MENUS::getIdByOption($_GET['option']);
+           ?>
            <div id="toolbar">
               Colecciones:
+              <?php
+                 $subMenus = TB_MENUS::getMenu($idOption);
+              ?>
               <select id="comboCollection">
                  <option value="0">Todas</option>
-                 
+                 <?php
+                 while($subMenus->next()){
+                 ?>
+                    <option value=<?php printf("\"%d\"", $subMenus->getRow()->getId());?>><?php printf("%s", $subMenus->getRow()->getOption());?></option>
+                 <?php
+                 }
+                 ?>
               </select>
-              <button>Añadir</button>
+              <button id="btnAdd">Añadir</button>
            </div>
+           <script type="text/javascript" >
+              
+              $("#btnAdd").click(function(){
+                                            newcollection.show(
+                                                  {
+                                                      idCollection:<?php printf("%d",$idOption);?>,
+                                                      url:<?php printf("'./insertSubmenu.php'");?>
+                                                      }
+                                              );
+                                            }
+                                );
+           </script>
            <div id="images">
            </div>
         </div>
