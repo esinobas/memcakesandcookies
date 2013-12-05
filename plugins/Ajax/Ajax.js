@@ -70,7 +70,7 @@ Ajax.prototype.send = function(){
       }
       console.debug("Ajax::send()::Send request [ " + this.methodM + " ] to [ " +this.urlM + "] with these parameters [ " + this.parametersM + " ].");
       
-      if (this.methodM == "POST"){
+      //if (this.methodM == "POST"){
          
         var callback = this.callbackM;
         var modeComm = this.modeM;
@@ -95,9 +95,30 @@ Ajax.prototype.send = function(){
                   
         };   
          
+      //}
+  
+      console.debug("Ajax::send()::The method is [ " + this.methodM +" ]");
+      
+      if (this.methodM == "GET"){
+         console.debug("Ajax::send()::GET request with parameters");
+         console.debug("Ajax::send()::Parameters [ " + this.parametersM + " ]");
+         var parameters = JSON.parse(this.parametersM);  
+         var parameterString = ""; 
+         var firstParameter = true;
+         for (var key in parameters){
+            console.debug("Ajax::send()::[ " + key +" ][ " + parameters[key] + " ]");
+            if (!firstParameter){
+               parameterString = parameterString + "&";
+                          
+            }else{
+               firstParameter = false;            
+            }
+            parameterString = parameterString + key + "="+parameters[key];
+         }
+         this.urlM = this.urlM+"?"+parameterString;
+         console.debug("Ajax::send()::New url: [ " + this.urlM + " ]");
+            
       }
-  
-  
       xmlHttpRequest.open(this.methodM, this.urlM, mode);
       
       if (this.methodM == "POST"){
@@ -108,7 +129,9 @@ Ajax.prototype.send = function(){
          
       }
       
-      if (this.parametersM.length > 0){
+      if (this.methodM == "POST"){
+         if(this.parametersM.length > 0){
+         
          console.debug("Ajax::send()::Send request with parameters");
          console.debug("Ajax::send()::Parameters [ " + this.parametersM + " ]");
          var parameters = JSON.parse(this.parametersM);  
@@ -126,8 +149,12 @@ Ajax.prototype.send = function(){
          }
          console.debug("Ajax::send()::Parameters String [ " + parameterString + " ]");
          xmlHttpRequest.send(parameterString);
-      }else{
+        }else{
          console.debug("Ajax::send()::Send request without parameters");
+         xmlHttpRequest.send();
+        }
+      }else{
+         console.debug("Ajax::send()::GET request without parameters");
          xmlHttpRequest.send();
       }
             

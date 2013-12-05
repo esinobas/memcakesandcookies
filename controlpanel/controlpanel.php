@@ -13,8 +13,11 @@
       <link rel="stylesheet" type="text/css" href="style.css">
       <script type="text/javascript" src="../scripts/jquery-1.9.0.js"></script>
       <script type="text/javascript" src="../plugins/Ajax/Ajax.js"></script>
+      <script type="text/javascript" src="ControlPanelFunctions.js"></script> 
       <script type="text/javascript" src="newcollection.js"></script>  
-      <link rel="stylesheet" type="text/css" href="newcollection.css">    
+      <link rel="stylesheet" type="text/css" href="newcollection.css"> 
+      <script type="text/javascript" src="UploadImage.js"></script>  
+      <link rel="stylesheet" type="text/css" href="UploadImage.css">   
 
    </head>
    <body>
@@ -139,11 +142,22 @@
                                 );
            </script>
            <div id="images">
+              <div id="All_images">
+                 <?php 
+                     require_once(dirname(__FILE__).'/AllImages.php');
+                 ?>
+              </div>
+              <div id="Collection_images">
+              collection
+              </div>
            </div>
         </div>
 
      </div>      
    </div>
+   <script type="text/javascript" >
+      setFunctionsToObjects();
+   </script>
    </body>
 
 </html>

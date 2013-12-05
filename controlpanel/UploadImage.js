@@ -1,31 +1,11 @@
-/**
- * Plugin lightbox that is used to show images within a container
- * with animation
- *
- */
- 
- 
-var Lightbox = {
+var UploadImage = {
 
-    
-    backGroundColorM = "black";
-    opacityM = 0.75,
-    imageM = "";
-    imageWidthM = "0px";
-    imageHeightM = "0px";
-    lightBoxColorM = "white";
-    paddingTopM = "10px";    
-    paddingLeftM = "10px";
-    paddingBottomM = "10px";
-    paddingRigthM = "10px";
-    textM = "";
-    positionTextM = "down"; // allowed values: up/down
-    
-    enableDebug: false,
+   enableDebug: true,
     debugSetup: {
-                  file: "Lightbox.js"
+                  file: "UploadImage.js"
                                               
     },
+    
     debugEnter: function (theMethod) {
             if (this.enableDebug == true){
                var textToDebug = this.debugSetup['file'] + '::'+theMethod+'()::Enter';
@@ -44,9 +24,17 @@ var Lightbox = {
                console.debug(textToDebug);
             }
     },
-    show: function (theParameters){
+
+   /**
+    * Method that shows the dialogue for select an image and write its description
+    */ 
+    show:function () {
+    
        var methodName = "show";
-       
-       
-    },
+       debugEnter(methodName);
+       debugExit(methodName);    
+    
+    }
+
+
 };
