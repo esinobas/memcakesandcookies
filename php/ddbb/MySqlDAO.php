@@ -113,6 +113,12 @@
         $this->connectionM->query($theCommand);
         return $this->connectionM->errno;     
      }
+ 
+     public function getLastId(){
+     
+        return $this->connectionM->insert_id;        
+     }
+     
      
    
    }
