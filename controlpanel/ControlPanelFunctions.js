@@ -73,13 +73,17 @@ function debugExit( theFunction){
   
   
   
-  /**
- * Function that sets the functions to the object
- */
-function setFunctionsToObjects(){
+ /**
+  * Function that sets the functions to the object
+  *
+  * @paramter theOption The option selected to management 
+  */
+function setFunctionsToObjects(theOption){
      
      var methodName = "setFunctionsToObjects";
      debugEnter(methodName);
+     
+     debug(methodName,"The selected option is [ " + theOption + " ]");     
      
      debug(methodName, "Set event onchange to combobox");
      $('#comboCollection').change(function () { 
@@ -90,11 +94,22 @@ function setFunctionsToObjects(){
      //Add function to button for upload an image
      $('#btn_all_images_add').click(
         function () {
-           UploadImage.show();        
+           var path = "";
+           
+           if (theOption == "Cakes"){
+              path = "images/cakes";
+           }
+           if (theOption == "Cookies"){
+              path = "images/cookies";
+           }
+           if (theOption == "Modelados"){
+              path = "images/models";
+           }
+           UploadImage.show({image_path: path, image_type: theOption});     
         }
      );
      
-     debugEnter(methodName);
+     debugExit(methodName);
      
 }
 
@@ -141,14 +156,7 @@ function setFunctionsToObjects(){
        }
     }    
     
-    /*$('.gallery_item').hover(
-         function () {
-            $(this).css("border-width","2px");
-         },
-         function () {
-            $(this).css("border-width","1px");
-         }
-    );*/
+   
     $('.gallery_item').click(function () {
         //clear the background of all divs
         $('.gallery_item').css("background-color", "white");

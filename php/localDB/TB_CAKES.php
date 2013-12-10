@@ -14,7 +14,7 @@
       
       static public function create($thePath, $theName, $theDesc){
          
-         printf("path: %s. file: %s. Desc: %s<br>\n", $thePath, $theName, $theDesc);
+        // printf("path: %s. file: %s. Desc: %s<br>\n", $thePath, $theName, $theDesc);
          $result = TableImage::insertIntoTable($thePath, $theName, $theDesc, TypeCakeC);
          
         /* if  ($result== 0){     

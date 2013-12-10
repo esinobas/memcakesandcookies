@@ -156,7 +156,7 @@
      </div>      
    </div>
    <script type="text/javascript" >
-      setFunctionsToObjects();
+      setFunctionsToObjects(<?php printf("'%s'", $_GET['option']);?>);
    </script>
    </body>
 

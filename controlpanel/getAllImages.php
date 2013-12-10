@@ -16,6 +16,10 @@
   
     $images =  getAllCakes();  
  }
+ if ($type == "COOKIES"){
+ 
+    $images =  getAllCookies();
+ }
  
  $arrayImages = array();
  $idx = 0;

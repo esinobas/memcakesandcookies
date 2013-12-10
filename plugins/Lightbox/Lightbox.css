@@ -19,7 +19,7 @@ src:url('../../fonts/Cookie/Cookie-Regular.ttf')
  #lightbox{
 
    opacity: 1;
-   background-color: #ff9752;
+   background-color: white;
    position: absolute;
    left: 50%;
    top: 50%;
@@ -41,7 +41,7 @@ src:url('../../fonts/Cookie/Cookie-Regular.ttf')
 
    width: 100%;
    height: 30px;
-   color: white;
+   color: #ff9752;
    text-align: left;
    font-weight: normal;;
    /*font-style: italic;*/
