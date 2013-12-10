@@ -3,7 +3,10 @@
  */
 
 var fileNameC = "ControlPanelFunctions.js";
-var enableDebugM = true;
+var enableDebugM = false;
+var selectedImageM = "";
+
+
  
 /**
  * Function that prints in the console a log
@@ -70,7 +73,37 @@ function debugExit( theFunction){
    
   }
   
-  
+ /**
+ * Function that shows a dialogue box where it is asked whether the user wants to remove a
+ * image of the system
+ *  
+ * @param theId The image object id that is used to search the image to remove
+ * @param theOption The image selection
+ */
+ function removeImage(theId, theOption){
+
+    var methodName = "removeImage";
+    debugEnter(methodName);
+    debug(methodName, "The img Id [ " + theId + " ]");
+    var id = theId.substring(theId.indexOf("-")+1, theId.length);
+    debug(methodName, "The DDBB Id [ " + id + " ]");
+    debug(methodName, "The Option is [ " + theOption + " ]");
+    
+    var ajaxObject = new Ajax();
+    ajaxObject.setSyn();
+    ajaxObject.setPostMethod();
+    ajaxObject.setCallback(null);
+    ajaxObject.setUrl('./DeleteImage.php');
+    var arrayParameters =  {};
+    arrayParameters.id = id;
+    var parameters = JSON.stringify(arrayParameters);
+    debug(methodName, "Parameteres [ " + parameters + " ]");
+    ajaxObject.setParameters(parameters);
+    ajaxObject.send();
+    refresAllImages(theOption);
+    debugExit(methodName); 
+ }
+
   
   
  /**
@@ -109,9 +142,22 @@ function setFunctionsToObjects(theOption){
         }
      );
      
+     //Add function to the button for remove a image
+     $('#btn_all_images_delete').click( function () {
+         
+          if ( confirm("¿Quieres borrar la foto?")){
+
+             removeImage(selectedImageM,theOption); 
+          }
+            
+     
+         }      
+      );
+     
      debugExit(methodName);
      
 }
+
 
 
 /**
@@ -121,6 +167,13 @@ function setFunctionsToObjects(theOption){
     
     var methodName = "refresAllImages";
     debugEnter(methodName);
+    
+    $('#gallery_all_image').children().each(function () {
+       
+          $(this).remove();
+       }
+   );
+    
   
     debug(methodName, "Type [ " + theType + " ]");
      
@@ -140,11 +193,12 @@ function setFunctionsToObjects(theOption){
     var items = 0;
     for (var idx = 0; idx < jsonParsed.length; idx ++){
     
+       var id = jsonParsed[idx]['id'];       
        var path = jsonParsed[idx]['path'];
        var desc = jsonParsed[idx]['description'];
        debug(methodName, "Image Path [ " + path + " ]. Image Desc [ " + desc+ " ]");
        var newDiv = $("<div class=\"gallery_item\"></div>");
-       newDiv.append("<img src=\"../"+path+ "\" alt=\""+desc+"\" title=\""+desc+"\"/><br>");
+       newDiv.append("<img id=\"gallery_img-" + id + "\" src=\"../"+path+ "\" alt=\""+desc+"\" title=\""+desc+"\"/><br>");
        newDiv.append(desc);
        $('#gallery_all_image').append(newDiv);
        if (items < 3){
@@ -165,6 +219,8 @@ function setFunctionsToObjects(theOption){
         $(this).css("color", "white");
         $('#btn_all_images_edit').attr("disabled", false);
         $('#btn_all_images_delete').attr("disabled", false);
+        selectedImageM = $(this).find('img').attr("id");
+        
         }
     );
     $('#btn_all_images_edit').attr("disabled", "disabled");

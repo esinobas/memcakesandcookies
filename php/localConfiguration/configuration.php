@@ -5,8 +5,8 @@
     */
      
      
-    //define('url','http://memcakesandcookies');  
-    define('url','http://192.168.1.129');   
+    define('url','http://memcakesandcookies');  
+    //define('url','http://192.168.1.129');   
     
     define('slideImagesPath', 'images/home-slides');
     define('cakesImagesPath', 'images/cakes');

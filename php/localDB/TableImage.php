@@ -185,8 +185,51 @@
            $result = -1;         
          }
          $conn->closeConnection();
+        
          return $result;       
       
       }
+  
+  static public function selectImageById($theId){
+  
+     $query = sprintf("select %s, %s, %s ,%s ,%s from %s where %s=%d",
+          
+                                   IdC
+                                   ,PathC
+                                   ,NameC
+                                   ,DescC
+                                   ,TypeC
+                                   ,TableNameC
+                                   ,IdC 
+                                   ,$theId
+                                    );   
+              $conn = new MySqlDAO(serverC, userC, pwdC, ddbbC);
+          
+     $conn->connect();
+     $result;
+     $obj = null;
+     
+                   
+     if($conn->isConnected()) {
+             
+        $result = $conn->query($query);
+             
+        if ($result != null){
+               
+           if (count($result) > 0){
+              $obj = new TableImage();
+              $obj->setId($result[0][IdC]);
+              $obj->setPath($result[0][PathC]);
+              $obj->setNameFile($result[0][NameC]);
+              $obj->setDescription($result[0][DescC]);
+              $obj->setType($result[0][TypeC]);
+           }
+       }
+       $conn->closeConnection();
+    }
+
+    return $obj;
+           
+  }
 }
 ?>
