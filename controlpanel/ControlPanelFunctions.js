@@ -5,6 +5,7 @@
 var fileNameC = "ControlPanelFunctions.js";
 var enableDebugM = false;
 var selectedImageM = "";
+var selectedImageDescM ="";
 
 
  
@@ -71,6 +72,24 @@ function debugExit( theFunction){
      
      debugExit(methodName);
    
+  }
+  
+  /**
+   * Function that extracts from the image id, the database image id for it be used
+   * in database operations
+   *
+   * @param theId: The image id
+   * @return The database image id. 
+   */
+  function getDatabaseImageId(theId){
+     
+     var methodName = "getDatabaseImageId";
+     debugEnter(methodName);
+     debug(methodName, "The Img Id [ " + theId + " ]");
+     var id = theId.substring(theId.indexOf("-")+1, theId.length);
+     debug(methodName, "The DDBB Id [ " + id + " ]");
+     debugExit(methodName);  
+     return id;
   }
   
  /**
@@ -153,6 +172,14 @@ function setFunctionsToObjects(theOption){
      
          }      
       );
+      //Add function to the button for update the image description
+      $('#btn_all_images_edit').click( function (){
+           
+            UpdateImageDescription.show({imageId: getDatabaseImageId(selectedImageM), description: selectedImageDescM});
+      
+         }
+      );
+      
      
      debugExit(methodName);
      
@@ -196,7 +223,7 @@ function setFunctionsToObjects(theOption){
        var id = jsonParsed[idx]['id'];       
        var path = jsonParsed[idx]['path'];
        var desc = jsonParsed[idx]['description'];
-       debug(methodName, "Image Path [ " + path + " ]. Image Desc [ " + desc+ " ]");
+       this.debug(methodName, "Image Path [ " + path + " ]. Image Desc [ " + desc+ " ]");
        var newDiv = $("<div class=\"gallery_item\"></div>");
        newDiv.append("<img id=\"gallery_img-" + id + "\" src=\"../"+path+ "\" alt=\""+desc+"\" title=\""+desc+"\"/><br>");
        newDiv.append(desc);
@@ -220,6 +247,7 @@ function setFunctionsToObjects(theOption){
         $('#btn_all_images_edit').attr("disabled", false);
         $('#btn_all_images_delete').attr("disabled", false);
         selectedImageM = $(this).find('img').attr("id");
+        selectedImageDescM =  $(this).find('img').attr("title");
         
         }
     );

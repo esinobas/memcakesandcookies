@@ -13,11 +13,13 @@
       <link rel="stylesheet" type="text/css" href="style.css">
       <script type="text/javascript" src="../scripts/jquery-1.9.0.js"></script>
       <script type="text/javascript" src="../plugins/Ajax/Ajax.js"></script>
-      <script type="text/javascript" src="ControlPanelFunctions.js"></script> 
+      <script type="text/javascript" src="ControlPanelFunctions.js"></script>
       <script type="text/javascript" src="newcollection.js"></script>  
       <link rel="stylesheet" type="text/css" href="newcollection.css"> 
       <script type="text/javascript" src="UploadImage.js"></script>  
-      <link rel="stylesheet" type="text/css" href="UploadImage.css">   
+      <link rel="stylesheet" type="text/css" href="UploadImage.css">
+      <script type="text/javascript" src="UpdateImageDescription.js"></script>   
+      <link rel="stylesheet" type="text/css" href="UpdateImageDescription.css">  
 
    </head>
    <body>
