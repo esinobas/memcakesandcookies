@@ -30,6 +30,15 @@ var UpdateImageDescription = {
             }
     },
     
+    update: function (theId, theDescription){
+    
+       var methodName = "update";
+       this.debugEnter(methodName);
+       this.debug(methodName, "Updating image wiht id [ " + theId + "] with description [ " + theDescription + " ]");
+       this.debugExit(methodName)
+     
+    },
+    
     //Function that shows the dialogue box with the current image description 
     // and it allows update it.
     //
@@ -67,7 +76,12 @@ var UpdateImageDescription = {
         );                 
         
         //ok button
-        $("#buttons_update_description").append("<button id=\"ok_update_description\" class=\"btn_update_description\">Aceptar</button>");        
+        $("#buttons_update_description").append("<button id=\"ok_update_description\" class=\"btn_update_description\">Aceptar</button>"); 
+        $("#ok_update_description").click(function () {
+             
+                UpdateImageDescription.update(imageIdM, $("#input_data_update_description").val());           
+             }
+        );       
         
         //set the description in the input data
         $("#input_data_update_description").val(desc);
