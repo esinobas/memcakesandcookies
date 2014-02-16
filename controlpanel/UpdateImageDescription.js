@@ -51,9 +51,27 @@ var UpdateImageDescription = {
         $("#form_update_description").append(divWork);
         
         $("#work_update_description").append("<div id=\"label_update_description\">Descripción</div>");
-        $("#work_update_description").append("<input type=\"text\" id=\"input_data_update_description\" maxlength=\"100\"></input>");        
+        $("#work_update_description").append("<input type=\"text\" id=\"input_data_update_description\" maxlength=\"100\"></input>");
         
-        $("#form_update_description").append("<div id=\"buttons_update_description\"></div>");                
+         $("#form_update_description").append("<div id=\"buttons_update_description\"></div>");       
+        
+        //Cancel button
+        $("#buttons_update_description").append("<button id=\"cancel_update_description\" class=\"btn_update_description\">Cancelar</button>");  
+        $("#cancel_update_description").click( function () {
+           
+              $("#form_update_description").remove();
+              $("#background_update_description").remove();
+              
+           }
+    
+        );                 
+        
+        //ok button
+        $("#buttons_update_description").append("<button id=\"ok_update_description\" class=\"btn_update_description\">Aceptar</button>");        
+        
+        //set the description in the input data
+        $("#input_data_update_description").val(desc);
+        
                 
         this.debugExit(methodName);
     },
