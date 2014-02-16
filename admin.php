@@ -105,7 +105,7 @@ body {
                   $error = true;
                }else{
                   $_SESSION['user'] = $_POST["user"];
-                  header("Location:./controlpanel/controlpanel.php?option=cakes");               
+                  header("Location:./controlpanel/controlpanel.php?option=Cakes");               
                }          
             }
          }
