@@ -9,6 +9,7 @@ var UpdateImageDescription = {
     imageIdC: "imageId",
     descriptionC: "description",
     imageIdM: "",
+    imageTypeC: "imageType",
     
       
     debugEnter: function (theMethod) {
@@ -30,11 +31,29 @@ var UpdateImageDescription = {
             }
     },
     
-    update: function (theId, theDescription){
+    update: function (theId, theDescription, theImageType){
     
        var methodName = "update";
        this.debugEnter(methodName);
-       this.debug(methodName, "Updating image wiht id [ " + theId + "] with description [ " + theDescription + " ]");
+       this.debug(methodName, "Updating image with id [ " + theId + " ] with description [ " + theDescription + " ] and image type [ " + theImageType + " ]");
+       
+       var ajaxObject = new Ajax();
+      ajaxObject.setSyn();
+      ajaxObject.setPostMethod();
+      ajaxObject.setCallback(null);
+      ajaxObject.setUrl('./UpdateTableImage.php');
+      var arrayParameters =  {};
+      arrayParameters.id = theId;
+      arrayParameters.desc = theDescription;
+      var parameters = JSON.stringify(arrayParameters);
+      debug(methodName, "Parameteres [ " + parameters + " ]");
+      ajaxObject.setParameters(parameters);
+      ajaxObject.send();
+      refresAllImages(theImageType);
+       
+       this.debug(methodName, "Update done");
+       $("#form_update_description").remove();
+       $("#background_update_description").remove();
        this.debugExit(methodName)
      
     },
@@ -49,7 +68,8 @@ var UpdateImageDescription = {
         this.debugEnter(methodName);
         imageIdM = theParameters[this.imageIdC];
         var desc = theParameters[this.descriptionC];
-        this.debug(methodName, "Image Id [ " + imageIdM + " ]. Description [ " + desc + " ]");
+        var imageType = theParameters[this.imageTypeC];
+        this.debug(methodName, "Image Id [ " + imageIdM + " ]. Description [ " + desc + " ]. Image type [ " + imageType + " ]");
         
         var divBackground = $("<div id=\"background_update_description\"></div>");
         var divForm = $("<div id=\"form_update_description\"></div>");
@@ -79,7 +99,7 @@ var UpdateImageDescription = {
         $("#buttons_update_description").append("<button id=\"ok_update_description\" class=\"btn_update_description\">Aceptar</button>"); 
         $("#ok_update_description").click(function () {
              
-                UpdateImageDescription.update(imageIdM, $("#input_data_update_description").val());           
+                UpdateImageDescription.update(imageIdM, $("#input_data_update_description").val(), imageType);           
              }
         );       
         

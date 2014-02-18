@@ -231,5 +231,31 @@
     return $obj;
            
   }
+  
+  static public function updateDescription($theId, $theDescription){
+  
+     $query = sprintf("update %s set %s='%s' where %s=%d"
+                      ,TableNameC
+                      ,DescC
+                      ,$theDescription
+                      ,IdC
+                      ,$theId);
+                      
+                      
+      $conn = new MySqlDAO(serverC, userC, pwdC, ddbbC);
+           
+      $conn->connect();
+      $result = 0;
+                
+       if($conn->isConnected()) {
+             
+          $result = $conn->sqlCommand($query);
+             
+       }
+              
+       $conn->closeConnection();
+                    
+     
+  } 
 }
 ?>

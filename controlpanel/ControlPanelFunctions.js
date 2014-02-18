@@ -175,7 +175,7 @@ function setFunctionsToObjects(theOption){
       //Add function to the button for update the image description
       $('#btn_all_images_edit').click( function (){
            
-            UpdateImageDescription.show({imageId: getDatabaseImageId(selectedImageM), description: selectedImageDescM});
+            UpdateImageDescription.show({imageId: getDatabaseImageId(selectedImageM), description: selectedImageDescM, imageType: theOption});
       
          }
       );
