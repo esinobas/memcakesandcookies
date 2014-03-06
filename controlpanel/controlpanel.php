@@ -20,6 +20,7 @@
       <link rel="stylesheet" type="text/css" href="UploadImage.css">
       <script type="text/javascript" src="UpdateImageDescription.js"></script>   
       <link rel="stylesheet" type="text/css" href="UpdateImageDescription.css">  
+      <script type="text/javascript" src="../plugins/FileBrowser/FileBrowser.js"></script>
 
    </head>
    <body>
@@ -150,7 +151,14 @@
                  ?>
               </div>
               <div id="Collection_images">
-              collection
+              <button id="FileBrowser">Seleccionar Imagen</button>
+              <script type="text/javascript" >
+                 $('#FileBrowser').click(function(){
+                    FileBrowser.init({title: "Titulo Prueba",buttons: "select|upload|delete"});
+                    FileBrowser.show();
+                 }
+                 );
+              </script>
               </div>
            </div>
         </div>
