@@ -70,11 +70,11 @@
       this.fileBrowserM.append("<div id=\"FileBrowserTitle\">"+this.titleM+"</div>");
       
       this.debug(methodName,"Create the div where the files are showed");
-       this.fileBrowserM.append("<div id=\"FileBrowserFiles\">"+this.titleM+"</div>");
+      this.fileBrowserM.append("<div id=\"FileBrowserFiles\"></div>");
        
       this.debug(methodName,"Create the div where the buttons is showed");
-      this.fileBrowserM.append("<div id=\"FileBrowserBarButtons\">"+this.titleM+"</div>");
-      
+      this.fileBrowserM.append("<div id=\"FileBrowserBarButtons\"></div>");
+     
       this.debugExit(methodName);
          
    },
@@ -85,6 +85,8 @@
    show: function(){
       var methodName = "show";
       this.debugEnter(methodName);
+      $('body').append("<div id=\"FileBrowserBackground\"></div>");
+      $('body').append(this.fileBrowserM);
       
       this.debugExit(methodName);   
    }, 
