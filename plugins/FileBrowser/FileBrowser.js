@@ -16,6 +16,9 @@
    titleC: "title",
    buttonsM: "",
    buttonsC: "buttons",
+   btnSelectC: "SELECT",
+   btnUploadC: "UPLOAD",
+   btnDeleteC: "DELETE",
    
    fileBrowserM: null,
       
@@ -79,6 +82,8 @@
       this.debugExit(methodName);
          
    },
+   
+   
    addButtons: function(){
 	   
 	   var methodName = "addButtons";
@@ -96,6 +101,33 @@
 		     FileBrowser.debugExit("#btn_close::click");
 	      }
 	   );
+	   
+	   
+	   //Slipt the parameters buttons, and show the buttons in order
+	   var arrayButtons = this.buttonsM.split('|');
+	   for (var x = arrayButtons.length; x > 0 ; x--){
+		   
+	      //Check if the select button must be showed
+		  if (arrayButtons[x-1].toUpperCase().indexOf(this.btnSelectC) > -1){
+	         this.debug(methodName, "Add the button " + this.btnSelectC);
+			 $("#FileBrowserBarButtons").append("<button id=\"btn_select\" class=\"button\">\nSeleccionar\n</button>\n");
+			 $('#btn_select').attr("disabled", "disabled");
+		   }
+		//Check if the upload button must be showed
+		  if (arrayButtons[x-1].toUpperCase().indexOf(this.btnUploadC) > -1){
+	         this.debug(methodName, "Add the button " + this.btnUploadC);
+			 $("#FileBrowserBarButtons").append("<button id=\"btn_upload\" class=\"button\">\nSubir Imagen\n</button>\n");
+			 
+		   }
+		//Check if the delete button must be showed
+		  if (arrayButtons[x-1].toUpperCase().indexOf(this.btnDeleteC) > -1){
+	         this.debug(methodName, "Add the button " + this.btnDeleteC);
+			 $("#FileBrowserBarButtons").append("<button id=\"btn_delete\" class=\"button\">\nBorrar\n</button>\n");
+			 $('#btn_delete').attr("disabled", "disabled");
+		  }
+	   }
+	   
+	   
 	   
 	   this.debugExit(methodName);
    },
