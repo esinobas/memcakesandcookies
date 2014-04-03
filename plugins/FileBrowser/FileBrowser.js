@@ -58,8 +58,8 @@
       }
       if (theParameters[this.buttonsC] != null){
          
-         this.buttons = theParameters[this.buttonsC];
-         this.debug(methodName, "Butttons to add [ " + this.buttons + " ]");      
+         this.buttonsM = theParameters[this.buttonsC];
+         this.debug(methodName, "Butttons to add [ " + this.buttonsM + " ]");      
       }
   
       //Create the div that contains the file browser and the buttons
@@ -74,9 +74,30 @@
        
       this.debug(methodName,"Create the div where the buttons is showed");
       this.fileBrowserM.append("<div id=\"FileBrowserBarButtons\"></div>");
-     
+      
+      
       this.debugExit(methodName);
          
+   },
+   addButtons: function(){
+	   
+	   var methodName = "addButtons";
+	   this.debugEnter(methodName);
+	   
+	   //the close button allways must be added
+	   this.debug(methodName, "Add the close button");
+	   $("#FileBrowserBarButtons").append("<button id=\"btn_close\" class=\"button\">\nCerrar\n</button>\n");
+	   //Add the click event to the close button
+	   $('#btn_close').click( 
+	      function(){
+	         FileBrowser.debugEnter("#btn_close::click");
+	         $('#FileBrowser').remove();
+		     $('#FileBrowserBackground').remove();
+		     FileBrowser.debugExit("#btn_close::click");
+	      }
+	   );
+	   
+	   this.debugExit(methodName);
    },
    
    /**
@@ -87,6 +108,8 @@
       this.debugEnter(methodName);
       $('body').append("<div id=\"FileBrowserBackground\"></div>");
       $('body').append(this.fileBrowserM);
+      
+      this.addButtons();
       
       this.debugExit(methodName);   
    }, 

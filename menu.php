@@ -16,7 +16,7 @@
       
       if (TB_MENUS::hasSubmenu($row->getId()) == true){
          ?>
-         <a href="#">
+         <a href="#"></a>
          <?php
             printf("%s", $row->getOption());
            $optionsSubmenu = TB_MENUS::getMenu($row->getId());
