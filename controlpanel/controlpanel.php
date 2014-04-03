@@ -155,7 +155,9 @@
               <button id="BtnFileBrowser">Seleccionar Imagen</button>
               <script type="text/javascript" >
                  $('#BtnFileBrowser').click(function(){
-                    FileBrowser.init({title: "Titulo Prueba",buttons: "select|upload|delete"});
+                    FileBrowser.init({title: "Titulo Prueba",
+                        buttons: "upload|select|delete",
+                        pathUploadFile: "images/cakes"});
                     FileBrowser.show();
                  }
                  );

@@ -21,6 +21,9 @@
    btnDeleteC: "DELETE",
    
    fileBrowserM: null,
+   
+   pathUploadFileC: "pathUploadFile",
+   pathUploadFileM: "",
       
    
    
@@ -54,6 +57,7 @@
       var methodName = "init";
       this.debugEnter(methodName);
       
+      
       if ( theParameters[this.titleC] != null){      
          this.titleM = theParameters[this.titleC];
       
@@ -64,6 +68,9 @@
          this.buttonsM = theParameters[this.buttonsC];
          this.debug(methodName, "Butttons to add [ " + this.buttonsM + " ]");      
       }
+      this.pathUploadFileM = theParameters[this.pathUploadFileC];
+      this.debug(methodName, "Directory where the files will be uploaded [ " + 
+                             this.pathUploadFileM + " ]");
   
       //Create the div that contains the file browser and the buttons
       this.debug(methodName, "Create the file browser");
