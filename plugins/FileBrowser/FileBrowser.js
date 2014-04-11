@@ -45,6 +45,34 @@
          console.debug(textToDebug);
       }
    },
+   /**
+    * Funtions that uploads a file to the server.
+    * 
+    * @param theFile: The file name that will be upload to the server
+    */
+   uploadFile: function (theFile){
+	   
+	   var methodName = "uploadFile";
+	   this.debugEnter(methodName);
+	   
+	   this.debug(methodName, "The file [ " + theFile + " ] will be uploaded.");
+	   
+	   this.debug(methodName, "Get the selected file in the file dialog box");
+	   var file = $('#inputUploadFile').get(0).files[0];
+
+	   this.debug(methodName, "Create Ajax object to upload the file");
+	   var ajaxObject = new Ajax();
+	   ajaxObject.setUrl("../plugins/FileBrowser/uploadFile.php");
+	   ajaxObject.setPostMethod();
+	   ajaxObject.setCallback(null);
+	   var parameters = '{"path":"'+ this.pathUploadFileM +'"}';
+	   this.debug(methodName, "Parameters  [ " + parameters + " ]");
+	   ajaxObject.setParameters(parameters);
+	   ajaxObject.sendFile(file);
+	   //refresh();
+	   this.debugExit(methodName);
+	 
+	 },
    
    /**
     * Initialize the file browser before it is showed.
@@ -90,7 +118,38 @@
          
    },
    
+   /**
+    * Function that adds an input file object, it is hidden, in the file 
+    * browser. With this object the user can select a local file and it 
+    * will be uploaded to the server.
+    */
+   addInputFile: function(){
+	   var methodName = "addInputFile";
+	   this.debugEnter(methodName);
+	   
+	   this.debug(methodName, "Create and add the input object type file. It is a hidden object");
+	   
+	   $('#FileBrowserBarButtons').append("<input id=\"inputUploadFile\" type=\"file\" style=\"display:none;\" name=\"selectedFile\">");
+	                  
+	   $('#inputUploadFile').change(
+	         function () {
+	            var methodName = "#inputUploadFile::change";
+	            FileBrowser.debugEnter(methodName);
+	            if ($('#inputUploadFile').val().length > 0){
+	               FileBrowser.debug(methodName, "The file [ " + $('#inputUploadFile').val() +
+	               " ] will be uploaded");
+	            	
+	            	FileBrowser.uploadFile($('#inputUploadFile').val());
+	            }
+	            FileBrowser.debugExit(methodName);
+	         }
+	      );
+	   this.debugExit(methodName);
+   },
    
+   /**
+    * Funtion that adds the buttons to the filebrowser to handle the files
+    */
    addButtons: function(){
 	   
 	   var methodName = "addButtons";
@@ -124,7 +183,17 @@
 		  if (arrayButtons[x-1].toUpperCase().indexOf(this.btnUploadC) > -1){
 	         this.debug(methodName, "Add the button " + this.btnUploadC);
 			 $("#FileBrowserBarButtons").append("<button id=\"btn_upload\" class=\"button\">\nSubir Imagen\n</button>\n");
-			 
+			 //Add the click event in the upload file button
+             $('#btn_upload').click(function(){
+             
+                var methodName = "#btn_upload::click";
+                FileBrowser.debugEnter(methodName);
+                
+                $('#inputUploadFile').click();
+                
+                FileBrowser.debugExit(methodName);
+             }
+             );
 		   }
 		//Check if the delete button must be showed
 		  if (arrayButtons[x-1].toUpperCase().indexOf(this.btnDeleteC) > -1){
@@ -140,6 +209,57 @@
    },
    
    /**
+    * Funtions that returns the current path
+    * 
+    * @return the current script path
+    */
+   getCurrentPath: function(theFileName){
+	   this.debug("getCurrentPath", theFileName);
+	  
+	   
+	   if (scripts && scripts.length > 0) {
+		   
+	        for (var i in scripts) {
+	        	this.debug("getCurrentPath", scripts[i].src);
+	            if (scripts[i].src && scripts[i].src.match(new RegExp(filename+'\\.js$'))) {
+	                path = scripts[i].src.replace(new RegExp('(.*)'+filename+'\\.js$'), '$1');
+	                break;
+	            }
+	            
+	        }
+	    }
+	   
+	   var scripts = document.getElementsByTagName('script');
+	    var path = '';
+	    if(scripts && scripts.length>0) {
+	        for(var i in scripts) {
+	            if(scripts[i].src && scripts[i].src.match(filename+'$')) {
+	                path = scripts[i].src.replace(/(.*)'+filename+'$/, '$1');
+	                break;
+	            }
+	        }
+	        
+	    }
+	    var scripts = document.getElementsByTagName('SCRIPT');
+	    var path = '';
+	    if(scripts && scripts.length>0) {
+	        for(var i in scripts) {
+	            if(scripts[i].src && scripts[i].src.match(/\/script\.js$/)) {
+	                path = scripts[i].src.replace(/(.*)\/script\.js$/, '$1');
+	                break;
+	            }
+	        }
+	    }
+	    return path;
+	    return path;
+	    
+	   
+	    return path;
+	   
+	   
+   },
+   
+   /**
     * Show the file browser
     */
    show: function(){
@@ -147,8 +267,11 @@
       this.debugEnter(methodName);
       $('body').append("<div id=\"FileBrowserBackground\"></div>");
       $('body').append(this.fileBrowserM);
-      
+      var fileName = "FileBrowser.js"
+      this.debug(methodName, "PATH [ " + this.getCurrentPath(fileName) +" ]");
+      this.addInputFile();
       this.addButtons();
+      
       
       this.debugExit(methodName);   
    }, 
