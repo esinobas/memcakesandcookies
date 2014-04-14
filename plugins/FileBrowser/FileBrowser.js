@@ -11,7 +11,8 @@
                                               
    },
    
-   //Definition of the global variables 
+   //Definition of the global variables
+   fileNameC: "FileBrowser.js",
    titleM: "",
    titleC: "title",
    buttonsM: "",
@@ -46,7 +47,7 @@
       }
    },
    /**
-    * Funtions that uploads a file to the server.
+    * Functions that uploads a file to the server.
     * 
     * @param theFile: The file name that will be upload to the server
     */
@@ -62,7 +63,10 @@
 
 	   this.debug(methodName, "Create Ajax object to upload the file");
 	   var ajaxObject = new Ajax();
-	   ajaxObject.setUrl("../plugins/FileBrowser/uploadFile.php");
+	   var url = this.getCurrentPath(this.fileNameC) + "uploadFile.php";
+	   this.debug(methodName, "The file will be uploaded to [ " + url + " ]");
+	   //ajaxObject.setUrl("../plugins/FileBrowser/uploadFile.php");
+	   ajaxObject.setUrl(url);
 	   ajaxObject.setPostMethod();
 	   ajaxObject.setCallback(null);
 	   var parameters = '{"path":"'+ this.pathUploadFileM +'"}';
@@ -214,46 +218,37 @@
     * @return the current script path
     */
    getCurrentPath: function(theFileName){
-	   this.debug("getCurrentPath", theFileName);
-	  
+	   var methodName = "getCurrentPath";
+	   this.debugEnter(methodName);
 	   
+	   this.debug(methodName, theFileName);
+	  
+	   var path = "";
+	   var scripts = document.getElementsByTagName('script');
 	   if (scripts && scripts.length > 0) {
-		   
+		    
+		    
 	        for (var i in scripts) {
-	        	this.debug("getCurrentPath", scripts[i].src);
-	            if (scripts[i].src && scripts[i].src.match(new RegExp(filename+'\\.js$'))) {
-	                path = scripts[i].src.replace(new RegExp('(.*)'+filename+'\\.js$'), '$1');
-	                break;
-	            }
+	        	if (scripts[i].src && scripts[i].src.match(/.js$/)){
+	        	   
+	        		//this.debug(methodName,"Path Script[ " + scripts[i].src + " ]");
+	        	   
+	        	   if (scripts[i].src.match(new RegExp(theFileName+'$'))){
+	        		   this.debug(methodName,"Current Script [ " + scripts[i].src + " ]");
+	        		   path = scripts[i].src.substr(0, scripts[i].src.indexOf(theFileName));
+	        		   
+	        		   break;
+	        	   }
+	        	   
+	        	    
+	        	}
+	            
 	            
 	        }
 	    }
 	   
-	   var scripts = document.getElementsByTagName('script');
-	    var path = '';
-	    if(scripts && scripts.length>0) {
-	        for(var i in scripts) {
-	            if(scripts[i].src && scripts[i].src.match(filename+'$')) {
-	                path = scripts[i].src.replace(/(.*)'+filename+'$/, '$1');
-	                break;
-	            }
-	        }
-	        
-	    }
-	    var scripts = document.getElementsByTagName('SCRIPT');
-	    var path = '';
-	    if(scripts && scripts.length>0) {
-	        for(var i in scripts) {
-	            if(scripts[i].src && scripts[i].src.match(/\/script\.js$/)) {
-	                path = scripts[i].src.replace(/(.*)\/script\.js$/, '$1');
-	                break;
-	            }
-	        }
-	    }
-	    return path;
-	    return path;
-	    
-	   
+	    this.debug(methodName, "path [ " + path +" ]");
+	    this.debugExit(methodName);
 	    return path;
 	   
 	   
@@ -267,8 +262,6 @@
       this.debugEnter(methodName);
       $('body').append("<div id=\"FileBrowserBackground\"></div>");
       $('body').append(this.fileBrowserM);
-      var fileName = "FileBrowser.js"
-      this.debug(methodName, "PATH [ " + this.getCurrentPath(fileName) +" ]");
       this.addInputFile();
       this.addButtons();
       
