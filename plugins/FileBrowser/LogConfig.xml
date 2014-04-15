@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://logging.apache.org/log4php/">
+   <appender name = "ConsoleAppender" class = "LoggerAppenderConsole">
+      <layout class ="LoggerLayoutPattern">
+         <param name = "conversionPattern" value = "[%level] - time [%date{H:i:s - d/m/Y}]. pid: '%process'. file: '%file'. class: '%class'. method: '%method'. line: '%line'. %msg.%n"></param>
+      </layout>
+   </appender>
+   
+   <appender name = "RollingFileAppender" class = "LoggerAppenderRollingFile">
+   
+      <param name ="file" value = "/home/tebi/Datos/webserver/MEMcakesandcookies/www/log/FileBrowser.log"></param>
+      <param name = "maxFileSize" value = "1MB"></param>
+      <param name = "maxBackupIndex" value = "1"></param>
+      <param name = "append" value = "true"></param>
+      
+     <layout class ="LoggerLayoutPattern">
+         <param name = "conversionPattern" value = "[%level] - time [%date{H:i:s - d/m/Y}]. pid: '%process'. file: '%file'. class: '%class'. method: '%method'. line: '%line'. %msg.%n"></param>
+      </layout>
+   
+   </appender>
+  <root>
+     <level value = "TRACE"></level>
+     <appender_ref ref = "RollingFileAppender"></appender_ref>
+  </root>
+</configuration>

@@ -77,6 +77,34 @@
 	   this.debugExit(methodName);
 	 
 	 },
+	 
+   /**
+    * Method that shows the files that are stored in the server
+    */
+	 refresh: function(){
+	    
+	    var methodName = "Refresh";
+	    this.debugEnter(methodName);
+	    
+	    this.debug(methodName, "Create Ajax object to refresh the file list");
+	    var url = this.getCurrentPath(this.fileNameC) + "FileBrowser.php";
+	    this.debug(methodName, "The url is [ " + url + " ]");
+	    var ajaxObject = new Ajax();
+	    ajaxObject.setUrl(url);
+	    ajaxObject.setPostMethod();
+	    ajaxObject.setSyn();
+	    var parameters = '{"path":"'+ this.pathUploadFileM +'","filter":"jpg,png,gif,bmp,tif"}';
+	    this.debug(methodName, parameters)
+	    ajaxObject.setParameters(parameters);
+	    ajaxObject.setCallback(null);
+	    
+	    ajaxObject.send();
+	    this.debug(methodName, "Response [ " + ajaxObject.getResponse() + " ]");
+	    
+	    this.debugExit(methodName);
+	 },
+	 
+	 
    
    /**
     * Initialize the file browser before it is showed.
@@ -264,7 +292,7 @@
       $('body').append(this.fileBrowserM);
       this.addInputFile();
       this.addButtons();
-      
+      this.refresh();
       
       this.debugExit(methodName);   
    }, 
