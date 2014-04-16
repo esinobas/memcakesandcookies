@@ -5,6 +5,7 @@
  */
 
    include_once ('FileBrowserDataIf.php');
+   include_once ('FileBrowserDataDirectory.php');
    include_once ($_SERVER['DOCUMENT_ROOT'].'/php/log4php/Logger.php');
 
 
@@ -27,10 +28,19 @@ class FileBrowserFactory{
        $logger->trace("ENTER");
        
        $logger->trace("Type of FileBrowser to be created [ " .$theType. " ]".
-                             " with this parameters [ " .$theParameters . " ]" );
+                             " with this parameters [ " . $theParameters . " ]" );
+       
+       $fileBrowserDataIf = null;
+       
+       if (strcmp($theType, "Directory") == 0){
+          
+          $logger->trace("Creating a FileBrowserDirectory object");
+          $fileBrowserDataIf = new FileBrowserDataDirectory($theParameters);
+          
+       } 
        
        $logger->trace("EXIT");
-      
+       return $fileBrowserDataIf;
    }
 }
 ?>

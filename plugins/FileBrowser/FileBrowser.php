@@ -11,28 +11,23 @@
    $logger = Logger::getLogger(__FILE__);
    
    
-   $path = $_POST["path"];
-   $filter = "";
-   $params = "";
+   const paramsC = "params";
+   const typeC = "type";
+   
+   $params = $_POST[paramsC];
    $type ="Directory";
-   
-   $logger->trace("Parameters received in post: path [ ".$path." ]");
-   if (isset($_POST["filter"])){
-      $filter = $_POST["filter"];
-      $logger->trace("Parameters receive in post: filter [ ".$filter. " ]");
-   }
-   if (isset($_POST["$params"])){
-      $params = $_POST["$params"];
-      $logger->trace("Parameters receive in post: $params [ ".$params. " ]");
+   if (isset($_POST[typeC])){
+      
+      $type = $_POST[typeC];
    }
    
-   //sacar los parametros. Ha que sacar el type, que por defecto es Directory.
+  
+   $logger->trace("Parameters received in post: ".paramsC." [ ".$params. " ]");
+   
    
    $logger->trace("The type of the file browser is [ " .$type ." ]");
-   //Crear el jason con los parametros dependiendo del tipo
-   //para el tipo directory, con el path y es suficiente
-   //path->....
-   $fileBrowserDataIf = FileBrowserFactory::getFileBrowserData($type, $path);
-   echo '/php/log4php/Logger.php';
+   $fileBrowserDataIf = FileBrowserFactory::getFileBrowserData($type, $params);
+   //echo '/php/log4php/Logger.php';
+   echo $fileBrowserDataIf->getFiles();
    
 ?>

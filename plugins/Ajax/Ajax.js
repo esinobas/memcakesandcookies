@@ -137,16 +137,30 @@ Ajax.prototype.send = function(){
          var parameters = JSON.parse(this.parametersM);  
          var parameterString = ""; 
          var firstParameter = true;
+
          for (var key in parameters){
-            console.debug("Ajax::send()::[ " + key +" ][ " + parameters[key] + " ]");
-            if (!firstParameter){
-               parameterString = parameterString + "&";
+            
+               if (typeof(parameters[key])==="object"){
+                  console.debug("Ajax::send()::[ " + key +" ][ " +
+                        JSON.stringify(parameters[key]) + " ]");
+               }else{
+                   console.debug("Ajax::send()::[ " + key +" ][ " + parameters[key] + " ]");
+               }
+               
+               if (!firstParameter){
+                  parameterString = parameterString + "&";
                           
-            }else{
-               firstParameter = false;            
-            }
-            parameterString = parameterString + key + "="+parameters[key];
+               }else{
+                  firstParameter = false;            
+               }
+            
+               if (typeof(parameters[key])==="object"){
+                  parameterString = parameterString + key + "="+JSON.stringify(parameters[key]);
+               }else{
+                  parameterString = parameterString + key + "="+parameters[key];
+               }
          }
+            
          console.debug("Ajax::send()::Parameters String [ " + parameterString + " ]");
          xmlHttpRequest.send(parameterString);
         }else{

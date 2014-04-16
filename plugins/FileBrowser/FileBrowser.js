@@ -5,7 +5,7 @@
  
  var FileBrowser = {
  
-   enableDebug: true,
+   enableDebug: false,
    debugSetup: {
       file: "FileBrowser.js"
                                               
@@ -93,8 +93,10 @@
 	    ajaxObject.setUrl(url);
 	    ajaxObject.setPostMethod();
 	    ajaxObject.setSyn();
-	    var parameters = '{"path":"'+ this.pathUploadFileM +'","filter":"jpg,png,gif,bmp,tif"}';
-	    this.debug(methodName, parameters)
+	    //var parameters = '{"path":"'+ this.pathUploadFileM +'","filter":"jpg,png,gif,bmp,tif"}';
+	    var parameters = '{"type":"Directory", "params":{"path":"'+
+	                       this.pathUploadFileM+'","filter":"jpg,png,gif,bmp,tif"}}';
+	    this.debug(methodName, parameters);
 	    ajaxObject.setParameters(parameters);
 	    ajaxObject.setCallback(null);
 	    
