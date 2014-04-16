@@ -63,6 +63,9 @@
    border-right-color: #ff6600;
    
     border-radius: 5px;
+    
+    overflow-x: hidden;
+    overflow-y: scroll;
 
 }
 #FileBrowserBarButtons{
@@ -83,3 +86,31 @@
     /*background-color: gray;*/	
 	
 }
+.div_image{
+    width: 212px; /* (880 - 5(padding)x2) = 870 / 4 = 217*/ 
+    height: 141px; 
+    padding-left: 2px;
+    padding-top: 5px;
+    left: 2px;
+    
+    display: inline;
+    float: left;
+    text-align: center;
+  
+ }
+ 
+ .div_new_row{
+  
+    clear: both;
+   display: block;
+   overflow: hidden;
+   visibility: hidden;
+   width: 0;
+   height: 0;
+ }
+ .div_image img{
+  
+   max-width: 212px;
+   max-height: 141px; 
+   
+ }

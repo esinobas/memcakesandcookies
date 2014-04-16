@@ -5,7 +5,7 @@
  
  var FileBrowser = {
  
-   enableDebug: false,
+   enableDebug: true,
    debugSetup: {
       file: "FileBrowser.js"
                                               
@@ -78,6 +78,49 @@
 	 
 	 },
 	 
+	 /**
+	  * Method that shows the files in the file browser
+	  * 
+	  * @param theJSONFiles String in JSON format
+	  *  where are saved the files that will be showed
+	  */
+   showFiles: function( theJSONFiles){
+      var methodName = "showFiles";
+      this.debugEnter(methodName);
+      
+      this.debug(methodName, "Remove the files that are within #FileBrowserFiles");
+      $('#FileBrowserFiles').empty();
+      
+      var jsonParsed = JSON.parse(theJSONFiles);
+      
+      var imagePerRow = 0;
+      var url = window.location.protocol + "//" + window.location.hostname;
+      this.debug(methodName,"URL [ " + url + " ]");
+      for (var idx = 0; idx < jsonParsed.length; idx++){
+         
+         var div = $("<div class=\"div_image\"></div>");
+         
+         this.debug(methodName, "Add file [ " + jsonParsed[idx] +" ]");
+         
+         var img="<img src=\""+url+"/" + jsonParsed[idx] +"\">";
+         div.append(img);
+         
+         $('#FileBrowserFiles').append(div);
+         
+         if (imagePerRow < 3 ){
+            
+            imagePerRow++;
+         }else{
+            imagePerRow = 0;
+              
+            $('#FileBrowserFiles').append("<div class=\"div_new_row\"></div>");    
+         }
+         
+      }
+      
+      this.debugExit(methodName);
+      
+   },
    /**
     * Method that shows the files that are stored in the server
     */
@@ -93,7 +136,6 @@
 	    ajaxObject.setUrl(url);
 	    ajaxObject.setPostMethod();
 	    ajaxObject.setSyn();
-	    //var parameters = '{"path":"'+ this.pathUploadFileM +'","filter":"jpg,png,gif,bmp,tif"}';
 	    var parameters = '{"type":"Directory", "params":{"path":"'+
 	                       this.pathUploadFileM+'","filter":"jpg,png,gif,bmp,tif"}}';
 	    this.debug(methodName, parameters);
@@ -102,7 +144,7 @@
 	    
 	    ajaxObject.send();
 	    this.debug(methodName, "Response [ " + ajaxObject.getResponse() + " ]");
-	    
+	    this.showFiles(ajaxObject.getResponse());
 	    this.debugExit(methodName);
 	 },
 	 
