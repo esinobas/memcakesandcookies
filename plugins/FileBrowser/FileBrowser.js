@@ -30,6 +30,8 @@
    selectedFileColorM: "blue",
    
    imageBorderColorPreviousM: "",
+   
+   fileSelectedM: "",
       
    
    
@@ -159,6 +161,7 @@
              $('#btn_delete').attr("disabled", false);
              //Hay que guardar el fichero seleccionado, quitando la url, solo
              //dejando el path que se pasa por parametro
+             FileBrowser.fileSelectedM = $(this).find("img").attr("src");
           }
        );
       this.debugExit(methodName);
@@ -325,6 +328,52 @@
 	         this.debug(methodName, "Add the button " + this.btnDeleteC);
 			 $("#FileBrowserBarButtons").append("<button id=\"btn_delete\" class=\"button\">\nBorrar\n</button>\n");
 			 $('#btn_delete').attr("disabled", "disabled");
+			 //Add the functionality to the delete button
+			 $('#btn_delete').click(
+			    function(){
+			       var methodName = "#btn_delete::click";
+			       FileBrowser.debugEnter(methodName);
+			       var confirmacion = confirm('¿Borrar fichero "'+FileBrowser.fileSelectedM+'"?');
+	               if (confirmacion == true){
+	                  FileBrowser.debug(methodName, "The file [ " + 
+	                        FileBrowser.fileSelectedM + " ] will be removed.");
+	                  
+	                  var initPath = 
+	                     FileBrowser.fileSelectedM.indexOf(FileBrowser.pathUploadFileM);
+	                  var fileToRemove = FileBrowser.fileSelectedM.substr(initPath,
+	                        FileBrowser.fileSelectedM.length - initPath);
+	                  FileBrowser.debug(methodName, "File to remove [ " + 
+	                                        fileToRemove +" ]");
+	                  
+	                  
+	                  FileBrowser.debug(methodName, "Create Ajax object to remove file");
+	                  var url = FileBrowser.getCurrentPath(FileBrowser.fileNameC) + "DeleteFile.php";
+	                  FileBrowser.debug(methodName, "The url is [ " + url + " ]");
+	                  var ajaxObject = new Ajax();
+	                  ajaxObject.setUrl(url);
+	                  ajaxObject.setPostMethod();
+	                  ajaxObject.setSyn();
+	                  var parameters = '{"type":"Directory", "file":"'+fileToRemove+'"}';
+	                  FileBrowser.debug(methodName, parameters);
+	                  ajaxObject.setParameters(parameters);
+	                  ajaxObject.setCallback(null);
+	                  
+	                  ajaxObject.send();
+	                  FileBrowser.debug(methodName, "Response [ " + ajaxObject.getResponse() + " ]");
+	                  
+	                  if (ajaxObject.getResponse() != "OK"){
+	                     alert('El fichero ' + FileBrowser.fileSelectedM 
+	                           + ' no se ha podido borrar.');
+	                  }else{
+	                     $('#btn_select').attr("disabled", "disabled");
+	                     $('#btn_delete').attr("disabled", "disabled");
+	                     FileBrowser.refresh();
+	                  }
+	               }
+			       
+			       FileBrowser.debugExit(methodName);
+			    }
+			 );
 		  }
 	   }
 	   

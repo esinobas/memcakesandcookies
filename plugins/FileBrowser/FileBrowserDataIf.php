@@ -105,5 +105,17 @@ abstract class FileBrowserDataIf {
     * This method searchs the files and it saves their in a local array.
     */
    protected abstract function searchFiles();
+   
+   /**
+    * Abstract method that will be over written in its childs class.
+    * This method removes the file on the server
+    * 
+    * @param theFile Full path and file name of the file that is removed
+    * 
+    * @return a boolean value that indicates the result of the operation:
+    *    true when the removed file has been done successfuly
+    *    false when the file has not can be removed
+    */
+   public abstract function removeFile($theFile); 
 }
 ?>

@@ -102,6 +102,18 @@ class FileBrowserDataDirectory extends FileBrowserDataIf{
    }
    
 
-   
+   public function removeFile($theFile){
+      $this->loggerM->trace("Enter");
+      $this->loggerM->trace("The file [ " . $theFile . " ] will be removed");
+      $result = unlink($_SERVER['DOCUMENT_ROOT'].'/'.$theFile);
+      if ( $result ){
+         $this->loggerM->trace("The file [ " . $theFile . " ] was removed sucessfully");
+      }else{
+         $this->loggerM->warn("The file [ " . $theFile . " ] has not been removed.");
+      }
+      
+      $this->loggerM->trace("Exit");
+      return $result;
+   }
 }
 ?>
