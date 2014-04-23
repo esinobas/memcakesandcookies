@@ -25,6 +25,11 @@
    
    pathUploadFileC: "pathUploadFile",
    pathUploadFileM: "",
+   
+   selectedFileColorC: "color_selected_file",
+   selectedFileColorM: "blue",
+   
+   imageBorderColorPreviousM: "",
       
    
    
@@ -73,7 +78,7 @@
 	   this.debug(methodName, "Parameters  [ " + parameters + " ]");
 	   ajaxObject.setParameters(parameters);
 	   ajaxObject.sendFile(file);
-	   //refresh();
+	   this.refresh();
 	   this.debugExit(methodName);
 	 
 	 },
@@ -117,7 +122,45 @@
          }
          
       }
+      //Add the method hover to all images loaded. This method changes the 
+      //border color of the selectec image
+      $('.div_image').hover(
+           
+            function(){
+               var methodName = ".div_image::hover::In";
+               //FileBrowser.debugEnter(methodName);
+               FileBrowser.imageBorderColorPreviousM = $(this).css('border-top-color');
+               //FileBrowser.debug(methodName, "Border Color [ " + imageBorderColorPreviousM + " ]");
+               $(this).css({"border-color":FileBrowser.selectedFileColorM,
+                  "border-width":"1px","border-style":"solid"});
+               //FileBrowser.debugExit(methodName);
+            },
+            function(){
+               var methodName = ".div_image::hover::Out";
+               //FileBrowser.debugEnter(methodName);
+               
+               //FileBrowser.debug(methodName, "Previous Border Color [ " + imageBorderColorPreviousM + " ]");
+               $(this).css({"border-color":FileBrowser.imageBorderColorPreviousM,
+                  "border-width":"1px","border-style":"solid"});
+               //FileBrowser.debugExit(methodName);
+               
+            }
+       );
       
+      //Add the event click for all showed images in the file browser
+      $('.div_image').click(
+          function(){
+             //Clear the background of the all images
+             $('.div_image').css("background-color", "white");
+             //Set the configured color in the selected file background
+             $(this).css("background-color", FileBrowser.selectedFileColorM);
+             //Enable the delete button and seletec button
+             $('#btn_select').attr("disabled", false);
+             $('#btn_delete').attr("disabled", false);
+             //Hay que guardar el fichero seleccionado, quitando la url, solo
+             //dejando el path que se pasa por parametro
+          }
+       );
       this.debugExit(methodName);
       
    },
@@ -175,6 +218,12 @@
       this.pathUploadFileM = theParameters[this.pathUploadFileC];
       this.debug(methodName, "Directory where the files will be uploaded [ " + 
                              this.pathUploadFileM + " ]");
+      if (theParameters[this.selectedFileColorC] != null){
+         this.selectedFileColorM = theParameters[this.selectedFileColorC];
+         
+      }
+      this.debug(methodName, "The color selected file is [ " + 
+            this.selectedFileColorM + " ]");
   
       //Create the div that contains the file browser and the buttons
       this.debug(methodName, "Create the file browser");

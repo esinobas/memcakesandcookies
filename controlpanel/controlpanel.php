@@ -157,7 +157,8 @@
                  $('#BtnFileBrowser').click(function(){
                     FileBrowser.init({title: "Titulo Prueba",
                         buttons: "upload|select|delete",
-                        pathUploadFile: "images/cakes"});
+                        pathUploadFile: "images/cakes",
+                        color_selected_file: "orange"});
                     FileBrowser.show();
                  }
                  );
