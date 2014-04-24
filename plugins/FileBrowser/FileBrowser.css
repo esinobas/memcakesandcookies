@@ -9,8 +9,9 @@
    position: absolute;
    left: 0px;
    top: 0px;
-   opacity: 0.5;
-   background-color: orange;
+   opacity: 0.8;
+   /*Cambiar para cambiar el color del fondo-*/
+   background-color: white;
 
 
 }
@@ -24,7 +25,23 @@
    left: 50%;
    margin-top: -300px;
    margin-left: -450px;
+   
+   /*Cambiar para cambiar el color del fondo del file browser*/
    background-color: white;
+   
+   /*Para quitar el borde del file browser, poner none*/
+   border-style: solid;
+   /*Cambiar para cambiar el color del border del filebrowser*/
+   border-color: orange;
+   
+   border-width: 1px;
+   
+   /*Sombra del filebrowser. si no se quiere sombra -> none*/
+   box-shadow: 5px 5px 2px orange;
+   
+   border-radius: 10px;
+   
+   
 }
 
 #FileBrowserTitle{
@@ -54,13 +71,13 @@
    
    border-style: solid;
    
-   border-width: 2px;
-   border-top-color: black;
-   border-left-color: black;
+   border-width: 1px;
+   border-top-color: #ff6600;
+   border-left-color: #ff6600;
   /* border-bottom-color: #ff6600;
    border-right-color: #ff6600;*/
-    border-bottom-color: #ff6600;
-   border-right-color: #ff6600;
+    border-bottom-color: #FFA600;
+   border-right-color: #FFA600;
    
     border-radius: 5px;
     
