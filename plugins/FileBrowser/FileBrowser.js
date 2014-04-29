@@ -32,6 +32,8 @@
    imageBorderColorPreviousM: "",
    
    fileSelectedM: "",
+   
+   typeServerM: "Directory",
       
    
    
@@ -63,23 +65,10 @@
 	   var methodName = "uploadFile";
 	   this.debugEnter(methodName);
 	   
-	   this.debug(methodName, "The file [ " + theFile + " ] will be uploaded.");
-	   
-	   this.debug(methodName, "Get the selected file in the file dialog box");
-	   var file = $('#inputUploadFile').get(0).files[0];
-
-	   this.debug(methodName, "Create Ajax object to upload the file");
-	   var ajaxObject = new Ajax();
-	   var url = this.getCurrentPath(this.fileNameC) + "uploadFile.php";
-	   this.debug(methodName, "The file will be uploaded to [ " + url + " ]");
-	   //ajaxObject.setUrl("../plugins/FileBrowser/uploadFile.php");
-	   ajaxObject.setUrl(url);
-	   ajaxObject.setPostMethod();
-	   ajaxObject.setCallback(null);
-	   var parameters = '{"path":"'+ this.pathUploadFileM +'"}';
-	   this.debug(methodName, "Parameters  [ " + parameters + " ]");
-	   ajaxObject.setParameters(parameters);
-	   ajaxObject.sendFile(file);
+	   this.debug(methodName, "The file [ " + theFile + " ] will be uploaded");
+	   var fileBrowser = FileBrowserFactory.getFileBrowser(FileBrowser.typeServerM);
+      fileBrowser.uploadFile(theFile, this.pathUploadFileM);
+      
 	   this.refresh();
 	   this.debugExit(methodName);
 	 
@@ -306,6 +295,18 @@
 	         this.debug(methodName, "Add the button " + this.btnSelectC);
 			 $("#FileBrowserBarButtons").append("<button id=\"btn_select\" class=\"button\">\nSeleccionar\n</button>\n");
 			 $('#btn_select').attr("disabled", "disabled");
+			 
+			 $('#btn_select').click(
+			       function(){
+			          var methodName = "#btn_select::click";
+			          FileBrowser.debugEnter(methodName);
+			         
+			          var fileBrowser = FileBrowserFactory.getFileBrowser(FileBrowser.typeServerM);
+			          fileBrowser.selectFile();
+			          FileBrowser.debugExit(methodName);
+			          
+			       }
+			 );
 		   }
 		//Check if the upload button must be showed
 		  if (arrayButtons[x-1].toUpperCase().indexOf(this.btnUploadC) > -1){
@@ -345,7 +346,10 @@
 	                  FileBrowser.debug(methodName, "File to remove [ " + 
 	                                        fileToRemove +" ]");
 	                  
+	                  var fileBrowser = FileBrowserFactory.getFileBrowser(FileBrowser.typeServerM);
+	                  var result = fileBrowser.deleteFile(fileToRemove);
 	                  
+	                  /*
 	                  FileBrowser.debug(methodName, "Create Ajax object to remove file");
 	                  var url = FileBrowser.getCurrentPath(FileBrowser.fileNameC) + "DeleteFile.php";
 	                  FileBrowser.debug(methodName, "The url is [ " + url + " ]");
@@ -360,8 +364,9 @@
 	                  
 	                  ajaxObject.send();
 	                  FileBrowser.debug(methodName, "Response [ " + ajaxObject.getResponse() + " ]");
+	                  */
 	                  
-	                  if (ajaxObject.getResponse() != "OK"){
+	                  if (result != "OK"){
 	                     alert('El fichero ' + FileBrowser.fileSelectedM 
 	                           + ' no se ha podido borrar.');
 	                  }else{
