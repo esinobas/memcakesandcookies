@@ -21,6 +21,9 @@
       <script type="text/javascript" src="UpdateImageDescription.js"></script>   
       <link rel="stylesheet" type="text/css" href="UpdateImageDescription.css">  
       <script type="text/javascript" src="../plugins/FileBrowser/FileBrowser.js"></script>
+      <script type="text/javascript" src="../plugins/FileBrowser/FileBrowserFactory.js"></script>
+      <script type="text/javascript" src="../plugins/FileBrowser/FileBrowserDefault.js"></script>
+      <script type="text/javascript" src="../plugins/FileBrowser/FileBrowserDataBase.js"></script>
       <link rel="stylesheet" type="text/css" href="../plugins/FileBrowser/FileBrowser.css">  
 
    </head>
@@ -158,7 +161,8 @@
                     FileBrowser.init({title: "Titulo Prueba",
                         buttons: "upload|select|delete",
                         pathUploadFile: "images/cakes",
-                        color_selected_file: "orange"});
+                        color_selected_file: "orange",
+                        server_type: "Database"});
                     FileBrowser.show();
                  }
                  );

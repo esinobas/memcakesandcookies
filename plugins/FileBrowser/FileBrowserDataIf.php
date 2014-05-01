@@ -34,7 +34,7 @@ abstract class FileBrowserDataIf {
     */
    public function __construct(){
       
-      Logger::configure($_SERVER['DOCUMENT_ROOT'].'/plugins/FileBrowser/LogConfig.xml');
+      Logger::configure($_SERVER['DOCUMENT_ROOT'].'/log/LogConfig.xml');
       $this->loggerM = Logger::getLogger(__CLASS__);
       $this->loggerM->trace("Enter");
       $this->loggerM->trace("Exit");

@@ -59,9 +59,12 @@ function FileBrowserFactory(){
       this.debug(methodName, "Type [ " + theType + " ]");
       var returnObject = null;
       switch (theType){  
-      case "Directory":
-         returnObject = new FileBrowserDefault();
-         break;
+         case "Directory":
+            returnObject = new FileBrowserDefault();
+            break;
+         case "Database":
+            returnObject = new FileBrowserDataBase();
+            break;
       }
    
       this.debugExit(methodName);

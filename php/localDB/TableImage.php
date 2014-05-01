@@ -4,6 +4,8 @@
    include_once($_SERVER['DOCUMENT_ROOT']."/php/ddbb/MySqlDAO.php");
    
    include_once($_SERVER['DOCUMENT_ROOT']."/php/ddbb/DBIterator.php");
+   
+   include_once ($_SERVER['DOCUMENT_ROOT'].'/php/log4php/Logger.php');
 
    /**
     * File with the definition of the  table that allows access to the data image
@@ -29,8 +31,14 @@
       protected $typeM;
       protected $existM;
       
+     
+      private $loggerM;
+      
       function __construct(){
-        
+         Logger::configure($_SERVER['DOCUMENT_ROOT'].'/log/LogConfig.xml');
+         $this->loggerM = Logger::getLogger(__CLASS__);
+         /*$this->loggerM->trace(("Enter"));
+         $this->loggerM->trace(("Exit"));*/
       }        
       
       function __destruct(){
@@ -257,5 +265,27 @@
                     
      
   } 
+  
+  /**
+   * It checks if an image now is stored in the table or it is not stored.
+   * 
+   * @param unknown $theImage: The file name of the image
+   * 
+   * @return A boolean value that indicates if the image is stored or it is 
+   * not stored in the table.
+   */
+  static public function existImage($theImage){
+     
+     Logger::configure($_SERVER['DOCUMENT_ROOT'].'/log/LogConfig.xml');
+     $logger = Logger::getLogger(__CLASS__);
+ 
+     
+     $logger->trace("Enter");
+     $logger->trace("Search the image [ ".$theImage." ] in table " .
+              TableNameC." ]");
+     
+     $logger->trace("Exit");
+     return false;
+  }
 }
 ?>

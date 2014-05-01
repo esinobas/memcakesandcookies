@@ -7,8 +7,8 @@
    include_once ($_SERVER['DOCUMENT_ROOT'].'/plugins/FileBrowser/FileBrowserDataIf.php');
    include_once ($_SERVER['DOCUMENT_ROOT'].'/plugins/FileBrowser/FileBrowserFactory.php');
 
-   Logger::configure($_SERVER['DOCUMENT_ROOT'].'/plugins/FileBrowser/LogConfig.xml');
-   $logger = Logger::getLogger(__FILE__);
+   Logger::configure($_SERVER['DOCUMENT_ROOT'].'/log/LogConfig.xml');
+   $logger = Logger::getLogger('DeleteFile');
  
    const typeC = "type";
    const fileC = "file";

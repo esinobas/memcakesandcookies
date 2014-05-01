@@ -5,27 +5,29 @@
 function FileBrowserDefault (){
    
    //declare private properties
-   var _classNameM = "FileBrowserDefault";
+   
    var _debugM = true;
+   
+   FileBrowserDefault.prototype.classNameM = "FileBrowserDefault";
    
    //Methods to debug
    FileBrowserDefault.prototype.debugEnter = function (theMethodName){
       if (_debugM){
-         var log = _classNameM + "::" + theMethodName +"::Enter";
+         var log = this.classNameM + "::" + theMethodName +"::Enter";
          console.debug(log);
       }
    };
    
    FileBrowserDefault.prototype.debugExit = function (theMethodName){
       if (_debugM){
-         var log = _classNameM + "::" + theMethodName +"::Exit";
+         var log = this.classNameM + "::" + theMethodName +"::Exit";
          console.debug(log);
       }
    };
    
    FileBrowserDefault.prototype.debug = function (theMethodName, theMsg){
       if (_debugM){
-         var log = _classNameM + "::" + theMethodName +"::"+ theMsg;
+         var log = this.classNameM + "::" + theMethodName +"::"+ theMsg;
          console.debug(log);
       }
    };
@@ -35,8 +37,10 @@ function FileBrowserDefault (){
    /**
     * Abstract method that  must be overwritten in the childs class 
     * with commands that are executed when a file is selected
+    * 
+    * @param the File
     */
-   FileBrowserDefault.prototype.selectFile = function(){
+   FileBrowserDefault.prototype.selectFile = function(theFile){
       var methodName = "selectFile";
       this.debugEnter(methodName);
       
@@ -107,7 +111,7 @@ function FileBrowserDefault (){
    };
    
    /**
-    * Funtions that returns the current path
+    * Function that returns the current path
     * 
     * @return the current script path
     */
@@ -146,5 +150,20 @@ function FileBrowserDefault (){
        return path;
 
    };
+   
+   /**
+    * It returns the server url
+    * 
+    * @returns the server url
+    */
+   FileBrowserDefault.prototype.getServerUrl = function(){
+      
+      var methodName = "getServerUrl";
+      this.debugEnter(methodName);
+      this.debug(methodName, "Server URL [ " + window.location.protocol + "//" +
+                                        window.location.hostname +" ]");
+      this.debugExit(methodName);
+      return window.location.protocol + "//" + window.location.hostname;
+   }
 }
  

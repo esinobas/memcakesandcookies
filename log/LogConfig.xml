@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://logging.apache.org/log4php/">
+   <appender name = "ConsoleAppender" class = "LoggerAppenderConsole">
+      <layout class ="LoggerLayoutPattern">
+         <param name = "conversionPattern" value = "[%level] - time [%date{H:i:s - d/m/Y}]. pid: '%process'. file: '%file'. class: '%class'. method: '%method'. line: '%line'. %msg.%n"></param>
+      </layout>
+   </appender>
+  
+   <!--  Appenders  -->
+   <appender name = "RollingFileAppenderFileBrowser" class = "LoggerAppenderRollingFile">
+   
+      <param name ="file" value = "/home/tebi/Datos/webserver/MEMcakesandcookies/www/log/FileBrowser.log"></param>
+      <param name = "maxFileSize" value = "1MB"></param>
+      <param name = "maxBackupIndex" value = "1"></param>
+      <param name = "append" value = "true"></param>
+      
+     <layout class ="LoggerLayoutPattern">
+         <param name = "conversionPattern" value = "[%level] - time [%date{H:i:s - d/m/Y}]. pid: '%process'. file: '%file'. class: '%class'. method: '%method'. line: '%line'. %msg.%n"></param>
+      </layout>
+   
+   </appender>
+   
+   <appender name = "RollingFileAppenderLocalDB" class = "LoggerAppenderRollingFile">
+   
+      <param name ="file" value = "/home/tebi/Datos/webserver/MEMcakesandcookies/www/log/LocalDB.log"></param>
+      <param name = "maxFileSize" value = "1MB"></param>
+      <param name = "maxBackupIndex" value = "1"></param>
+      <param name = "append" value = "true"></param>
+      
+     <layout class ="LoggerLayoutPattern">
+         <param name = "conversionPattern" value = "[%level] - time [%date{H:i:s - d/m/Y}]. pid: '%process'. file: '%file'. class: '%class'. method: '%method'. line: '%line'. %msg.%n"></param>
+      </layout>
+   
+   </appender>
+   
+  <!--  Loggers --> 
+  <!-- 
+  <root>
+     <level value = "TRACE"></level>
+     <appender_ref ref = "RollingFileAppenderFileBrowser"></appender_ref>
+  </root>
+  -->
+  <!--  Loggers for FileBrowser -->
+  <logger name="DeleteFile">
+     <level value="TRACE"/>
+     <appender_ref ref = "RollingFileAppenderFileBrowser"></appender_ref>
+  </logger>
+   <logger name="FileBrowser">
+     <level value="TRACE"/>
+     <appender_ref ref = "RollingFileAppenderFileBrowser"></appender_ref>
+  </logger>
+   <logger name="FileBrowserDataBaseCommands">
+     <level value="TRACE"/>
+     <appender_ref ref = "RollingFileAppenderFileBrowser"></appender_ref>
+  </logger>
+   <logger name="FileBrowserDataDirectory">
+     <level value="INFO"/>
+     <appender_ref ref = "RollingFileAppenderFileBrowser"></appender_ref>
+  </logger>
+  <logger name="FileBrowserDataIf">
+     <level value="INFO"/>
+     <appender_ref ref = "RollingFileAppenderFileBrowser"></appender_ref>
+  </logger>
+  <logger name="FileBrowserDataIf">
+     <level value="INFO"/>
+     <appender_ref ref = "RollingFileAppenderFileBrowser"></appender_ref>
+  </logger>
+  <logger name="FileBrowserFactory">
+     <level value="TRACE"/>
+     <appender_ref ref = "RollingFileAppenderFileBrowser"></appender_ref>
+  </logger>
+  
+  <!--  Loggers for LocalDB -->
+   <logger name="TableImage">
+     <level value="TRACE"/>
+     <appender_ref ref = "RollingFileAppenderLocalDB"></appender_ref>
+  </logger>
+  
+  
+  
+</configuration>

@@ -5,7 +5,7 @@
  
  var FileBrowser = {
  
-   enableDebug: true,
+   enableDebug: false,
    debugSetup: {
       file: "FileBrowser.js"
                                               
@@ -32,8 +32,8 @@
    imageBorderColorPreviousM: "",
    
    fileSelectedM: "",
-   
-   typeServerM: "Directory",
+   serverTypeC: "server_type",
+   serverTypeM: "Directory",
       
    
    
@@ -66,7 +66,7 @@
 	   this.debugEnter(methodName);
 	   
 	   this.debug(methodName, "The file [ " + theFile + " ] will be uploaded");
-	   var fileBrowser = FileBrowserFactory.getFileBrowser(FileBrowser.typeServerM);
+	   var fileBrowser = FileBrowserFactory.getFileBrowser(FileBrowser.serverTypeM);
       fileBrowser.uploadFile(theFile, this.pathUploadFileM);
       
 	   this.refresh();
@@ -216,6 +216,14 @@
       }
       this.debug(methodName, "The color selected file is [ " + 
             this.selectedFileColorM + " ]");
+      
+     
+      if (theParameters[this.serverTypeC] != null){
+         this.debug(methodName, "The parameter [ " + this.serverTypeC + 
+                     " ]  is present in the parameters");
+         this.serverTypeM = theParameters[this.serverTypeC];
+      }
+      this.debug(methodName, "The server type is [ " + this.serverTypeM + " ]");
   
       //Create the div that contains the file browser and the buttons
       this.debug(methodName, "Create the file browser");
@@ -300,9 +308,15 @@
 			       function(){
 			          var methodName = "#btn_select::click";
 			          FileBrowser.debugEnter(methodName);
-			         
-			          var fileBrowser = FileBrowserFactory.getFileBrowser(FileBrowser.typeServerM);
-			          fileBrowser.selectFile();
+			          var initPath = 
+                      FileBrowser.fileSelectedM.indexOf(FileBrowser.pathUploadFileM);
+                   var selectedFile = FileBrowser.fileSelectedM.substr(initPath,
+                         FileBrowser.fileSelectedM.length - initPath);
+                   
+			          FileBrowser.debug(methodName, "Selected File [ " + 
+			                selectedFile + " ]");
+			          var fileBrowser = FileBrowserFactory.getFileBrowser(FileBrowser.serverTypeM);
+			          fileBrowser.selectFile(selectedFile);
 			          FileBrowser.debugExit(methodName);
 			          
 			       }
@@ -346,7 +360,7 @@
 	                  FileBrowser.debug(methodName, "File to remove [ " + 
 	                                        fileToRemove +" ]");
 	                  
-	                  var fileBrowser = FileBrowserFactory.getFileBrowser(FileBrowser.typeServerM);
+	                  var fileBrowser = FileBrowserFactory.getFileBrowser(FileBrowser.serverTypeM);
 	                  var result = fileBrowser.deleteFile(fileToRemove);
 	                  
 	                  /*

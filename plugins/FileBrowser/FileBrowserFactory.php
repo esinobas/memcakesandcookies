@@ -23,7 +23,7 @@ class FileBrowserFactory{
    public static function getFileBrowserData($theType, $theParameters = NULL){
       
       
-       Logger::configure($_SERVER['DOCUMENT_ROOT'].'/plugins/FileBrowser/LogConfig.xml');
+      Logger::configure($_SERVER['DOCUMENT_ROOT'].'/log/LogConfig.xml');
        $logger = Logger::getLogger(__CLASS__);
        $logger->trace("ENTER");
        

@@ -38,7 +38,7 @@ class FileBrowserDataDirectory extends FileBrowserDataIf{
     */
    public function __construct($theParams){
       
-      Logger::configure($_SERVER['DOCUMENT_ROOT'].'/plugins/FileBrowser/LogConfig.xml');
+      Logger::configure($_SERVER['DOCUMENT_ROOT'].'/log/LogConfig.xml');
       $this->loggerM = Logger::getLogger(__CLASS__);
       $this->loggerM->trace("Enter");
       parent::__construct();
