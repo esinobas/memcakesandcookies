@@ -85,15 +85,16 @@
                   
                  require_once($_SERVER['DOCUMENT_ROOT'].'/php/ddbb/DBIterator.php');
                  require_once($_SERVER['DOCUMENT_ROOT'].'/php/localDB/TB_MENUS.php');
+                 require_once($_SERVER['DOCUMENT_ROOT'].'/php/localDB/TB_COLLECTION.php');
                  require_once($_SERVER['DOCUMENT_ROOT'].'/php/localConfiguration/configuration.php');
-                 $options = TB_MENUS::getMenu(0);
+                 $options = TB_MENUS::getMenu();
             ?>
           
                <?php
                  while ($options->next()){
                     $row = $options->getRow();   
       
-                    if (TB_MENUS::hasSubmenu($row->getId()) == true){
+                    if ($row->getId() != 1 && $row->getId() != 6){
                     ?>
                        <a href=<?php printf("\"%s/controlpanel/controlpanel.php?option=%s\"", url, $row->getOption());?> >
                        <div class="menuItem"> 
@@ -122,14 +123,14 @@
            <div id="toolbar">
               Colecciones:
               <?php
-                 $subMenus = TB_MENUS::getMenu($idOption);
+                 $subMenus = TB_COLLECTION::getCollectionsFromMenu($idOption);
               ?>
               <select id="comboCollection">
                  <option value="0">Todas</option>
                  <?php
                  while($subMenus->next()){
                  ?>
-                    <option value=<?php printf("\"%d\"", $subMenus->getRow()->getId());?>><?php printf("%s", $subMenus->getRow()->getOption());?></option>
+                    <option value=<?php printf("\"%d\"", $subMenus->getRow()->getId());?>><?php printf("%s", $subMenus->getRow()->getName());?></option>
                  <?php
                  }
                  ?>

@@ -18,27 +18,29 @@ USE `MEMcakesandcookies`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `TB_MENU`
+-- Table structure for table `TB_COLLECTION`
 --
 
-DROP TABLE IF EXISTS `TB_MENU`;
+DROP TABLE IF EXISTS `TB_COLLECTION`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `TB_MENU` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `option_menu` varchar(50) NOT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1 COMMENT='Table where are defined the menu options and submenu options';
+CREATE TABLE `TB_COLLECTION` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Identifier',
+  `Name` varchar(45) NOT NULL COMMENT 'Collection name',
+  `Id_Menu` int(11) NOT NULL COMMENT 'Foreign key to TB_MENU',
+  PRIMARY KEY (`Id`),
+  KEY `FK_MENU` (`Id`),
+  CONSTRAINT `FK_MENU` FOREIGN KEY (`Id`) REFERENCES `TB_MENU` (`ID`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Table where the collection are stored and its link with the ';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `TB_MENU`
+-- Dumping data for table `TB_COLLECTION`
 --
 
-LOCK TABLES `TB_MENU` WRITE;
-/*!40000 ALTER TABLE `TB_MENU` DISABLE KEYS */;
-INSERT INTO `TB_MENU` VALUES (1,'Sobre Nosotros'),(2,'Cakes'),(3,'Cookies'),(4,'Modelados'),(5,'Eventos'),(6,'Contacto');
-/*!40000 ALTER TABLE `TB_MENU` ENABLE KEYS */;
+LOCK TABLES `TB_COLLECTION` WRITE;
+/*!40000 ALTER TABLE `TB_COLLECTION` DISABLE KEYS */;
+/*!40000 ALTER TABLE `TB_COLLECTION` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -50,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-05-06 11:16:55
+-- Dump completed on 2014-05-06 11:19:23

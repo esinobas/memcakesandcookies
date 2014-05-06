@@ -5,7 +5,7 @@ var newcollection = {
     idCollectionM: 0,
     urlM: "",
 
-    enableDebug: false,
+    enableDebug: true,
     debugSetup: {
                   file: "newcollection.js"
                                               
@@ -46,7 +46,7 @@ var newcollection = {
        var methodName = "insertCollection";
        
        this.debugEnter(methodName);
-       this.debug(methodName, "The new submenu will be child of [ " + this.idCollectionM +" ]");
+       this.debug(methodName, "The new collection will be child of [ " + this.idCollectionM +" ]");
        this.debug(methodName, "Url [ " + this.urlM +" ]");
        
        var ajaxObject = new Ajax();
@@ -54,8 +54,8 @@ var newcollection = {
        ajaxObject.setPostMethod();
        ajaxObject.setSyn();
        var parametersArray = {};
-       parametersArray.parent = this.idCollectionM;
-       parametersArray.menu = theNewCollection;
+       parametersArray.menu = this.idCollectionM;
+       parametersArray.collection = theNewCollection;
        var parameters = JSON.stringify(parametersArray);
        this.debug(methodName, "Parameters [ " + parameters +" ]");
         

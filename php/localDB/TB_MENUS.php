@@ -3,31 +3,39 @@
    include_once("ddbb.php");
    include_once($_SERVER['DOCUMENT_ROOT']."/php/ddbb/MySqlDAO.php");
    include_once($_SERVER['DOCUMENT_ROOT']."/php/ddbb/DBIterator.php");
+   include_once ($_SERVER['DOCUMENT_ROOT'].'/php/log4php/Logger.php');
    
    define('tableMenuC','TB_MENU');
    define('idC','ID');
    define('optionC','option_menu');
-   define('optionParentC','option_parent');
+   
+   define('logConfigurationC', $_SERVER['DOCUMENT_ROOT'].'/log/LogConfig.xml');
+   
    
    class TB_MENUS{
      
       protected $idM;
       protected $optionM;
-      protected $optionParentM;
-      
-       
+      private $loggerM;
       
       /*function __construct(){
          
       } */  
       
       function __construct($theId){
+         
+         $this->loggerM = Logger::getLogger(__CLASS__);
+         $this->loggerM->trace("Enter");
+         $this->loggerM->trace("Create menu con Id [ " . $theId ." ]");
          $this->idM = $theId;
+         $this->loggerM->trace("Exit");
+         
       }     
 
       
       function __destruct(){
-        
+         $this->loggerM->trace("Enter");
+         $this->loggerM->trace("Exit");
       }
   
 
@@ -51,26 +59,19 @@
          $this->optionM = $theOption;      
       }
   
-      public function setOptionParent($theOptionParent){
-         
-         $this->optionParentM = $theOptionParent;
-      }
-  
-      public function getOptionParent(){
 
-         return $this->optionParentM;      
-      }
-  
-      static public function getMenu($theParentMenu){
- 
+     static public function getMenu(){
+        
+        
+        Logger::configure(logConfigurationC);
+        $logger = Logger::getLogger(__CLASS__);
+        
+        $logger->trace("Enter");
 
-        $query = sprintf("select %s, %s, %s from %s where %s = %s"
+        $query = sprintf("select %s, %s from %s"
                            ,idC
                            ,optionC
-                           ,optionParentC
-                           ,tableMenuC
-                           ,optionParentC
-                           ,$theParentMenu);
+                           ,tableMenuC);
                            
         
                      
@@ -82,7 +83,8 @@
          $rows;
                 
          if($conn->isConnected()) {
-             
+           $logger->trace("The connection was established successfully");
+           $logger->debug("Run query [ " . $query ." ]");
            $result = $conn->query($query);
             
              if ($result != null){
@@ -94,17 +96,21 @@
                    
                    /*$option = new TB_MENUS();
                    $option->setId($result[$idx][idC]);*/
+                   $logger->debug("Create option menu with id [ ". 
+                                      $result[$idx][idC] ." ] and option [ ".
+                                    $result[$idx][optionC] ." ]" );
                    $option = new TB_MENUS($result[$idx][idC]);
                    $option->setOption($result[$idx][optionC]);
-                   $option->setOptionParent($result[$idx][optionParentC]);
                    $rows[$idx] = $option;
                    $idx ++;
                 }
             }
             $conn->closeConnection();       
+         }else{
+            $logger->error("An error is produced in database connection");
          }   
         
-      
+         $logger->trace("Exit");
        return new DBIterator($rows);
       
       
@@ -112,7 +118,7 @@
   
       static public function hasSubmenu($theId){
       
- 
+         $logger->trace("Enter");
          $query = sprintf("select count(%s) from %s where %s = %s"
                           ,idC
                           ,tableMenuC
@@ -130,12 +136,15 @@
             $result = $conn->query($query);
             $conn->closeConnection();   
          }else{
+            $logger->trace("Exit");
             return false;
          }
          
          if (intval($result[0]['count('.idC.')'] > 0 )){
+            $logger->trace("Exit");
             return true;         
          }else{
+            $logger->trace("Exit");
             return false;
          } 
          
@@ -144,7 +153,12 @@
       }
   
      static public function getIdByOption($theOption){
-    
+        
+        Logger::configure(logConfigurationC);
+        $logger = Logger::getLogger(__CLASS__);
+        
+        $logger->trace("Enter");
+        
         $query = sprintf("select %s from %s where UCASE(%s) = '%s'"
                          ,idC
                          ,tableMenuC
@@ -159,20 +173,23 @@
         $id; 
        
         if($conn->isConnected()) {
-             
+           $logger->trace("The connection was established successfully");
+           $logger->debug("Run query [ " . $query ." ]");
            $result = $conn->query($query);
             
            if ($result != null){
-              $id = $result[0][idC];     
+              $id = $result[0][idC];  
+              $logger->debug("The ".idC." obtained is [ " . $id ." ]");  
            }
           $conn->closeConnection(); 
         }
-        
+        $logger->trace("Exit");
         return $id;
      }
  
      static public function insertSubMenu($theParent, $theSubmenu){
         
+        $logger->trace("Enter");
         $query = sprintf("insert into %s (%s,%s) values ('%s',%s)"
                            ,tableMenuC
                            ,optionC
@@ -192,7 +209,7 @@
        }
        $lastId = $conn->getLastId();       
        $conn->closeConnection();
-       
+       $logger->trace("Exit");
        return $lastId;                                 
      
      }
