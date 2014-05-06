@@ -29,14 +29,14 @@
    function existImageInDDBB($theImage, $theLogger){
       
       $theLogger->trace("Enter");
-      $theLogger->trace("Checking if the image [ ".$theImage." ] exist in the DDBB");
+      $theLogger->debug("Checking if the image [ ".$theImage." ] exist in the DDBB");
       $returnValue = false;
       if (TableImage::existImage($theImage)){
          $returnValue =  true;
       }
       
-      $theLogger->trace("The image [ ".$theImage." ] " .
-            ($returnValue ? " exists in Database.":"doesn't exist in database"));
+      $theLogger->debug("The image [ ".$theImage." ] " .
+            ($returnValue ? " exists in Database":"doesn't exist in database"));
       $theLogger->trace("Exit");
       return $returnValue;
    }
@@ -48,7 +48,7 @@
    $loggerM = Logger::getLogger('FileBrowserDataBaseCommands');
   
    $theCommand = $_POST["command"];
-   $loggerM->trace("The command is [ ". $theCommand ." ]");
+   $loggerM->debug("The command is [ ". $theCommand ." ]");
    $returnValue = "command unkonwn";
    switch ($theCommand){
       case commandExistsC:
@@ -61,6 +61,6 @@
          break;
       
    }
-   $loggerM->trace("Exit with result [ " . $returnValue . " ]");
+   $loggerM->debug("Exit with result [ " . $returnValue . " ]");
    echo $returnValue;
 ?>

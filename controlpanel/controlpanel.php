@@ -162,7 +162,8 @@
                         buttons: "upload|select|delete",
                         pathUploadFile: "images/cakes",
                         color_selected_file: "orange",
-                        server_type: "Database"});
+                        server_type: "Database",
+                        custom_params: {option:<?php printf("%d",$idOption);?>,collection:"2"}});
                     FileBrowser.show();
                  }
                  );

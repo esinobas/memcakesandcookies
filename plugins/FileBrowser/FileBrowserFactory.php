@@ -23,18 +23,18 @@ class FileBrowserFactory{
    public static function getFileBrowserData($theType, $theParameters = NULL){
       
       
-      Logger::configure($_SERVER['DOCUMENT_ROOT'].'/log/LogConfig.xml');
+       //Logger::configure($_SERVER['DOCUMENT_ROOT'].'/log/LogConfig.xml');
        $logger = Logger::getLogger(__CLASS__);
        $logger->trace("ENTER");
        
-       $logger->trace("Type of FileBrowser to be created [ " .$theType. " ]".
+       $logger->debug("Type of FileBrowser to be created [ " .$theType. " ]".
                              " with this parameters [ " . $theParameters . " ]" );
        
        $fileBrowserDataIf = null;
        
        if (strcmp($theType, "Directory") == 0){
           
-          $logger->trace("Creating a FileBrowserDirectory object");
+          $logger->debug("Creating a FileBrowserDirectory object");
           $fileBrowserDataIf = new FileBrowserDataDirectory($theParameters);
           
        } 

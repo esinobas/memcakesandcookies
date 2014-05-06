@@ -5,7 +5,7 @@
  
  var FileBrowser = {
  
-   enableDebug: false,
+   enableDebug: true,
    debugSetup: {
       file: "FileBrowser.js"
                                               
@@ -34,6 +34,9 @@
    fileSelectedM: "",
    serverTypeC: "server_type",
    serverTypeM: "Directory",
+   
+   customParamsC : "custom_params",
+   customParamsM : "",
       
    
    
@@ -224,6 +227,13 @@
          this.serverTypeM = theParameters[this.serverTypeC];
       }
       this.debug(methodName, "The server type is [ " + this.serverTypeM + " ]");
+      
+      if (theParameters[this.customParamsC] != null ){
+         
+         this.customParamsM = theParameters[this.customParamsC];
+         this.debug(methodName, "Custom params [ " + this.customParamsM +
+                    " ]");
+      }
   
       //Create the div that contains the file browser and the buttons
       this.debug(methodName, "Create the file browser");
@@ -316,7 +326,7 @@
 			          FileBrowser.debug(methodName, "Selected File [ " + 
 			                selectedFile + " ]");
 			          var fileBrowser = FileBrowserFactory.getFileBrowser(FileBrowser.serverTypeM);
-			          fileBrowser.selectFile(selectedFile);
+			          fileBrowser.selectFile(selectedFile, FileBrowser.customParamsM);
 			          FileBrowser.debugExit(methodName);
 			          
 			       }

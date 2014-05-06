@@ -38,7 +38,7 @@ class FileBrowserDataDirectory extends FileBrowserDataIf{
     */
    public function __construct($theParams){
       
-      Logger::configure($_SERVER['DOCUMENT_ROOT'].'/log/LogConfig.xml');
+      //Logger::configure($_SERVER['DOCUMENT_ROOT'].'/log/LogConfig.xml');
       $this->loggerM = Logger::getLogger(__CLASS__);
       $this->loggerM->trace("Enter");
       parent::__construct();
@@ -54,13 +54,13 @@ class FileBrowserDataDirectory extends FileBrowserDataIf{
    protected function searchFiles(){
       $this->loggerM->trace("Enter");
       
-      $this->loggerM->trace("Decode params [ ".$this->paramsM. "]");
+      $this->loggerM->debug("Decode params [ ".$this->paramsM. "]");
       $jsonParams = json_decode($this->paramsM,true);
       
       $thePath = $jsonParams[FileBrowserDataDirectory::paramPathC];
       $theFilter =$jsonParams[FileBrowserDataDirectory::paramFilterC];
       
-      $this->loggerM->trace("Path [ " .$thePath." ] and filter [ " .$theFilter. " ]");
+      $this->loggerM->debug("Path [ " .$thePath." ] and filter [ " .$theFilter. " ]");
       
       //$this->loggerM->trace(var_dump($this->paramsM));
       $directory = $_SERVER['DOCUMENT_ROOT'].'/'.$thePath;
@@ -74,7 +74,7 @@ class FileBrowserDataDirectory extends FileBrowserDataIf{
       }
        
       $arrayExtensions = explode(",", strtolower($theFilter));
-      $this->loggerM->trace("Get all files that are within the directory [ " .
+      $this->loggerM->debug("Get all files that are within the directory [ " .
                                          $thePath . " ]");
       $idxArray = 0;
       for( $idx = 0; $idx < count($dirContent); $idx++){
@@ -92,7 +92,7 @@ class FileBrowserDataDirectory extends FileBrowserDataIf{
          }
       }
       
-      $this->loggerM->trace("The files has been getted. Now the files will be ordered");
+      $this->loggerM->debug("The files has been getted. Now the files will be ordered");
       
       $this->returnValueM = $this->orderFilesByTimestamp( $_SERVER['DOCUMENT_ROOT'],
                                         $this->returnValueM, 'descending');
@@ -104,10 +104,10 @@ class FileBrowserDataDirectory extends FileBrowserDataIf{
 
    public function removeFile($theFile){
       $this->loggerM->trace("Enter");
-      $this->loggerM->trace("The file [ " . $theFile . " ] will be removed");
+      $this->loggerM->debug("The file [ " . $theFile . " ] will be removed");
       $result = unlink($_SERVER['DOCUMENT_ROOT'].'/'.$theFile);
       if ( $result ){
-         $this->loggerM->trace("The file [ " . $theFile . " ] was removed sucessfully");
+         $this->loggerM->debug("The file [ " . $theFile . " ] was removed sucessfully");
       }else{
          $this->loggerM->warn("The file [ " . $theFile . " ] has not been removed.");
       }

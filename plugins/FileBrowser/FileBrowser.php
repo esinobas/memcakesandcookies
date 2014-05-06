@@ -22,10 +22,10 @@
    }
    
   
-   $logger->trace("Parameters received in post: ".paramsC." [ ".$params. " ]");
+   $logger->debug("Parameters received in post: ".paramsC." [ ".$params. " ]");
    
    
-   $logger->trace("The type of the file browser is [ " .$type ." ]");
+   $logger->debug("The type of the file browser is [ " .$type ." ]");
    $fileBrowserDataIf = FileBrowserFactory::getFileBrowserData($type, $params);
    //echo '/php/log4php/Logger.php';
    echo $fileBrowserDataIf->getFiles();

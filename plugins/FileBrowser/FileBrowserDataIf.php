@@ -34,7 +34,7 @@ abstract class FileBrowserDataIf {
     */
    public function __construct(){
       
-      Logger::configure($_SERVER['DOCUMENT_ROOT'].'/log/LogConfig.xml');
+      //Logger::configure($_SERVER['DOCUMENT_ROOT'].'/log/LogConfig.xml');
       $this->loggerM = Logger::getLogger(__CLASS__);
       $this->loggerM->trace("Enter");
       $this->loggerM->trace("Exit");
@@ -50,7 +50,7 @@ abstract class FileBrowserDataIf {
    protected function orderFilesByTimestamp($theDirectory, $theFiles, $theSortType = 'ascending'){
       
       $this->loggerM->trace("Enter");
-      $this->loggerM->trace("Root directory [ " .$theDirectory ." ]. Order type [ " .
+      $this->loggerM->debug("Root directory [ " .$theDirectory ." ]. Order type [ " .
                        $theSortType . " ]");
       
       $arrayAux = array();

@@ -31,14 +31,14 @@
    }
   
  
-   $logger->trace("The type of the file browser is [ " .$type ." ]");
-   $logger->trace("The file is [ ". $file . " ]");
+   $logger->debug("The type of the file browser is [ " .$type ." ]");
+   $logger->debug("The file is [ ". $file . " ]");
    
    $fileBrowserDataIf = FileBrowserFactory::getFileBrowserData($type);
    
    if ($fileBrowserDataIf->removeFile($file)){
       
-      $logger->trace("The file [ " . $file . " ] was removed successfully");
+      $logger->debug("The file [ " . $file . " ] was removed successfully");
       echo "OK";
       return;
    }else{

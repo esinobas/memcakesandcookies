@@ -30,8 +30,9 @@ function FileBrowserDataBase (){
     * correspondind tables.
     * 
     * @param theFile
+    * @param theParams. The custom params. It is a optional parameter.
     */
-   this.selectFile = function(theFile){
+   this.selectFile = function(theFile, theParams){
           
       var methodName = "selectFile";
       this.debugEnter(methodName);
@@ -44,7 +45,13 @@ function FileBrowserDataBase (){
       ajaxObject.setPostMethod();
       ajaxObject.setSyn();
       
-      var parameters = '{"command":"ExistFile","FileName":"'+ theFile + '"}';
+      var customParamOption = theParams['option'];
+      var customParamCollection = theParams['collection'];
+      
+      var parameters = '{"command":"ExistFile","FileName":"'+ theFile + 
+                                   '","option":"'+customParamOption+
+                                       '","collection":"'+customParamCollection+
+                                       '"}';
       this.debug(methodName, "Parameters [ " + parameters +" ]");
       ajaxObject.setParameters(parameters);
       ajaxObject.setCallback(null);

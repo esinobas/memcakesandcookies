@@ -276,16 +276,58 @@
    */
   static public function existImage($theImage){
      
-     Logger::configure($_SERVER['DOCUMENT_ROOT'].'/log/LogConfig.xml');
+     //Logger::configure($_SERVER['DOCUMENT_ROOT'].'/log/LogConfig.xml');
      $logger = Logger::getLogger(__CLASS__);
  
      
      $logger->trace("Enter");
-     $logger->trace("Search the image [ ".$theImage." ] in table " .
+     $logger->debug("Search the image [ ".$theImage." ] in table [ " .
               TableNameC." ]");
      
+     $thePath = substr($theImage,0,strrpos($theImage, "/"));
+     $theName = substr($theImage, strrpos($theImage, "/") + 1, 
+                            strlen($theImage) - strrpos($theImage, "/"));
+     
+     $logger->trace("Path [ " . $thePath . " ]. File Name [ " . $theName . " ]");
+
+     
+     $conn = new MySqlDAO(serverC, userC, pwdC, ddbbC);
+     
+     $conn->connect();
+     $result;
+     $obj = null;
+     $returnValue = false;
+     
+     if($conn->isConnected()) {
+        $logger->trace("The connection was established sucessfully");
+        $query = sprintf("select count(%s) as existsRow from %s where %s='%s' and %s='%s'"
+              ,IdC
+              ,TableNameC
+              ,PathC
+              ,$thePath
+              ,NameC
+              ,$theName);
+        $logger->trace("Run query [ " .$query . " ]");
+        $result = $conn->query($query);
+         
+        if ($result != null){
+           $logger->trace("A result was obtained sucessfully");
+           if (count($result) > 0){
+              $logger->trace("The image [ ".
+                     ($result[0]['existsRow'] >0 ? "exists" : "doesn't exist") 
+                      . " ]");
+              $returnValue = ($result[0]['existsRow'] > 0);
+           }
+           
+        }else{
+           $logger->warn("The query result can not be obtained");
+        }
+     }else{
+        $logger->error("The connection with the database can not establisehd");
+     }
+     
      $logger->trace("Exit");
-     return false;
+     return $returnValue;
   }
 }
 ?>

@@ -39,8 +39,9 @@ function FileBrowserDefault (){
     * with commands that are executed when a file is selected
     * 
     * @param the File
+    * @param The custom params. It is a optional parameter.
     */
-   FileBrowserDefault.prototype.selectFile = function(theFile){
+   FileBrowserDefault.prototype.selectFile = function(theFile, theParams){
       var methodName = "selectFile";
       this.debugEnter(methodName);
       
