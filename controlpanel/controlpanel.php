@@ -163,7 +163,8 @@
                         pathUploadFile: "images/cakes",
                         color_selected_file: "orange",
                         server_type: "Database",
-                        custom_params: {option:<?php printf("%d",$idOption);?>,collection:"2"}});
+                        custom_params: {option:<?php printf("%d",$idOption);?>,
+                                        collection:$('#comboCollection').val()}});
                     FileBrowser.show();
                  }
                  );
