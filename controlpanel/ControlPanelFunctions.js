@@ -3,7 +3,7 @@
  */
 
 var fileNameC = "ControlPanelFunctions.js";
-var enableDebugM = true;
+var enableDebugM = false;
 var selectedImageM = "";
 var selectedImageDescM ="";
 

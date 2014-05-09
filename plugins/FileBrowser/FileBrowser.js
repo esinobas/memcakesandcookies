@@ -322,11 +322,14 @@
                       FileBrowser.fileSelectedM.indexOf(FileBrowser.pathUploadFileM);
                    var selectedFile = FileBrowser.fileSelectedM.substr(initPath,
                          FileBrowser.fileSelectedM.length - initPath);
-                   
+                   selectedFile = selectedFile.substr(selectedFile.lastIndexOf("/") + 1 ,
+                         selectedFile.length - selectedFile.lastIndexOf("/"));
 			          FileBrowser.debug(methodName, "Selected File [ " + 
 			                selectedFile + " ]");
 			          var fileBrowser = FileBrowserFactory.getFileBrowser(FileBrowser.serverTypeM);
-			          fileBrowser.selectFile(selectedFile, FileBrowser.customParamsM);
+			          fileBrowser.selectFile(FileBrowser.pathUploadFileM,
+			                 selectedFile, 
+			                 FileBrowser.customParamsM);
 			          FileBrowser.debugExit(methodName);
 			          
 			       }

@@ -1,6 +1,6 @@
 var UploadImage = {
 
-   enableDebug: true,
+   enableDebug: false,
    debugSetup: {
                   file: "UploadImage.js"
                                               

@@ -24,7 +24,9 @@
       <script type="text/javascript" src="../plugins/FileBrowser/FileBrowserFactory.js"></script>
       <script type="text/javascript" src="../plugins/FileBrowser/FileBrowserDefault.js"></script>
       <script type="text/javascript" src="../plugins/FileBrowser/FileBrowserDataBase.js"></script>
-      <link rel="stylesheet" type="text/css" href="../plugins/FileBrowser/FileBrowser.css">  
+      <link rel="stylesheet" type="text/css" href="../plugins/FileBrowser/FileBrowser.css">
+      <script type="text/javascript" src="../plugins/FileBrowser/ShowSelectedFile.js"></script>
+      <link rel="stylesheet" type="text/css" href="../plugins/FileBrowser/ShowSelectedFile.css">
 
    </head>
    <body>
@@ -159,13 +161,13 @@
               <button id="BtnFileBrowser">Seleccionar Imagen</button>
               <script type="text/javascript" >
                  $('#BtnFileBrowser').click(function(){
-                    FileBrowser.init({title: "Titulo Prueba",
+                    FileBrowser.init({title: <?php printf("\"%s\"",$_GET['option']);?>+" / "+$('#comboCollection>option:selected').text(),
                         buttons: "upload|select|delete",
                         pathUploadFile: "images/cakes",
                         color_selected_file: "orange",
                         server_type: "Database",
-                        custom_params: {option:<?php printf("%d",$idOption);?>,
-                                        collection:$('#comboCollection').val()}});
+                        custom_params: {option:<?php printf("\"%s\"",$_GET['option']);?>,
+                                        collection:$('#comboCollection>option:selected').text()}});
                     FileBrowser.show();
                  }
                  );

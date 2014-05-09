@@ -38,10 +38,12 @@ function FileBrowserDefault (){
     * Abstract method that  must be overwritten in the childs class 
     * with commands that are executed when a file is selected
     * 
+    * @param thePath The path of the file
     * @param the File
     * @param The custom params. It is a optional parameter.
     */
-   FileBrowserDefault.prototype.selectFile = function(theFile, theParams){
+   FileBrowserDefault.prototype.selectFile = function(thePath, theFile,
+                  theParams){
       var methodName = "selectFile";
       this.debugEnter(methodName);
       

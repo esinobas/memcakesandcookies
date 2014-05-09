@@ -29,15 +29,17 @@ function FileBrowserDataBase (){
     * When the user confirms the action, the image data is inserted in the 
     * correspondind tables.
     * 
+    * @param thePath
     * @param theFile
     * @param theParams. The custom params. It is a optional parameter.
     */
-   this.selectFile = function(theFile, theParams){
+   this.selectFile = function(thePath, theFile, theParams){
           
       var methodName = "selectFile";
       this.debugEnter(methodName);
-      this.debug(methodName, "The file [ " + theFile + " ] has been selected.");
-      this.debug(methodName, "Cheking if file [ " + theFile + " ] now is in the database.");
+      this.debug(methodName, "The file [ " + thePath+"/"+theFile +
+            " ] has been selected.");
+      this.debug(methodName, "Cheking if file [ " + thePath+"/"+theFile + " ] now is in the database.");
       var url = this.getCurrentPath(this.classNameM+".js") + "FileBrowserDataBaseCommands.php";
       this.debug(methodName, "URL [ " + url + " ]");
       var ajaxObject = new Ajax();
@@ -48,16 +50,35 @@ function FileBrowserDataBase (){
       var customParamOption = theParams['option'];
       var customParamCollection = theParams['collection'];
       
-      var parameters = '{"command":"ExistFile","FileName":"'+ theFile + 
+      /*var parameters = '{"command":"ExistFile","FileName":"'+ theFile + 
                                    '","option":"'+customParamOption+
                                        '","collection":"'+customParamCollection+
-                                       '"}';
+                                       '"}';*/
+      var parameters = '{"command":"ExistFile","FileName":"'+ thePath+"/"+theFile +'"}';
       this.debug(methodName, "Parameters [ " + parameters +" ]");
       ajaxObject.setParameters(parameters);
       ajaxObject.setCallback(null);
       
       ajaxObject.send();
       this.debug(methodName, "Response [ " + ajaxObject.getResponse() + " ]");
+      if (ajaxObject.getResponse() === "true"){
+         
+         this.debug(methodName, "The file [ " + thePath+"/"+theFile + " ] exists in the database");
+      }else{
+         
+         this.debug(methodName, "The file [ " + thePath+"/"+theFile + " ] doesn't exist in the database");
+         var paramsArray = {};
+         paramsArray.image_path = thePath;
+         paramsArray.image_file = theFile;
+         paramsArray.image_type = customParamOption;
+         paramsArray.image_collection = customParamCollection;
+         this.debug(methodName, "Insert new image with following parameters [ " + 
+               JSON.stringify(paramsArray) + " ]");
+         ShowSelectedFile.show({image_path:thePath, image_name:theFile, 
+                               image_type: customParamOption,
+                               image_collection: customParamCollection});
+         
+      }
       this.debugExit(methodName);
    };
    

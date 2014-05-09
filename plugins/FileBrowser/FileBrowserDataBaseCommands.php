@@ -7,6 +7,7 @@
  */
 
    include_once($_SERVER['DOCUMENT_ROOT'].'/php/localDB/TableImage.php');
+   include_once($_SERVER['DOCUMENT_ROOT'].'/php/localDB/TB_IMAGE_COLLECTION.php');
    include_once ($_SERVER['DOCUMENT_ROOT'].'/php/log4php/Logger.php');
    
    
@@ -17,12 +18,25 @@
        * @var Constant to indicates the command to check if a file exists in DDBB
        */
      const commandExistsC = "ExistFile";
+     
+     /**
+      * 
+      * @var Constant to indicates the commnad to insert a new image in the DDBB
+      */
+     const commandInsertNewImageC = "Insert new Image";
    
       /**
        * 
        * @var Constant to define the parameter name of the file.
        */
       const fileNameC = "FileName";
+      
+      const pathC = "path";
+      const fileC = "file";
+      const descC = "desc";
+      const imageTypeC = "typeImage";
+      const collectionC = "collection";
+      
    
       
    
@@ -36,9 +50,40 @@
       }
       
       $theLogger->debug("The image [ ".$theImage." ] " .
-            ($returnValue ? " exists in Database":"doesn't exist in database"));
+            ($returnValue ? " exists in Database":"doesn't exist in the database"));
       $theLogger->trace("Exit");
       return $returnValue;
+   }
+   
+   /**
+    * Function that inserts a new image in the database. First it inserts the 
+    * image in a table where are all the images and after, it inserts in other
+    * table the relationship between the image and the collection to which the 
+    * image belongs.
+    * 
+    * @param string $thePath. Path where the file is saved in the server
+    * @param string $theFile. The file name
+    * @param string $theDesc. Image description
+    * @param string $theType. Type of image
+    * @param string $theCollection. Collection to which the image belongs
+    * @param Logger $theLogger. Objecto to logs the actions.
+    * @return boolean True value when the image is successfuly inserted.
+    */
+   function insertNewImage($thePath, $theFile, $theDesc , $theType, 
+                                        $theCollection, $theLogger){
+      
+      $theLogger->trace("Enter");
+      $theLogger->debug("Trying insert new image with the following parameters:\n".
+      "Path [ " . $thePath . " ]\nFile Name [ " . $theFile . " ]\n".
+       "Description [ " . $theDesc . " ]\nType [ " . $theType . " ]\n".
+      "Collection [ " . $theCollection . " ]\n");
+      
+      $result = TB_IMAGE_COLLECTION::insertNewImage($thePath, $theFile, $theDesc, $theType, 
+                                                       $theCollection);
+      
+      $theLogger->degug("Result [ " .($result ? "true": "false"). " ]");
+      $theLogger->trace("Exit");
+      return $result;
    }
    
    /**
@@ -59,6 +104,23 @@
             $returnValue = "false";
          }
          break;
+         
+      case commandInsertNewImageC:
+         $thePath = $_POST[pathC];
+         $theFile = $_POST[fileC];
+         $theDesc = $_POST[descC];
+         $theImageType = $_POST[imageTypeC];
+         $theCollection = $_POST[collectionC];
+         
+         if (insertNewImage($thePath, $theFile, $theDesc, $theImageType, 
+                  $theCollection, $loggerM)){
+            
+            $returnValue = "true";
+         }else{
+            $returnValue = "false";
+         }
+         break;
+         
       
    }
    $loggerM->debug("Exit with result [ " . $returnValue . " ]");

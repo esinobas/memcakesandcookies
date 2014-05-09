@@ -13,7 +13,7 @@ function FileBrowserFactory(){
    //private variables
    var _classNameM = "FileBrowserFactory";
    var _methodNameM = "constructor";
-   var _debugM = true;
+   var _debugM = false;
    
    /**
     * Method that writes in the console log a trace when the method starts

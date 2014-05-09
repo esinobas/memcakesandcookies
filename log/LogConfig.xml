@@ -66,27 +66,33 @@
      <appender_ref ref = "RollingFileAppenderFileBrowser"></appender_ref>
   </logger>
   
+  <!--  ############################################################# -->
+  
   <!--  Loggers for LocalDB -->
    <logger name="TableImage">
-     <level value="DEBUG"/>
+     <level value="ERROR"/>
      <appender_ref ref = "RollingFileAppenderLocalDB"></appender_ref>
   </logger>
   
   <logger name="TB_MENUS">
-     <level value="DEBUG"/>
+     <level value="ERROR"/>
       <appender_ref ref = "RollingFileAppenderLocalDB"></appender_ref>
   </logger>
   
   <logger name="TB_COLLECTION">
-     <level value="TRACE"/>
+     <level value="ERROR"/>
      <appender_ref ref = "RollingFileAppenderLocalDB"></appender_ref>
   </logger>
   
   <logger name="insertSubMenu">
-     <level value="TRACE"/>
+     <level value="ERROR"/>
      <appender_ref ref = "RollingFileAppenderLocalDB"></appender_ref>
   </logger>
   
+  <logger name="TB_IMAGE_COLLECTION">
+     <level value="TRACE"/>
+     <appender_ref ref = "RollingFileAppenderLocalDB"></appender_ref>
+  </logger>
   
   
 </configuration>

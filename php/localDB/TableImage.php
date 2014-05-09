@@ -35,7 +35,7 @@
       private $loggerM;
       
       function __construct(){
-         Logger::configure($_SERVER['DOCUMENT_ROOT'].'/log/LogConfig.xml');
+         //Logger::configure($_SERVER['DOCUMENT_ROOT'].'/log/LogConfig.xml');
          $this->loggerM = Logger::getLogger(__CLASS__);
          /*$this->loggerM->trace(("Enter"));
          $this->loggerM->trace(("Exit"));*/

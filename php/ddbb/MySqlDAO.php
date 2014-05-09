@@ -45,7 +45,7 @@
      
      
            
-      public function connect() {
+      public function connect($autoCommit = true) {
       
          if (! $this->isConnectedM){
             
@@ -57,6 +57,7 @@
             }   
             
             $this->isConnectedM = true;
+            $this->connectionM->autocommit($autoCommit);
          }
             return true;
       }
@@ -119,7 +120,15 @@
         return $this->connectionM->insert_id;        
      }
      
+     public function commit(){
+        
+        $this->connectionM->commit();
+     }
      
+     public function rollback(){
+        
+        $this->connectionM->rollback();
+     }
    
    }
 
