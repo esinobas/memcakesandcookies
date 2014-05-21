@@ -114,6 +114,10 @@
         $this->connectionM->query($theCommand);
         return $this->connectionM->errno;     
      }
+     
+     public function getSqlError(){
+        return $this->connectionM->error;
+     }
  
      public function getLastId(){
      

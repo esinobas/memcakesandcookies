@@ -24,6 +24,13 @@
       * @var Constant to indicates the commnad to insert a new image in the DDBB
       */
      const commandInsertNewImageC = "Insert new Image";
+     
+     /**
+      * 
+      * @var Constant to indicates the commando to insert the relationship 
+      * between the collections and the images
+      */
+     const commandInsertImageInCollectionC = "Insert image in collection";
    
       /**
        * 
@@ -81,9 +88,23 @@
       $result = TB_IMAGE_COLLECTION::insertNewImage($thePath, $theFile, $theDesc, $theType, 
                                                        $theCollection);
       
+      $theLogger->debug("Result [ " .($result ? "true": "false"). " ]");
+      $theLogger->trace("Exit");
+      return $result;
+   }
+   
+   
+   
+   function insertImageCollection($thePath, $theImage, $theCollection, $theLogger){
+      $theLogger->trace("Enter");
+      $theLogger->debug("Trying insert the image [ ".$theImage." ] in collection [ ".
+            $theCollection . " ]");
+      
+      $result = TB_IMAGE_COLLECTION::insertImageInCollection($thePath, $theImage, $theCollection);
       $theLogger->degug("Result [ " .($result ? "true": "false"). " ]");
       $theLogger->trace("Exit");
       return $result;
+      
    }
    
    /**
@@ -114,6 +135,19 @@
          
          if (insertNewImage($thePath, $theFile, $theDesc, $theImageType, 
                   $theCollection, $loggerM)){
+            
+            $returnValue = "true";
+         }else{
+            $returnValue = "false";
+         }
+         break;
+         
+      case commandInsertImageInCollectionC:
+         
+         $thePath = $_POST[pathC];
+         $theFile = $_POST[fileC];
+         $theCollection = $_POST[collectionC];
+         if (insertImageCollection($thePath, $theFile, $theCollection, $loggerM)){
             
             $returnValue = "true";
          }else{

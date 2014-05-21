@@ -269,7 +269,7 @@
   /**
    * It checks if an image now is stored in the table or it is not stored.
    * 
-   * @param unknown $theImage: The file name of the image
+   * @param String $theImage: The file name of the image
    * 
    * @return A boolean value that indicates if the image is stored or it is 
    * not stored in the table.

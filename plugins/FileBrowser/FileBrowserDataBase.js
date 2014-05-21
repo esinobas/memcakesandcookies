@@ -64,6 +64,19 @@ function FileBrowserDataBase (){
       if (ajaxObject.getResponse() === "true"){
          
          this.debug(methodName, "The file [ " + thePath+"/"+theFile + " ] exists in the database");
+         var paramsArray = {};
+         paramsArray.command = "Insert image in collection";
+         paramsArray.path = thePath;
+         paramsArray.file = theFile;
+         paramsArray.collection = customParamCollection;
+         this.debug(methodName, "Insert image in collection with following parameters [ " + 
+               JSON.stringify(paramsArray) + " ]");
+         ajaxObject.setParameters(JSON.stringify(paramsArray));
+         ajaxObject.setCallback(null);
+         
+         ajaxObject.send();
+         this.debug(methodName, "Response [ " + ajaxObject.getResponse() + " ]");
+         
       }else{
          
          this.debug(methodName, "The file [ " + thePath+"/"+theFile + " ] doesn't exist in the database");

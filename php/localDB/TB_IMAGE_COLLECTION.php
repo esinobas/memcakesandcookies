@@ -38,9 +38,112 @@
        */
       
       /**
+       * private methods
+       */
+      
+      /**
+       * 
+       * @param MySQLDAO $theConnection. Connection to access to the database
+       * @param String $theCollection. The collection name that will be searched
+       * @param Number $collectionId.The collection id that is returned
+       * @return boolean. Search status.
+       */
+      static private function getCollectionId($theConnection, $theCollection,
+                                     &$collectionId){
+         
+         $logger = Logger::getLogger(__CLASS__);
+         $logger->trace("Enter");
+         
+         $logger->trace("Search ID of Collection  [ " . $theCollection ." ]");
+         
+         $query=sprintf("select %s from %s where %s='%s'"
+               ,TB_Collection_IdCollectionC
+               ,TableCollectionC
+               ,TB_Collection_CollectionNameC
+               ,$theCollection);
+             
+         $logger->trace("Get the collection id [ " . $query ." ]");
+         $result = $theConnection->query($query);
+         
+         $returnValue = true;
+         if ($result != null){
+         
+            if ( count($result) != 0){
+               $collectionId = $result[0][TB_Collection_IdCollectionC];
+               $logger->trace("The collection ID is [ " . $collectionId . " ]");
+            }
+         
+         }else{
+            $returnValue = false;
+            $logger->error("A error has been produced [ " . $theConnection->getSqlError() ." ]");
+         }
+         
+         
+         $logger->trace("Exit");
+         
+         return $returnValue;
+         
+         
+      }
+      
+      /**
+       * 
+       * @param MySqlDAO $theConnection. The opened connection to the database
+       * @param Number $theImageId. The image identifier
+       * @param Number $theCollectionId. The collection identifier
+       * @return boolean. True if the insertion was done with successfuly.
+       */
+      static private function insertRelationImageCollection($theConnection,
+                                                            $theImageId,
+                                                            $theCollectionId){
+      
+         $logger = Logger::getLogger(__CLASS__);
+         $logger->trace("Enter");
+         $logger->trace("Insert relation image [ " . $theImageId . 
+               " ] and collection [ " . $theCollectionId ." ]");
+         
+         
+         $query = sprintf("insert into %s(%s,%s) values (%d,%d)"
+               ,TableImageCollectionC
+               ,TB_ImageCollection_idImageC
+               ,TB_ImageCollection_idCollectionC
+               ,$theImageId
+               ,$theCollectionId);
+         
+         $logger->debug("Executing stament [ " . $query . " ]");
+         
+         $result = $theConnection->sqlCommand($query);
+         $returnValue = true;
+
+         if ($result == 0){
+            $logger->debug("The stament was executed correctly");
+             
+         }else{
+            $logger->error("An error is produced in stament [ ".
+                  $conn->getSqlError() . " ]");
+         
+            $returnValue = false;
+         }
+         
+         $logger->trace("Exit");
+         return $returnValue;
+      }
+      
+      /**
        * Static methods
        */
       
+      /**
+       * Method that insters a new image in the data base and its relationship
+       * with the collection to which bleongs.
+       * 
+       * @param String $thePath. The path where the image is saved in the server
+       * @param String $theFileName. The image file name
+       * @param String $TheDescription. The image description
+       * @param String $theType. The type of the image
+       * @param String $theCollection. The collection to which belongs the image
+       * @return boolean
+       */
       static public function insertNewImage($thePath, $theFileName, 
                              $TheDescription, $theType, $theCollection){
          
@@ -86,27 +189,13 @@
             }
             $logger->trace("The type ID is [ " . $typeId . " ]");
             if ($returnValue ){
-               $query=sprintf("select %s from %s where %s='%s'"
-                                                ,TB_Collection_IdCollectionC
-                                                ,TableCollectionC
-                                                ,TB_Collection_CollectionNameC
-                                                ,$theCollection);
-            
-               $logger->trace("Get the collection id [ " . $query ." ]");
-               $result = $conn->query($query);
+               
                $collectionId = 0;
-               if ($result != null){
-            
-                  if ( count($result) != 0){
-                     $collectionId = $result[0][TB_Collection_IdCollectionC];
-                  }else{
-                     $returnValue = false;
-                  }
-                
-               }else{
-                  $returnValue = false;
+               $returnValue = TB_IMAGE_COLLECTION::getCollectionId($conn,
+                                               $theCollection, $collectionId);
+               if ($returnValue){
+                  $logger->trace("The collection ID is [ " . $collectionId . " ]");
                }
-               $logger->trace("The collection ID is [ " . $collectionId . " ]");
             }
             
             if ($returnValue ){
@@ -131,6 +220,7 @@
                if ($result == 0){
                   $logger->debug("The stament was executed correctly");
                   $lastId = $conn->getLastId();
+                  $logger->trace("The new image id is [ " .$lastId ." ]");
                }else{
                   $logger->error("An error is produced in stament");
                   $returnValue = false;
@@ -141,24 +231,9 @@
                $logger->trace("Insert the relationship between [ " . $theFileName .
                      " ] and [ " . $theCollection . " ]");
             
-               $query = sprintf("insert into %s(%s,%s) values (%d,%d)"
-                                             ,TableImageCollectionC
-                                             ,TB_ImageCollection_idImageC
-                                              ,TB_ImageCollection_idCollectionC
-                                              ,$typeId
-                                              ,$collectionId);
-            
-               $logger->debug("Executing stament [ " . $query . " ]");
-            
-               $result = $conn->sqlCommand($query);
-               $lastId = 0;
-               if ($result == 0){
-                  $logger->debug("The stament was executed correctly");
                
-               }else{
-                  $logger->error("An error is produced in stament");
-                  $returnValue = false;
-               }
+               $returnValue = TB_IMAGE_COLLECTION::insertRelationImageCollection($conn,
+                                     $lastId, $collectionId);
             }
             if ($returnValue ){
                $logger->debug("Insertion completed with success");
@@ -171,6 +246,80 @@
          }else{
             $logger->error("The database has not connected");
             $returnValue = false;
+         }
+         
+         $logger->trace("Exit");
+         return $returnValue;
+      }
+      
+      static public function insertImageInCollection($thePath, $theFile, $theCollection){
+         
+         $logger = Logger::getLogger(__CLASS__);
+          
+         $returnValue = true;
+          
+         $logger->trace("Enter");
+         
+         $logger->debug("Trying insert the a image in a collection with the following parameters:\n".
+                        "Path [ " . $thePath . " ]\nImage [ " . $theFile . " ]\n".
+                        "Collection [ " . $theCollection ." ]");
+         $conn = new MySqlDAO(serverC, userC, pwdC, ddbbC);
+         $conn->connect();
+         
+         if($conn->isConnected()){
+            $logger->trace("The connection with the database was done with successfully");
+            $collectionId = 0;
+            
+            if (TB_IMAGE_COLLECTION::getCollectionId($conn, $theCollection, $collectionId)){
+                $logger->trace("The collection [ " . $theCollection .
+                     " ] was found and its id is [ " . $collectionId. " ]");
+            }else{
+                $logger->trace("The collection [ " . $theCollection . " ] has not been found");
+                $returnValue = false;
+            }
+            
+            
+            $logger->trace("Get image id [ " . $thePath . "/" . $theFile . " ]");   
+            
+            $query = sprintf("select %s from %s where %s='%s' and %s='%s'"
+                                          ,TB_Image_IdC
+                                          ,TableImageC
+                                          ,TB_Image_PathC
+                                          ,$thePath
+                                          ,TB_Image_NameC
+                                          ,$theFile);
+            
+            
+            
+            $logger->trace("Execute query [ " . $query ." ]");
+            
+            $result = $conn->query($query);
+             
+           
+            if ($result != null){
+                
+               if ( count($result) != 0){
+                  $imageId = $result[0][TB_Image_IdC];
+                  $logger->trace("The image ID is [ " . $imageId . " ]");
+               }
+                
+            }else{
+               $returnValue = false;
+               $logger->error("A error has been produced [ " . $conn->getSqlError() ." ]");
+            }
+            
+            if ($returnValue){
+               if (TB_IMAGE_COLLECTION::insertRelationImageCollection($conn,
+                $imageId, $collectionId)){
+                  $logger->trace("The relation was inserted");
+               }else{
+                  $logger->error("The relation was not inserted, an error ".
+                                  "was produced. [ " . $conn->getSqlError() . " ]");
+                  $returnValue = false;
+               }
+            }
+            
+            $conn->closeConnection();
          }
          
          $logger->trace("Exit");
