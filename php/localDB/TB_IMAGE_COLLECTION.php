@@ -34,9 +34,100 @@
    class TB_IMAGE_COLLECTION{
       
       /**
+       * protected properties
+       * 
+       */
+      protected $imageIdM;
+      protected $collectionIdM;
+      protected $collectionNameM;
+      protected $pathM;
+      protected $imageNameM;
+      protected $descriptionM;
+      
+      /**
        * private properties
        */
+      private $loggerM = null;
       
+      /**
+       * public methods
+       */
+      
+      /**
+       * Class constructor
+       * @param Number $theImageId
+       * @param Number $theCollectioId
+       * @param String $theCollectionName
+       * @param String $thePath
+       * @param String $theImageName
+       * @param String $theDescription
+       */
+      function __construct($theImageId, $theCollectioId, $theCollectionName,
+                            $thePath, $theImageName, $theDescription){
+         
+         $this->loggerM = Logger::getLogger(__CLASS__);
+         $this->loggerM->trace("Enter");
+         
+         $this->imageIdM = $theImageId;
+         $this->collectionIdM = $theCollectioId;
+         $this->collectionNameM = $theCollectionName;
+         $this->pathM = $thePath;
+         $this->imageNameM = $theImageName;
+         $this->descriptionM = $theDescription;
+         
+         $this->loggerM->trace("Exit");
+      }
+      
+      /**
+       * Class destructor
+       */
+      function __destruct(){
+         
+         $this->loggerM->trace("Enter");
+         
+         $this->loggerM->trace("Exit");
+      }
+      /**
+       * @return Number
+       */
+      public function getImageId(){
+         return $this->imageIdM;
+      }
+      /**
+       * 
+       * @return Number
+       */
+      public function getCollectionId(){
+         return $this->collectionIdM;
+      }
+      /**
+       * 
+       * @return String
+       */
+      public function getCollectioName(){
+         return $this->collectionNameM;
+      }
+      /**
+       * 
+       * @return String
+       */
+      public function getImagePath(){
+         return $this->pathM;
+      }
+      /**
+       * 
+       * @return String
+       */
+      public function  getImageName(){
+         return $this->imageNameM;
+      }
+      /**
+       * 
+       * @return String
+       */
+      public function getDescription(){
+         return $this->descriptionM;
+      }
       /**
        * private methods
        */
@@ -48,7 +139,7 @@
        * @param Number $collectionId.The collection id that is returned
        * @return boolean. Search status.
        */
-      static private function getCollectionId($theConnection, $theCollection,
+      static private function getCollectionIdByName($theConnection, $theCollection,
                                      &$collectionId){
          
          $logger = Logger::getLogger(__CLASS__);
@@ -191,7 +282,7 @@
             if ($returnValue ){
                
                $collectionId = 0;
-               $returnValue = TB_IMAGE_COLLECTION::getCollectionId($conn,
+               $returnValue = TB_IMAGE_COLLECTION::getCollectionIdByName($conn,
                                                $theCollection, $collectionId);
                if ($returnValue){
                   $logger->trace("The collection ID is [ " . $collectionId . " ]");
@@ -252,6 +343,15 @@
          return $returnValue;
       }
       
+      /**
+       * Method that insert in the dabtabase the relation between a exising inmage
+       * and a collection.
+       * 
+       * @param String $thePath. The image path
+       * @param String  $theFile. The image file name
+       * @param String $theCollection. The collection name
+       * @return boolean. True when the relation is inserted.
+       */
       static public function insertImageInCollection($thePath, $theFile, $theCollection){
          
          $logger = Logger::getLogger(__CLASS__);
@@ -270,7 +370,7 @@
             $logger->trace("The connection with the database was done with successfully");
             $collectionId = 0;
             
-            if (TB_IMAGE_COLLECTION::getCollectionId($conn, $theCollection, $collectionId)){
+            if (TB_IMAGE_COLLECTION::getCollectionIdByName($conn, $theCollection, $collectionId)){
                 $logger->trace("The collection [ " . $theCollection .
                      " ] was found and its id is [ " . $collectionId. " ]");
             }else{
@@ -324,6 +424,75 @@
          
          $logger->trace("Exit");
          return $returnValue;
+      }
+      
+      static public function getImageFromCollection($theCollection){
+         
+         $logger=Logger::getLogger(__CLASS__);
+         $logger->trace("Enter");
+         
+         $logger->trace("Get the images which to belong to collection [ " . 
+                    $theCollection ." ]");
+         
+         $conn = new MySqlDAO(serverC, userC, pwdC, ddbbC);
+         $conn->connect();
+         
+         if($conn->isConnected()){
+            $logger->trace("The connection with the database was done with successfully");
+            
+            $collectionId = 0;
+            if (TB_IMAGE_COLLECTION::getCollectionIdByName($conn,
+                      $theCollection, $collectionId)){
+               $logger->trace("The collection [ " . $theCollection . " ] has the id [ " .
+                            $collectionId . " ]");
+               
+               $query = sprintf("select %s.%s as ImageId,
+                                        %s.%s as CollectionId, 
+                                        %s.%s as CollectionName,
+                                        %s.%s as ImageName,
+                                        %s, %s from %s,%s,%s where 
+                                        %s.%s=%s.%s and %s.%s=%s.%s and
+                                         %s.%s= '%s'"
+                                        ,TableImageC,TB_Image_IdC
+                                        ,TableCollectionC,TB_Collection_IdCollectionC
+                                        ,TableCollectionC,TB_Collection_CollectionNameC
+                                        ,TableImageC,TB_Image_NameC
+                                        ,TB_Image_PathC
+                                        ,TB_Image_DescC
+                                        ,TableImageC
+                                        ,TableCollectionC
+                                        ,TableImageCollectionC
+                                        ,TableImageC,TB_Image_IdC
+                                        ,TableImageCollectionC,TB_ImageCollection_idImageC
+                                        ,TableImageCollectionC,TB_ImageCollection_idCollectionC
+                                        ,TableCollectionC, TB_Collection_IdCollectionC
+                                        ,TableCollectionC, TB_Collection_CollectionNameC
+                                        ,$theCollection);
+               
+               $logger->trace("Execute query [ " . $query . " ]");
+               
+               $result = $conn->query($query);
+               if ($result != null){
+                  $rows;
+                  $numRows = count($result);
+                  $logger->trace("The query has [ " . $numRows ." ] rows");
+                  for ($idx = 0;$idx < $numRows; $idx++){
+                     $rows[$idx] = new TB_IMAGE_COLLECTION($result[$idx]["ImageId"], 
+                                                          $result[$idx]["CollectionId"], 
+                                                          $result[$idx]["CollectionName"], 
+                                                          $result[$idx][TB_Image_PathC], 
+                                                          $result[$idx]["ImageName"], 
+                                                          $result[$idx][TB_Image_DescC]);
+                  }
+               }
+            }
+            $conn->closeConnection();
+         }else{
+            $logger->error("An error was produced in the connection  [ " .
+                   $conn->getConnectError() . " ]");
+         }
+         $logger->trace("Exit");
+         return new DBIterator($rows);
       }
       
    }

@@ -174,10 +174,14 @@
 	    ajaxObject.setUrl(url);
 	    ajaxObject.setPostMethod();
 	    ajaxObject.setSyn();
-	    var parameters = '{"type":"Directory", "params":{"path":"'+
-	                       this.pathUploadFileM+'","filter":"jpg,png,gif,bmp,tif"}}';
-	    this.debug(methodName, parameters);
-	    ajaxObject.setParameters(parameters);
+	    var parameters = {};
+	    parameters.type = FileBrowser.serverTypeM;
+	    parameters.params = {};
+	    parameters.params.path = this.pathUploadFileM;
+	    parameters.params.filter = "jpg,png,gif,bmp,tif";
+	    parameters.params.custom_params = this.customParamsM;
+	    this.debug(methodName,  "Parameters [ " +JSON.stringify(parameters) + " ]");
+	    ajaxObject.setParameters( JSON.stringify(parameters));
 	    ajaxObject.setCallback(null);
 	    
 	    ajaxObject.send();

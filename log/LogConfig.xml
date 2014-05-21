@@ -65,6 +65,10 @@
      <level value="DEBUG"/>
      <appender_ref ref = "RollingFileAppenderFileBrowser"></appender_ref>
   </logger>
+  <logger name="FileBrowserDatabase">
+      <level value="TRACE"/>
+      <appender_ref ref = "RollingFileAppenderFileBrowser"></appender_ref>
+  </logger>
   
   <!--  ############################################################# -->
   
