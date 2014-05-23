@@ -31,17 +31,8 @@ CREATE TABLE `TB_COLLECTION` (
   PRIMARY KEY (`Id`),
   KEY `FK_MENU` (`Id`),
   CONSTRAINT `FK_MENU` FOREIGN KEY (`Id`) REFERENCES `TB_MENU` (`ID`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Table where the collection are stored and its link with the ';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1 COMMENT='Table where the collection are stored and its link with the ';
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `TB_COLLECTION`
---
-
-LOCK TABLES `TB_COLLECTION` WRITE;
-/*!40000 ALTER TABLE `TB_COLLECTION` DISABLE KEYS */;
-/*!40000 ALTER TABLE `TB_COLLECTION` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -52,4 +43,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-05-06 11:19:23
+-- Dump completed on 2014-05-23 14:11:48
