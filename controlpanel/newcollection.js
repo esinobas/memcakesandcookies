@@ -5,7 +5,7 @@ var newcollection = {
     idCollectionM: 0,
     urlM: "",
 
-    enableDebug: false,
+    enableDebug: true,
     debugSetup: {
                   file: "newcollection.js"
                                               
@@ -31,13 +31,13 @@ var newcollection = {
     },
     
     refreshCombo:function(theData){
-       var methodName = "insertCollection";
+       var methodName = "refreshCombo";
        
        this.debugEnter(methodName);
        
        this.debug(methodName, "The Data [ " + theData + " ]");
        var jsonParsed = JSON.parse(theData);
-       $("#comboCollection").append("<option value=\"" + jsonParsed['id'] + "\">"+jsonParsed['menu']+"</option>");
+       $("#comboCollection").append("<option value=\"" + jsonParsed['id'] + "\">"+jsonParsed['collection']+"</option>");
        this.debugExit(methodName);
     
     },
@@ -69,6 +69,7 @@ var newcollection = {
       
       var methodName = "show";
       this.debugEnter(methodName);
+      console.debug("zxxxc");
       
       this.idCollectionM = theParameters[this.idCollectionC];
       this.urlM = theParameters[this.urlC];
