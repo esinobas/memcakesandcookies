@@ -101,7 +101,7 @@
             $theCollection . " ]");
       
       $result = TB_IMAGE_COLLECTION::insertImageInCollection($thePath, $theImage, $theCollection);
-      $theLogger->degug("Result [ " .($result ? "true": "false"). " ]");
+      $theLogger->debug("Result [ " .($result ? "true": "false"). " ]");
       $theLogger->trace("Exit");
       return $result;
       

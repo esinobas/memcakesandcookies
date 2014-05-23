@@ -78,6 +78,7 @@ function FileBrowserDataBase (theCallback){
          
          ajaxObject.send();
          this.debug(methodName, "Response [ " + ajaxObject.getResponse() + " ]");
+         this.callbackM();
          
       }else{
          
