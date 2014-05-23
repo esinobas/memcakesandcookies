@@ -6,17 +6,19 @@
  *
  */
 
-function FileBrowserDataBase (){
+function FileBrowserDataBase (theCallback){
       
    /**
     * Private properties
     */
    var _debugM = true;
    
+   
    /**
     * Constructor
     */
    this.classNameM = "FileBrowserDataBase";
+   this.callbackM = theCallback;
    this.debugEnter("Constructor");
    
    this.debugExit("Constructor");
@@ -27,7 +29,7 @@ function FileBrowserDataBase (){
     * The method, first shows a window with the selected image and it gives to 
     * the user an description for the image whether it has not description.
     * When the user confirms the action, the image data is inserted in the 
-    * correspondind tables.
+    * corresponding tables.
     * 
     * @param thePath
     * @param theFile
@@ -89,7 +91,8 @@ function FileBrowserDataBase (){
                JSON.stringify(paramsArray) + " ]");
          ShowSelectedFile.show({image_path:thePath, image_name:theFile, 
                                image_type: customParamOption,
-                               image_collection: customParamCollection});
+                               image_collection: customParamCollection},
+                               this.callbackM);
          
       }
       this.debugExit(methodName);
@@ -112,4 +115,4 @@ function FileBrowserDataBase (){
 }
 
 //Hierachy
-FileBrowserDataBase.prototype = new FileBrowserDefault();
+FileBrowserDataBase.prototype = new FileBrowserDefault(FileBrowserDataBase.prototype.callbackM);

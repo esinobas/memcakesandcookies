@@ -15,6 +15,7 @@ var ShowSelectedFile = {
    imageNameC: "image_name",
    imageCollectionC: "image_collection",
    imageCollectionM: "",
+   callbackM: null,
     
     debugEnter: function (theMethod) {
             if (this.enableDebug == true){
@@ -66,7 +67,7 @@ var ShowSelectedFile = {
        ajaxObject.setParameters(parameters);
        ajaxObject.send();
        var result = ajaxObject.getResponse();
-       this.debug("Result [ " + result + " ]");
+       this.debug(methodName, "Result [ " + result + " ]");
        this.debugExit(methodName);
        //return result;
    },
@@ -74,10 +75,12 @@ var ShowSelectedFile = {
    /**
     * Method that shows the dialogue for select an image and write its description
     */ 
-    show:function (theParameters) {
+    show:function (theParameters, theCallback) {
     
        var methodName = "show";
        debugEnter(methodName);
+       
+       this.callbackM = theCallback;
        
        this.imagePathM = theParameters[this.imagePathC];
        this.imageTypeM = theParameters[this.imageTypeC];
@@ -116,6 +119,7 @@ var ShowSelectedFile = {
        );
        
        //Add button ok
+       var localCallback = this.callbackM;
        $('#buttons_show_selected_image').append("<button id=\"ok_show_selected_image\" class=\"button_show_selected_image\">Aceptar</button>");
        $('#ok_show_selected_image').click(function () {
           
@@ -154,7 +158,15 @@ var ShowSelectedFile = {
                    imageDesc, ShowSelectedFile.imageTypeM,
                    ShowSelectedFile.imageCollectionM);
              
-             //refresAllImages(UploadImage.imageTypeM);
+            //Debe ser llamada una funcion de callback, para mostrar las imagenes
+             
+             
+             if (ShowSelectedFile.callbackM != null){
+                ShowSelectedFile.debug(methodName,"Calling the callback");
+                ShowSelectedFile.callbackM();
+                
+             }
+             
              
             $('#background_show_selected_image').remove();
             $('#form_show_selected_image').remove();

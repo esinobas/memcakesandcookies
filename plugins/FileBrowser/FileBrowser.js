@@ -69,7 +69,7 @@
 	   this.debugEnter(methodName);
 	   
 	   this.debug(methodName, "The file [ " + theFile + " ] will be uploaded");
-	   var fileBrowser = FileBrowserFactory.getFileBrowser(FileBrowser.serverTypeM);
+	   var fileBrowser = FileBrowserFactory.getFileBrowser(FileBrowser.serverTypeM, null);
       fileBrowser.uploadFile(theFile, this.pathUploadFileM);
       
 	   this.refresh();
@@ -186,7 +186,7 @@
 	    
 	    ajaxObject.send();
 	    this.debug(methodName, "Response [ " + ajaxObject.getResponse() + " ]");
-	    this.showFiles(ajaxObject.getResponse());
+	    FileBrowser.showFiles(ajaxObject.getResponse());
 	    this.debugExit(methodName);
 	 },
 	 
@@ -286,6 +286,17 @@
 	   this.debugExit(methodName);
    },
    
+   callback: function(){
+      
+      var methodName = "callback";
+      this.debugEnter(methodName);
+      
+      FileBrowser.refresh();
+      this.debugExit(methodName);
+   },
+   
+   
+   
    /**
     * Funtion that adds the buttons to the filebrowser to handle the files
     */
@@ -330,10 +341,13 @@
                          selectedFile.length - selectedFile.lastIndexOf("/"));
 			          FileBrowser.debug(methodName, "Selected File [ " + 
 			                selectedFile + " ]");
-			          var fileBrowser = FileBrowserFactory.getFileBrowser(FileBrowser.serverTypeM);
+			          FileBrowser.debug("## "+methodName, FileBrowser.callback);
+			          var fileBrowser = FileBrowserFactory.getFileBrowser(FileBrowser.serverTypeM, FileBrowser.callback);
 			          fileBrowser.selectFile(FileBrowser.pathUploadFileM,
 			                 selectedFile, 
 			                 FileBrowser.customParamsM);
+			          
+			          
 			          FileBrowser.debugExit(methodName);
 			          
 			       }

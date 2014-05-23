@@ -52,18 +52,19 @@ function FileBrowserFactory(){
       }
    };
    
-   this.getFileBrowser = function(theType){
+   this.getFileBrowser = function(theType, theCallback){
       
       var methodName = "getFileBrowser";
       this.debugEnter(methodName);
       this.debug(methodName, "Type [ " + theType + " ]");
       var returnObject = null;
+      
       switch (theType){  
          case "Directory":
-            returnObject = new FileBrowserDefault();
+            returnObject = new FileBrowserDefault(theCallback);
             break;
          case "Database":
-            returnObject = new FileBrowserDataBase();
+            returnObject = new FileBrowserDataBase(theCallback);
             break;
       }
    
@@ -74,13 +75,13 @@ function FileBrowserFactory(){
 };
 
 //Static Method
-FileBrowserFactory.getFileBrowser = function(theType){
+FileBrowserFactory.getFileBrowser = function(theType,theCallback){
    
    var _classNameM = "FileBrowserFactory";
    var _methodNameM = "getFileBrowser";
    
    var factory = new FileBrowserFactory();
    
-   return factory.getFileBrowser(theType);
+   return factory.getFileBrowser(theType, theCallback);
    
 }

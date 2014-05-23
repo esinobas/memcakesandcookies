@@ -2,13 +2,15 @@
  * Class with the default operations to handle the files in a server directory
  */
 
-function FileBrowserDefault (){
+function FileBrowserDefault (theCallback){
    
    //declare private properties
    
    var _debugM = true;
    
    FileBrowserDefault.prototype.classNameM = "FileBrowserDefault";
+   FileBrowserDefault.prototype.callbackM = theCallback;
+   
    
    //Methods to debug
    FileBrowserDefault.prototype.debugEnter = function (theMethodName){
@@ -100,7 +102,7 @@ function FileBrowserDefault (){
 
       this.debug(methodName, "Create Ajax object to upload the file");
       var ajaxObject = new Ajax();
-      var url = this.getCurrentPath(_classNameM+".js") + "uploadFile.php";
+      var url = this.getCurrentPath(this.classNameM+".js") + "uploadFile.php";
       this.debug(methodName, "The file will be uploaded using the  [ " + url + " ]");
       ajaxObject.setUrl(url);
       ajaxObject.setPostMethod();
