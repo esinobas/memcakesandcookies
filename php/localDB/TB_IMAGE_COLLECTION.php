@@ -517,7 +517,7 @@
                                         %s.%s as ImageName,
                                         %s, %s from %s,%s,%s where
                                         %s.%s=%s.%s and %s.%s=%s.%s and
-                                         %s.%s= %d"
+                                         %s.%s= %d order by ImageId desc"
                   ,TableImageC,TB_Image_IdC
                   ,TableCollectionC,TB_Collection_IdCollectionC
                   ,TableCollectionC,TB_Collection_CollectionNameC

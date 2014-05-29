@@ -1,6 +1,6 @@
 var UpdateImageDescription = {
    
-   enableDebug: false,
+   enableDebug: true,
    debugSetup: {
                   file: "UpdateImageDescription.js"
                                               
@@ -10,6 +10,8 @@ var UpdateImageDescription = {
     descriptionC: "description",
     imageIdM: "",
     imageTypeC: "imageType",
+    collectionIdC :"collectionId",
+    collectionIdM : 0,
     
       
     debugEnter: function (theMethod) {
@@ -49,7 +51,7 @@ var UpdateImageDescription = {
       debug(methodName, "Parameteres [ " + parameters + " ]");
       ajaxObject.setParameters(parameters);
       ajaxObject.send();
-      refresAllImages(theImageType);
+      refresAllImages(this.collectionIdM,theImageType);
        
        this.debug(methodName, "Update done");
        $("#form_update_description").remove();
@@ -69,7 +71,8 @@ var UpdateImageDescription = {
         imageIdM = theParameters[this.imageIdC];
         var desc = theParameters[this.descriptionC];
         var imageType = theParameters[this.imageTypeC];
-        this.debug(methodName, "Image Id [ " + imageIdM + " ]. Description [ " + desc + " ]. Image type [ " + imageType + " ]");
+        this.collectionIdM = theParameters[this.collectionIdC];
+        this.debug(methodName, "Image Id [ " + imageIdM + " ]. Description [ " + desc + " ]. Image type [ " + imageType + " ]. Collection Id [ " + this.collectionIdM + " ]");
         
         var divBackground = $("<div id=\"background_update_description\"></div>");
         var divForm = $("<div id=\"form_update_description\"></div>");
