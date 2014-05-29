@@ -33,6 +33,19 @@
    
    </appender>
    
+   <appender name = "RollingFileAppenderControlPanel" class = "LoggerAppenderRollingFile">
+   
+      <param name ="file" value = "/home/tebi/Datos/webserver/MEMcakesandcookies/www/log/ControlPanel.log"></param>
+      <param name = "maxFileSize" value = "1MB"></param>
+      <param name = "maxBackupIndex" value = "1"></param>
+      <param name = "append" value = "true"></param>
+      
+     <layout class ="LoggerLayoutPattern">
+         <param name = "conversionPattern" value = "[%level] - time [%date{H:i:s - d/m/Y}]. pid: '%process'. file: '%file'. class: '%class'. method: '%method'. line: '%line'. %msg.%n"></param>
+      </layout>
+   
+   </appender>
+   
   <!--  Loggers --> 
   <!-- 
   <root>
@@ -94,9 +107,27 @@
   </logger>
   
   <logger name="TB_IMAGE_COLLECTION">
+     <level value="DEBUG"/>
+     <appender_ref ref = "RollingFileAppenderLocalDB"></appender_ref>
+  </logger>
+  
+    <logger name="TableImage">
      <level value="TRACE"/>
      <appender_ref ref = "RollingFileAppenderLocalDB"></appender_ref>
   </logger>
+  
+  
+  <!--  ######################################################### -->
+  <!--  Loggers for Control Panel -->
+  
+  <logger name="DeleteImage">
+     <level  value ="TRACE"/>
+     <appender_ref ref="RollingFileAppenderControlPanel"/>
+  </logger>
+  
+  <logger name="UpdateTableImage">
+     <level  value ="TRACE"/>
+     <appender_ref ref="RollingFileAppenderControlPanel"/></logger>
   
   
 </configuration>

@@ -103,7 +103,7 @@ function debugExit( theFunction){
  * @param theId The image object id that is used to search the image to remove
  * @param theOption The image selection
  */
- function removeImage(theId, theOption){
+ function removeImage(theId, theOption, theCollection){
 
     var methodName = "removeImage";
     debugEnter(methodName);
@@ -111,6 +111,9 @@ function debugExit( theFunction){
     var id = theId.substring(theId.indexOf("-")+1, theId.length);
     debug(methodName, "The DDBB Id [ " + id + " ]");
     debug(methodName, "The Option is [ " + theOption + " ]");
+    debug(methodName, "The selected Collection is [ " + 
+          $('#comboCollection>option:selected').text()+ " ] with ID [ " + 
+                                         $('#comboCollection').val() +" ]");
     
     var ajaxObject = new Ajax();
     ajaxObject.setSyn();
@@ -119,11 +122,17 @@ function debugExit( theFunction){
     ajaxObject.setUrl('./DeleteImage.php');
     var arrayParameters =  {};
     arrayParameters.id = id;
+    arrayParameters.idCollection = parseInt($('#comboCollection').val());
     var parameters = JSON.stringify(arrayParameters);
     debug(methodName, "Parameteres [ " + parameters + " ]");
     ajaxObject.setParameters(parameters);
     ajaxObject.send();
-    refresAllImages(theOption);
+    debug(methodName, "Response [ " + ajaxObject.getResponse() +" ]");
+    if (ajaxObject.getResponse() === "false"){
+       alert("No se ha podido borrar la imagen. Se ha producido un error");
+    }else{
+       refresAllImages(parseInt($('#comboCollection').val()),theOption);
+    }
     debugExit(methodName); 
  }
 
@@ -170,7 +179,7 @@ function setFunctionsToObjects(theOption){
          
           if ( confirm("¿Quieres borrar la foto?")){
 
-             removeImage(selectedImageM,theOption); 
+             removeImage(selectedImageM,theOption, parseInt($('#comboCollection').val())); 
           }
             
      

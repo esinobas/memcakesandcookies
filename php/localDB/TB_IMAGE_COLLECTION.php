@@ -562,6 +562,50 @@
          
       }
       
+      /**
+       * Delete the relationship between a image and a collection
+       * 
+       * @param Number $theImageId
+       * @param Number $theCollectionId
+       */
+      static public function delete($theImageId, $theCollectionId){
+         
+         $logger=Logger::getLogger(__CLASS__);
+         $logger->trace("Enter");
+         $logger->debug("Delete relationship image [ " .$theImageId .
+                      " ] - collection [ " . $theCollectionId. " ]");
+         
+         $query = sprintf("delete from %s where %s=%d and %s=%d",
+                                              TableImageCollectionC
+                                              ,TB_ImageCollection_idImageC
+                                              ,$theImageId
+                                              ,TB_ImageCollection_idCollectionC
+                                              ,$theCollectionId);
+         
+         $conn = new MySqlDAO(serverC, userC, pwdC, ddbbC);
+         $conn->connect();
+         $result = 0;
+         if($conn->isConnected()){
+            $logger->trace("The connection with the database was done with successfully");
+            $logger->trace("Execute stament [ " . $query ." ]");
+            $result = $conn->sqlCommand($query);
+            if ($result == 0){
+               $logger->debug("The relation image-collection was deleted successfully");
+            }else{
+               $logger->error("The relation image - collection can not be delete. [ ".
+                          $conn->getSqlError() . " ]");
+            }
+            
+         }else{
+            $logger->error("The connection failed.[ " . $conn->getConnectError() ." ]");
+            $result = -1;
+         }
+         
+         $logger->trace("Exit");
+         return $result;
+         
+      }
+      
    }
  
 ?>

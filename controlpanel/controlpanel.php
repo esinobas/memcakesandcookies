@@ -156,32 +156,7 @@
                      require_once(dirname(__FILE__).'/ShowImages.php');
                  ?>
            
-              <!--  <div id="images_gallery">
-                Gallery
-              </div> -->
-              <!-- 
-              <div id="All_images">
-                 <?php 
-                     require_once(dirname(__FILE__).'/ShowImages.php');
-                 ?>
-              </div>
-              <div id="Collection_images">
-              <button id="BtnFileBrowser">Seleccionar Imagen</button>
-              <script type="text/javascript" >
-                 $('#BtnFileBrowser').click(function(){
-                    FileBrowser.init({title: <?php printf("\"%s\"",$_GET['option']);?>+" / "+$('#comboCollection>option:selected').text(),
-                        buttons: "upload|select|delete",
-                        pathUploadFile: "images/cakes",
-                        color_selected_file: "orange",
-                        server_type: "Database",
-                        custom_params: {option:<?php printf("\"%s\"",$_GET['option']);?>,
-                                        collection:$('#comboCollection>option:selected').text()}});
-                    FileBrowser.show();
-                 }
-                 );
-              </script>
-              </div>
-              -->
+              
            </div>
         </div>
 

@@ -107,8 +107,9 @@ function FileBrowserDataBase (theCallback){
       
       var methodName = "deleteFile";
       this.debugEnter(methodName);
+      
       this.debug(methodName, "Trying delete the file [ " + thePathAndFile +
-               " ]");
+               " ] that belongs to collection [ " + $('#comboCollection').val() + " ]");
       
       this.debugExit(methodName);
    };

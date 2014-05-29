@@ -6,6 +6,7 @@
    include_once($_SERVER['DOCUMENT_ROOT']."/php/ddbb/DBIterator.php");
    
    include_once ($_SERVER['DOCUMENT_ROOT'].'/php/log4php/Logger.php');
+   
 
    /**
     * File with the definition of the  table that allows access to the data image
@@ -242,6 +243,12 @@
   
   static public function updateDescription($theId, $theDescription){
   
+     
+     $logger = Logger::getLogger(__CLASS__);
+     $logger->trace("Enter");
+     $logger->debug("Update description [ " . $theDescription . 
+                    " ] for image id [ " . $theId ." ]");
+     
      $query = sprintf("update %s set %s='%s' where %s=%d"
                       ,TableNameC
                       ,DescC
@@ -256,14 +263,26 @@
       $result = 0;
                 
        if($conn->isConnected()) {
-             
+          $logger->trace("The connection with the database was done with successfully");
+          $logger->trace("Execute stament [ " . $query ." ]");
+           
           $result = $conn->sqlCommand($query);
-             
+          if ($result == 0){
+             $logger->debug("The description was updated successfully");
+          }else{
+             $logger->error("The description can not be updated. [ ".
+                   $conn->getSqlError() . " ]");
+          }
+          $conn->closeConnection();
+       }else{
+          $logger->error("The connection failed.[ " . $conn->getConnectError() ." ]");
+          $result = -1;
        }
               
-       $conn->closeConnection();
+      
                     
-     
+       $logger->trace("Exit");
+       return $result;
   } 
   
   /**

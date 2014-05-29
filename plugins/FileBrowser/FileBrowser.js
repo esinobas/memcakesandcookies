@@ -356,7 +356,6 @@
                          selectedFile.length - selectedFile.lastIndexOf("/"));
 			          FileBrowser.debug(methodName, "Selected File [ " + 
 			                selectedFile + " ]");
-			          //FileBrowser.debug("## "+methodName, FileBrowser.callback);
 			          var fileBrowser = FileBrowserFactory.getFileBrowser(FileBrowser.serverTypeM, FileBrowser.callback);
 			          fileBrowser.selectFile(FileBrowser.pathUploadFileM,
 			                 selectedFile, 
@@ -407,7 +406,7 @@
 	                  FileBrowser.debug(methodName, "File to remove [ " + 
 	                                        fileToRemove +" ]");
 	                  
-	                  var fileBrowser = FileBrowserFactory.getFileBrowser(FileBrowser.serverTypeM);
+	                  var fileBrowser = FileBrowserFactory.getFileBrowser(FileBrowser.serverTypeM, FileBrowser.callback);
 	                  var result = fileBrowser.deleteFile(fileToRemove);
 	                  
 	                  /*
