@@ -152,9 +152,17 @@
                                 );
            </script>
            <div id="images">
+               <?php 
+                     require_once(dirname(__FILE__).'/ShowImages.php');
+                 ?>
+           
+              <!--  <div id="images_gallery">
+                Gallery
+              </div> -->
+              <!-- 
               <div id="All_images">
                  <?php 
-                     require_once(dirname(__FILE__).'/AllImages.php');
+                     require_once(dirname(__FILE__).'/ShowImages.php');
                  ?>
               </div>
               <div id="Collection_images">
@@ -173,6 +181,7 @@
                  );
               </script>
               </div>
+              -->
            </div>
         </div>
 

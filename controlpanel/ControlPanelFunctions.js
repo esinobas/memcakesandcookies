@@ -3,9 +3,10 @@
  */
 
 var fileNameC = "ControlPanelFunctions.js";
-var enableDebugM = false;
+var enableDebugM = true;
 var selectedImageM = "";
 var selectedImageDescM ="";
+var selectedOptionM="unknown";
 
 
  
@@ -58,17 +59,18 @@ function debugExit( theFunction){
      debugEnter(methodName);
      
      var optionSelected = $('#comboCollection').val();
-     debug(methodName, "Option selected [ " + optionSelected + " ]");
-     
+     debug(methodName, "Option selected [ " + optionSelected + " ] and type [ " + selectedOptionM +" ]");
+          
      if (parseInt(optionSelected) == 0){
          debug(methodName, "It has been selected all images.");  
-         $('#All_images').show();
-         $('#Collection_images').hide();  
+         /*$('#All_images').show();
+         $('#Collection_images').hide();*/  
      }else{
          debug(methodName, "It has been selected images collection.");
-         $('#All_images').hide();
-         $('#Collection_images').show();
+         /*$('#All_images').hide();
+         $('#Collection_images').show();*/
      }
+     refresAllImages(optionSelected, selectedOptionM);
      
      debugExit(methodName);
    
@@ -190,19 +192,25 @@ function setFunctionsToObjects(theOption){
 /**
  * Function that refreshes the all images of the a container
  */
- function refresAllImages(theType){
+ function refresAllImages(theCollection, theType){
     
     var methodName = "refresAllImages";
     debugEnter(methodName);
     
-    $('#gallery_all_image').children().each(function () {
+    $('#images_list').children().each(function () {
        
           $(this).remove();
        }
    );
     
   
-    debug(methodName, "Type [ " + theType + " ]");
+    debug(methodName, "Collection [ " + theCollection +" ]. Type [ " + theType + " ]");
+    debug(methodName, "Saved type [ " + selectedOptionM + " ]");
+    if (selectedOptionM === "unknown"){
+       
+       debug(methodName, "Save the type [ " + theType + " ]");
+       selectedOptionM = theType;
+    }
      
     var ajaxObject = new Ajax();
     ajaxObject.setUrl("./getAllImages.php");
@@ -210,6 +218,7 @@ function setFunctionsToObjects(theOption){
     ajaxObject.setSyn();
     var arrayParameters = {};
     arrayParameters.typeImage=theType.toUpperCase();
+    arrayParameters.collection = theCollection;
     ajaxObject.setParameters(JSON.stringify(arrayParameters));
     debug(methodName, "parameters [ " + JSON.stringify(arrayParameters) +" ]");
     ajaxObject.send();
@@ -227,13 +236,13 @@ function setFunctionsToObjects(theOption){
        var newDiv = $("<div class=\"gallery_item\"></div>");
        newDiv.append("<img id=\"gallery_img-" + id + "\" src=\"../"+path+ "\" alt=\""+desc+"\" title=\""+desc+"\"/><br>");
        newDiv.append(desc);
-       $('#gallery_all_image').append(newDiv);
+       $('#images_list').append(newDiv);
        if (items < 3){
           items ++;       
        }else{
           items = 0;
           
-          $('#gallery_all_image').append("<div class=\"div_new_row\"></div>");
+          $('#images_list').append("<div class=\"div_new_row\"></div>");
        }
     }    
     

@@ -426,6 +426,11 @@
          return $returnValue;
       }
       
+      /**
+       * Get the images that belong to collection
+       * @param  String $theCollection. The collection name
+       * @return DBIterator with the query result.
+       */
       static public function getImageFromCollection($theCollection){
          
          $logger=Logger::getLogger(__CLASS__);
@@ -493,6 +498,68 @@
          }
          $logger->trace("Exit");
          return new DBIterator($rows);
+      }
+      
+      static public function getImagesfromCollectionID($theCollectionId){
+         
+         $logger=Logger::getLogger(__CLASS__);
+         $logger->trace("Enter");
+         $logger->trace("Get the images that belong to the collection id [ " . $theCollectionId ." ]");
+         $conn = new MySqlDAO(serverC, userC, pwdC, ddbbC);
+         $conn->connect();
+          
+         if($conn->isConnected()){
+            $logger->trace("The connection with the database was done with successfully");
+            
+            $query = sprintf("select %s.%s as ImageId,
+                                        %s.%s as CollectionId,
+                                        %s.%s as CollectionName,
+                                        %s.%s as ImageName,
+                                        %s, %s from %s,%s,%s where
+                                        %s.%s=%s.%s and %s.%s=%s.%s and
+                                         %s.%s= %d"
+                  ,TableImageC,TB_Image_IdC
+                  ,TableCollectionC,TB_Collection_IdCollectionC
+                  ,TableCollectionC,TB_Collection_CollectionNameC
+                  ,TableImageC,TB_Image_NameC
+                  ,TB_Image_PathC
+                  ,TB_Image_DescC
+                  ,TableImageC
+                  ,TableCollectionC
+                  ,TableImageCollectionC
+                  ,TableImageC,TB_Image_IdC
+                  ,TableImageCollectionC,TB_ImageCollection_idImageC
+                  ,TableImageCollectionC,TB_ImageCollection_idCollectionC
+                  ,TableCollectionC, TB_Collection_IdCollectionC
+                  ,TableCollectionC, TB_Collection_IdCollectionC
+                  ,$theCollectionId);
+             
+            $logger->trace("Execute query [ " . $query . " ]");
+             
+            $result = $conn->query($query);
+            if ($result != null){
+               $rows;
+               $numRows = count($result);
+               $logger->trace("The query has [ " . $numRows ." ] rows");
+               for ($idx = 0;$idx < $numRows; $idx++){
+                  $rows[$idx] = new TB_IMAGE_COLLECTION($result[$idx]["ImageId"],
+                        $result[$idx]["CollectionId"],
+                        $result[$idx]["CollectionName"],
+                        $result[$idx][TB_Image_PathC],
+                        $result[$idx]["ImageName"],
+                        $result[$idx][TB_Image_DescC]);
+               }
+            }
+            $conn->closeConnection();
+         }else{
+            
+               $logger->error("An error was produced in the connection  [ " .
+                     $conn->getConnectError() . " ]");
+            
+         }
+         $logger->trace("Exit");
+         return new DBIterator($rows);
+         
       }
       
    }

@@ -154,7 +154,7 @@ border-color: #ff6600;
    margin-left: 5px
 }
 
-#All_images, #Collection_images{
+#All_images, #Collection_images, #images_gallery{
    
    width: 100%;
    height: 100%;
@@ -164,7 +164,7 @@ border-color: #ff6600;
    display: none;
 }
 
-#toolbar_all_images{
+#toolbar_images{
 
    width: 100%;
    height: 30px;
@@ -174,7 +174,7 @@ border-color: #ff6600;
    
 }
 
-#gallery_all_image{
+#gallery_all_image, #images_list{
    width: 100%;
    height: 100%;
    overflow-x: hidden;
