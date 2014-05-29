@@ -37,6 +37,11 @@
    
    customParamsC : "custom_params",
    customParamsM : "",
+   
+   callbackParamC: "callback",
+   callbackM: null,
+   
+   atLeastOneImageSelectedM: false,
       
    
    
@@ -238,6 +243,11 @@
          this.debug(methodName, "Custom params [ " + this.customParamsM +
                     " ]");
       }
+      
+      if (theParameters[this.callbackParamC] != null){
+         
+         this.callbackM = theParameters[this.callbackParamC];
+      }
   
       //Create the div that contains the file browser and the buttons
       this.debug(methodName, "Create the file browser");
@@ -289,10 +299,10 @@
    callback: function(){
       
       var methodName = "callback";
-      this.debugEnter(methodName);
+      FileBrowser.debugEnter(methodName);
       
       FileBrowser.refresh();
-      this.debugExit(methodName);
+      FileBrowser.debugExit(methodName);
    },
    
    
@@ -312,6 +322,11 @@
 	   $('#btn_close').click( 
 	      function(){
 	         FileBrowser.debugEnter("#btn_close::click");
+	         
+	         if (FileBrowser.atLeastOneImageSelectedM && FileBrowser.callbackM != null){
+	            
+	            FileBrowser.callbackM();
+	         }
 	         $('#FileBrowser').remove();
 		     $('#FileBrowserBackground').remove();
 		     FileBrowser.debugExit("#btn_close::click");
@@ -341,12 +356,13 @@
                          selectedFile.length - selectedFile.lastIndexOf("/"));
 			          FileBrowser.debug(methodName, "Selected File [ " + 
 			                selectedFile + " ]");
-			          FileBrowser.debug("## "+methodName, FileBrowser.callback);
+			          //FileBrowser.debug("## "+methodName, FileBrowser.callback);
 			          var fileBrowser = FileBrowserFactory.getFileBrowser(FileBrowser.serverTypeM, FileBrowser.callback);
 			          fileBrowser.selectFile(FileBrowser.pathUploadFileM,
 			                 selectedFile, 
 			                 FileBrowser.customParamsM);
 			          
+			          FileBrowser.atLeastOneImageSelectedM = true;
 			          
 			          FileBrowser.debugExit(methodName);
 			          

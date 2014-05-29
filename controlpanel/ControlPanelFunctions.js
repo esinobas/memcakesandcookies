@@ -65,10 +65,12 @@ function debugExit( theFunction){
          debug(methodName, "It has been selected all images.");  
          /*$('#All_images').show();
          $('#Collection_images').hide();*/  
+         $('#BtnFileBrowser').hide();
      }else{
          debug(methodName, "It has been selected images collection.");
          /*$('#All_images').hide();
          $('#Collection_images').show();*/
+         $('#BtnFileBrowser').show();
      }
      refresAllImages(optionSelected, selectedOptionM);
      
