@@ -1,6 +1,6 @@
 var UpdateImageDescription = {
    
-   enableDebug: true,
+   enableDebug: false,
    debugSetup: {
                   file: "UpdateImageDescription.js"
                                               

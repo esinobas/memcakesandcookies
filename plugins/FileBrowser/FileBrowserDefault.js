@@ -6,7 +6,7 @@ function FileBrowserDefault (theCallback){
    
    //declare private properties
    
-   var _debugM = true;
+   var _debugM = false;
    
    FileBrowserDefault.prototype.classNameM = "FileBrowserDefault";
    FileBrowserDefault.prototype.callbackM = theCallback;
@@ -65,7 +65,7 @@ function FileBrowserDefault (theCallback){
       this.debugEnter(methodName);
       
       this.debug(methodName, "Create Ajax object to remove file");
-      var url = this.getCurrentPath(_classNameM+".js") + "DeleteFile.php";
+      var url = this.getCurrentPath(this.classNameM+".js") + "DeleteFile.php";
       this.debug(methodName, "The url is [ " + url + " ]");
       var ajaxObject = new Ajax();
       ajaxObject.setUrl(url);

@@ -5,7 +5,7 @@ var newcollection = {
     idCollectionM: 0,
     urlM: "",
 
-    enableDebug: true,
+    enableDebug: false,
     debugSetup: {
                   file: "newcollection.js"
                                               

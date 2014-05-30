@@ -1,6 +1,6 @@
 var ShowSelectedFile = {
 
-   enableDebug: true,
+   enableDebug: false,
    debugSetup: {
                   file: "ShowSelectedFile.js"
                                               

@@ -5,7 +5,7 @@
  
  var FileBrowser = {
  
-   enableDebug: true,
+   enableDebug: false,
    debugSetup: {
       file: "FileBrowser.js"
                                               
@@ -409,22 +409,7 @@
 	                  var fileBrowser = FileBrowserFactory.getFileBrowser(FileBrowser.serverTypeM, FileBrowser.callback);
 	                  var result = fileBrowser.deleteFile(fileToRemove);
 	                  
-	                  /*
-	                  FileBrowser.debug(methodName, "Create Ajax object to remove file");
-	                  var url = FileBrowser.getCurrentPath(FileBrowser.fileNameC) + "DeleteFile.php";
-	                  FileBrowser.debug(methodName, "The url is [ " + url + " ]");
-	                  var ajaxObject = new Ajax();
-	                  ajaxObject.setUrl(url);
-	                  ajaxObject.setPostMethod();
-	                  ajaxObject.setSyn();
-	                  var parameters = '{"type":"Directory", "file":"'+fileToRemove+'"}';
-	                  FileBrowser.debug(methodName, parameters);
-	                  ajaxObject.setParameters(parameters);
-	                  ajaxObject.setCallback(null);
-	                  
-	                  ajaxObject.send();
-	                  FileBrowser.debug(methodName, "Response [ " + ajaxObject.getResponse() + " ]");
-	                  */
+	                 
 	                  
 	                  if (result != "OK"){
 	                     alert('El fichero ' + FileBrowser.fileSelectedM 

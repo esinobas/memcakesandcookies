@@ -11,7 +11,7 @@ function FileBrowserDataBase (theCallback){
    /**
     * Private properties
     */
-   var _debugM = true;
+   var _debugM = false;
    
    
    /**
@@ -22,6 +22,34 @@ function FileBrowserDataBase (theCallback){
    this.debugEnter("Constructor");
    
    this.debugExit("Constructor");
+   
+   this.existFile = function(thePathAndFile){
+      
+      var methodName = "existFile";
+      this.debugEnter(methodName);
+      
+      this.debug(methodName, "Cheking if file [ " + thePathAndFile + " ] now is in the database.");
+      var url = this.getCurrentPath(this.classNameM+".js") + "FileBrowserDataBaseCommands.php";
+      this.debug(methodName, "URL [ " + url + " ]");
+      var ajaxObject = new Ajax();
+      ajaxObject.setUrl(url);
+      ajaxObject.setPostMethod();
+      ajaxObject.setSyn();
+      var parametersArray = {};
+      parametersArray.command = "ExistFile";
+      parametersArray.FileName = thePathAndFile;
+      
+      this.debug(methodName, "Parameters [ " + JSON.stringify( parametersArray ) +" ]");
+      ajaxObject.setParameters(JSON.stringify( parametersArray ));
+      ajaxObject.setCallback(null);
+      
+      ajaxObject.send();
+      this.debug(methodName, "Response [ " + ajaxObject.getResponse() + " ]");
+      
+      this.debugExit(methodName);
+      
+      return (ajaxObject.getResponse() === "true" ? true : false);
+   }
    
    /**
     * It inserts in the a table in the database the file information.
@@ -41,30 +69,10 @@ function FileBrowserDataBase (theCallback){
       this.debugEnter(methodName);
       this.debug(methodName, "The file [ " + thePath+"/"+theFile +
             " ] has been selected.");
-      this.debug(methodName, "Cheking if file [ " + thePath+"/"+theFile + " ] now is in the database.");
-      var url = this.getCurrentPath(this.classNameM+".js") + "FileBrowserDataBaseCommands.php";
-      this.debug(methodName, "URL [ " + url + " ]");
-      var ajaxObject = new Ajax();
-      ajaxObject.setUrl(url);
-      ajaxObject.setPostMethod();
-      ajaxObject.setSyn();
-      
       var customParamOption = theParams['option'];
       var customParamCollection = theParams['collection'];
-      
-      /*var parameters = '{"command":"ExistFile","FileName":"'+ theFile + 
-                                   '","option":"'+customParamOption+
-                                       '","collection":"'+customParamCollection+
-                                       '"}';*/
-      var parameters = '{"command":"ExistFile","FileName":"'+ thePath+"/"+theFile +'"}';
-      this.debug(methodName, "Parameters [ " + parameters +" ]");
-      ajaxObject.setParameters(parameters);
-      ajaxObject.setCallback(null);
-      
-      ajaxObject.send();
-      this.debug(methodName, "Response [ " + ajaxObject.getResponse() + " ]");
-      if (ajaxObject.getResponse() === "true"){
-         
+     
+      if (this.existFile(thePath+"/"+theFile)){
          this.debug(methodName, "The file [ " + thePath+"/"+theFile + " ] exists in the database");
          var paramsArray = {};
          paramsArray.command = "Insert image in collection";
@@ -73,6 +81,12 @@ function FileBrowserDataBase (theCallback){
          paramsArray.collection = customParamCollection;
          this.debug(methodName, "Insert image in collection with following parameters [ " + 
                JSON.stringify(paramsArray) + " ]");
+         var url = this.getCurrentPath(this.classNameM+".js") + "FileBrowserDataBaseCommands.php";
+         this.debug(methodName, "URL [ " + url + " ]");
+         var ajaxObject = new Ajax();
+         ajaxObject.setUrl(url);
+         ajaxObject.setPostMethod();
+         ajaxObject.setSyn();
          ajaxObject.setParameters(JSON.stringify(paramsArray));
          ajaxObject.setCallback(null);
          
@@ -107,11 +121,23 @@ function FileBrowserDataBase (theCallback){
       
       var methodName = "deleteFile";
       this.debugEnter(methodName);
-      
+      var result = "OK";
       this.debug(methodName, "Trying delete the file [ " + thePathAndFile +
-               " ] that belongs to collection [ " + $('#comboCollection').val() + " ]");
+               " ]");
+      
+      //check if the image is within the table where the images are saved.
+      if (this.existFile(thePathAndFile)){
+         
+         this.debug(methodName, "The file [ " +thePathAndFile + " ] can be removed because it is in a table");
+         alert('The file [ ' + thePathAndFile + ' ] no se puede borrar porque esta en la base de datos. Borralo primero de la base de datos');
+         result = "NO OK";
+      }else{
+         this.debug(methodName, "The file [ " +thePathAndFile + " ] can be removed.");
+         result = FileBrowserDataBase.prototype.deleteFile(thePathAndFile);
+      }
       
       this.debugExit(methodName);
+      return result;
    };
 
 }
