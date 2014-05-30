@@ -6,6 +6,7 @@
    include_once($_SERVER['DOCUMENT_ROOT']."/php/ddbb/DBIterator.php");
    
    include_once ($_SERVER['DOCUMENT_ROOT'].'/php/log4php/Logger.php');
+   include_once $_SERVER['DOCUMENT_ROOT'].'/php/localDB/TB_IMAGE_COLLECTION.php';
    
 
    /**
@@ -175,6 +176,11 @@
       }
       
       static public function delete($theId){
+         
+         $logger = Logger::getLogger(__CLASS__);
+         $logger->trace("Enter");
+         
+         $logger->debug("Delete image id [ " . $theId . " ]");
 
          $query = sprintf("delete from %s where %s=%d", TableNameC
                                                         ,IdC
@@ -183,19 +189,40 @@
          
          $conn = new MySqlDAO(serverC, userC, pwdC, ddbbC);
            
-         $conn->connect();
+         $conn->connect(false);
          $result = 0;
                    
          if($conn->isConnected()) {
-             
-            $result = $conn->sqlCommand($query);
+            $logger->trace("The connection was established successfully");
+            $logger->trace("Delete the image [ " . $theId . " ] of the collections");
+            
+            if (TB_IMAGE_COLLECTION::deleteImageRelations($theId, $conn)){
+               $logger->trace("Execute stament [ " . $query . " ]");  
+               $result = $conn->sqlCommand($query);
+               if ($result == 0){
+                  
+                  $conn->commit();
+                  $logger->debug("The image was deleted sucessfully");
+               }else{
+                  $logger->error("An error was have produced. The image was not removed. Rollback [ ".
+                                   $conn->getSqlError() . " ]");
+               
+                  $conn->rollback();
+               }
+            }else{
+               $logger->error("The image can not be removed of its collections");
+               $result = -1;
+            }
+            $conn->closeConnection();
+            
              
          }else{
+            $logger->error("An error was have produced at connect to the database. [ "
+                     . $conn->getConnectError() . " ]");
            $result = -1;         
          }
-         $conn->closeConnection();
-        
-         return $result;       
+         $logger->trace("Exit");
+         return ($result == 0 ? true: false);       
       
       }
   

@@ -32,6 +32,12 @@
       
    }else{
       $logger->trace("Delete the image and its relations with the collections");
+      if ( ! TableImage::delete($id)){
+         $logger->error("The image [ " . $id . " ] is have not removed");
+         $imageDeleted = false;
+      }else{
+         $logger->debug("The image was removed.");
+      }
    }
 
    /*

@@ -606,6 +606,33 @@
          
       }
       
+      /**
+       * 
+       * @param Number $theImageId. The image that is removed
+       * @param MySqlDAO $theConnection. The database connection
+       * @return boolean. It indicates if the remove was done successfully.
+       */
+      static public function deleteImageRelations($theImageId, $theConnection){
+         
+         $logger = Logger::getLogger(__CLASS__);
+         $logger->trace("Enter");
+         $logger->debug("Deleting all relations between image id [ " .
+           $theImageId ." ] and the collections which belongs to.");
+         $query = sprintf("delete from %s where %s=%d"
+                                , TableImageCollectionC
+                                , TB_ImageCollection_idImageC
+                                ,$theImageId);
+         $logger->trace("Execute stament [ " . $query ." ]");
+         $result = $theConnection->sqlCommand($query);
+         if ($resul != 0){
+            $logger->error("Deletion failed. [ " . $theConnection->getSqlError() . " ]");
+         }else{
+            $logger->trace("The image was removed of the collections successfully");
+         }
+         $logger->trace("Exit");
+         return ($result == 0 ? true : false);
+      }
+      
    }
  
 ?>
