@@ -176,7 +176,7 @@ border-color: #ff6600;
 
 #gallery_all_image, #images_list{
    width: 100%;
-   height: 100%;
+   height: 95%;
    overflow-x: hidden;
    overflow-y: scroll;
 

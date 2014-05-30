@@ -148,7 +148,8 @@
                $lastId = $conn->getLastId();
                $logger->debug("New collection id [ " .$lastId ." ]");
             }else{
-               $logger->error("An error was produced in the stament");
+               $logger->error("An error was produced in the stament. [ ".
+                     $conn->getSqlError() . " ]");
             }
          }
          $conn->closeConnection();

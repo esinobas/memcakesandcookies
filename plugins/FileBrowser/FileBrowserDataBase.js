@@ -11,7 +11,7 @@ function FileBrowserDataBase (theCallback){
    /**
     * Private properties
     */
-   var _debugM = false;
+   var _debugM = true;
    
    
    /**

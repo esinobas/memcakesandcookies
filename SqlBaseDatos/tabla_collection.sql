@@ -29,9 +29,9 @@ CREATE TABLE `TB_COLLECTION` (
   `Name` varchar(45) NOT NULL COMMENT 'Collection name',
   `Id_Menu` int(11) NOT NULL COMMENT 'Foreign key to TB_MENU',
   PRIMARY KEY (`Id`),
-  KEY `FK_MENU` (`Id`),
-  CONSTRAINT `FK_MENU` FOREIGN KEY (`Id`) REFERENCES `TB_MENU` (`ID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1 COMMENT='Table where the collection are stored and its link with the ';
+  KEY `FK_MENU` (`Id_Menu`),
+  CONSTRAINT `FK_MENU` FOREIGN KEY (`Id_Menu`) REFERENCES `TB_MENU` (`ID`) ON DELETE NO ACTION ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1 COMMENT='Table where the collection are stored and its link with the ';
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -43,4 +43,4 @@ CREATE TABLE `TB_COLLECTION` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-05-23 14:11:48
+-- Dump completed on 2014-05-30 12:41:40
