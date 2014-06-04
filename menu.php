@@ -1,6 +1,8 @@
 <?php
    require_once(dirname(__FILE__).'/php/ddbb/DBIterator.php');
    require_once(dirname(__FILE__).'/php/localDB/TB_MENUS.php');
+   include_once 'TB_COLLECTION.php';
+   
    $options = TB_MENUS::getMenu(0);
   
 ?>
@@ -19,17 +21,18 @@
          <a href="#"></a>
          <?php
             printf("%s", $row->getOption());
-           $optionsSubmenu = TB_MENUS::getMenu($row->getId());
+            $optionsSubmenu = TB_COLLECTION::getCollectionsFromMenu($row->getId());
          ?>
          <div class="submenu">
                  
          <?php
             while($optionsSubmenu->next()){
             ?>
-                  <a href=<?php printf("\"%s?pageId=%s&collection=%s\"", url, $optionsSubmenu->getRow()->getId(), $row->getId()); ?>> 
+                  <a href=<?php printf("\"%s?pageId=%s&collection=%s\"", url, 
+                       $row->getId(),$optionsSubmenu->getRow()->getId() ); ?>> 
                   <?php
                   
-                     printf("%s",$optionsSubmenu->getRow()->getOption());
+                     printf("%s",$optionsSubmenu->getRow()->getName());
                   ?>
                   </a>
                   <br>

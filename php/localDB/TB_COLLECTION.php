@@ -9,6 +9,7 @@
    include_once($_SERVER['DOCUMENT_ROOT']."/php/ddbb/MySqlDAO.php");
    include_once($_SERVER['DOCUMENT_ROOT']."/php/ddbb/DBIterator.php");
    include_once ($_SERVER['DOCUMENT_ROOT'].'/php/log4php/Logger.php');
+   include_once ($_SERVER['DOCUMENT_ROOT'].'/php/log4php/configurators/LoggerConfiguratorDefault.php');
 
    
    define('TableNameC', 'TB_COLLECTION');
@@ -161,9 +162,12 @@
       
       static public function getCollectionsFromMenu($theMenuId){
          
-         Logger::configure($_SERVER['DOCUMENT_ROOT'].'/log/LogConfig.xml');
+         if ( ! Logger::isInitialized()){
+            Logger::configure($_SERVER['DOCUMENT_ROOT'].'/log/LogConfig.xml');
+         }
+         
          $logger = Logger::getLogger(__CLASS__);
-          
+        
          $logger->trace("Enter");
          
          $logger->debug("Search collections from menu [ " . $theMenuId ." ]");
@@ -193,8 +197,7 @@
               $idx = 0;
                while ( $idx < $numRows){
                    
-                  /*$option = new TB_MENUS();
-                   $option->setId($result[$idx][idC]);*/
+                  
                   $logger->debug("Create collection  with id [ ".
                         $result[$idx][IdCollectionC] ." ] and name [ ".
                         $result[$idx][CollectionC] ." ]" );

@@ -45,7 +45,7 @@
 
             <div id="div_menu">
                <?php
-                 require_once(dirname(__FILE__).'/menu.php');
+                 include_once (dirname(__FILE__).'/menu.php');
                ?>
             </div>
          </div>

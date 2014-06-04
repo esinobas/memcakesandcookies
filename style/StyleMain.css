@@ -54,6 +54,7 @@ html {
   float: right;
   /*background-color: yellowgreen;*/
   text-align: center;
+  z-index: 100;
   
   
 }
@@ -91,7 +92,8 @@ html {
    border-width: 1px;
    padding: 3px;
    text-align: center;
-   z-index: 10;
+   z-index: 100;
+   position: absolute;
  
 }
 

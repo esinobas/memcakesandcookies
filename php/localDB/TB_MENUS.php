@@ -4,6 +4,7 @@
    include_once($_SERVER['DOCUMENT_ROOT']."/php/ddbb/MySqlDAO.php");
    include_once($_SERVER['DOCUMENT_ROOT']."/php/ddbb/DBIterator.php");
    include_once ($_SERVER['DOCUMENT_ROOT'].'/php/log4php/Logger.php');
+   include_once 'TB_COLLECTION.php';
    
    define('tableMenuC','TB_MENU');
    define('idC','ID');
@@ -117,38 +118,23 @@
       }
   
       static public function hasSubmenu($theId){
+         
+         Logger::configure(logConfigurationC);
+         $logger = Logger::getLogger(__CLASS__);
+         
       
          $logger->trace("Enter");
-         $query = sprintf("select count(%s) from %s where %s = %s"
-                          ,idC
-                          ,tableMenuC
-                          ,optionParentC
-                          ,$theId);
-                          
-         $conn = new MySqlDAO(serverC, userC, pwdC, ddbbC); 
-         
-         $conn->connect();
-         
-         $result;
-         $hasSubmenu = false;
-                
-         if($conn->isConnected()) {
-            $result = $conn->query($query);
-            $conn->closeConnection();   
+         $logger->trace("Check if the menu id [ " . $theId . " ] has collections");
+         $collections = TB_COLLECTION::getCollectionsFromMenu($theId);
+         $logger->trace("The menu id [ ". $theId . " ] has [ "
+               . $collections->getNumRows() . " ] collections");
+         if ($collections->getNumRows() != 0 ){
+            $logger->trace("The menu id [ " . $theId . " ] has submenu");
          }else{
-            $logger->trace("Exit");
-            return false;
+            $logger->trace("The menu id [ " . $theId . " ] has NOT submenu");
          }
-         
-         if (intval($result[0]['count('.idC.')'] > 0 )){
-            $logger->trace("Exit");
-            return true;         
-         }else{
-            $logger->trace("Exit");
-            return false;
-         } 
-         
-              
+         $logger->trace("Exit");
+         return ($collections->getNumRows() != 0);
 
       }
   

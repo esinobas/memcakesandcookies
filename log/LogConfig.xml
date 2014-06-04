@@ -28,7 +28,8 @@
       <param name = "append" value = "true"></param>
       
      <layout class ="LoggerLayoutPattern">
-         <param name = "conversionPattern" value = "[%level] - time [%date{H:i:s - d/m/Y}]. pid: '%process'. file: '%file'. class: '%class'. method: '%method'. line: '%line'. %msg.%n"></param>
+         <!--  <param name = "conversionPattern" value = "[%level] - time [%date{H:i:s - d/m/Y}]. pid: '%process'. file: '%file'. class: '%class'. method: '%method'. line: '%line'. %msg.%n"></param> -->
+         <param name = "conversionPattern" value = "[%level] - time [%date{H:i:s - d/m/Y}]. pid: '%process'. class: '%class'. method: '%method'. line: '%line'. %msg.%n"></param>
       </layout>
    
    </appender>
@@ -92,12 +93,12 @@
   </logger>
   
   <logger name="TB_MENUS">
-     <level value="ERROR"/>
+     <level value="TRACE"/>
       <appender_ref ref = "RollingFileAppenderLocalDB"></appender_ref>
   </logger>
   
   <logger name="TB_COLLECTION">
-     <level value="ERROR"/>
+     <level value="TRACE"/>
      <appender_ref ref = "RollingFileAppenderLocalDB"></appender_ref>
   </logger>
   
@@ -107,12 +108,12 @@
   </logger>
   
   <logger name="TB_IMAGE_COLLECTION">
-     <level value="DEBUG"/>
+     <level value="INFO"/>
      <appender_ref ref = "RollingFileAppenderLocalDB"></appender_ref>
   </logger>
   
     <logger name="TableImage">
-     <level value="TRACE"/>
+     <level value="INFO"/>
      <appender_ref ref = "RollingFileAppenderLocalDB"></appender_ref>
   </logger>
   
@@ -121,12 +122,12 @@
   <!--  Loggers for Control Panel -->
   
   <logger name="DeleteImage">
-     <level  value ="TRACE"/>
+     <level  value ="INFO"/>
      <appender_ref ref="RollingFileAppenderControlPanel"/>
   </logger>
   
   <logger name="UpdateTableImage">
-     <level  value ="TRACE"/>
+     <level  value ="INFO"/>
      <appender_ref ref="RollingFileAppenderControlPanel"/></logger>
   
   
