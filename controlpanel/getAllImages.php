@@ -23,6 +23,10 @@
  
        $images =  getAllCookies();
     }
+    if ($type == "MODELADOS"){
+       
+       $images = getAllModels();
+    }
     
     $idx = 0;
     while($images->next()){

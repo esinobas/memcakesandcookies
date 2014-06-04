@@ -9,6 +9,7 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/php/ddbb/DBIterator.php');
 require_once($_SERVER['DOCUMENT_ROOT'].'/php/localDB/TB_CAKES.php');
 require_once($_SERVER['DOCUMENT_ROOT'].'/php/localDB/TB_COOKIES.php');
 require_once($_SERVER['DOCUMENT_ROOT'].'/php/localDB/TB_IMAGE_COLLECTION.php');
+require_once($_SERVER['DOCUMENT_ROOT'].'/php/localDB/TB_MODELING.php');
 
 
 function getAllCakes(){
@@ -18,6 +19,10 @@ function getAllCakes(){
 function getAllCookies(){
     
     return TB_COOKIES::getAll();
+}
+function getAllModels (){
+   
+   return TB_MODELING::getAll();
 }
 function getCollectionImages($theCollectionId){
    
