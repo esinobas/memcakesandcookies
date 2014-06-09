@@ -69,9 +69,9 @@ abstract class FileBrowserDataIf {
          'if($fileA["timestamp"] === $fileB["timestamp"]){
              return 0;
          }
-         return ($fileA["timestamp"] < $fileB["timestamp"]) ? -1 : 1;'));
+         return ($fileA["timestamp"] > $fileB["timestamp"]) ? -1 : 1;'));
    
-      if (strtolower($theSortType) == 'descending'){
+      if (strtolower($theSortType) === 'descending'){
          krsort($arrayAux);   
       }
    

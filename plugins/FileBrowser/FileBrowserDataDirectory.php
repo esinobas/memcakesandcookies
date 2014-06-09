@@ -95,7 +95,7 @@ class FileBrowserDataDirectory extends FileBrowserDataIf{
       $this->loggerM->debug("The files has been getted. Now the files will be ordered");
       
       $this->returnValueM = $this->orderFilesByTimestamp( $_SERVER['DOCUMENT_ROOT'],
-                                        $this->returnValueM, 'descending');
+                                        $this->returnValueM,'descending');
        
       
       $this->loggerM->trace("Exit");
