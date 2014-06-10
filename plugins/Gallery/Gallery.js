@@ -128,6 +128,7 @@ var Gallery = {
              $(this).css("margin-top", imageMarginTop);
           }       
        );
+       
               
       
        this.debugExit(methodName);

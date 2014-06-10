@@ -6,9 +6,10 @@ position: relative;
 
 .tb-image img{
    
-  opacity: .5
+  cursor: pointer;
 }
 
-.tb-image img:hover{
-  opacity: 1;
-}
+
+/*.tb-image img:hover{
+   cursor: hand;
+}*/
