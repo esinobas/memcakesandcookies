@@ -500,6 +500,12 @@
          return new DBIterator($rows);
       }
       
+      /**
+       * Returns a object iterator with all images that belong to collection
+       * 
+       * @param String $theCollectionId
+       * @return DBIterator
+       */
       static public function getImagesfromCollectionID($theCollectionId){
          
          $logger=Logger::getLogger(__CLASS__);

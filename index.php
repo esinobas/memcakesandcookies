@@ -63,15 +63,14 @@
                      ?>
                      <div id="Gallery">
                      <?php
-                     if ($_GET["collection"] == "2"){
-                        //cakes
+                     if (intval($_GET["pageId"]) >= 2 && intval($_GET["pageId"]) <= 4){
                         
-                        if ($_GET["pageId"] == "6"){
-                           //all cakes
-                           $collection = 0;
-                           require_once(dirname(__FILE__).'/getCakes.php');
+                        //$_GET["collection"]
+                       
+                        require_once(dirname(__FILE__).'/getImages.php');
+                        
                           
-                        }
+                        
                      }
                      
                      ?>

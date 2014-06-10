@@ -47,7 +47,7 @@
                                  $images->getRow()->getNameFile(), //FileName
                                  150, //thumbnail width in pixels
                                  112,//thumbnail height in pixels
-                                 $images->getRow()->getPath().thumbnailsPath,
+                                 $_SERVER['DOCUMENT_ROOT'].'/'.$images->getRow()->getPath().thumbnailsPath,
                                  "Thumb_", $logger);
        $len = strlen($_SERVER['DOCUMENT_ROOT'].'/');
        $path = substr($path, $len);
@@ -74,7 +74,7 @@
              $images->getRow()->getImageName(), //FileName
              150, //thumbnail width in pixels
              112,//thumbnail height in pixels
-             $images->getRow()->getImagePath().thumbnailsPath,
+             $_SERVER['DOCUMENT_ROOT'].'/'.$images->getRow()->getImagePath().thumbnailsPath,
              "Thumb_", $logger);
        $len = strlen($_SERVER['DOCUMENT_ROOT'].'/');
        $path = substr($path, $len);

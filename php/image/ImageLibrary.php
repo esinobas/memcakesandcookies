@@ -24,18 +24,18 @@
     ($theLogger != null ? $theLogger->trace("Create thumbnail with :\n".
                                     "Path [ " . $theFilePath ." ]\n".
                                     "File [ " . $theFileName ." ]\n".
-                                    "Width [" .$theWitdh . "] px\n".
-                                    "Height [" . $theHeight ." ] px\n".
-                                    "Thumbnails Path [" . $theThumbnailPath . " ]\n".
+                                    "Width [ " .$theWitdh . " ] px\n".
+                                    "Height [ " . $theHeight ." ] px\n".
+                                    "Thumbnails Path [ " . $theThumbnailPath . " ]\n".
                                     "Thumbnail prefix [ " . $theThumbnailPrefix . " ]"):null);
 
     $image = ImageGDFactory::getGDImage($theFilePath,$theFileName, $theLogger);
     
-    $nameFileThumbnail = $_SERVER['DOCUMENT_ROOT'].'/'.$theThumbnailPath.'/'.$theThumbnailPrefix.$theFileName;
+    /*$nameFileThumbnail = $theThumbnailPath.'/'.$theThumbnailPrefix.$theFileName;
     ($theLogger != null ? $theLogger->trace("Name file thumbnail [ " . $nameFileThumbnail ." ]"):null);
-    
+    */
     ($theLogger != null ? $theLogger->trace("Exit"):null);
-    return $image->converToThumbnail($_SERVER['DOCUMENT_ROOT'].'/'.$theThumbnailPath, $theWitdh, $theHeight,$theThumbnailPrefix, true);
+    return $image->converToThumbnail($theThumbnailPath, $theWitdh, $theHeight,$theThumbnailPrefix, true);
            
      
  }
