@@ -9,41 +9,51 @@
    <!--  Appenders  -->
    <appender name = "RollingFileAppenderFileBrowser" class = "LoggerAppenderRollingFile">
    
-      <param name ="file" value = "./log/FileBrowser.log"></param>
+      <param name ="file" value = "/home/tebi/Datos/webserver/MEMcakesandcookies/www/log/FileBrowser.log"></param>
       <param name = "maxFileSize" value = "1MB"></param>
       <param name = "maxBackupIndex" value = "1"></param>
       <param name = "append" value = "true"></param>
       
      <layout class ="LoggerLayoutPattern">
-        <!-- <param name = "conversionPattern" value = "[%level] - time [%date{H:i:s - d/m/Y}]. pid: '%process'. file: '%file'. class: '%class'. method: '%method'. line: '%line'. %msg.%n"></param> -->
+        <!--  
+           <param name = "conversionPattern" value = "[%level] - time [%date{H:i:s - d/m/Y}]. pid: '%process'. file: '%file'. class: '%class'. method: '%method'. line: '%line'. %msg.%n"></param>
+        -->
         <param name = "conversionPattern" value = "[%level] - time [%date{H:i:s - d/m/Y}]. pid: '%process'. class: '%class'. method: '%method'. line: '%line'. %msg.%n"></param>
+        
       </layout>
    
    </appender>
    
    <appender name = "RollingFileAppenderLocalDB" class = "LoggerAppenderRollingFile">
    
-      <param name ="file" value = "./log/LocalDB.log"></param>
+      <param name ="file" value = "/home/tebi/Datos/webserver/MEMcakesandcookies/www/log/LocalDB.log"></param>
       <param name = "maxFileSize" value = "1MB"></param>
       <param name = "maxBackupIndex" value = "1"></param>
       <param name = "append" value = "true"></param>
       
      <layout class ="LoggerLayoutPattern">
-         <!--  <param name = "conversionPattern" value = "[%level] - time [%date{H:i:s - d/m/Y}]. pid: '%process'. file: '%file'. class: '%class'. method: '%method'. line: '%line'. %msg.%n"></param> -->
+         <!-- 
+            <param name = "conversionPattern" value = "[%level] - time [%date{H:i:s - d/m/Y}]. pid: '%process'. file: '%file'. class: '%class'. method: '%method'. line: '%line'. %msg.%n"></param>
+         -->
          <param name = "conversionPattern" value = "[%level] - time [%date{H:i:s - d/m/Y}]. pid: '%process'. class: '%class'. method: '%method'. line: '%line'. %msg.%n"></param>
+         
       </layout>
    
    </appender>
    
    <appender name = "RollingFileAppenderControlPanel" class = "LoggerAppenderRollingFile">
    
-      <param name ="file" value = "./log/ControlPanel.log"></param>
+      <param name ="file" value = "/home/tebi/Datos/webserver/MEMcakesandcookies/www/log/ControlPanel.log"></param>
       <param name = "maxFileSize" value = "1MB"></param>
       <param name = "maxBackupIndex" value = "1"></param>
       <param name = "append" value = "true"></param>
       
      <layout class ="LoggerLayoutPattern">
-         <param name = "conversionPattern" value = "[%level] - time [%date{H:i:s - d/m/Y}]. pid: '%process'. file: '%file'. class: '%class'. method: '%method'. line: '%line'. %msg.%n"></param>
+         <!-- 
+             <param name = "conversionPattern" value = "[%level] - time [%date{H:i:s - d/m/Y}]. pid: '%process'. file: '%file'. class: '%class'. method: '%method'. line: '%line'. %msg.%n"></param>
+          -->
+          <param name = "conversionPattern" value = "[%level] - time [%date{H:i:s - d/m/Y}]. pid: '%process'. class: '%class'. method: '%method'. line: '%line'. %msg.%n"></param>
+         
       </layout>
    
    </appender>
@@ -57,15 +67,15 @@
   -->
   <!--  Loggers for FileBrowser -->
   <logger name="DeleteFile">
-     <level value="INFO"/>
+     <level value="DEBUG"/>
      <appender_ref ref = "RollingFileAppenderFileBrowser"></appender_ref>
   </logger>
    <logger name="FileBrowser">
-     <level value="TRACE"/>
+     <level value="DEBUG"/>
      <appender_ref ref = "RollingFileAppenderFileBrowser"></appender_ref>
   </logger>
    <logger name="FileBrowserDataBaseCommands">
-     <level value="TRACE"/>
+     <level value="DEBUG"/>
      <appender_ref ref = "RollingFileAppenderFileBrowser"></appender_ref>
   </logger>
    <logger name="FileBrowserDataDirectory">
@@ -77,11 +87,11 @@
      <appender_ref ref = "RollingFileAppenderFileBrowser"></appender_ref>
   </logger>
   <logger name="FileBrowserFactory">
-     <level value="TRACE"/>
+     <level value="DEBUG"/>
      <appender_ref ref = "RollingFileAppenderFileBrowser"></appender_ref>
   </logger>
   <logger name="FileBrowserDatabase">
-      <level value="TRACE"/>
+      <level value="DEBUG"/>
       <appender_ref ref = "RollingFileAppenderFileBrowser"></appender_ref>
   </logger>
   
@@ -89,32 +99,32 @@
   
   <!--  Loggers for LocalDB -->
    <logger name="TableImage">
-     <level value="ERROR"/>
+     <level value="DEBUG"/>
      <appender_ref ref = "RollingFileAppenderLocalDB"></appender_ref>
   </logger>
   
   <logger name="TB_MENUS">
-     <level value="TRACE"/>
+     <level value="DEBUG"/>
       <appender_ref ref = "RollingFileAppenderLocalDB"></appender_ref>
   </logger>
   
   <logger name="TB_COLLECTION">
-     <level value="TRACE"/>
+     <level value="DEBUG"/>
      <appender_ref ref = "RollingFileAppenderLocalDB"></appender_ref>
   </logger>
   
   <logger name="insertSubMenu">
-     <level value="ERROR"/>
+     <level value="DEBUG"/>
      <appender_ref ref = "RollingFileAppenderLocalDB"></appender_ref>
   </logger>
   
   <logger name="TB_IMAGE_COLLECTION">
-     <level value="INFO"/>
+     <level value="DEBUG"/>
      <appender_ref ref = "RollingFileAppenderLocalDB"></appender_ref>
   </logger>
   
     <logger name="TableImage">
-     <level value="INFO"/>
+     <level value="DEBUG"/>
      <appender_ref ref = "RollingFileAppenderLocalDB"></appender_ref>
   </logger>
   
@@ -123,13 +133,24 @@
   <!--  Loggers for Control Panel -->
   
   <logger name="DeleteImage">
-     <level  value ="INFO"/>
+     <level  value ="DEBUG"/>
      <appender_ref ref="RollingFileAppenderControlPanel"/>
   </logger>
   
   <logger name="UpdateTableImage">
-     <level  value ="INFO"/>
-     <appender_ref ref="RollingFileAppenderControlPanel"/></logger>
+     <level  value ="DEBUG"/>
+     <appender_ref ref="RollingFileAppenderControlPanel"/>
+  </logger>
+  
+  <logger name="getAllImages">
+     <level  value ="TRACE"/>
+     <appender_ref ref="RollingFileAppenderControlPanel"/>
+  </logger>
+  
+  <logger name="AbstractImageGD">
+     <level  value ="TRACE"/>
+     <appender_ref ref="RollingFileAppenderControlPanel"/>
+  </logger>
   
   
 </configuration>

@@ -1,5 +1,7 @@
 <?php
-
+    
+   include_once ($_SERVER['DOCUMENT_ROOT'].'/php/log4php/Logger.php');
+   
    abstract class AbstractImageGD{
 
       /**
@@ -14,6 +16,11 @@
        * Property where is saved the source image
        */
       protected  $imageM = null;
+      
+      /**
+       * 
+       */
+      protected $loggerM = null;
       
                  
       //Abstract methods
@@ -38,6 +45,7 @@
           
           $this->pathM = $thePath;            
           $this->fileM = $theFile;
+          $this->loggerM = Logger::getLogger(__CLASS__);
           
       }
       /**
@@ -61,16 +69,26 @@
                                          ,$theThumPrefix = 'Thumb_'
                                          ,$sizeInName = false){
          
+          $this->loggerM->trace("Enter");
+          
+          $this->loggerM->trace("Create thumbnail with :\n".
+                                    "Path[ " . $theTargetPath ." ]\n".
+                                    "Width [ " .$theThumbWidth . " ] px\n".
+                                    "Height [ " . $theThumHeight ." ] px\n".
+                                     "Thumbnail prefix [ " . $theThumPrefix . " ]");
          //Set mask to can set permission at the directory and the files
          $oldMask = umask(0);
          if (!is_dir($theTargetPath)){
-                       
+            $this->loggerM->debug("The directory [ " . $theTargetPath .
+            " ] doesn't exist. It is created");
             $re = mkdir($theTargetPath, 0777);
          }
-     
-         $imageWidth = imagesx($this->imageM);
+            $this->loggerM->trace("Get the real size from image [ ".
+                   $this->pathM."/".$this->fileM . "]");
+            $imageWidth = imagesx($this->imageM);
             $imageHeight = imagesy($this->imageM);
             
+            $this->loggerM->trace("Real width [ $imageWidth ]. Real height [ $imageHeight ]");
             $widthFactor = 1;
             $heightFactor = 1;
             if ($theThumbWidth < $imageWidth){
@@ -80,25 +98,28 @@
             if (($imageHeight*$widthFactor) > $theThumHeight){
                $heightFactor =  $theThumHeight / ($imageHeight*$widthFactor);
             }
-             
+            $this->loggerM->trace("factor width [ $widthFactor ]. factor height [ $heightFactor ]");
             
             //Calculate the new width and height
             $thumbnailWidth = $imageWidth * $widthFactor * $heightFactor;
             $thumbnailHeight = $imageHeight * $widthFactor * $heightFactor;     
      
          $fileName = $theTargetPath.'/'.$theThumPrefix;
+         
+         
          if ( ! $sizeInName){
             $fileName = $fileName.$this->fileM;
          }else{
             $ext = pathinfo($this->fileM, PATHINFO_EXTENSION);
             $name =  pathinfo($this->fileM,PATHINFO_FILENAME);
+            
             $fileName = $fileName.$name.'_['.intval($thumbnailWidth).'x'.intval($thumbnailHeight).'].'.$ext;
          }
+         $this->loggerM->trace("Check if the image [ ". $fileName ." ] now exists");
          
          if (! is_file($fileName)){
             
-            
-            
+            $this->loggerM->debug("The image [ ". $fileName ." ] doesn't exists, creating it");
             $targetImage = imagecreatetruecolor($thumbnailWidth, $thumbnailHeight);
             imagecopyresampled($targetImage        // target Image
                                ,$this->imageM      //source image
@@ -116,6 +137,8 @@
          }
       
          umask($oldMask);   
+         $this->loggerM->trace("Return file name [ $fileName ]");
+         $this->loggerM->trace("Exit");
          return  $fileName;   
       }
       
