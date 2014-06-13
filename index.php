@@ -67,7 +67,7 @@
                         
                         //$_GET["collection"]
                        
-                        require_once(dirname(__FILE__).'/getImages.php');
+                       require_once(dirname(__FILE__).'/getImages.php');
                         
                           
                         

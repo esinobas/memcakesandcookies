@@ -35,6 +35,7 @@
     ($theLogger != null ? $theLogger->trace("Name file thumbnail [ " . $nameFileThumbnail ." ]"):null);
     */
     ($theLogger != null ? $theLogger->trace("Exit"):null);
+    
     return $image->converToThumbnail($theThumbnailPath, $theWitdh, $theHeight,$theThumbnailPrefix, true);
            
      
