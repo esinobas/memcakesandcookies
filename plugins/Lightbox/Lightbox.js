@@ -22,7 +22,7 @@ var Lightbox = {
     maxWidthM: "800px",
     maxHeightM: "600px",
        
-    enableDebug: true,
+    enableDebug: false,
     debugSetup: {
                   file: "Lightbox.js"
                                               

@@ -108,10 +108,24 @@ var Gallery = {
        var divHeight = parseInt(((parseInt(heightGallery) - ( (rows + 1 ) * parseInt(marginVertical))) / rows)) + "px"; 
        this.debug(methodName,"Div width [ " + divWidth + " ]. Div Heigth [ " + divHeight + "]"); 
        
+       var groups = 1;
+       var imagesPerGroup = columns * rows;
+       var imagesInGroup = imagesPerGroup;
+       this.debug(methodName, "Each group has [ " + imagesPerGroup + " ] images");
        this.debug(methodName, "Create the tb-images for each img");
+       var divGroup = null;
        $("#Gallery").find("img").each(
           function () {
-             var methodName = '"#Gallery").find("img").each';
+             var methodName = '"#Gallery".find("img").each';
+             if (imagesInGroup === imagesPerGroup){
+                Gallery.debug(methodName, "The number of images in the group has been reached");
+                imagesInGroup = 0;
+                divGroup = $('<div class="group-image" id="group-image-'+groups+'"></div>');
+                groups ++;
+                $("#Gallery").append(divGroup);
+             }
+             imagesInGroup ++;
+             Gallery.debug(methodName, "Images in the group [ " + imagesInGroup +" ]");
              var tbImg = $('<div class="tb-image"></div>');
              tbImg.css({
                   "width" : divWidth,
@@ -120,7 +134,9 @@ var Gallery = {
                   "margin-top" : marginVertical
                   });
              tbImg.append($(this));
-             $("#Gallery").append(tbImg);
+             Gallery.debug(methodName, "Adding image to [ group-image-"+(groups-1)+" ]");
+             divGroup.append(tbImg);
+             //$("#Gallery").append(tbImg);
              
              var imageMarginTop = parseInt(divHeight)-parseInt(Gallery.getHeightFromFileName($(this).attr('src')));
              imageMarginTop = parseInt(imageMarginTop/2) + "px";
@@ -129,7 +145,8 @@ var Gallery = {
           }       
        );
        
-              
+       
+                         
       
        this.debugExit(methodName);
     }
