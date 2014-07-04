@@ -7,6 +7,9 @@
  
 var Gallery = {
 
+    currentGroupM: 1,
+    numberOfGroupsM: 1,
+    
     enableDebug: true,
     debugSetup: {
                   file: "Gallery.js"
@@ -110,19 +113,37 @@ var Gallery = {
        
        var groups = 1;
        var imagesPerGroup = columns * rows;
-       var imagesInGroup = imagesPerGroup;
+       var imagesInGroup = 0;
+       this.numberOfGroupsM = Math.floor($("#Gallery").find("img").size()/imagesPerGroup);
+       this.numberOfGroupsM = this.numberOfGroupsM + 
+             ($("#Gallery").find("img").size() % imagesPerGroup > 0 ? 1 : 0);
+       this.debug(methodName, "Number of groups [ " + this.numberOfGroupsM + " ]");
        this.debug(methodName, "Each group has [ " + imagesPerGroup + " ] images");
        this.debug(methodName, "Create the tb-images for each img");
-       var divGroup = null;
+       var divGroup = $('<div class="group-image" id="group-image-'+groups+'"></div>');
+       $("#Gallery").append(divGroup);
        $("#Gallery").find("img").each(
           function () {
              var methodName = '"#Gallery".find("img").each';
              if (imagesInGroup === imagesPerGroup){
                 Gallery.debug(methodName, "The number of images in the group has been reached");
-                imagesInGroup = 0;
-                divGroup = $('<div class="group-image" id="group-image-'+groups+'"></div>');
-                groups ++;
-                $("#Gallery").append(divGroup);
+                /*Esto no funciona revisar*/
+                if (groups > 1){
+                   
+                   Gallery.debug(methodName, "The current group is not 1");
+                   divGroup.append("<img src=\"plugins/Gallery/circle_arrow-back_previous.png\" title=\"Anteriores\" alt=\"Anteriores\">");
+                }
+                //////////////////////////
+                if (Gallery.currentGroupM !== Gallery.numberOfGroupsM){
+                   Gallery.debug(methodName, "The current group is not equal to the number of groups");
+                   imagesInGroup = 0;
+                   divGroup.append("<img src=\"plugins/Gallery/circle_arrow-forward_next.png\" title=\"Siguientes\" alt=\"Siguiente\">");
+                   groups ++;
+                   divGroup = $('<div class="group-image" id="group-image-'+groups+'"></div>');
+                   Gallery.debug(methodName, "Hide the group-image-"+groups);
+                   divGroup.hide();
+                   $("#Gallery").append(divGroup);
+                }
              }
              imagesInGroup ++;
              Gallery.debug(methodName, "Images in the group [ " + imagesInGroup +" ]");
@@ -134,7 +155,7 @@ var Gallery = {
                   "margin-top" : marginVertical
                   });
              tbImg.append($(this));
-             Gallery.debug(methodName, "Adding image to [ group-image-"+(groups-1)+" ]");
+             Gallery.debug(methodName, "Adding image to [ group-image-"+(groups)+" ]");
              divGroup.append(tbImg);
              //$("#Gallery").append(tbImg);
              
