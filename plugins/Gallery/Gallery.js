@@ -56,6 +56,32 @@ var Gallery = {
         return aux; 
     
     },
+    nextGroup: function(){
+       var methodName = "nextGroup";
+       this.debugEnter(methodName);
+       var currentGroup = "#group-image-"+this.currentGroupM;
+       var nextGroup = "#group-image-"+ (this.currentGroupM + 1);
+       this.debug(methodName, "The [ " + currentGroup + " ] will be hidden and the [ "
+             + nextGroup + " ] will be showed");
+       this.currentGroupM ++;
+       $(nextGroup).show();
+       $(currentGroup).hide();
+       
+       this.debugExit(methodName);
+    },
+    previousGroup: function(){
+       var methodName = "previousGroup";
+       this.debugEnter(methodName);
+       var currentGroup = "#group-image-"+this.currentGroupM;
+       var previousGroup = "#group-image-"+(this.currentGroupM - 1);
+       this.debug(methodName, "The [ " + currentGroup + " ] will be hidden and the [ "
+             + previousGroup + " ] will be showed");
+       this.currentGroupM --;
+       $(previousGroup).show();
+       $(currentGroup).hide();
+       this.debugExit(methodName);
+       
+    },
   
     /**
      * Method that shows the gallery.
@@ -114,6 +140,7 @@ var Gallery = {
        var groups = 1;
        var imagesPerGroup = columns * rows;
        var imagesInGroup = 0;
+       var mustAddPreviousBtn = false;
        this.numberOfGroupsM = Math.floor($("#Gallery").find("img").size()/imagesPerGroup);
        this.numberOfGroupsM = this.numberOfGroupsM + 
              ($("#Gallery").find("img").size() % imagesPerGroup > 0 ? 1 : 0);
@@ -121,28 +148,37 @@ var Gallery = {
        this.debug(methodName, "Each group has [ " + imagesPerGroup + " ] images");
        this.debug(methodName, "Create the tb-images for each img");
        var divGroup = $('<div class="group-image" id="group-image-'+groups+'"></div>');
+       var divNavigation = null;
        $("#Gallery").append(divGroup);
        $("#Gallery").find("img").each(
           function () {
              var methodName = '"#Gallery".find("img").each';
+             
              if (imagesInGroup === imagesPerGroup){
                 Gallery.debug(methodName, "The number of images in the group has been reached");
-                /*Esto no funciona revisar*/
-                if (groups > 1){
-                   
-                   Gallery.debug(methodName, "The current group is not 1");
-                   divGroup.append("<img src=\"plugins/Gallery/circle_arrow-back_previous.png\" title=\"Anteriores\" alt=\"Anteriores\">");
-                }
-                //////////////////////////
+               
                 if (Gallery.currentGroupM !== Gallery.numberOfGroupsM){
+                   
                    Gallery.debug(methodName, "The current group is not equal to the number of groups");
                    imagesInGroup = 0;
-                   divGroup.append("<img src=\"plugins/Gallery/circle_arrow-forward_next.png\" title=\"Siguientes\" alt=\"Siguiente\">");
+                 //Añadir el div para navegacion y en el se deben de poner los botos.
+                   //El div de navegacion, debe de estar debajo del resto de las fotos
+                   divNavigation = $("<div class=\"navigation\"></div>");
+                   divGroup.append(divNavigation);
+                   
+                   if (mustAddPreviousBtn){
+                      
+                      Gallery.debug(methodName, "The previous button is added");
+                      divGroup.append("<img class=\"btn-previous\" src=\"plugins/Gallery/circle_arrow-back_previous.png\" title=\"Anteriores\" alt=\"Anteriores\">");
+                   }
+                   divGroup.append("<img class=\"btn-next\" src=\"plugins/Gallery/circle_arrow-forward_next.png\" title=\"Siguientes\" alt=\"Siguiente\">");
                    groups ++;
                    divGroup = $('<div class="group-image" id="group-image-'+groups+'"></div>');
                    Gallery.debug(methodName, "Hide the group-image-"+groups);
                    divGroup.hide();
                    $("#Gallery").append(divGroup);
+                   mustAddPreviousBtn = true;
+                   
                 }
              }
              imagesInGroup ++;
@@ -163,9 +199,27 @@ var Gallery = {
              imageMarginTop = parseInt(imageMarginTop/2) + "px";
              Gallery.debug(methodName, ' Image margin-top [ '  + imageMarginTop + ' ]');
              $(this).css("margin-top", imageMarginTop);
-          }       
+          }
        );
-       
+       if (mustAddPreviousBtn){
+          
+          Gallery.debug(methodName, "The previous button must be added in the last div group");
+          divGroup.append("<img  class=\"btn-previous\" src=\"plugins/Gallery/circle_arrow-back_previous.png\" title=\"Anteriores\" alt=\"Anteriores\">");
+       }
+       $(".btn-next").click(function(){
+             var methodName = ".btn-next.click";
+             Gallery.debugEnter(methodName);
+             Gallery.nextGroup();
+             Gallery.debugExit(methodName);
+          }
+       );
+       $(".btn-previous").click(function(){
+          var methodName = ".btn-previous.click";
+          Gallery.debugEnter(methodName);
+          Gallery.previousGroup();
+          Gallery.debugExit(methodName);
+       }
+    );
        
                          
       

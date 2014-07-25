@@ -6,9 +6,23 @@ position: relative;
 
 .tb-image img{
    
-  cursor: pointer;
+   cursor: pointer;
+}
+.btn-next , .btn-previous{
+   cursor: pointer;
+
 }
 
+.group-image{
+
+   background-color: red;
+}
+.navigation{
+
+   background-color: orange;
+   width: 100%;
+   
+}
 
 /*.tb-image img:hover{
    cursor: hand;
