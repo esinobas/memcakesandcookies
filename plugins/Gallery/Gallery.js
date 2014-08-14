@@ -134,7 +134,7 @@ var Gallery = {
        this.debug(methodName, "Calculate width and height of the div where the images are showed");
        
        var divWidth = parseInt(((parseInt(widthGallery) - ( (columns+1 ) * parseInt(marginHorizontal))) / columns)) + "px";
-       var divHeight = parseInt(((parseInt(heightGallery) - ( (rows + 1 ) * parseInt(marginVertical))) / rows)) + "px"; 
+       var divHeight = parseInt(((parseInt(heightGallery) - 64 - ( (rows + 1 ) * parseInt(marginVertical))) / rows)) + "px"; 
        this.debug(methodName,"Div width [ " + divWidth + " ]. Div Heigth [ " + divHeight + "]"); 
        
        var groups = 1;
@@ -150,6 +150,10 @@ var Gallery = {
        var divGroup = $('<div class="group-image" id="group-image-'+groups+'"></div>');
        var divNavigation = null;
        $("#Gallery").append(divGroup);
+       var strJavaScript = "<div class=\"images-list\" style=\"height:"+
+                                (parseInt(heightGallery)-64)+"px;\"></div>";
+       var imagesList = $(strJavaScript);
+       divGroup.append(imagesList);
        $("#Gallery").find("img").each(
           function () {
              var methodName = '"#Gallery".find("img").each';
@@ -161,7 +165,7 @@ var Gallery = {
                    
                    Gallery.debug(methodName, "The current group is not equal to the number of groups");
                    imagesInGroup = 0;
-                 //Añadir el div para navegacion y en el se deben de poner los botos.
+                   //Añadir el div para navegacion y en el se deben de poner los botones.
                    //El div de navegacion, debe de estar debajo del resto de las fotos
                    divNavigation = $("<div class=\"navigation\"></div>");
                    divGroup.append(divNavigation);
@@ -169,11 +173,13 @@ var Gallery = {
                    if (mustAddPreviousBtn){
                       
                       Gallery.debug(methodName, "The previous button is added");
-                      divGroup.append("<img class=\"btn-previous\" src=\"plugins/Gallery/circle_arrow-back_previous.png\" title=\"Anteriores\" alt=\"Anteriores\">");
+                      divNavigation.append("<img class=\"btn-previous\" src=\"plugins/Gallery/circle_arrow-back_previous.png\" title=\"Anteriores\" alt=\"Anteriores\">");
                    }
-                   divGroup.append("<img class=\"btn-next\" src=\"plugins/Gallery/circle_arrow-forward_next.png\" title=\"Siguientes\" alt=\"Siguiente\">");
+                   divNavigation.append("<img class=\"btn-next\" src=\"plugins/Gallery/circle_arrow-forward_next.png\" title=\"Siguientes\" alt=\"Siguiente\">");
                    groups ++;
                    divGroup = $('<div class="group-image" id="group-image-'+groups+'"></div>');
+                   imagesList = $(strJavaScript);
+                   divGroup.append(imagesList);
                    Gallery.debug(methodName, "Hide the group-image-"+groups);
                    divGroup.hide();
                    $("#Gallery").append(divGroup);
@@ -192,7 +198,7 @@ var Gallery = {
                   });
              tbImg.append($(this));
              Gallery.debug(methodName, "Adding image to [ group-image-"+(groups)+" ]");
-             divGroup.append(tbImg);
+             imagesList.append(tbImg);
              //$("#Gallery").append(tbImg);
              
              var imageMarginTop = parseInt(divHeight)-parseInt(Gallery.getHeightFromFileName($(this).attr('src')));
@@ -202,9 +208,10 @@ var Gallery = {
           }
        );
        if (mustAddPreviousBtn){
-          
+          divNavigation = $("<div class=\"navigation\"></div>");
+          divGroup.append(divNavigation);
           Gallery.debug(methodName, "The previous button must be added in the last div group");
-          divGroup.append("<img  class=\"btn-previous\" src=\"plugins/Gallery/circle_arrow-back_previous.png\" title=\"Anteriores\" alt=\"Anteriores\">");
+          divNavigation.append("<img class=\"btn-previous\" src=\"plugins/Gallery/circle_arrow-back_previous.png\" title=\"Anteriores\" alt=\"Anteriores\">");
        }
        $(".btn-next").click(function(){
              var methodName = ".btn-next.click";

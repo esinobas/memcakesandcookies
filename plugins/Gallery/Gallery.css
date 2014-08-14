@@ -15,15 +15,22 @@ position: relative;
 
 .group-image{
 
-   background-color: red;
+   width: 100%;
 }
 .navigation{
-
-   background-color: orange;
+   position: relative;
    width: 100%;
-   
+   text-align: center;
+   height: 64px;
 }
 
-/*.tb-image img:hover{
-   cursor: hand;
-}*/
+.navigation img{
+
+   height: 64px;
+   width: 67px;
+}
+.images-list{
+   width: 100%;
+   position: relative;
+   
+}
