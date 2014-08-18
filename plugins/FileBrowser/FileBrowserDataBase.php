@@ -43,6 +43,13 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/php/log4php/Logger.php');
        * JSON params
        */
       const paramCollectionC = "collection";
+      
+      /**
+       * 
+       * @var paramCollectionIdC os a constant with the key for search a value
+       * in a JSON params
+       */
+      const paramCollectionIdC = "collectionId";
        
       /**
        * Constructor of the class
@@ -53,6 +60,9 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/php/log4php/Logger.php');
       public function __construct($theParams){
       
          //Logger::configure($_SERVER['DOCUMENT_ROOT'].'/log/LogConfig.xml');
+         if ( ! Logger::isInitialized()){
+            Logger::configure($_SERVER['DOCUMENT_ROOT'].'/log/LogConfig.xml');
+         }
          $this->loggerM = Logger::getLogger(__CLASS__);
          $this->loggerM->trace("Enter");
          parent::__construct();
@@ -73,11 +83,15 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/php/log4php/Logger.php');
          $customParams = $jsonParams[FileBrowserDatabase::customParamsC];
          
          $collection = $customParams[FileBrowserDatabase::paramCollectionC];
+         $collectionId = $customParams[FileBrowserDatabase::paramCollectionIdC];
          
          $this->loggerM->trace("Get the files that belong to the collection [ " .
-               $collection ." ]");
+               $collection ." ] with Id [ " . $collectionId . " ]");
          
-         $filesInDatabase = TB_IMAGE_COLLECTION::getImageFromCollection($collection);
+         
+         
+         //$filesInDatabase = TB_IMAGE_COLLECTION::getImageFromCollection($collection);
+         $filesInDatabase = TB_IMAGE_COLLECTION::getImagesfromCollectionID($collectionId);
          
          $this->loggerM->trace("Get files from path [ " . $path ." ]");
          

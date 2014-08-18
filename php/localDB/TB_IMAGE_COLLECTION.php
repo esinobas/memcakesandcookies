@@ -232,11 +232,11 @@
        * @param String $theFileName. The image file name
        * @param String $TheDescription. The image description
        * @param String $theType. The type of the image
-       * @param String $theCollection. The collection to which belongs the image
+       * @param String $theCollectionId. The collection to which belongs the image
        * @return boolean
        */
       static public function insertNewImage($thePath, $theFileName, 
-                             $TheDescription, $theType, $theCollection){
+                             $TheDescription, $theType, $theCollectionId){
          
          //Logger::configure(logConfigurationC);
          $logger = Logger::getLogger(__CLASS__);
@@ -248,7 +248,7 @@
          $logger->debug("A new image will be inserted with the following parameters:\n".
               "Path [ " . $thePath . " ]\nFile Name [ " . $theFileName . " ]\n".
              "Description [ " . $TheDescription . " ]\nType [ " . $theType . " ]\n".
-              "Collection [ " . $theCollection . " ]\n");
+              "CollectionId [ " . $theCollectionId . " ]\n");
       
          
          $conn = new MySqlDAO(serverC, userC, pwdC, ddbbC);
@@ -279,7 +279,7 @@
                $returnValue = false;
             }
             $logger->trace("The type ID is [ " . $typeId . " ]");
-            if ($returnValue ){
+            /*if ($returnValue ){
                
                $collectionId = 0;
                $returnValue = TB_IMAGE_COLLECTION::getCollectionIdByName($conn,
@@ -287,7 +287,7 @@
                if ($returnValue){
                   $logger->trace("The collection ID is [ " . $collectionId . " ]");
                }
-            }
+            }*/
             
             if ($returnValue ){
                $logger->trace("Insert the image in the table [ " . TableImageC .
@@ -324,7 +324,7 @@
             
                
                $returnValue = TB_IMAGE_COLLECTION::insertRelationImageCollection($conn,
-                                     $lastId, $collectionId);
+                                     $lastId, $theCollectionId);
             }
             if ($returnValue ){
                $logger->debug("Insertion completed with success");
@@ -352,7 +352,7 @@
        * @param String $theCollection. The collection name
        * @return boolean. True when the relation is inserted.
        */
-      static public function insertImageInCollection($thePath, $theFile, $theCollection){
+      static public function insertImageInCollection($thePath, $theFile, $theCollectionId){
          
          $logger = Logger::getLogger(__CLASS__);
           
@@ -362,21 +362,21 @@
          
          $logger->debug("Trying insert the a image in a collection with the following parameters:\n".
                         "Path [ " . $thePath . " ]\nImage [ " . $theFile . " ]\n".
-                        "Collection [ " . $theCollection ." ]");
+                        "CollectionId [ " . $theCollectionId ." ]");
          $conn = new MySqlDAO(serverC, userC, pwdC, ddbbC);
          $conn->connect();
          
          if($conn->isConnected()){
             $logger->trace("The connection with the database was done with successfully");
-            $collectionId = 0;
+            //$collectionId = 0;
             
-            if (TB_IMAGE_COLLECTION::getCollectionIdByName($conn, $theCollection, $collectionId)){
+            /*if (TB_IMAGE_COLLECTION::getCollectionIdByName($conn, $theCollection, $collectionId)){
                 $logger->trace("The collection [ " . $theCollection .
                      " ] was found and its id is [ " . $collectionId. " ]");
             }else{
                 $logger->trace("The collection [ " . $theCollection . " ] has not been found");
                 $returnValue = false;
-            }
+            }*/
             
             
             $logger->trace("Get image id [ " . $thePath . "/" . $theFile . " ]");   
@@ -410,7 +410,7 @@
             
             if ($returnValue){
                if (TB_IMAGE_COLLECTION::insertRelationImageCollection($conn,
-                $imageId, $collectionId)){
+                $imageId, $theCollectionId)){
                   $logger->trace("The relation was inserted");
                }else{
                   $logger->error("The relation was not inserted, an error ".
@@ -508,6 +508,9 @@
        */
       static public function getImagesfromCollectionID($theCollectionId){
          
+         if ( ! Logger::isInitialized()){
+            Logger::configure($_SERVER['DOCUMENT_ROOT'].'/log/LogConfig.xml');
+         }
          $logger=Logger::getLogger(__CLASS__);
          $logger->trace("Enter");
          $logger->trace("Get the images that belong to the collection id [ " . $theCollectionId ." ]");

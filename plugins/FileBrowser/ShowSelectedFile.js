@@ -13,7 +13,7 @@ var ShowSelectedFile = {
    imageTypeC: 'image_type',
    imageNameM: "",
    imageNameC: "image_name",
-   imageCollectionC: "image_collection",
+   imageCollectionC: "image_collectionId",
    imageCollectionM: "",
    callbackM: null,
     
@@ -61,7 +61,7 @@ var ShowSelectedFile = {
        parametersArray.file = theFileName;
        parametersArray.desc = theDesc;
        parametersArray.typeImage = theType;
-       parametersArray.collection = theCollection;
+       parametersArray.collectionId = theCollection;
        var parameters = JSON.stringify(parametersArray);
        this.debug(methodName, "Parameters [ " + parameters +" ]");
        ajaxObject.setParameters(parameters);

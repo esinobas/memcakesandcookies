@@ -16,7 +16,8 @@
                         color_selected_file: "orange",
                         server_type: "Database",
                         custom_params: {option:<?php printf("\"%s\"",$_GET['option']);?>,
-                                        collection:$('#comboCollection>option:selected').text()},
+                                        collection:$('#comboCollection>option:selected').text(),
+                                        collectionId: $('#comboCollection>option:selected').val()},
                                         callback: callbackFunction});
                     FileBrowser.show();
                  }

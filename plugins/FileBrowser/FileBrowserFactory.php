@@ -25,6 +25,9 @@ class FileBrowserFactory{
       
       
        //Logger::configure($_SERVER['DOCUMENT_ROOT'].'/log/LogConfig.xml');
+      if ( ! Logger::isInitialized()){
+         Logger::configure($_SERVER['DOCUMENT_ROOT'].'/log/LogConfig.xml');
+      }
        $logger = Logger::getLogger(__CLASS__);
        $logger->trace("ENTER");
        

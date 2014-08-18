@@ -11,7 +11,7 @@ function FileBrowserDataBase (theCallback){
    /**
     * Private properties
     */
-   var _debugM = true;
+   var _debugM = false;
    
    
    /**
@@ -70,7 +70,7 @@ function FileBrowserDataBase (theCallback){
       this.debug(methodName, "The file [ " + thePath+"/"+theFile +
             " ] has been selected.");
       var customParamOption = theParams['option'];
-      var customParamCollection = theParams['collection'];
+      var customParamCollectionId = theParams['collectionId'];
      
       if (this.existFile(thePath+"/"+theFile)){
          this.debug(methodName, "The file [ " + thePath+"/"+theFile + " ] exists in the database");
@@ -78,7 +78,7 @@ function FileBrowserDataBase (theCallback){
          paramsArray.command = "Insert image in collection";
          paramsArray.path = thePath;
          paramsArray.file = theFile;
-         paramsArray.collection = customParamCollection;
+         paramsArray.collectionId = customParamCollectionId;
          this.debug(methodName, "Insert image in collection with following parameters [ " + 
                JSON.stringify(paramsArray) + " ]");
          var url = this.getCurrentPath(this.classNameM+".js") + "FileBrowserDataBaseCommands.php";
@@ -101,12 +101,12 @@ function FileBrowserDataBase (theCallback){
          paramsArray.image_path = thePath;
          paramsArray.image_file = theFile;
          paramsArray.image_type = customParamOption;
-         paramsArray.image_collection = customParamCollection;
+         paramsArray.image_collectionId = customParamCollectionId;
          this.debug(methodName, "Insert new image with following parameters [ " + 
                JSON.stringify(paramsArray) + " ]");
          ShowSelectedFile.show({image_path:thePath, image_name:theFile, 
                                image_type: customParamOption,
-                               image_collection: customParamCollection},
+                               image_collectionId: customParamCollectionId},
                                this.callbackM);
          
       }

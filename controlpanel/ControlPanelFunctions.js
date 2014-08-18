@@ -3,7 +3,7 @@
  */
 
 var fileNameC = "ControlPanelFunctions.js";
-var enableDebugM = true;
+var enableDebugM = false;
 var selectedImageM = "";
 var selectedImageDescM ="";
 var selectedOptionM="unknown";
@@ -168,7 +168,7 @@ function setFunctionsToObjects(theOption){
               path = "images/cookies";
            }
            if (theOption == "Modelados"){
-              path = "images/models";
+              path = "images/modelados";
            }
            UploadImage.show({image_path: path, image_type: theOption});     
         }

@@ -42,7 +42,7 @@
       const fileC = "file";
       const descC = "desc";
       const imageTypeC = "typeImage";
-      const collectionC = "collection";
+      const collectionC = "collectionId";
       
    
       
@@ -72,21 +72,21 @@
     * @param string $theFile. The file name
     * @param string $theDesc. Image description
     * @param string $theType. Type of image
-    * @param string $theCollection. Collection to which the image belongs
+    * @param string $theCollectionId. Collection to which the image belongs
     * @param Logger $theLogger. Objecto to logs the actions.
     * @return boolean True value when the image is successfuly inserted.
     */
    function insertNewImage($thePath, $theFile, $theDesc , $theType, 
-                                        $theCollection, $theLogger){
+                                        $theCollectionId, $theLogger){
       
       $theLogger->trace("Enter");
       $theLogger->debug("Trying insert new image with the following parameters:\n".
       "Path [ " . $thePath . " ]\nFile Name [ " . $theFile . " ]\n".
        "Description [ " . $theDesc . " ]\nType [ " . $theType . " ]\n".
-      "Collection [ " . $theCollection . " ]\n");
+      "CollectionId [ " . $theCollectionId . " ]\n");
       
       $result = TB_IMAGE_COLLECTION::insertNewImage($thePath, $theFile, $theDesc, $theType, 
-                                                       $theCollection);
+                                                       $theCollectionId);
       
       $theLogger->debug("Result [ " .($result ? "true": "false"). " ]");
       $theLogger->trace("Exit");
@@ -95,12 +95,13 @@
    
    
    
-   function insertImageCollection($thePath, $theImage, $theCollection, $theLogger){
+   function insertImageCollection($thePath, $theImage, $theCollectionId, $theLogger){
       $theLogger->trace("Enter");
       $theLogger->debug("Trying insert the image [ ".$theImage." ] in collection [ ".
-            $theCollection . " ]");
+            $theCollectionId . " ]");
       
-      $result = TB_IMAGE_COLLECTION::insertImageInCollection($thePath, $theImage, $theCollection);
+      $result = TB_IMAGE_COLLECTION::insertImageInCollection($thePath, $theImage, 
+                                                             $theCollectionId);
       $theLogger->debug("Result [ " .($result ? "true": "false"). " ]");
       $theLogger->trace("Exit");
       return $result;
@@ -110,7 +111,9 @@
    /**
     * Set up and initialize the object logger for write log
     */
-   Logger::configure($_SERVER['DOCUMENT_ROOT'].'/log/LogConfig.xml');
+ if ( ! Logger::isInitialized()){
+            Logger::configure($_SERVER['DOCUMENT_ROOT'].'/log/LogConfig.xml');
+         }
    $loggerM = Logger::getLogger('FileBrowserDataBaseCommands');
   
    $theCommand = $_POST["command"];
@@ -131,10 +134,10 @@
          $theFile = $_POST[fileC];
          $theDesc = $_POST[descC];
          $theImageType = $_POST[imageTypeC];
-         $theCollection = $_POST[collectionC];
-         
+         $theCollectionId = $_POST[collectionC];
+         $loggerM->trace("XXX . collection -> " . $theCollectionId);
          if (insertNewImage($thePath, $theFile, $theDesc, $theImageType, 
-                  $theCollection, $loggerM)){
+                  $theCollectionId, $loggerM)){
             
             $returnValue = "true";
          }else{
