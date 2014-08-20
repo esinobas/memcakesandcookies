@@ -65,12 +65,20 @@
                      <?php
                      if (intval($_GET["pageId"]) >= 2 && intval($_GET["pageId"]) <= 4){
                         
-                        //$_GET["collection"]
+                       ?>
+                       <div id="Gallery-Tittle">
+                          <?php
+                              $menu = TB_MENUS::getMenuById(intval($_GET["pageId"]));
+                              $collection = TB_COLLECTION::getCollectionById(intval($_GET["collection"]));
+                              if ($menu != null && $collection != null){
+                                 printf("%s / %s\n", $menu->getOption(), $collection->getName());
+                              }
+                          ?>
+                       </div>
+                       <?php 
                        
                        require_once(dirname(__FILE__).'/getImages.php');
-                        
-                          
-                        
+
                      }
                      
                      ?>

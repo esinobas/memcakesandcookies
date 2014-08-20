@@ -217,6 +217,61 @@
          $logger->trace("Exit");
          return new DBIterator($rows);
       }
+      
+      /**
+       * The method retunrs a collection that has been searched by its id
+       * @param integer $theId
+       * @return A TB_COLLECTION object
+       */
+      static public function getCollectionById($theId){
+         
+         if ( ! Logger::isInitialized()){
+            Logger::configure(logConfigurationC);
+         }
+         $logger = Logger::getLogger(__CLASS__);
+         
+         $logger->trace("Enter");
+         
+         $logger->trace("Search a collection with ID [ " . $theId . " ]");
+         $query = sprintf("select %s, %s, %s from %s where %s=%d"
+                                       ,IdCollectionC
+                                       ,CollectionC
+                                       ,MenuC
+                                       ,TableNameC
+                                       ,IdCollectionC
+                                       ,$theId);
+         
+         $conn = new MySqlDAO(serverC, userC, pwdC, ddbbC);
+         
+         $conn->connect();
+          
+         $result = null;
+         $foundCollection = null;
+         
+         if($conn->isConnected()) {
+            $logger->trace("The connection was established successfully");
+            $logger->debug("Run query [ " . $query ." ]");
+            $result = $conn->query($query);
+         
+            if ($result != null){
+               $id = $result[0][IdCollectionC];
+               $collection = $result[0][CollectionC];
+               $menuId = $result[0][MenuC];
+               $foundCollection = new TB_COLLECTION($id);
+               $foundCollection->setName($collection);
+               $foundCollection->setMenuId($menuId);
+         
+            }else{
+               $logger->info("The collection was not found");
+            }
+            $conn->closeConnection();
+         }else{
+            $logger->warn("The connection can not be established. [ ". $conn->getConnectError() ." ]");
+         }
+         
+         $logger->trace("Exit");
+         return $foundCollection;
+      }
    }
    
 ?>

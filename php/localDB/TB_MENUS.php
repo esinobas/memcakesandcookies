@@ -63,8 +63,9 @@
 
      static public function getMenu(){
         
-        
-        Logger::configure(logConfigurationC);
+        if ( ! Logger::isInitialized()){
+           Logger::configure(logConfigurationC);
+        }
         $logger = Logger::getLogger(__CLASS__);
         
         $logger->trace("Enter");
@@ -198,6 +199,57 @@
        $logger->trace("Exit");
        return $lastId;                                 
      
+     }
+     
+     /**
+      * Returns the menu data searching it by id
+      * @param integer $theId
+      * 
+      * @return a menu object
+      */
+     static public function getMenuById($theId){
+        
+        if (! Logger::isInitialized()){
+           Logger::configure(logConfigurationC);
+        }
+        $logger = Logger::getLogger(__CLASS__);
+        $logger->trace("Enter");
+        $logger->trace("Search menu with id [ ". $theId . " ]");
+        $query = sprintf("select %s, %s from %s where %s = %d"
+                                ,idC
+                                ,optionC
+                                ,tableMenuC
+                                ,idC
+                                ,$theId);
+        
+        $conn = new MySqlDAO(serverC, userC, pwdC, ddbbC); 
+        
+        $conn->connect();
+         
+        $result = 0;
+        $returnObject = null;
+        
+        if($conn->isConnected()) {
+           $logger->trace("The connection was established successfully");
+           $logger->debug("Run query [ " . $query ." ]");
+           $result = $conn->query($query);
+            
+           if ($result != null){
+              $id = $result[0][idC];
+              $option = $result[0][optionC];
+              $returnObject = new TB_MENUS($id);
+              $returnObject->setOption($option);
+              
+           }else{
+              $logger->info("The menu was not found");
+           }
+          $conn->closeConnection(); 
+        }else{
+           $logger->warn("The connection can not be established. [ ". $conn->getConnectError() ." ]");
+        }
+        
+        $logger->trace("Exit");
+        return $returnObject;
      }
    };
 
