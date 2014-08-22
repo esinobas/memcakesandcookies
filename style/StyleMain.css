@@ -41,8 +41,13 @@ html {
   width: 220px;
   height: inherit;
   text-align: center;
-  
-  
+}
+#facebook {
+  display: block;
+  float: right;
+  width: 140px;
+  height: 24px;
+  text-align: right;
 }
 #Logo img {
   width: 220px;
@@ -149,13 +154,7 @@ html {
   width: 600px;
   height: 100%;
 }
-#facebook {
-  display: block;
-  float: right;
-  width: 140px;
-  height: 100%;
-  text-align: right;
-}
+
 .clear {
   overflow: hidden;
   clear: both;

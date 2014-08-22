@@ -42,6 +42,12 @@
                   <img src="images/logoCMYKwithoutBorder.jpg" alt="MEM cakes and cookies" title="MEM cakes and cookies" >
                </a>
             </div>
+            <div id="facebook">
+                  <a href="http://www.facebook.com/pages/MEM-Cakes-Cookies/259622654111131?sk=map&activecategory=Fotos&session_id=1334453034">
+                     <img src="images/logo_facebook.jpg" height="24" width="24" title="Siguenos también en Facebook"></a>
+                  <a href="https://twitter.com/MEMCyC">
+                    <img src="images/twitter-logo.jpg" height="24" width="24" title="Siguenos también en Twitter" ></a>
+             </div>
 
             <div id="div_menu">
                <?php
