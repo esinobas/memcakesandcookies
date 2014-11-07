@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://logging.apache.org/log4php/">
+   
+   <appender name="CursesMangementFileAppdender" class="LoggerAppenderRollingFile">
+      <param name="file" value="/home/tebi/Datos/webserver/MEMcakesandcookies/www/log/CursesMangement.log" />
+      <param name="maxFileSize" value="1MB" />
+      <param name="maxBackupIndex" value="1" />
+      <param name = "append" value = "true"/>
+      <layout class="LoggerLayoutPattern">
+         <param name="conversionPattern" value=" [%level]. %date{d/m/Y - H:i:s}. %logger. %method. line [%line]. %msg.%n" />
+      </layout>
+   </appender>
+
+   
+   <logger name="DatabaseDef">
+      <level value="ERROR"></level>
+      <appender_ref ref = "CursesMangementFileAppdender"></appender_ref>
+   </logger>
+
+   
+   <logger name="GenericTable">
+      <level value="ERROR"/>
+      <appender_ref ref = "CursesMangementFileAppdender"></appender_ref>
+   </logger>
+   <logger name="TableMapping">
+      <level value="ERROR"/>
+      <appender_ref ref = "CursesMangementFileAppdender"></appender_ref>
+   </logger>
+  <logger name="DatabaseMgr">
+      <level value="ERROR"/>
+      <appender_ref ref = "CursesMangementFileAppdender"></appender_ref>
+   </logger>
+   <logger name="PhisicalTableDef">
+      <level value="ERROR"/>
+      <appender_ref ref = "CursesMangementFileAppdender"></appender_ref>
+   </logger>
+   
+   
+   <logger name="CursesManagement.php">
+      <level value="TRACE"/>
+      <appender_ref ref = "CursesMangementFileAppdender"></appender_ref>
+   </logger>
+   
+   <logger name="TB_Configuration">
+      <level value="ERROR"/>
+      <appender_ref ref = "CursesMangementFileAppdender"></appender_ref>
+   </logger>
+   
+   <logger name="Filebrowser.php">
+      <level value="ERROR"/>
+      <appender_ref ref = "CursesMangementFileAppdender"></appender_ref>
+   </logger>
+   
+    <logger name="RequestFromWeb.php">
+      <level value="TRACE"/>
+      <appender_ref ref = "CursesMangementFileAppdender"></appender_ref>
+   </logger>
+
+</configuration>

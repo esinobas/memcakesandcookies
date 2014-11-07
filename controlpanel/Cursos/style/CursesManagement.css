@@ -1,0 +1,147 @@
+body{
+   background-color: white;
+   
+}
+
+#container{
+ 
+   border-left-style: solid;
+   border-left-width: 1px;
+   border-left-color: orange;
+   border-right-style: solid;
+   border-right-width: 1px;
+   border-right-color: orange;
+   width: 960px;
+   height: 100%;
+   margin-left: auto;
+   margin-right: auto;
+   padding: 0px 5px;
+}
+
+#header{
+ 
+   
+   width: 955px;
+   height: 25px;
+   padding-left: 5px;
+   border-bottom-style: solid;
+   border-bottom-width: 1px;
+   border-bottom-color: orange;
+   font-size: 24px;
+   color: #ce5c00;
+   font-family: Arial;
+}
+
+#central{
+   width: 955px;
+   height: 100%;
+   padding: 0px 2px;
+ 
+}
+
+.horizontal_menu{
+   font-family: Arial;
+   font-size: 15px;
+   font-weight: bold;
+   width: 955px;
+   height: 20px;
+   border-bottom-style: solid;
+   border-bottom-width: 1px;
+   border-bottom-color: orange;
+
+}
+
+.horizontal_menu ul{
+   list-style: none;
+   padding: 0px;
+   text-align: center;
+}
+
+.horizontal_menu li{
+ 
+   display: inline;
+   padding: 1px 0px 0px 0px;
+   magin-left: 3px;
+   width: 120px;
+   height: 20px;
+   float: left;
+   background-color: orange;
+
+}
+.horizontal_menu li a{
+   padding: 0px 5px;
+   text-decoration: none;
+   
+}
+
+.horizontal_menu li a:link, .horizontal_menu li a:visited{
+   color: white;
+ }
+ 
+ #div_configuracion{
+   display: none;
+ }
+ #div_clientes{
+   display: none;
+ }
+ 
+ .div_data h1{
+   color: #ce5c00;
+   font-size: 20px;
+   font-family: Arial;
+   font-weight: normal;
+   
+ }
+ 
+ .data_configuration{
+   font-family: Arial;
+   font-size: 14px;
+   padding: 2px 5px;
+   color: #ce5c00;
+   
+ }
+ .label{
+ 
+   font-family: Arial;
+   font-size: 14px;
+   padding: 2px 5px;
+   color: #ce5c00;
+   float: left;
+
+ }
+ 
+ .grid{
+ 
+   background-color: cyan;
+   margin-left:auto;
+   margin-right:auto;
+   width: 700px;
+ }
+ 
+ .label-grid-colum{
+   
+   width: 150px;
+   display:inline;
+   float: left;
+ }
+ .value-grid-column{
+   
+   width: 450px;
+   display:inline;
+   float: left;
+ }
+ .desc-grid-column{
+   
+   width: 100px;
+   display:block;
+   float: left;
+   text-align: center;
+ }
+ 
+ .grid .input_grid{
+   font-family: Arial;
+   font-size: 14px;
+   font-style: italic;
+   width: 445px;
+   color: brown;
+ }
