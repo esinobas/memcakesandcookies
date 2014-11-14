@@ -73,6 +73,12 @@
          $this->loggerM->trace("Exit");
       }
       
+      public function __destruct(){
+         $this->loggerM->trace("Enter");
+         DatabaseMgr::closeConnection();
+         $this->loggerM->trace("Exit");
+      }
+      
      
       private function mergeTableData(){
          
@@ -171,7 +177,15 @@
        */
       public function insertData($theDataArray){
          $this->loggerM->trace("Enter");
-         DatabaseMgr::insert($this->tableMappingM, $theDataArray, $this->tableDataM); 
+         if (DatabaseMgr::insert($this->tableMappingM, $theDataArray, 
+                             $this->tableDataM,
+                             $this->tableDefinitionM->getKeys()[0])){
+            $this->loggerM->trace("The data was inserted successfully");
+         }else{
+            $this->loggerM->error("The data was not inserted");
+         }
+         $this->rewind();
+         
          $this->loggerM->trace("Exit");
       }
       

@@ -19,7 +19,7 @@
 
    
    <logger name="GenericTable">
-      <level value="ERROR"/>
+      <level value="TRACE"/>
       <appender_ref ref = "CursesMangementFileAppdender"></appender_ref>
    </logger>
    <logger name="TableMapping">
@@ -27,7 +27,7 @@
       <appender_ref ref = "CursesMangementFileAppdender"></appender_ref>
    </logger>
   <logger name="DatabaseMgr">
-      <level value="ERROR"/>
+      <level value="TRACE"/>
       <appender_ref ref = "CursesMangementFileAppdender"></appender_ref>
    </logger>
    <logger name="PhisicalTableDef">
@@ -53,6 +53,11 @@
    
     <logger name="RequestFromWeb.php">
       <level value="TRACE"/>
+      <appender_ref ref = "CursesMangementFileAppdender"></appender_ref>
+   </logger>
+   
+   <logger name="TB_Curso">
+      <level value="ERROR"/>
       <appender_ref ref = "CursesMangementFileAppdender"></appender_ref>
    </logger>
 

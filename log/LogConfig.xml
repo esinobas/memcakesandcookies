@@ -84,31 +84,31 @@
   -->
   <!--  Loggers for FileBrowser -->
   <logger name="DeleteFile">
-     <level value="DEBUG"/>
+     <level value="TRACE"/>
      <appender_ref ref = "RollingFileAppenderFileBrowser"></appender_ref>
   </logger>
    <logger name="FileBrowser">
-     <level value="DEBUG"/>
+     <level value="TRACE"/>
      <appender_ref ref = "RollingFileAppenderFileBrowser"></appender_ref>
   </logger>
    <logger name="FileBrowserDataBaseCommands">
-     <level value="DEBUG"/>
+     <level value="TRACE"/>
      <appender_ref ref = "RollingFileAppenderFileBrowser"></appender_ref>
   </logger>
    <logger name="FileBrowserDataDirectory">
-     <level value="DEBUG"/>
+     <level value="TRACE"/>
      <appender_ref ref = "RollingFileAppenderFileBrowser"></appender_ref>
   </logger>
   <logger name="FileBrowserDataIf">
-     <level value="DEBUG"/>
+     <level value="TRACE"/>
      <appender_ref ref = "RollingFileAppenderFileBrowser"></appender_ref>
   </logger>
   <logger name="FileBrowserFactory">
-     <level value="DEBUG"/>
+     <level value="TRACE"/>
      <appender_ref ref = "RollingFileAppenderFileBrowser"></appender_ref>
   </logger>
   <logger name="FileBrowserDatabase">
-      <level value="DEBUG"/>
+      <level value="TRACE"/>
       <appender_ref ref = "RollingFileAppenderFileBrowser"></appender_ref>
   </logger>
   

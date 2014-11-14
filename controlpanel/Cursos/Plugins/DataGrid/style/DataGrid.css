@@ -1,0 +1,58 @@
+.class-grid{
+ 
+   border-style: solid;
+   border-width: 1px;
+   border-color: black;
+   
+   overflow-x: hidden;
+   overflow-y: scroll;
+}
+
+.class-grid-header{
+ 
+   width: 100%;
+   background-color: silver;
+   
+}
+
+.class-grid-header div, .class-grid-row-data{
+ 
+   float: left;
+   display: inline;
+   padding-left: 5px;
+   padding-top: 2px;
+   padding-bottom: 0px;
+   
+
+
+}
+
+.class-grid-row{
+ 
+   width: 100%;
+   padding-bottom: 2px;  
+  
+}
+.class-grid-row-key, .class-grid-row-hidden-data{
+ 
+   display:none;
+}
+
+.class-grid-header div{ 
+ 
+   background-color: silver
+
+}
+
+.class-grid-header div { 
+ 
+   padding-top: 0px;
+   padding-bottom: 0px; 
+}
+.new-row{
+   clear: both;
+   display: block;
+}
+
+ 
+ 

@@ -61,7 +61,7 @@ body{
  
    display: inline;
    padding: 1px 0px 0px 0px;
-   magin-left: 3px;
+   margin-left: 3px;
    width: 120px;
    height: 20px;
    float: left;
@@ -94,10 +94,10 @@ body{
  }
  
  .data_configuration{
-   font-family: Arial;
+   /*font-family: Arial;
    font-size: 14px;
    padding: 2px 5px;
-   color: #ce5c00;
+   color: #ce5c00;*/
    
  }
  .label{
@@ -112,10 +112,11 @@ body{
  
  .grid{
  
-   background-color: cyan;
+   
    margin-left:auto;
    margin-right:auto;
    width: 700px;
+
  }
  
  .label-grid-colum{
@@ -143,5 +144,78 @@ body{
    font-size: 14px;
    font-style: italic;
    width: 445px;
+   height: 25px;
    color: brown;
+ }
+ .label-grid-colum, .value-grid-column, .desc-grid-column, .grid .input_grid{
+ 
+    padding: 3px 0px;
+ }
+ 
+ .newLine{
+   display: block;
+   clear: both;
+   float: right;
+   /*border-top-color: orange;
+   border-top-style: solid;
+   border-top-width: 1px;*/
+   margin-top: 20px;
+   padding-top: 10px;
+ }
+ 
+ 
+ .data-container{
+   font-family: Arial;
+   font-size: 14px;
+   
+   width: 100%;
+   float: left;
+   
+ }
+ .toolbar{
+   
+   width: 100px;
+   padding: 0px 10px;
+   float: left;
+   display: inline;
+   
+ }
+ .toolbar-bottom{
+   background-color: orange;
+   color: white;
+   font-weight: bold;
+   
+   padding: 3px 2px;
+   margin: 3px 0px;
+   border-style: solid;
+   border-width: 1px;
+   border-color: black;
+   border-radius: 15px;
+   
+ }
+ .toolbar-bottom img{
+   margin-right: 3px;
+   margin-left: 15px;
+   
+ }
+ #div-cursos{
+   
+   width: 494px;
+   height: 500px;
+   padding: 0px 3px;
+   float: left;
+   display: inline;
+   border-left-style: solid;
+   border-left-color: orange;
+   border-left-width: 1px;
+   
+ }
+ 
+ #div-description-cursos{
+   
+   width: 324px;
+   height: 500px;
+   padding: 0px 3px;
+   float: left;
+   display: inline;
  }

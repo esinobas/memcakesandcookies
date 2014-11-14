@@ -7,9 +7,11 @@
      <script type="text/javascript" src="./Plugins/JSLogger/JSLogger.js"></script>
      <script type="text/javascript" src="./Plugins/JQuery/jquery-1.9.0.js"></script>
      <script type="text/javascript" src="./Plugins/FileBrowser/FileBrowser.js"></script>
+     <script type="text/javascript" src="./Plugins/DataGrid/DataGrid.js"></script>
      <script type="text/javascript" src="./Plugins/Ajax/Ajax.js"></script>
      
      <link rel="stylesheet" type="text/css" href="./Plugins/FileBrowser/style/Filebrowser.css">
+     <link rel="stylesheet" type="text/css" href="./Plugins/DataGrid/style/DataGrid.css">
      <link rel="stylesheet" type="text/css" href="./style/CursesManagement.css">
    </head>
    <body>
@@ -42,6 +44,7 @@
                   <li><a href="#" onclick="showData('div_cursos')">Cursos</a></li>
                   <li><a href="#" onclick="showData('div_clientes')">Clientes</a></li>
                   <li><a href="#" onclick="showData('div_configuracion')">Configuración</a></li>
+               </ul>
             </div>
             <div id="div_configuracion" class="div_data">
                <div class="data_title">
@@ -54,46 +57,54 @@
                   $tbConfiguration->open();
                   while ($tbConfiguration->next()){
                      ?>
-                     <div class="label-grid-colum">
-                        <div id=<?php printf("\"%s\"",$tbConfiguration->getProperty());?> class="data_configuration"> 
+                     <div id=<?php printf("\"%s\"",$tbConfiguration->getProperty());?> class="data_configuration">
+                        <div class="label-grid-colum">
+                         
                            <div class="label">
                               <?php print($tbConfiguration->getLabel()."\n");?>
                            </div>
                         </div>
-                     </div>
-                     <div class="value-grid-column">
-                        <div class="config_value">
-                           <input type="text" class= "input_grid" id=<?php printf("\"Data_%s\"", $tbConfiguration->getProperty());?>
+                     
+                        <div class="value-grid-column">
+                           <div class="config_value">
+                              <input type=<?php if (strcmp($tbConfiguration->getProperty(), "Path") == 0){print("\"text\"");}else{print("\"number\" min=\"0\" max=\"300\" step=\"1\"");}?>
+                                  class= "input_grid" id=<?php printf("\"Data_%s\"", $tbConfiguration->getProperty());?>
                                         value=<?php printf("\"%s\"",$tbConfiguration->getValue());?>
-                                        title=<?php printf("\"%s\"",$tbConfiguration->getDescription());?>>
-                         </div>
-                     </div>
-                     <div class="desc-grid-column">
-                        <?php 
-                           if (strcmp($tbConfiguration->getProperty(), "Path") == 0){
-                        ?>
-                           <input type="button" value="Seleccionar" id="btnSelectDir">
-                        <?php 
-                           }else if (strcmp($tbConfiguration->getProperty(), 
-                               "Time_between_steps") == 0){
-                         ?>
-                            <div class="label">
-                              Segundos
-                            </div>
-                          <?php
-                           }
+                                        title=<?php printf("\"%s\"",$tbConfiguration->getDescription());?>
+                                        <?php if (strcmp($tbConfiguration->getProperty(), "Path") == 0){print(" readonly");}?>>
+                           </div>
+                        </div>
+                        <div class="desc-grid-column">
+                           <?php 
+                              if (strcmp($tbConfiguration->getProperty(), "Path") == 0){
                            ?>
-                     </div>
+                              <input type="button" value="Seleccionar" id="btnSelectDir">
+                           <?php 
+                              }else if (strcmp($tbConfiguration->getProperty(), 
+                                  "Time_between_steps") == 0){
+                           ?>
+                               <div class="label">
+                                 Segundos
+                              </div>
+                           <?php
+                              }
+                           ?>
+                        </div>
+                      </div>
                   <?php 
                   } //While next 
                ?>
+               <div class="newLine">
+                  <input type="button" id ="btnsave" value="Guardar">
+               </div>
                </div> <!-- div grid -->
-               <input type="button" id ="btnsave" value="Guardar">
+               
             </div>
             <div id="div_cursos" class="div_data">
                <div class="data_title">
                   <h1>Cursos</h1>
                </div>
+               <?php include_once 'Curses.php'?>
                
             </div>
             <div id="div_clientes" class="div_data">
@@ -106,7 +117,7 @@
             footer
          </div>
       
-      </div>
+     
       <script type="text/javascript">
          JSLogger.getInstance().registerLogger("CursesManagement", JSLogger.levelsE.TRACE);
          JSLogger.getInstance().debug("Mi primer log");

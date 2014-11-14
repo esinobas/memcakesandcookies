@@ -35,10 +35,10 @@
 
    
       const phisicalTB_CONFIGURATIONC = "TB_CONFIGURATION";
-      const phisicalPropertyColumnC = "Property";
-      const phisicalValueColumnC = "Value";
-      const phisicalDescriptionColumnC = "Description";
-      const phisicalLabelColumnC = "Label";
+      const phisicalTB_CONFIGURATIONPropertyColumnC = "Property";
+      const phisicalTB_CONFIGURATIONValueColumnC = "Value";
+      const phisicalTB_CONFIGURATIONDescriptionColumnC = "Description";
+      const phisicalTB_CONFIGURATIONLabelColumnC = "Label";
 
      /*
       * Constructor. The table definition is done here
@@ -64,27 +64,27 @@
       $this->tableMappingM->addTable(self::phisicalTB_CONFIGURATIONC);
       $this->tableMappingM->addColumn(
             self::phisicalTB_CONFIGURATIONC ,
-            self::phisicalPropertyColumnC ,
+            self::phisicalTB_CONFIGURATIONPropertyColumnC ,
             self::PropertyColumnC,
             ColumnType::stringC);
       $this->tableMappingM->addColumn(
             self::phisicalTB_CONFIGURATIONC ,
-            self::phisicalValueColumnC ,
+            self::phisicalTB_CONFIGURATIONValueColumnC ,
             self::ValueColumnC,
             ColumnType::stringC);
       $this->tableMappingM->addColumn(
             self::phisicalTB_CONFIGURATIONC ,
-            self::phisicalDescriptionColumnC ,
+            self::phisicalTB_CONFIGURATIONDescriptionColumnC ,
             self::DescriptionColumnC,
             ColumnType::stringC);
       $this->tableMappingM->addColumn(
             self::phisicalTB_CONFIGURATIONC ,
-            self::phisicalLabelColumnC ,
+            self::phisicalTB_CONFIGURATIONLabelColumnC ,
             self::LabelColumnC,
             ColumnType::stringC);
       
       $this->tableMappingM->addKey(self::phisicalTB_CONFIGURATIONC,
-            self::phisicalPropertyColumnC );
+            self::phisicalTB_CONFIGURATIONPropertyColumnC );
       
       $this->loggerM->trace("Exit");
 	}
@@ -138,7 +138,7 @@
          $this->loggerM->trace("Exit");
       }
 
-      public function getName(){
+      public function getTableName(){
          $this->loggerM->trace("Enter / Exit");
          return self::TB_ConfigurationTableC;
       }

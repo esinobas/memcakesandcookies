@@ -10,6 +10,8 @@
 
    include_once 'LoggerMgr/LoggerMgr.php';
    include_once 'Database/TB_Configuration.php';
+   include_once 'Database/TB_Level.php';
+   include_once 'Database/TB_Curso.php';
 
    /*** Definition of the global variables and constants ***/
    /**
@@ -37,6 +39,14 @@
       if (strcmp($theTableName, TB_Configuration::TB_ConfigurationTableC) == 0){
          $returnedTable = new TB_Configuration();
       }
+
+      if (strcmp($theTableName, TB_Level::TB_LevelTableC) == 0){
+         $returnedTable = new TB_Level();
+      }
+
+      if (strcmp($theTableName, TB_Curso::TB_CursoTableC) == 0){
+         $returnedTable = new TB_Curso();
+      }
       $logger->trace("Exit");
       return  $returnedTable;
    }
@@ -47,13 +57,13 @@
 
       $logger->trace("Enter");
       $logger->trace("Rows: [ ".json_encode($theRows)." ]");
-      $logger->trace("Update data of [ " . $theTable->getName() ." ]");
+      $logger->trace("Update data of [ " . $theTable->getTableName() ." ]");
       foreach ( $theRows as $row){
          $key = $row[$PARAM_KEY];
          $logger->trace("Search by [ $key ]");
          if ( $theTable->searchByKey($key)){
             $logger->trace("The Key has been found.");
-            if (strcmp($theTable->getName(),TB_Configuration::TB_ConfigurationTableC) == 0){
+            if (strcmp($theTable->getTableName(),TB_Configuration::TB_ConfigurationTableC) == 0){
                if (isset($row[TB_Configuration::ValueColumnC])){
                   $logger->trace("Set value to column [ ".
                              TB_Configuration::ValueColumnC ." ] -> [ ".
@@ -74,8 +84,56 @@
                 }
             }
 
-         $logger->trace("Update the data in the database");
-         $theTable->updateRow();
+            if (strcmp($theTable->getTableName(),TB_Level::TB_LevelTableC) == 0){
+               if (isset($row[TB_Level::LevelColumnC])){
+                  $logger->trace("Set value to column [ ".
+                             TB_Level::LevelColumnC ." ] -> [ ".
+                             $row[TB_Level::LevelColumnC] ." ]");
+                  $theTable->setLevel($row[TB_Level::LevelColumnC ]);
+                }
+            }
+
+            if (strcmp($theTable->getTableName(),TB_Curso::TB_CursoTableC) == 0){
+               if (isset($row[TB_Curso::NameColumnC])){
+                  $logger->trace("Set value to column [ ".
+                             TB_Curso::NameColumnC ." ] -> [ ".
+                             $row[TB_Curso::NameColumnC] ." ]");
+                  $theTable->setName($row[TB_Curso::NameColumnC ]);
+                }
+               if (isset($row[TB_Curso::DescriptionColumnC])){
+                  $logger->trace("Set value to column [ ".
+                             TB_Curso::DescriptionColumnC ." ] -> [ ".
+                             $row[TB_Curso::DescriptionColumnC] ." ]");
+                  $theTable->setDescription($row[TB_Curso::DescriptionColumnC ]);
+                }
+               if (isset($row[TB_Curso::ImageColumnC])){
+                  $logger->trace("Set value to column [ ".
+                             TB_Curso::ImageColumnC ." ] -> [ ".
+                             $row[TB_Curso::ImageColumnC] ." ]");
+                  $theTable->setImage($row[TB_Curso::ImageColumnC ]);
+                }
+               if (isset($row[TB_Curso::DurationColumnC])){
+                  $logger->trace("Set value to column [ ".
+                             TB_Curso::DurationColumnC ." ] -> [ ".
+                             $row[TB_Curso::DurationColumnC] ." ]");
+                  $theTable->setDuration($row[TB_Curso::DurationColumnC ]);
+                }
+               if (isset($row[TB_Curso::LevelIdColumnC])){
+                  $logger->trace("Set value to column [ ".
+                             TB_Curso::LevelIdColumnC ." ] -> [ ".
+                             $row[TB_Curso::LevelIdColumnC] ." ]");
+                  $theTable->setLevelId($row[TB_Curso::LevelIdColumnC ]);
+                }
+               if (isset($row[TB_Curso::LevelColumnC])){
+                  $logger->trace("Set value to column [ ".
+                             TB_Curso::LevelColumnC ." ] -> [ ".
+                             $row[TB_Curso::LevelColumnC] ." ]");
+                  $theTable->setLevel($row[TB_Curso::LevelColumnC ]);
+                }
+            }
+
+            $logger->trace("Update the data in the database");
+            $theTable->updateRow();
          }else{
             $logger->trace("The Key has not been found.");
          }
@@ -106,7 +164,7 @@
          $table->open();
       
          if (strcmp(strtoupper($strCommand), $COMMAND_UPDATE) == 0){
-            $logger->debug("It is a update command in table [ ". $table->getName() . " ]");
+            $logger->debug("It is a update command in table [ ". $table->getTableName() . " ]");
             updateData($table, $params[$PARAM_ROWS]);
          }
 
