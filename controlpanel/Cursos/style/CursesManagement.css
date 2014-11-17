@@ -211,10 +211,26 @@ body{
    
  }
  
- #div-description-cursos{
+ #div-image-cursos{
    
    width: 324px;
-   height: 500px;
+   height: 246px;
+   padding: 2px 3px;
+   float: left;
+   display: inline;
+   border: 1px solid black;
+ }
+ #div-image-cursos img{
+   max-width: 324px;
+   max-height: 246px;
+   
+   
+ }
+ #div-description-cursos{
+   
+   
+   width: 324px;
+   height: 250;
    padding: 0px 3px;
    float: left;
    display: inline;

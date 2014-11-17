@@ -58,7 +58,7 @@ function DataGrid(theParams){
    var selectedRow = -1;
    /*************** Constructor **********************/
    
-   JSLogger.getInstance().registerLogger(arguments.callee.name, JSLogger.levelsE.TRACE);
+   JSLogger.getInstance().registerLogger(arguments.callee.name, JSLogger.levelsE.ERROR);
    JSLogger.getInstance().traceEnter();
    JSLogger.getInstance().trace("Check parameters");
    
