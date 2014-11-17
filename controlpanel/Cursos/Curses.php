@@ -1,5 +1,6 @@
 <?php 
    include_once 'Database/TB_Curso.php';
+   include_once 'Database/TB_Level.php'
 ?>
 <div class="data-container">
    <div class="toolbar">
@@ -87,4 +88,58 @@
         
          
       </script>
+</div> <!-- div #data-container -->
+         
+<form id="frmEntryData" action="" >
+<!--  The next div must be hidden. It is showed by in plugin -->
+<div id="frmCurse" class="Data-Entry-Form">
+   <div class="Data-Entry-Form-Data">
+      <div class="Data-Entry-Form-Data-Label">Nombre:</div>
+      <div class="Data-Entry-Form-Data-Value">
+         <input type="text" id="input-curse-name" form="frmEntryData" maxlength="50">
+      </div>
+   </div>
+   <div class="Data-Entry-Form-Data">
+      <div class="Data-Entry-Form-Data-Label">Descripción:</div>
+      <div class="Data-Entry-Form-Data-Value">
+         <textarea id="textarea-curse-description" rows="4"></textarea>
+      </div>
+   </div>
+   <div class="Data-Entry-Form-Data">
+      <div class="Data-Entry-Form-Data-Label">Dificultad:</div>
+      <div class="Data-Entry-Form-Data-Value">
+         <?php 
+            $tbLevel = new TB_Level();
+            $tbLevel->open();
+         ?>
+         <select id="frmDificultad" name="Dificultad" form="frmEntryData">
+            <?php
+               while($tbLevel->next()){
+            ?>
+               <option value=<?php print("\"".$tbLevel->getId()."\"");?>>
+                        <?php print($tbLevel->getLevel());?>
+               </option>
+            <?php       
+               } 
+            ?>
+         </select>
+      </div>
+   </div>
+   <div class="Data-Entry-Form-Data">
+      <div class="Data-Entry-Form-Data-Label">Precio:</div>
+      <div class="Data-Entry-Form-Data-Value">
+         <input type="number" id="input-price" >
+      </div>
+      
+   </div>
+   <div class="Data-Entry-Form-Data">
+      <div class="Data-Entry-Form-Data-Label">Portada:</div>
+      <div class="Data-Entry-Form-Data_Value" id="image-preview">
+         <div>
+         Pulsa para selecionar una imagen
+         </div>
+      </div>
+     
+   </div>
 </div>
+</form>
