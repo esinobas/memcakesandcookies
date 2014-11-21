@@ -248,16 +248,17 @@ body{
    width: 100px;
  }
  #image-preview{
+   
    text-align: center;
    max-width: 500px;
    height: 300px;
    max-height: 500px;
    
    border: 1px solid black;
+   margin-left: auto;
+   margin-right: auto;
+   padding-bottom: 10px;
    
    
  }
  
- #image-preview div{
- 
-   padding-top: 145px;

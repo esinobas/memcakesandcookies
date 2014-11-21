@@ -1,0 +1,128 @@
+#Data-Entry-Form-Data-Window-Background{
+
+   width: 100%;
+   height: 200%;
+   position: absolute;
+   left: 0px;
+   top: 0px;
+   /*Cambiar la opacidad del div*/
+   opacity: 0;
+   /*Cambiar para cambiar el color del fondo-*/
+   background-color: inherit;
+
+}
+
+.Data-Entry-Form{
+   
+   display: none;
+   
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   z-index: 10;
+   
+   border-width: 1px;
+   border-style: solid;
+   border-color: black;
+   background-color: silver;
+}
+.Data-Entry-Form-Title-Bar{
+   background-color: blue;
+   color: white;
+   padding: 2px 3px;
+   font-weight: bold;
+   /*font-family: Arial;
+   font-size: 14px;*/
+   border: 1px solid white;
+}
+
+.Data-Entry-Form-Data{
+   
+   width:100%;
+   padding: 10px 0px 0px 0px;
+   /*font-family: Arial;
+   font-size: 14px;*/
+   
+   float: left;
+   display: inline;
+}
+
+.Data-Entry-Form-Data-Value input , 
+.Data-Entry-Form-Data-Value textarea,
+.Data-Entry-Form-Data-Value select{
+   color: blue;
+   font-style: italic;
+   font-family: inherit;
+   font-size: inherit;
+   padding: 2px 2px;
+   float: left;
+   
+}
+.Data-Entry-Form-Data-Value input:FOCUS , 
+.Data-Entry-Form-Data-Value textarea:FOCUS,
+.Data-Entry-Form-Data-Value select:FOCUS{
+   background-color: yellow;
+   color: red;
+   
+ 
+}
+.Data-Entry-Form-Data-Label{
+ 
+   float: left;
+   display: inline;
+   margin-top: 4px;
+   
+}
+
+.Data-Entry-Form-Data-Label, .Data-Entry-Form-Data-Value{
+ 
+   padding-left: 10px;
+}
+
+.Data-Entry-Form-Bar-Buttons{
+ 
+   width: 100%;
+   height: 40px;
+   margin-top: 5px;
+   margin-bottom: 5px;
+   border-top: 1px solid black;
+   float: left;
+   
+}
+.Data-Entry-Form-Bar-Buttons div{
+ 
+   width: 100%;
+   height: 100%;
+   border-top: 2px solid white;
+   float: left;
+   
+}
+
+.Data-Entry-Form-Button{
+   font-family: inherit;
+   font-size: inherit;
+   width: 90px;
+   float: right;
+   vertical-align: middle;
+   padding: 2px;
+   padding-left : 20px;
+   margin-top: 10px;
+   margin-right: 5px;
+
+}
+
+#Data-Entry-Form-Ok{
+   
+   background-image: url(../icons/accept.png);
+   background-repeat: no-repeat;
+   background-position: left;
+   background-size: contain;
+}
+
+#Data-Entry-Form-Cancel{
+ 
+ background-image: url(../icons/cancel.png);
+   background-repeat: no-repeat;
+   background-position: left;
+   background-size: contain;
+}

@@ -9,9 +9,11 @@
      <script type="text/javascript" src="./Plugins/FileBrowser/FileBrowser.js"></script>
      <script type="text/javascript" src="./Plugins/DataGrid/DataGrid.js"></script>
      <script type="text/javascript" src="./Plugins/Ajax/Ajax.js"></script>
+     <script type="text/javascript" src="./Plugins/DataEntryForm/DataEntryForm.js"></script>
      
      <link rel="stylesheet" type="text/css" href="./Plugins/FileBrowser/style/Filebrowser.css">
      <link rel="stylesheet" type="text/css" href="./Plugins/DataGrid/style/DataGrid.css">
+     <link rel="stylesheet" type="text/css" href="./Plugins/DataEntryForm/style/DataEntryForm.css">
      <link rel="stylesheet" type="text/css" href="./style/CursesManagement.css">
    </head>
    <body>
