@@ -81,6 +81,12 @@
          }
          DataGrid({divId: "grid-cursos",size:{width: 490, height: 490},
                                     columns_size:{0:300,1:94,2:65},
+                     header_background_color: "#7D5F3F",
+                     header_font_color: "white",
+                     row_background_color: "white",
+                     row_font_color: "#7D5F3F",
+                     selected_row_background_color: "orange",
+                     selected_row_font_color: "white",
                      show_lines:"vertical",
                      click_callback: gridOnClick,
                      double_click_callback: gridOnDoubleClick});
@@ -153,9 +159,44 @@
                           Appearance:{Title_Params:{Title:"Nuevo Curso",
                                              Background_Color:"orange"}
                                        ,Size:{Width: 520}
-                                       ,Window_Params:{Background_Color:"white"}
+                                       ,Window_Params:{Background_Color:"white",
+                                                       Label_Font_Color: "#ce5c00",
+                                                       Input_Font_Color: "#7D5F3F"}
+                                       ,Buttons:{Background_Color:"orange"}
                                      }
                            });
       
    });
+
+    
+
+   $('#image-preview').click(function(){
+      <?php 
+      $url = $tbConfiguration->getValue();
+      $tbConfiguration->rewind();
+      $tbConfiguration->searchByKey('Path');
+      ?>
+      function callbackFileBrowserImage(dataCallback){
+         $('#image-preview').empty();
+         $('#image-preview').append('<img src="<?php printf("%s/%s",$url, $tbConfiguration->getValue());?>/'+dataCallback.path+'">');
+         console.debug('<img src="<?php printf("%s/%s",$url,$tbConfiguration->getValue());?>/'+dataCallback.path+'">');
+      }
+      fileBrowserImage = new FileBrowser({path:{root_path:
+               <?php printf("\"%s/%s\"",$_SERVER['DOCUMENT_ROOT'],
+                              $tbConfiguration->getValue());
+               ?>,
+               },
+               type: "a", filter: "*.*",
+               title_params:{
+                  title_caption:"Selecciona una imagen ...",
+                  title_background_color:"orange"},
+               callback:callbackFileBrowserImage});
+      fileBrowserImage.show();
+     
+                  
+
+   });
+     
+      
+   
 </script>

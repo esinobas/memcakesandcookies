@@ -37,12 +37,22 @@ function DataGrid(theParams){
    var CLICK_CALLBACK_C = "click_callback";
    var DOUBLE_CLICK_CALLBACK_C = "double_click_callback"
    var SHOW_LINES_C = "show_lines";
+   var HEADER_BACKGROUND_COLOR_C = "header_background_color";
+   var HEADER_FONT_COLOR_C= "header_font_color";
+   var SELECTED_ROW_BACKGROUND_COLOR_C = "selected_row_background_color";
+   var SELECTED_ROW_FONT_COLOR_C = "selected_row_font_color";
+   
+   var ROW_BACKGROUND_COLOR_C = "row_background_color";
+   var ROW_FONT_COLOR_C ="row_font_color";
+   
    
    var SELECTED_ROW_BACKGROUND_COLOR = "orange";
    var SELECTED_ROW_FONT_COLOR = "white";
    
    var ROW_BACKGROUND_COLOR = "white";
    var ROW_FONT_COLOR ="black";
+   
+
    
    
    
@@ -56,11 +66,16 @@ function DataGrid(theParams){
    var showVerticalLinesM = false;
    var showHorizontalLinesM = false;
    var selectedRow = -1;
+   
+   var parametersM = null;
+   
    /*************** Constructor **********************/
    
    JSLogger.getInstance().registerLogger(arguments.callee.name, JSLogger.levelsE.ERROR);
    JSLogger.getInstance().traceEnter();
    JSLogger.getInstance().trace("Check parameters");
+   
+   parametersM = theParams;
    
    if (theParams[DIV_ID] != null){
       divIdM = theParams[DIV_ID];
@@ -109,12 +124,77 @@ function DataGrid(theParams){
    setSizeToDatagrid();
    setSizeHeaderColumns();
    setSizeColumns();
+   setColors();
    JSLogger.getInstance().traceExit();
    
    
    
    
    /******* Private functions   ******/
+   
+   /**
+    * It searches a parameter in the parameters passed to the namespace or class
+    * 
+    * @param theParameter. A string with the parameter is searched
+    * @param theParameters. Array with the list parameters
+    * 
+    * @return The parameter value when it is found, else null
+    */
+   function getParameter(theParameter, theParameters){
+      
+      //JSLogger.getInstance().traceEnter();
+      //JSLogger.getInstance().trace("Searching [ " + theParameter + " ] in "+
+      //               "the parameters [ " + 
+      //               JSON.stringify(theParameters) +" ]");
+      var parameter = null;
+      if (theParameters[theParameter] != null){
+         JSLogger.getInstance().trace("[ " + theParameter + " ] found, return it");
+         parameter=  theParameters[theParameter];
+      }else{
+         //JSLogger.getInstance().trace("[ " + theParameter + " ] doesn't found,"+
+         //             "searching it in deep");
+         if (typeof(theParameters)=="object"){
+            for (var key in theParameters){
+               //JSLogger.getInstance().trace("Search with key [ " + key +" ]");
+               parameter = getParameter(theParameter, theParameters[key]);
+               if ( parameter != null){
+                  break;
+               }
+            }
+         }
+      }
+      
+      //JSLogger.getInstance().traceExit();
+      return parameter;
+   }
+   
+   function setColors(){
+      JSLogger.getInstance().traceEnter();
+      var element = "#" + divIdM;
+       
+      if (getParameter(HEADER_BACKGROUND_COLOR_C, parametersM) != null){
+         
+         $(element).find('.class-grid-header div').css("background-color", 
+               getParameter(HEADER_BACKGROUND_COLOR_C, parametersM) );
+      }
+      if (getParameter(HEADER_FONT_COLOR_C, parametersM) != null){
+         
+         $(element).find('.class-grid-header').css("color", 
+               getParameter(HEADER_FONT_COLOR_C, parametersM) );
+      }
+      
+     if (getParameter(ROW_BACKGROUND_COLOR_C, parametersM) != null){
+         
+         $(element).find('.class-grid-row').css("background-color", 
+               getParameter(ROW_BACKGROUND_COLOR_C, parametersM) );
+     }
+     if (getParameter(ROW_FONT_COLOR_C, parametersM) != null){
+        
+        $(element).find('.class-grid-row').css("color", 
+              getParameter(ROW_FONT_COLOR_C, parametersM) );
+     }
+      JSLogger.getInstance().traceExit();
+   }
    
    function setSizeToDatagrid(){
       JSLogger.getInstance().traceEnter();
@@ -251,13 +331,21 @@ function DataGrid(theParams){
    function setOnClickEvent(theElement, theIndex){
       JSLogger.getInstance().traceEnter();
       JSLogger.getInstance().trace("Set event click on row [ " + theIndex +" ]");
+     
       $('.class-grid-row').each(function(){
-         $(this).css("background-color", ROW_BACKGROUND_COLOR);
-         $(this).css("color", ROW_FONT_COLOR);
+         if (getParameter(ROW_BACKGROUND_COLOR_C, parametersM) != null){
+            
+           $(this).css("background-color", 
+                  getParameter(ROW_BACKGROUND_COLOR_C, parametersM) );
+        }
+        if ( getParameter(ROW_FONT_COLOR_C, parametersM) !=  null){
+         $(this).css("color", 
+               getParameter(ROW_FONT_COLOR_C, parametersM) );
+        }
       });
-      
-      theElement.css("background-color", SELECTED_ROW_BACKGROUND_COLOR);
-      theElement.css("color", SELECTED_ROW_FONT_COLOR);
+ 
+      theElement.css("background-color", getParameter(SELECTED_ROW_BACKGROUND_COLOR_C, parametersM));
+      theElement.css("color", getParameter(SELECTED_ROW_FONT_COLOR_C, parametersM));
       
       if (clickCallbackM != null){
          clickCallbackM(theIndex);

@@ -49,6 +49,10 @@
    padding-top: 0px;
    padding-bottom: 0px; 
 }
+
+.class-grid-row-data{
+   font-style: italic;
+}
 .new-row{
    clear: both;
    display: block;

@@ -16,7 +16,7 @@
    position: absolute;
    width: 500px;
    margin-left: -250px;
-   height: 350px;
+   height: 400px;
    margin-top: -175px;
    top: 50%;
    left: 50%;
@@ -42,6 +42,7 @@
    padding-right: 5px;
    float: left;
    width: 15%;
+   font-size: 12px;
 
    
 }
@@ -113,4 +114,17 @@
    padding: 0px 10px;
    margin-left: 5px;
    float: right;
+}
+#FileBrowser-Title{
+ 
+   width: 100%;
+}
+#FileBrowser-Title div{
+ 
+   font-size: 12px;
+   font-weight: bold;
+   border: 1px solid white;
+   background-color: blue;
+   color: white;
+   padding: 2px 5px 2px 5px;
 }

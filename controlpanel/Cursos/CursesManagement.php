@@ -88,8 +88,14 @@
                                <div class="label">
                                  Segundos
                               </div>
-                           <?php
+                           <?php }else{
+                              ?>
+                              <div class="label">
+                              <?php print($tbConfiguration->getDescription()); ?>
+                              </div>
+                              <?php 
                               }
+                           
                            ?>
                         </div>
                       </div>

@@ -157,6 +157,7 @@
       public function rewind(){
          $this->loggerM->trace("Enter");
          $this->rowIdxM = -1;
+         reset($this->tableDataM);
          $this->loggerM->trace("Exit");
       }
       

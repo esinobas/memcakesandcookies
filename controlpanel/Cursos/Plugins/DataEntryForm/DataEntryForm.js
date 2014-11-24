@@ -34,9 +34,11 @@ var DataEntryForm =  DataEntryForm || function (){
    var PARAM_CALLBACK_OK_C = "Callback_OK";
    var PARAM_CALLBACK_CANCEL_C = "Callback_Cancel";
    var PARAM_HTML_ELEMENT_ID_C = "html_Id";
+   var PARAMS_BUTTONS_C = "Buttons";
    
    /***** private variables *****/
-   JSLogger.getInstance().registerLogger(arguments.callee.name, JSLogger.levelsE.TRACE);
+   JSLogger.getInstance().registerLogger("DataEntryForm", 
+                                      JSLogger.levelsE.ERROR);
    
    /**
     * Variable that saves the parameters
@@ -66,6 +68,7 @@ var DataEntryForm =  DataEntryForm || function (){
     * @return The parameter value when it is found, else null
     */
    function getParameter(theParameter, theParameters){
+      
       
       //JSLogger.getInstance().traceEnter();
       //JSLogger.getInstance().trace("Searching [ " + theParameter + " ] in "+
@@ -269,8 +272,8 @@ var DataEntryForm =  DataEntryForm || function (){
       JSLogger.getInstance().traceEnter();
       var divButtons = divFormM.append('<div class="Data-Entry-Form-Bar-Buttons"><div/></div>');
       
-      $('.Data-Entry-Form-Bar-Buttons div').append('<input type="button" id="Data-Entry-Form-Cancel" class="Data-Entry-Form-Button" value="Cancelar">');
-      $('.Data-Entry-Form-Bar-Buttons div').append('<input type="button" id="Data-Entry-Form-Ok" class="Data-Entry-Form-Button" value="Aceptar">');
+      $('.Data-Entry-Form-Bar-Buttons > div').append('<div id="Data-Entry-Form-Cancel" class="Data-Entry-Form-Button">Cancelar</div>');
+      $('.Data-Entry-Form-Bar-Buttons > div').append('<div id="Data-Entry-Form-Ok" class="Data-Entry-Form-Button">Aceptar</div>');
       
       $('#Data-Entry-Form-Cancel').click(function(){
          cancelButtonClick();
@@ -278,6 +281,16 @@ var DataEntryForm =  DataEntryForm || function (){
       $('#Data-Entry-Form-Ok').click(function(){
          okButtonClick();
       });
+      
+      var buttonsParameters = getParameter(PARAMS_BUTTONS_C, parametersM);
+      if (buttonsParameters != null && 
+             getParameter(PARAM_BACKGROUND_COLOR_C, buttonsParameters) != null){
+            
+         JSLogger.getInstance().trace("Set buttons background color");
+         $('.Data-Entry-Form-Button').css("background-color", 
+               getParameter(PARAM_BACKGROUND_COLOR_C, buttonsParameters));
+         
+      }
       
       JSLogger.getInstance().traceExit();
    }
@@ -289,13 +302,52 @@ var DataEntryForm =  DataEntryForm || function (){
       
       if ( windowParams != null && 
                 getParameter(PARAM_BACKGROUND_COLOR_C, windowParams) != null){
+         
+         JSLogger.getInstance().trace("Set background color");
             divFormM.css("background-color", 
                getParameter(PARAM_BACKGROUND_COLOR_C, windowParams));
+      }
+      
+      if ( windowParams != null && 
+            getParameter(PARAM_LABEL_FONT_COLOR_C, windowParams) != null){
+            
+         JSLogger.getInstance().trace("Set label color");
+         $('.Data-Entry-Form-Data-Label').css("color", 
+                  getParameter(PARAM_LABEL_FONT_COLOR_C, windowParams));
+            
+      }
+      if ( windowParams != null && 
+            getParameter(PARAM_INPUT_FONT_COLOR_C, windowParams) != null){
+         
+         JSLogger.getInstance().trace("Set input color");   
+         $('.Data-Entry-Form-Data-Value').children().each(function(){
+            
+            //$(this).css("color",
+            //      getParameter(PARAM_INPUT_FONT_COLOR_C, windowParams));
+            
+            this.style.setProperty( 'color', 
+                   getParameter(PARAM_INPUT_FONT_COLOR_C, windowParams));
+         });
+      }
+      
+      if ( windowParams != null && 
+            getParameter(PARAM_FONT_SIZE_C, windowParams) != null){
+         
+         JSLogger.getInstance().trace("Set font size");
+         $('.Data-Entry-Form-Data-Value').css("font-size", 
+               getParameter(PARAM_FONT_SIZE_C, windowParams));
+         $('.Data-Entry-Form-Data-Label').css("font-size", 
+               getParameter(PARAM_FONT_SIZE_C, windowParams));
+
       }
       
       JSLogger.getInstance().traceExit();
       
    }
+   
+   
+   
+   
    /****** public functions. They must be mapped in the return part ***/
    
    /**

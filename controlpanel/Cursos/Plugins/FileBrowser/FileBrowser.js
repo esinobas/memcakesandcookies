@@ -24,6 +24,10 @@ function FileBrowser(theParams, callback){
    var paramTypeC = "type";
    var paramFilterC = "filter";
    var paramCallbackC = "callback";
+   var TITLE_PARAMS_C = "title_params";
+   var TITLE_CAPTION_C = "title_caption";
+   var TITLE_BACKGROUND_COLOR_C = "title_background_color";
+   var TITLE_FONT_COLOR_C = "title_font_color";
    
    /*** Private variables ***/
    var pathM = "./";
@@ -41,9 +45,46 @@ function FileBrowser(theParams, callback){
    var elementSelectedM = "";
    var previousSelectedM = elementSelectedM;
    
+   var parametersM = null;
    
    /****** Private functions *******/
    
+   /**
+   * It searches a parameter in the parameters passed to the namespace or class
+   * 
+   * @param theParameter. A string with the parameter is searched
+   * @param theParameters. Array with the list parameters
+   * 
+   * @return The parameter value when it is found, else null
+   */
+  function getParameter(theParameter, theParameters){
+     
+     
+     //JSLogger.getInstance().traceEnter();
+     //JSLogger.getInstance().trace("Searching [ " + theParameter + " ] in "+
+     //               "the parameters [ " + 
+     //               JSON.stringify(theParameters) +" ]");
+     var parameter = null;
+     if (theParameters[theParameter] != null){
+        JSLogger.getInstance().trace("[ " + theParameter + " ] found, return it");
+        parameter=  theParameters[theParameter];
+     }else{
+        //JSLogger.getInstance().trace("[ " + theParameter + " ] doesn't found,"+
+        //             "searching it in deep");
+        if (typeof(theParameters)=="object"){
+           for (var key in theParameters){
+              //JSLogger.getInstance().trace("Search with key [ " + key +" ]");
+              parameter = getParameter(theParameter, theParameters[key]);
+              if ( parameter != null){
+                 break;
+              }
+           }
+        }
+     }
+     
+     //JSLogger.getInstance().traceExit();
+     return parameter;
+  }
    /**
     * Funtions that returns the current path
     * 
@@ -284,8 +325,8 @@ function FileBrowser(theParams, callback){
          stackPathM[idxStackM] = $(this).attr('id');
          pushFilesAndDirectories(directoryData[ $(this).attr('id') ]);
          
-         
-         showFilesAndDirectories(fullPathToString());
+         currentPathM = fullPathToString();
+         showFilesAndDirectories(currentPathM);
       }
       JSLogger.getInstance().traceExit();
    }
@@ -418,6 +459,7 @@ function FileBrowser(theParams, callback){
    JSLogger.getInstance().registerLogger(arguments.callee.name, JSLogger.levelsE.TRACE);
    
    JSLogger.getInstance().traceEnter();
+   parametersM = theParams;
    
    if (theParams[paramPathC] != null){
       pathM = theParams[paramPathC];
@@ -490,8 +532,33 @@ function FileBrowser(theParams, callback){
       getDirectoriesAndFiles();
       goToCurrentPath(currentPathM);
       showFilesAndDirectories(fullPathToString());
+      setTitle();
       
       JSLogger.getInstance().traceExit();
       
+   }
+   
+   /**
+    * Function creates the title window
+    */
+   function setTitle(){
+      
+      JSLogger.getInstance().traceEnter();
+      if (getParameter(TITLE_PARAMS_C, parametersM) != null){
+         $('#Filebrowser').prepend('<div id="FileBrowser-Title"><div></div></div>');
+         if (getParameter(TITLE_CAPTION_C, parametersM) != null){
+            $('#FileBrowser-Title div').append(getParameter(
+                        TITLE_CAPTION_C, parametersM));
+         }
+         if (getParameter(TITLE_BACKGROUND_COLOR_C, parametersM) != null){
+            $('#FileBrowser-Title div').css("background-color", 
+                  getParameter(TITLE_BACKGROUND_COLOR_C, parametersM));
+         }
+         if (getParameter(TITLE_FONT_COLOR_C, parametersM) != null){
+            $('#FileBrowser-Title div').css("color", 
+                  getParameter(TITLE_FONT_COLOR_C, parametersM));
+         }
+      }
+      JSLogger.getInstance().traceExit();
    }
 }
