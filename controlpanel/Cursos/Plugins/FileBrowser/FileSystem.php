@@ -14,6 +14,8 @@
    $PARAM_ROOT_DIRECTORY = "root_dir";
    $PARAM_NEW_DIRECTORY = "new_dir";
    
+   $RETURN_RESULT = "result";
+   
    /**
     * Function creates a directory
     * 
@@ -31,7 +33,7 @@
       $loggerM->trace("Creating the directory [ $newDirectory ]");
       if ( ! mkdir($newDirectory)){
          $logger->error("The directory [ $newDirectory ] has been not created");
-         $theResult = "ERROR";
+         $result[$RETURN_RESULT] = "ERROR";
       }else{
          $logger->debug("The directory [ $newDirectoyr ] has beeb created successfuly");
       }
@@ -45,7 +47,8 @@
    $command = $_POST[$PARAM_COMMAND];
    $params = $_POST[$PARAM_PARAMETERS];
    $logger->trace("The command received is [ $command ]");
-   $result = "OK";
+   $result = array();
+   $result[$RETURN_RESULT] = "OK";
    switch ($command){
       case $COMMAND_CREATE_DIR:
          $logger->trace("A directory will be created");
@@ -53,8 +56,8 @@
          break;
       default:
          $logger->error("The command received is unkown");
-         $result = "ERROR";
+         $result[$RETURN_RESULT] = "ERROR";
    }
    
-   
+   print(json_encode($result));
 ?>
