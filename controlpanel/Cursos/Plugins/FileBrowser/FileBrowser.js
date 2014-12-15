@@ -196,6 +196,7 @@ function FileBrowser(theParams, callback){
       
       JSLogger.getInstance().trace("Enter / Exit");
       //return (idxStackM == 0);
+      return (fullPathToString().length == 0);
       return (rootPathM == currentPathM);
    }
    
@@ -442,7 +443,8 @@ function FileBrowser(theParams, callback){
    function goToCurrentPath(theCurrentPath){
       
       JSLogger.getInstance().traceEnter();
-      if ( !isRoot()) {
+      //if ( !isRoot()) {
+      if (rootPathM != currentPathM ){
          JSLogger.getInstance().trace("Current Path [ " + theCurrentPath +" ]");
          var arrayDirectories = theCurrentPath.split("/");
          JSLogger.getInstance().trace("The current path has [ " + arrayDirectories.length +
@@ -457,9 +459,9 @@ function FileBrowser(theParams, callback){
             pushFilesAndDirectories(goToDirectory);
          
          }
-      }else{
+     }else{
          JSLogger.getInstance().trace("The Current Path [ " + theCurrentPath +" ] is equal to Root Path");
-      }
+     }
       JSLogger.getInstance().traceExit();
    }
    
