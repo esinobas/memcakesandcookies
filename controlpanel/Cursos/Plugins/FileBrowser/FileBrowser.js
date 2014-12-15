@@ -456,7 +456,7 @@ function FileBrowser(theParams, callback){
    /****** Public functions *******/
    
    /*** Constructor ***/
-   JSLogger.getInstance().registerLogger(arguments.callee.name, JSLogger.levelsE.TRACE);
+   JSLogger.getInstance().registerLogger(arguments.callee.name, JSLogger.levelsE.DEBUG);
    
    JSLogger.getInstance().traceEnter();
    parametersM = theParams;
@@ -528,11 +528,13 @@ function FileBrowser(theParams, callback){
       
       JSLogger.getInstance().debug("Add the buttons");
       $('#Filebrowser').append("<div id=\"ButtonsContainer\"></div>");
+      setTitle();
       addButtons();
+      showLoading();
       getDirectoriesAndFiles();
       goToCurrentPath(currentPathM);
       showFilesAndDirectories(fullPathToString());
-      setTitle();
+      hideLoading();
       
       JSLogger.getInstance().traceExit();
       
@@ -559,6 +561,27 @@ function FileBrowser(theParams, callback){
                   getParameter(TITLE_FONT_COLOR_C, parametersM));
          }
       }
+      JSLogger.getInstance().traceExit();
+   }
+   
+   /**
+    * Function that shows an image while the files and directories are loaded
+    * from the server
+    */
+   function showLoading(){
+      JSLogger.getInstance().traceEnter();
+      $('#FilesContainer').append("<img src=\""+ getCurrentPath("FileBrowser.js") +
+      "/icons/load.gif\" width=\"48\" height=\"48\" style=\"position:absolute;"+
+      "left:220px; top:175px\" id=\"loading\">");
+      JSLogger.getInstance().traceExit();
+   }
+   
+   /**
+    * Function that hides the image while the files and directories are loaded
+    */
+   function hideLoading(){
+      JSLogger.getInstance().traceEnter();
+      $('#loading').remove();
       JSLogger.getInstance().traceExit();
    }
 }
