@@ -190,7 +190,9 @@
                title_params:{
                   title_caption:"Selecciona una imagen ...",
                   title_background_color:"orange"},
-               callback:callbackFileBrowserImage});
+               callback:callbackFileBrowserImage,
+               toolbar:"upload_file|create_folder"
+                  });
       fileBrowserImage.show();
      
                   

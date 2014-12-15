@@ -28,7 +28,11 @@ function FileBrowser(theParams, callback){
    var TITLE_CAPTION_C = "title_caption";
    var TITLE_BACKGROUND_COLOR_C = "title_background_color";
    var TITLE_FONT_COLOR_C = "title_font_color";
+   var TOOLBAR_C = "toolbar";
+   var TOOLBAR_BUTTON_UPLOAD_FILE_C = "upload_file";
+   var TOOLBAR_CREATE_FOLDER_C = "create_folder";
    
+   var INCREASE_HEIGHT_C = 75;
    /*** Private variables ***/
    var pathM = "./";
    var rootPathM = pathM;
@@ -46,6 +50,12 @@ function FileBrowser(theParams, callback){
    var previousSelectedM = elementSelectedM;
    
    var parametersM = null;
+   
+   /**
+    * Variable of type array where are saved the toolbar buttons
+    */
+   
+   var toolbarM = null;
    
    /****** Private functions *******/
    
@@ -456,7 +466,7 @@ function FileBrowser(theParams, callback){
    /****** Public functions *******/
    
    /*** Constructor ***/
-   JSLogger.getInstance().registerLogger(arguments.callee.name, JSLogger.levelsE.DEBUG);
+   JSLogger.getInstance().registerLogger(arguments.callee.name, JSLogger.levelsE.TRACE);
    
    JSLogger.getInstance().traceEnter();
    parametersM = theParams;
@@ -503,6 +513,11 @@ function FileBrowser(theParams, callback){
    }else{
       JSLogger.getInstance().warn("The parameter \"callback\" is not present in parameters.");
    }
+   if (theParams[TOOLBAR_C] != null){
+      toolbarM = theParams[TOOLBAR_C];
+      JSLogger.getInstance().debug("The file browser has toolbar [ " + toolbarM + " ]");
+      
+   }
    
    JSLogger.getInstance().traceExit();
    
@@ -528,6 +543,7 @@ function FileBrowser(theParams, callback){
       
       JSLogger.getInstance().debug("Add the buttons");
       $('#Filebrowser').append("<div id=\"ButtonsContainer\"></div>");
+      showToolbar();
       setTitle();
       addButtons();
       showLoading();
@@ -583,5 +599,61 @@ function FileBrowser(theParams, callback){
       JSLogger.getInstance().traceEnter();
       $('#loading').remove();
       JSLogger.getInstance().traceExit();
+   }
+   
+   /**
+    * Function that show the toolbar button
+    */
+   function showToolbar(){
+      JSLogger.getInstance().traceEnter();
+      if (toolbarM != null){
+         JSLogger.getInstance().trace("Show toolbar");
+         var filebrowserHeight = $('#Filebrowser').height();
+         JSLogger.getInstance().trace("The current filebrowser height is [ " +
+               filebrowserHeight + "px ]");
+         filebrowserHeight += INCREASE_HEIGHT_C;
+         JSLogger.getInstance().trace("Set new height [ " +
+               filebrowserHeight + "px ]");
+         $('#Filebrowser').height(filebrowserHeight);
+         var marginTop = parseInt($('#Filebrowser').css('margin-top'));
+         marginTop -= INCREASE_HEIGHT_C;
+         $('#Filebrowser').css('margin-top',marginTop+'px');
+         JSLogger.getInstance().trace("The new filebrowser margin top is [ " +
+               $('#Filebrowser').css('margin-top') + " ]");
+         
+         $('#Filebrowser').prepend('<div id="FileBrowser-Toolbar"><div></div></div>');
+         
+         var buttons = toolbarM.split("|");
+         JSLogger.getInstance().trace("The toolbar has [ " + buttons.length +
+               " ] buttons");
+         var toolbarObject = $('#FileBrowser-Toolbar div');
+         for( var button in buttons){
+            
+            if (buttons[button] == TOOLBAR_BUTTON_UPLOAD_FILE_C){
+               JSLogger.getInstance().trace("Show button [ " + 
+                     TOOLBAR_BUTTON_UPLOAD_FILE_C +" ]");
+               toolbarObject.append('<button type="button" '+
+                     'id="FileBrowser-upload-file" title="Subir un fichero" '+
+                     'style="background-image:url(\''+
+                     getCurrentPath("FileBrowser.js")+'icons/file_upload.png\');'+
+                     'background-repeat: no-repeat;background-position: center"></button>');
+               
+                     
+            }
+            if (buttons[button] == TOOLBAR_CREATE_FOLDER_C ){
+               JSLogger.getInstance().trace("Show button [ " + 
+                     TOOLBAR_CREATE_FOLDER_C +" ]");
+               toolbarObject.append('<button type="button" '+
+                     'id="FileBrowser-create-folder" title="Crear carpeta" '+
+                     'style="background-image:url(\''+
+                     getCurrentPath("FileBrowser.js")+'icons/folder_add.png\');'+
+                     'background-repeat: no-repeat;background-position: center"></button>');
+               
+            }
+           
+         }
+      }
+      JSLogger.getInstance().traceExit();
+      
    }
 }
