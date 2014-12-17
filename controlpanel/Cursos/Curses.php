@@ -79,7 +79,7 @@
          var gridOnDoubleClick = function (theIndex){
             
          }
-         DataGrid({divId: "grid-cursos",size:{width: 490, height: 490},
+         DataGrid.show($('#grid-cursos'),{Size:{Width: 490, Height: 490},
                                     columns_size:{0:300,1:94,2:65},
                      header_background_color: "#7D5F3F",
                      header_font_color: "white",
@@ -147,6 +147,7 @@
      
    </div>
 </div>
+<div id="Test">Test</div>
 </div> <!-- div #data-container -->
          
 
@@ -154,7 +155,7 @@
 <!-- Add click event to the bottons -->
 <script type="text/javascript">
    $('#btnNew').click(function(){
-      
+       
        DataEntryForm.show({html_Id:"frmCurse",
                           Appearance:{Title_Params:{Title:"Nuevo Curso",
                                              Background_Color:"orange"}

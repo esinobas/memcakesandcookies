@@ -12,7 +12,7 @@
 
 /**
  * DataEntryForm namespace declaration.
-*/
+ */
 var DataEntryForm =  DataEntryForm || function (){
    
    /*** Declaration of the namespace or class ***/
