@@ -52,7 +52,7 @@ var DataGrid = DataGrid || function(theHtmlObject, theParams){
    
    
    /************* private variables ************/
-   JSLogger.getInstance().registerLogger(arguments.callee.name, JSLogger.levelsE.ERROR);
+   JSLogger.getInstance().registerLogger("DataGrid", JSLogger.levelsE.ERROR);
    
    
    var columnsSizeM = new Array();

@@ -7,6 +7,8 @@
      <script type="text/javascript" src="./Plugins/JSLogger/JSLogger.js"></script>
      <script type="text/javascript" src="./Plugins/JQuery/jquery-1.9.0.js"></script>
      <script type="text/javascript" src="./Plugins/Common/HtmlObject/HtmlObject.js"></script>
+     <script type="text/javascript" src="./Plugins/Common/HtmlWindow/HtmlWindow.js"></script>
+     <script type="text/javascript" src="./Plugins/Common/HtmlForm/HtmlForm.js"></script>
      <script type="text/javascript" src="./Plugins/FileBrowser/FileBrowser.js"></script>
      <script type="text/javascript" src="./Plugins/DataGrid/DataGrid.js"></script>
      <script type="text/javascript" src="./Plugins/Ajax/Ajax.js"></script>

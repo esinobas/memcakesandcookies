@@ -1,0 +1,65 @@
+/**
+ * Object with the properties and functions for create a html window
+ * 
+ * The parameteres for the HtmlWindow have the following format:
+ *                   Title_Params:{ Background_Color:<background color>,
+ *                                Font_Color:<font color>, 
+ *                                Caption:<caption> }
+ */
+
+var HtmlWindow = HtmlWindow || function(){
+   
+   /*** Private constants ***/
+   var TITLE_PARAMS_C = "Title_Params";
+   var FONT_COLOR_C = "Font_Color";
+   var CAPTION_C = "Caption";
+   
+   /*** private properties ***/
+   JSLogger.getInstance().registerLogger("HtmlWindow", JSLogger.levelsE.TRACE);
+  
+   /**
+    * Constructor
+    * 
+    * @param theHtmlObject: Html Object that it is used like window
+    * @param theParams: The parameters for format the window.
+    */
+   function HtmlWindow(theHtmlObject, theParams){
+      
+      JSLogger.getInstance().traceEnter();
+      HtmlObject.call(this, theHtmlObject, theParams);
+      this.setTitle();
+      JSLogger.getInstance().traceExit();
+   };
+   
+   var setTitle = function setTitle(){
+      JSLogger.getInstance().traceEnter();
+      var barTitle = this.getParameter(TITLE_PARAMS_C, this.parametersM);
+      if ( barTitle != null){
+         JSLogger.getInstance().trace("The window has bar title, adding it");
+         
+         this.htmlObjectM.prepend('<div id="Title-Bar"><div></div></div>');
+         
+         var backgroundColor = this.getParameter(this.PARAM_BACKGROUND_COLOR_C,barTitle);
+         if (backgroundColor != null){
+            $('#Title-Bar div').css("background-color", backgroundColor);
+         }
+         var fontColor = this.getParameter(FONT_COLOR_C, barTitle);
+         if (fontColor !=null ){
+            $('#Title-Bar div').css("color", fontColor);
+         }
+         var caption = this.getParameter(CAPTION_C, barTitle);
+         if (caption !=null ){
+            $('#Title-Bar div').append(caption);
+         }
+      }
+      JSLogger.getInstance().traceExit();
+   };
+   /**
+    * Herachy definition
+    */
+   HtmlWindow.prototype = Object.create(HtmlObject.prototype);
+   HtmlWindow.prototype.constructor = HtmlWindow;
+   HtmlWindow.prototype.setTitle = setTitle;
+   
+   return HtmlWindow;
+}();

@@ -14,13 +14,13 @@ var HtmlObject = HtmlObject || function (){
    var PARAM_HEIGHT_C = "Height";
    
    var PARAM_APPEARANCE_C = "Appearance";
-   var PARAM_BACKGROUND_COLOR_C ="Background_Color";
+   this.PARAM_BACKGROUND_COLOR_C ="Background_Color";
    var PARAM_BORDER_C = "Border";
    var PARAM_BORDER_COLOR_C = "Border_Color";
    var PARAM_BORDER_WIDTH_C = "Border_Width";
    
    /*** private properties ***/
-   JSLogger.getInstance().registerLogger(arguments.callee.name, JSLogger.levelsE.TRACE, JSLogger.levelsE.TRACE);
+   JSLogger.getInstance().registerLogger("HtmlObject", JSLogger.levelsE.TRACE);
    
    /*** private methods ***/
    
@@ -139,6 +139,8 @@ var HtmlObject = HtmlObject || function (){
       
       JSLogger.getInstance().traceExit();
    };
+   
+   HtmlObject.prototype.PARAM_BACKGROUND_COLOR_C = PARAM_BACKGROUND_COLOR_C;
    
    return HtmlObject;
 }();

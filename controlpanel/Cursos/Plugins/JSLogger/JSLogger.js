@@ -58,6 +58,7 @@ function JSLogger(){
  
    
    this.registerLogger = function (theClass, theLevel){
+      //console.debug("XXX. theClass -> "+ theClass +". theLevel -> " + theLevel );
        arrayClassesM[theClass] = theLevel;
    }
    
