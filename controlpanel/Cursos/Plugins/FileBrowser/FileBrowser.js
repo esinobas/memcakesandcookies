@@ -15,7 +15,7 @@
  * @param theCallback: The function that is executed when the ok button is pushed
  * 
  */
-function FileBrowser(theParams, callback){
+FileBrowser = FileBrowser || function FileBrowser(theParams, callback){
    
    /*** Constants for access to the parameters ***/
    var paramPathC = "path";
@@ -59,42 +59,7 @@ function FileBrowser(theParams, callback){
    
    /****** Private functions *******/
    
-   /**
-   * It searches a parameter in the parameters passed to the namespace or class
-   * 
-   * @param theParameter. A string with the parameter is searched
-   * @param theParameters. Array with the list parameters
-   * 
-   * @return The parameter value when it is found, else null
-   */
-  function getParameter(theParameter, theParameters){
-     
-     
-     //JSLogger.getInstance().traceEnter();
-     //JSLogger.getInstance().trace("Searching [ " + theParameter + " ] in "+
-     //               "the parameters [ " + 
-     //               JSON.stringify(theParameters) +" ]");
-     var parameter = null;
-     if (theParameters[theParameter] != null){
-        JSLogger.getInstance().trace("[ " + theParameter + " ] found, return it");
-        parameter=  theParameters[theParameter];
-     }else{
-        //JSLogger.getInstance().trace("[ " + theParameter + " ] doesn't found,"+
-        //             "searching it in deep");
-        if (typeof(theParameters)=="object"){
-           for (var key in theParameters){
-              //JSLogger.getInstance().trace("Search with key [ " + key +" ]");
-              parameter = getParameter(theParameter, theParameters[key]);
-              if ( parameter != null){
-                 break;
-              }
-           }
-        }
-     }
-     
-     //JSLogger.getInstance().traceExit();
-     return parameter;
-  }
+  
    /**
     * Funtions that returns the current path
     * 
@@ -471,7 +436,12 @@ function FileBrowser(theParams, callback){
    JSLogger.getInstance().registerLogger(arguments.callee.name, JSLogger.levelsE.TRACE);
    
    JSLogger.getInstance().traceEnter();
+   
    parametersM = theParams;
+   JSLogger.getInstance().debug("Add the div that filebrowser");
+   $('body').append("<div id=\"FilebrowserBackground\"></div>");
+   $('body').append("<div id=\"Filebrowser\"></div>");
+   HtmlForm.call(this, $('#Filebrowser'), theParams);
    
    if (theParams[paramPathC] != null){
       pathM = theParams[paramPathC];
@@ -527,13 +497,13 @@ function FileBrowser(theParams, callback){
    /**
     * Show the filebrowser
     */
-   this.show = function show(){
+   var show = function show(){
       
       JSLogger.getInstance().traceEnter();
       
-      JSLogger.getInstance().debug("Add the div that filebrowser");
-      $('body').append("<div id=\"FilebrowserBackground\"></div>");
-      $('body').append("<div id=\"Filebrowser\"></div>");
+      //JSLogger.getInstance().debug("Add the div that filebrowser");
+      //$('body').append("<div id=\"FilebrowserBackground\"></div>");
+      //$('body').append("<div id=\"Filebrowser\"></div>");
       
       JSLogger.getInstance().debug("Add the label that contains the current path");
       $('#Filebrowser').append("<div id=\"PathContainer\"></div>");
@@ -545,8 +515,8 @@ function FileBrowser(theParams, callback){
       
       JSLogger.getInstance().debug("Add the buttons");
       $('#Filebrowser').append("<div id=\"ButtonsContainer\"></div>");
-      showToolbar();
-      setTitle();
+      //showToolbar();
+      //setTitle();
       addButtons();
       showLoading();
       getDirectoriesAndFiles();
@@ -561,7 +531,7 @@ function FileBrowser(theParams, callback){
    /**
     * Function creates the title window
     */
-   function setTitle(){
+   /*function setTitle(){
       
       JSLogger.getInstance().traceEnter();
       if (getParameter(TITLE_PARAMS_C, parametersM) != null){
@@ -580,7 +550,7 @@ function FileBrowser(theParams, callback){
          }
       }
       JSLogger.getInstance().traceExit();
-   }
+   }*/
    
    /**
     * Function that shows an image while the files and directories are loaded
@@ -606,7 +576,7 @@ function FileBrowser(theParams, callback){
    /**
     * Function that show the toolbar button
     */
-   function showToolbar(){
+   this.showToolbar = function showToolbar(){
       JSLogger.getInstance().traceEnter();
       if (toolbarM != null){
          JSLogger.getInstance().trace("Show toolbar");
@@ -658,4 +628,11 @@ function FileBrowser(theParams, callback){
       JSLogger.getInstance().traceExit();
       
    }
-}
+   return{
+      show: show
+   }
+}();
+
+FileBrowser.prototype = Object.create(HtmlForm.prototype);
+FileBrowser.prototype.constructor = FileBrowser;
+
