@@ -13,6 +13,12 @@ var HtmlObject = HtmlObject || function (){
    var PARAM_WIDTH_C = "Width";
    var PARAM_HEIGHT_C = "Height";
    
+   var PARAM_APPEARANCE_C = "Appearance";
+   var PARAM_BACKGROUND_COLOR_C ="Background_Color";
+   var PARAM_BORDER_C = "Border";
+   var PARAM_BORDER_COLOR_C = "Border_Color";
+   var PARAM_BORDER_WIDTH_C = "Border_Width";
+   
    /*** private properties ***/
    JSLogger.getInstance().registerLogger(arguments.callee.name, JSLogger.levelsE.TRACE, JSLogger.levelsE.TRACE);
    
@@ -97,6 +103,42 @@ var HtmlObject = HtmlObject || function (){
       JSLogger.getInstance().traceExit();
    };
    
+   /**
+    * Sets the html object appearance
+    */
+   HtmlObject.prototype.setAppearance = function (){
+      JSLogger.getInstance().traceEnter();
+      
+      var paramAppearance = this.getParameter(PARAM_APPEARANCE_C, this.parametersM);
+      
+      if (paramAppearance == null){
+         JSLogger.getInstance().trace("The parameter [ " + PARAM_APPEARANCE_C +
+               + " ] is not present in the parameters");
+         JSLogger.getInstance().traceExit();
+         return;
+      }
+      var backgroundColor = this.getParameter(PARAM_BACKGROUND_COLOR_C, 
+            paramAppearance);
+      var border = this.getParameter(PARAM_BORDER_C, paramAppearance);
+      
+      if (backgroundColor != null){
+         this.htmlObjectM.css("background-color", backgroundColor);
+      }
+      if (border != null){
+         this.htmlObjectM.css("border-style", "solid");
+         var borderColor = this.getParameter(PARAM_BORDER_COLOR_C, border);
+         if (borderColor != null){
+            this.htmlObjectM.css("border-color", borderColor);
+         }
+         var borderWidth = this.getParameter(PARAM_BORDER_WIDTH_C, border);
+         if (borderWidth != null){
+           
+            this.htmlObjectM.css("border-width", borderWidth);
+         }
+      }
+      
+      JSLogger.getInstance().traceExit();
+   };
    
    return HtmlObject;
 }();
