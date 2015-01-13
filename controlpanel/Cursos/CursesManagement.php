@@ -142,14 +142,16 @@
                 JSLogger.getInstance().debug("VALOR:" +$('#Data_Path_Cursos').val());
             }
          $('#btnSelectDir').click(function(){
-               fileBrowser = new FileBrowser({path:{root_path:<?php printf("\"%s\"",$_SERVER['DOCUMENT_ROOT']);?>,
-                                         current_path: $('#Data_Path').val()},
-                                        type: "d", filter: "*.*", 
-                                        callback:mostrarDatos,
-                                        title_params:{
-                                           title_caption:"Selecciona un directorio donde se guardara los cursos...",
-                                           title_background_color:"orange"},});
-                fileBrowser.show();
+               fileBrowser = new FileBrowser(
+                     {path:{
+                           root_path:<?php printf("\"%s\"",$_SERVER['DOCUMENT_ROOT']);?>,
+                           current_path: $('#Data_Path').val()},
+                           type: "d", filter: "*.*", 
+                           callback:mostrarDatos,
+                           Title_Params:{
+                              Caption:"Selecciona un directorio donde se guardara los cursos...",
+                              Background_Color:"orange"},});
+               
             }
          );
          $('#btnsave').click(function(){
