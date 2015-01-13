@@ -5,7 +5,7 @@
 var HtmlForm = HtmlForm || function(){
    
    /*** Private constants ***/
-   var TOOLBAR_PARAMS_C = "Toolbar_Params";
+   var TOOLBAR_PARAMS_C = "toolbar";
    
    
    /*** private properties ***/
@@ -29,13 +29,14 @@ var HtmlForm = HtmlForm || function(){
     */
    var setToolbar = function setToolbar(){
       JSLogger.getInstance().traceEnter();
-      JSLogger.getInstance().info("The method setToolbar must be overwrite in a child class.")
+      JSLogger.getInstance().info("The method setToolbar must be overwrite in a child class.");
       JSLogger.getInstance().traceExit();
    };
    
    HtmlForm.prototype = Object.create(HtmlWindow.prototype);
    HtmlForm.prototype.constructor = HtmlForm;
    HtmlForm.prototype.setToolbar = setToolbar;
+   HtmlForm.prototype.TOOLBAR_PARAMS_C = TOOLBAR_PARAMS_C;
    
    return HtmlForm;
 }();

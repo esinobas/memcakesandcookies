@@ -15,7 +15,7 @@
  * @param theCallback: The function that is executed when the ok button is pushed
  * 
  */
-FileBrowser = FileBrowser || function FileBrowser(theParams, callback){
+var FileBrowser = FileBrowser || function (){
    
    /*** Constants for access to the parameters ***/
    var paramPathC = "path";
@@ -35,8 +35,8 @@ FileBrowser = FileBrowser || function FileBrowser(theParams, callback){
    var INCREASE_HEIGHT_C = 75;
    /*** Private variables ***/
    var pathM = "./";
-   var rootPathM = pathM;
-   var currentPathM = rootPathM;
+   //var rootPathM = pathM;
+   var currentPathM = pathM; //rootPathM;
    var typeM = "a";
    var filterM = "*.*";
    
@@ -49,57 +49,12 @@ FileBrowser = FileBrowser || function FileBrowser(theParams, callback){
    var elementSelectedM = "";
    var previousSelectedM = elementSelectedM;
    
-   var parametersM = null;
    
-   /**
-    * Variable of type array where are saved the toolbar buttons
-    */
+
    
-   var toolbarM = null;
+   JSLogger.getInstance().registerLogger("FileBrowser", JSLogger.levelsE.TRACE);
    
    /****** Private functions *******/
-   
-  
-   /**
-    * Funtions that returns the current path
-    * 
-    * @return the current script path
-    */
-   function getCurrentPath (theFileName){
-     
-      JSLogger.getInstance().traceEnter();
-      
-      JSLogger.getInstance().trace("The current file is: " + theFileName);
-     
-      var path = "";
-      var scripts = document.getElementsByTagName('script');
-      if (scripts && scripts.length > 0) {
-          
-          
-           for (var i in scripts) {
-            if (scripts[i].src && scripts[i].src.match(/.js$/)){
-               
-               //this.debug(methodName,"Path Script[ " + scripts[i].src + " ]");
-               
-               if (scripts[i].src.match(new RegExp(theFileName+'$'))){
-                  JSLogger.getInstance().trace("Current Script [ " + scripts[i].src + " ]");
-                  path = scripts[i].src.substr(0, scripts[i].src.indexOf(theFileName));
-                  
-                  break;
-               }
-               
-                
-            }
-               
-               
-           }
-       }
-      
-      JSLogger.getInstance().debug("File path [ " + path +" ]");
-      JSLogger.getInstance().traceExit();
-       return path;
-      
-   }
    
    /**
     * Addes a directory data (directories and files) in a stack
@@ -119,7 +74,7 @@ FileBrowser = FileBrowser || function FileBrowser(theParams, callback){
    }
    
    /**
-    * Gets the structurte (files and directories) in the start of tje stack
+    * Gets the structure (files and directories) in the start of the stack
     * 
     * @return An array with the files and directories
     */
@@ -134,35 +89,36 @@ FileBrowser = FileBrowser || function FileBrowser(theParams, callback){
   
    }
    
-   /**
-    * Gets and removes the firts data directory in the stack
-    * 
-    * @return An arrya with the files and directories
-    */
-   function popFilesAndDirectories(){
-      
-      JSLogger.getInstance().traceEnter();
-      JSLogger.getInstance().trace("The stack has [ " + 
-            stackFilesAndDirectoriesM.length + " ]. IdxStack [ " + 
-            idxStackM +" ]");
-      var returnObject = stackFilesAndDirectoriesM[idxStackM];
-      stackFilesAndDirectoriesM[idxStackM] = null;
-      idxStackM --;
-      JSLogger.getInstance().traceExit();
-      return returnObject;
-   }
    
    /**
-    * Ask if the stack has only one element, the root
-    * 
-    * @return A boolean value
+    * Function that goes to the current path into the directories
+    * structure
     */
-   function isRoot(){
+   function goToCurrentPath(theRootPath, theCurrentPath){
       
-      JSLogger.getInstance().trace("Enter / Exit");
-      //return (idxStackM == 0);
-      return (fullPathToString().length == 0);
-      return (rootPathM == currentPathM);
+      JSLogger.getInstance().traceEnter();
+      //if ( !isRoot()) {
+      JSLogger.getInstance().trace("Root Path [ " + theRootPath 
+            + " ]. Current Path [ " + theCurrentPath +" ]");
+      if (theRootPath != theCurrentPath ){
+        
+         var arrayDirectories = theCurrentPath.split("/");
+         JSLogger.getInstance().trace("The current path has [ " + arrayDirectories.length +
+                        " ] directories");
+      
+         for (var directory in arrayDirectories){
+            JSLogger.getInstance().trace("Go to directoy [ " + arrayDirectories[directory] +" ]");
+            var dataDirectory = getFilesAndDirectories();
+            var goToDirectory = dataDirectory[ arrayDirectories[directory]];
+            JSLogger.getInstance().trace("idxStackM: " + idxStackM);
+            stackPathM[idxStackM] = arrayDirectories[directory];
+            pushFilesAndDirectories(goToDirectory);
+         
+         }
+     }else{
+         JSLogger.getInstance().trace("Both Path [ " + theCurrentPath +" ] are equals");
+     }
+      JSLogger.getInstance().traceExit();
    }
    
    /**
@@ -188,38 +144,36 @@ FileBrowser = FileBrowser || function FileBrowser(theParams, callback){
    }
    
    /**
-    * Functions that performances a get request for take the directories and 
-    * files of the directory.
-    * The request is done througth an Ajax class. The response is a JSON object
-    * that contains the files and directories.
-    * The response is save in JSON format in the stack
+    * Ask if the stack has only one element, the root
+    * 
+    * @return A boolean value
     */
-   function getDirectoriesAndFiles(){
+   function isRoot(){
+      
+      JSLogger.getInstance().trace("Enter / Exit");
+      //return (idxStackM == 0);
+      return (fullPathToString().length == 0);
+      //return (rootPathM == currentPathM);
+   }
+   
+   /**
+    * Gets and removes the firts data directory in the stack
+    * 
+    * @return An array with the files and directories
+    */
+   function popFilesAndDirectories(){
       
       JSLogger.getInstance().traceEnter();
-      
-      var url = getCurrentPath("FileBrowser.js")+"Filebrowser.php";
-      JSLogger.getInstance().trace("URL: [ " + url + " ]");
-      
-      var ajaxObject = new Ajax();
-      ajaxObject.setUrl(url);
-      ajaxObject.setPostMethod();
-      ajaxObject.setSyn();
-      var parameters = {};
-      parameters.rootDirectory = rootPathM;
-      parameters.type = typeM;
-      parameters.filter = filterM;
-      JSLogger.getInstance().debug("Parameters [ " + JSON.stringify(parameters) +" ]");
-      ajaxObject.setParameters( JSON.stringify(parameters));
-      ajaxObject.setCallback(null);
-      JSLogger.getInstance().debug("Sending sync request ...");
-      ajaxObject.send();
-      JSLogger.getInstance().debug("Response [ " + ajaxObject.getResponse() +" ]");
-      
-      pushFilesAndDirectories(JSON.parse(ajaxObject.getResponse()));
+      JSLogger.getInstance().trace("The stack has [ " + 
+            stackFilesAndDirectoriesM.length + " ]. IdxStack [ " + 
+            idxStackM +" ]");
+      var returnObject = stackFilesAndDirectoriesM[idxStackM];
+      stackFilesAndDirectoriesM[idxStackM] = null;
+      idxStackM --;
       JSLogger.getInstance().traceExit();
-      
+      return returnObject;
    }
+   
    
    /**
     * Function that is executed when the user does click on a file or directory
@@ -272,6 +226,7 @@ FileBrowser = FileBrowser || function FileBrowser(theParams, callback){
       JSLogger.getInstance().traceExit();
    }
    
+
    /**
     * Function that is executed when the user does double click on a file or directory
     * The html object style is changed
@@ -306,7 +261,7 @@ FileBrowser = FileBrowser || function FileBrowser(theParams, callback){
       }
       JSLogger.getInstance().traceExit();
    }
-   
+
    /**
     * Function that writes the files and directories in the file browser
     * 
@@ -327,7 +282,7 @@ FileBrowser = FileBrowser || function FileBrowser(theParams, callback){
          JSLogger.getInstance().trace("The directory is not root");
          
          objCandidate = $("<div id=\"..\" class=\"DataElement\"></div>");
-         objCandidate.append("<img src=\""+ getCurrentPath("FileBrowser.js") +
+         objCandidate.append("<img src=\""+ FileBrowser.prototype.getCurrentPath("FileBrowser.js") +
          "/icons/folder.png\">");
          objCandidate.append("<div>..</div>");
       
@@ -345,11 +300,11 @@ FileBrowser = FileBrowser || function FileBrowser(theParams, callback){
          
          if (data == null){
             JSLogger.getInstance().trace("Candidate [ " + candidate +" ] is a file");
-            objCandidate.append("<img src=\""+getCurrentPath("FileBrowser.js")+
+            objCandidate.append("<img src=\""+FileBrowser.prototype.getCurrentPath("FileBrowser.js")+
                         "/icons/page_white.png\">");
          }else{
             JSLogger.getInstance().trace("Candidate [ " + candidate +" ] is a directory");
-            objCandidate.append("<img src=\""+ getCurrentPath("FileBrowser.js") +
+            objCandidate.append("<img src=\""+ FileBrowser.prototype.getCurrentPath("FileBrowser.js") +
                              "/icons/folder.png\">");
          }
          objCandidate.append("<div>"+candidate+"</div>");
@@ -361,278 +316,280 @@ FileBrowser = FileBrowser || function FileBrowser(theParams, callback){
       JSLogger.getInstance().traceExit();
    }
    
-   /**
-    * Adds the filebrowser buttons and the then functions.
-    */
-   function addButtons(){
-      JSLogger.getInstance().traceEnter();
-      
-      var buttonCancel= $("<button type=\"button\" id=\"btnCancel\">Cancelar</button>");
-      $('#ButtonsContainer').append(buttonCancel);
-      buttonCancel.click(function(){
-            
-            $('#Filebrowser').remove();
-            $('#FilebrowserBackground').remove();
-         }
-      );
-      var buttonSelect = $("<button type=\"button\" id=\"btnSelect\">Seleccionar</button>");
-      buttonSelect.attr("disabled", true);
-      
-      JSLogger.getInstance().trace("Function callback: " + callbackM );
-      buttonSelect.click(function (){
-           
-            JSLogger.getInstance().traceEnter();
-            var dataCallback = {};
-            dataCallback.path = fullPathToString() + elementSelectedM;
-            if (typeM.toUpperCase() == "A" || typeM.toUpperCase() == "F"){
-               
-               dataCallback.file = true;
-            }else{
-               dataCallback.file = false;
-            }
-            JSLogger.getInstance().trace("Calling callback with parameter [ " + 
-                            JSON.stringify(dataCallback) + " ]");
-            
-            callbackM(dataCallback);
-            $('#btnCancel').click();
-            JSLogger.getInstance().traceExit();
-         }
-      
-      );
-      $('#ButtonsContainer').append(buttonSelect);
-      
-      
-      JSLogger.getInstance().traceExit();
-   }
    
-   function goToCurrentPath(theCurrentPath){
-      
-      JSLogger.getInstance().traceEnter();
-      //if ( !isRoot()) {
-      if (rootPathM != currentPathM ){
-         JSLogger.getInstance().trace("Current Path [ " + theCurrentPath +" ]");
-         var arrayDirectories = theCurrentPath.split("/");
-         JSLogger.getInstance().trace("The current path has [ " + arrayDirectories.length +
-                        " ] directories");
-      
-         for (var directory in arrayDirectories){
-            JSLogger.getInstance().trace("Go to directoy [ " + arrayDirectories[directory] +" ]");
-            var dataDirectory = getFilesAndDirectories();
-            var goToDirectory = dataDirectory[ arrayDirectories[directory]];
-            JSLogger.getInstance().trace("idxStackM: " + idxStackM);
-            stackPathM[idxStackM] = arrayDirectories[directory];
-            pushFilesAndDirectories(goToDirectory);
-         
-         }
-     }else{
-         JSLogger.getInstance().trace("The Current Path [ " + theCurrentPath +" ] is equal to Root Path");
+  
+   
+   /**
+    * Constructor
+    * 
+    * @param theParameters Array with the parameters used for show the filebrowser
+    */
+   
+  function FileBrowser(theParams){
+     
+     JSLogger.getInstance().traceEnter();
+     JSLogger.getInstance().debug("Add the div that filebrowser");
+     $('body').append("<div id=\"FilebrowserBackground\"></div>");
+     $('body').append("<div id=\"Filebrowser\"></div>");
+     HtmlForm.call(this, $('#Filebrowser'), theParams);
+     
+     JSLogger.getInstance().debug("Add the label that contains the current path");
+     $('#Filebrowser').append("<div id=\"PathContainer\"></div>");
+     $('#PathContainer').append("<div id=\"LabelPath\">Directorio</div>");
+     $('#PathContainer').append("<div id=\"CurrentPath\">./Current</div>");
+     
+     JSLogger.getInstance().debug("Add the div that has the directory contained");
+     $('#Filebrowser').append("<div id=\"FilesContainer\"></div>");
+     
+     JSLogger.getInstance().debug("Add the buttons");
+     $('#Filebrowser').append("<div id=\"ButtonsContainer\"></div>");
+     
+     
+     this.addButtons();
+     
+     this.showLoading();
+     
+     typeM = this.getParameter(paramTypeC, this.parametersM);
+     if (typeM == null){
+        typeM = "a";
      }
-      JSLogger.getInstance().traceExit();
-   }
-   
-   /****** Public functions *******/
-   
-   /*** Constructor ***/
-   JSLogger.getInstance().registerLogger(arguments.callee.name, JSLogger.levelsE.TRACE);
-   
-   JSLogger.getInstance().traceEnter();
-   
-   parametersM = theParams;
-   JSLogger.getInstance().debug("Add the div that filebrowser");
-   $('body').append("<div id=\"FilebrowserBackground\"></div>");
-   $('body').append("<div id=\"Filebrowser\"></div>");
-   HtmlForm.call(this, $('#Filebrowser'), theParams);
-   
-   if (theParams[paramPathC] != null){
-      pathM = theParams[paramPathC];
-      JSLogger.getInstance().debug("The parameter path is present in the parameters");
-      if (pathM[paramRootPathC] != null){
-         rootPathM = pathM[paramRootPathC];
-         JSLogger.getInstance().debug("The parameter \"root path\" [ " + rootPathM +" ]");
-      }else{
-         JSLogger.getInstance().error("The parameter \"root path\" is not present in parameters.");
-         return 1;
-      }
-      if (pathM[paramCurrentPathC] != null){
-         currentPathM = pathM[paramCurrentPathC];
-         JSLogger.getInstance().debug("The parameter \"current path\" [ " + currentPathM +" ]");
-      }else{
-         JSLogger.getInstance().warn("The parameter \"current path\" is not present in parameters. Set root path");
-         currentPathM = rootPathM;
-      }
-   }else{
-      JSLogger.getInstance().error("The parameter \"path\" is not present in parameters.");
-      return 1;
-   }
-   
-   if (theParams[paramTypeC] != null){
-      typeM = theParams[paramTypeC];
-      JSLogger.getInstance().debug("The type is [ " + (typeM == "a" ? "All": 
-                                                      typeM == "f" ? "Only files":
-                                                      "Only directories") + " ]");
-   }else{
-      JSLogger.getInstance().warn("The parameter \"type\" is not present in parameters. Default value All");
-   }
-   if (theParams[paramFilterC] != null){
-      filterM = theParams[paramFilterC];
-      JSLogger.getInstance().debug("The filter is [ " + filterM + " ]");
-   }else{
-      JSLogger.getInstance().warn("The parameter \"filer\" is not present in parameters. Use filer \"*.*\"");
-   }
-   if (theParams[paramCallbackC] != null){
-      callbackM = theParams[paramCallbackC];
-      JSLogger.getInstance().debug("The callback is present");
-   }else{
-      JSLogger.getInstance().warn("The parameter \"callback\" is not present in parameters.");
-   }
-   if (theParams[TOOLBAR_C] != null){
-      toolbarM = theParams[TOOLBAR_C];
-      JSLogger.getInstance().debug("The file browser has toolbar [ " + toolbarM + " ]");
-      
-   }
-   
-   JSLogger.getInstance().traceExit();
-   
-   
-   /**
-    * Show the filebrowser
-    */
-   var show = function show(){
-      
-      JSLogger.getInstance().traceEnter();
-      
-      //JSLogger.getInstance().debug("Add the div that filebrowser");
-      //$('body').append("<div id=\"FilebrowserBackground\"></div>");
-      //$('body').append("<div id=\"Filebrowser\"></div>");
-      
-      JSLogger.getInstance().debug("Add the label that contains the current path");
-      $('#Filebrowser').append("<div id=\"PathContainer\"></div>");
-      $('#PathContainer').append("<div id=\"LabelPath\">Directorio</div>");
-      $('#PathContainer').append("<div id=\"CurrentPath\">./Current</div>");
-      
-      JSLogger.getInstance().debug("Add the div that has the directory contained");
-      $('#Filebrowser').append("<div id=\"FilesContainer\"></div>");
-      
-      JSLogger.getInstance().debug("Add the buttons");
-      $('#Filebrowser').append("<div id=\"ButtonsContainer\"></div>");
-      //showToolbar();
-      //setTitle();
-      addButtons();
-      showLoading();
-      getDirectoriesAndFiles();
-      goToCurrentPath(currentPathM);
-      showFilesAndDirectories(fullPathToString());
-      hideLoading();
-      
-      JSLogger.getInstance().traceExit();
-      
-   }
-   
-   /**
-    * Function creates the title window
-    */
-   /*function setTitle(){
-      
-      JSLogger.getInstance().traceEnter();
-      if (getParameter(TITLE_PARAMS_C, parametersM) != null){
-         $('#Filebrowser').prepend('<div id="FileBrowser-Title"><div></div></div>');
-         if (getParameter(TITLE_CAPTION_C, parametersM) != null){
-            $('#FileBrowser-Title div').append(getParameter(
-                        TITLE_CAPTION_C, parametersM));
-         }
-         if (getParameter(TITLE_BACKGROUND_COLOR_C, parametersM) != null){
-            $('#FileBrowser-Title div').css("background-color", 
-                  getParameter(TITLE_BACKGROUND_COLOR_C, parametersM));
-         }
-         if (getParameter(TITLE_FONT_COLOR_C, parametersM) != null){
-            $('#FileBrowser-Title div').css("color", 
-                  getParameter(TITLE_FONT_COLOR_C, parametersM));
-         }
-      }
-      JSLogger.getInstance().traceExit();
-   }*/
-   
-   /**
-    * Function that shows an image while the files and directories are loaded
-    * from the server
-    */
-   function showLoading(){
-      JSLogger.getInstance().traceEnter();
-      $('#FilesContainer').append("<img src=\""+ getCurrentPath("FileBrowser.js") +
-      "/icons/load.gif\" width=\"48\" height=\"48\" style=\"position:absolute;"+
-      "left:220px; top:175px\" id=\"loading\">");
-      JSLogger.getInstance().traceExit();
-   }
-   
-   /**
-    * Function that hides the image while the files and directories are loaded
-    */
-   function hideLoading(){
-      JSLogger.getInstance().traceEnter();
-      $('#loading').remove();
-      JSLogger.getInstance().traceExit();
-   }
-   
-   /**
-    * Function that show the toolbar button
-    */
-   this.showToolbar = function showToolbar(){
-      JSLogger.getInstance().traceEnter();
-      if (toolbarM != null){
-         JSLogger.getInstance().trace("Show toolbar");
-         var filebrowserHeight = $('#Filebrowser').height();
-         JSLogger.getInstance().trace("The current filebrowser height is [ " +
-               filebrowserHeight + "px ]");
-         filebrowserHeight += INCREASE_HEIGHT_C;
-         JSLogger.getInstance().trace("Set new height [ " +
-               filebrowserHeight + "px ]");
-         $('#Filebrowser').height(filebrowserHeight);
-         var marginTop = parseInt($('#Filebrowser').css('margin-top'));
-         marginTop -= INCREASE_HEIGHT_C;
-         $('#Filebrowser').css('margin-top',marginTop+'px');
-         JSLogger.getInstance().trace("The new filebrowser margin top is [ " +
-               $('#Filebrowser').css('margin-top') + " ]");
-         
-         $('#Filebrowser').prepend('<div id="FileBrowser-Toolbar"><div></div></div>');
-         
-         var buttons = toolbarM.split("|");
-         JSLogger.getInstance().trace("The toolbar has [ " + buttons.length +
-               " ] buttons");
-         var toolbarObject = $('#FileBrowser-Toolbar div');
-         for( var button in buttons){
-            
-            if (buttons[button] == TOOLBAR_BUTTON_UPLOAD_FILE_C){
-               JSLogger.getInstance().trace("Show button [ " + 
-                     TOOLBAR_BUTTON_UPLOAD_FILE_C +" ]");
-               toolbarObject.append('<button type="button" '+
-                     'id="FileBrowser-upload-file" title="Subir un fichero" '+
-                     'style="background-image:url(\''+
-                     getCurrentPath("FileBrowser.js")+'icons/file_upload.png\');'+
-                     'background-repeat: no-repeat;background-position: center"></button>');
-               
-                     
-            }
-            if (buttons[button] == TOOLBAR_CREATE_FOLDER_C ){
-               JSLogger.getInstance().trace("Show button [ " + 
-                     TOOLBAR_CREATE_FOLDER_C +" ]");
-               toolbarObject.append('<button type="button" '+
-                     'id="FileBrowser-create-folder" title="Crear carpeta" '+
-                     'style="background-image:url(\''+
-                     getCurrentPath("FileBrowser.js")+'icons/folder_add.png\');'+
-                     'background-repeat: no-repeat;background-position: center"></button>');
-               
-            }
+     
+     this.getDirectoriesAndFiles();
+     var rootPath = this.getParameter(paramRootPathC, 
+           this.getParameter(paramPathC, this.parametersM));
+     currentPathM = this.getParameter(paramCurrentPathC, 
+                   this.getParameter(paramPathC, this.parametersM));
+     if (currentPathM == null){
+        currentPathM = rootPath;
+     }
+     goToCurrentPath(rootPath, currentPathM);
+     
+     showFilesAndDirectories(fullPathToString());
+     
+     this.hideLoading()
+     
+     JSLogger.getInstance().traceExit();
+  };
+  
+  /**
+   * Adds the filebrowser buttons and the then functions.
+   */
+  var addButtons = function addButtons(){
+     JSLogger.getInstance().traceEnter();
+  
+  
+     var buttonCancel= $("<button type=\"button\" id=\"btnCancel\">Cancelar</button>");
+     $('#ButtonsContainer').append(buttonCancel);
+     buttonCancel.click(function(){
+        
+           $('#Filebrowser').remove();
+           $('#FilebrowserBackground').remove();
+        }
+     );
+     var buttonSelect = $("<button type=\"button\" id=\"btnSelect\">Seleccionar</button>");
+     buttonSelect.attr("disabled", true);
+     
+     
+     buttonSelect.click(function (){
+       
+         JSLogger.getInstance().traceEnter();
+         var dataCallback = {};
+         dataCallback.path = fullPathToString() + elementSelectedM;
+         if (typeM.toUpperCase() == "A" || typeM.toUpperCase() == "F"){
            
+            dataCallback.file = true;
+         }else{
+             dataCallback.file = false;
          }
-      }
-      JSLogger.getInstance().traceExit();
-      
-   }
-   return{
-      show: show
-   }
-}();
+         var callback = this.getParameter(paramCallbackC, this.parametersM);
+         if (callback != null){
+            JSLogger.getInstance().trace("Calling callback with parameter [ " + 
+                  JSON.stringify(dataCallback) + " ]");
+         
+         
+            callbackM(dataCallback);
+         }
+         $('#btnCancel').click();
+         JSLogger.getInstance().traceExit();
+       }
+     );
+     
+     $('#ButtonsContainer').append(buttonSelect);
+     JSLogger.getInstance().traceExit();
+  }
+  /**
+   * Function that show the toolbar button
+   */
+  this.setToolbar = function setToolbar(){
+     JSLogger.getInstance().traceEnter();
+     var toolbar = this.getParameter(this.TOOLBAR_PARAMS_C, this.parametersM);
+     
+     if (toolbar != null){
+        JSLogger.getInstance().trace("Toolbar [ " + toolbar + " ]");
+        JSLogger.getInstance().trace("Show toolbar");
+        var filebrowserHeight = $('#Filebrowser').height();
+        JSLogger.getInstance().trace("The current filebrowser height is [ " +
+              filebrowserHeight + "px ]");
+        filebrowserHeight += INCREASE_HEIGHT_C;
+        JSLogger.getInstance().trace("Set new height [ " +
+              filebrowserHeight + "px ]");
+        $('#Filebrowser').height(filebrowserHeight);
+        var marginTop = parseInt($('#Filebrowser').css('margin-top'));
+        marginTop -= INCREASE_HEIGHT_C;
+        $('#Filebrowser').css('margin-top',marginTop+'px');
+        JSLogger.getInstance().trace("The new filebrowser margin top is [ " +
+              $('#Filebrowser').css('margin-top') + " ]");
+        
+        $('#Title-Bar').after('<div id="FileBrowser-Toolbar"><div></div></div>');
+        
+        var buttons = toolbar.split("|");
+        JSLogger.getInstance().trace("The toolbar has [ " + buttons.length +
+              " ] buttons");
+        var toolbarObject = $('#FileBrowser-Toolbar div');
+        for( var button in buttons){
+           
+           if (buttons[button] == TOOLBAR_BUTTON_UPLOAD_FILE_C){
+              JSLogger.getInstance().trace("Show button [ " + 
+                    TOOLBAR_BUTTON_UPLOAD_FILE_C +" ]");
+              toolbarObject.append('<button type="button" '+
+                    'id="FileBrowser-upload-file" title="Subir un fichero" '+
+                    'style="background-image:url(\''+
+                    this.getCurrentPath("FileBrowser.js")+'icons/file_upload.png\');'+
+                    'background-repeat: no-repeat;background-position: center"></button>');
+              
+                    
+           }
+           if (buttons[button] == TOOLBAR_CREATE_FOLDER_C ){
+              JSLogger.getInstance().trace("Show button [ " + 
+                    TOOLBAR_CREATE_FOLDER_C +" ]");
+              toolbarObject.append('<button type="button" '+
+                    'id="FileBrowser-create-folder" title="Crear carpeta" '+
+                    'style="background-image:url(\''+
+                    this.getCurrentPath("FileBrowser.js")+'icons/folder_add.png\');'+
+                    'background-repeat: no-repeat;background-position: center"></button>');
+              
+           }
+          
+        }
+     }
+     JSLogger.getInstance().traceExit();
+     
+  }
+  /**
+   * Function that shows an image while the files and directories are loaded
+   * from the server
+   */
+  var showLoading = function showLoading(){
+     JSLogger.getInstance().traceEnter();
+     $('#FilesContainer').append("<img src=\""+ this.getCurrentPath("FileBrowser.js") +
+     "/icons/load.gif\" width=\"48\" height=\"48\" style=\"position:absolute;"+
+     "left:220px; top:175px\" id=\"loading\">");
+     JSLogger.getInstance().traceExit();
+  }
+  
+  /**
+   * Function that hides the image while the files and directories are loaded
+   */
+  var hideLoading = function hideLoading(){
+     JSLogger.getInstance().traceEnter();
+     $('#loading').remove();
+     JSLogger.getInstance().traceExit();
+  }
+  
+  /**
+   * Functions that performances a get request for take the directories and 
+   * files of the directory.
+   * The request is done through an Ajax class. The response is a JSON object
+   * that contains the files and directories.
+   * The response is save in JSON format in the stack
+   */
+   var getDirectoriesAndFiles = function getDirectoriesAndFiles(){
+     
+     JSLogger.getInstance().traceEnter();
+     
+     var url = FileBrowser.prototype.getCurrentPath("FileBrowser.js")+"Filebrowser.php";
+     JSLogger.getInstance().trace("URL: [ " + url + " ]");
+     
+     var ajaxObject = new Ajax();
+     ajaxObject.setUrl(url);
+     ajaxObject.setPostMethod();
+     ajaxObject.setSyn();
+     var parameters = {};
+     
+     var pathParameters = FileBrowser.prototype.getParameter(paramPathC, 
+                                       this.parametersM);
+     parameters.rootDirectory = FileBrowser.prototype.getParameter(paramRootPathC, pathParameters);
+     if (parameters.rootDirectory == null){
+        parameters.rootDirectory = "./";
+     }
+     parameters.type = FileBrowser.prototype.getParameter(paramTypeC, 
+          this.parametersM);
+     if (parameters.type == null){
+        parameters.type = "a";
+     }
+     parameters.filter = FileBrowser.prototype.getParameter(paramFilterC,
+           this.parametersM);
+     if (parameters.filter == null){
+        parameters.filter = "*.*";
+     }
+     JSLogger.getInstance().debug("Parameters [ " + JSON.stringify(parameters) +" ]");
+     ajaxObject.setParameters( JSON.stringify(parameters));
+     ajaxObject.setCallback(null);
+     JSLogger.getInstance().debug("Sending sync request ...");
+     ajaxObject.send();
+     JSLogger.getInstance().debug("Response [ " + ajaxObject.getResponse() +" ]");
+     
+     pushFilesAndDirectories(JSON.parse(ajaxObject.getResponse()));
+     JSLogger.getInstance().traceExit();
+     
+  }
+  
+   
+ 
+  
 
-FileBrowser.prototype = Object.create(HtmlForm.prototype);
-FileBrowser.prototype.constructor = FileBrowser;
+  FileBrowser.prototype = Object.create(HtmlForm.prototype);
+  FileBrowser.prototype.constructor = FileBrowser;
+  FileBrowser.prototype.addButtons = addButtons;
+  FileBrowser.prototype.setToolbar = setToolbar;
+  FileBrowser.prototype.showLoading = showLoading;
+  FileBrowser.prototype.hideLoading = hideLoading;
+  FileBrowser.prototype.getDirectoriesAndFiles = getDirectoriesAndFiles;
+  //FileBrowser.prototype.showFilesAndDirectories = showFilesAndDirectories;
+
+  
+  //return FileBrowser;
+  var show = function show(theParams){
+     JSLogger.getInstance().traceEnter();
+     var fileBrowser = new FileBrowser(theParams);
+     
+     fileBrowser.addButtons();
+     fileBrowser.showLoading();
+     
+     typeM = fileBrowser.getParameter(paramTypeC, fileBrowser.parametersM);
+     if (typeM == null){
+        typeM = "a";
+     }
+     
+     fileBrowser.getDirectoriesAndFiles();
+     var rootPath = fileBrowser.getParameter(paramRootPathC, 
+           fileBrowser.getParameter(paramPathC, fileBrowser.parametersM));
+     currentPathM = fileBrowser.getParameter(paramCurrentPathC, 
+           fileBrowser.getParameter(paramPathC, fileBrowser.parametersM));
+     if (currentPathM == null){
+        currentPathM = rootPath;
+     }
+     goToCurrentPath(rootPath, currentPathM);
+     
+     showFilesAndDirectories(fullPathToString());
+     
+     fileBrowser.hideLoading();
+     
+     JSLogger.getInstance().traceExit();
+  }
+  
+  return FileBrowser;
+ }();
+
+
 

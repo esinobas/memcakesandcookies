@@ -25,7 +25,7 @@ var HtmlObject = HtmlObject || function (){
    /*** private methods ***/
    
    /**
-    * Contructor of the class
+    * Constructor of the class
     * 
     * @param theHtmlObject is the html object in jquery
     * @param theParams are the parameters
@@ -39,9 +39,10 @@ var HtmlObject = HtmlObject || function (){
        */
       this.htmlObjectM = theHtmlObject;
       /**
-       * The parameters passed to the objecto to build it.
+       * The parameters passed to the object to build it.
        */
       this.parametersM = theParams;
+      
       JSLogger.getInstance().traceExit();
    }
    
@@ -138,6 +139,41 @@ var HtmlObject = HtmlObject || function (){
       }
       
       JSLogger.getInstance().traceExit();
+   };
+   
+   /**
+    * Function that returns the current path
+    * 
+    * @return the current script path
+    */
+   HtmlObject.prototype.getCurrentPath = function(theFileName){
+     
+      JSLogger.getInstance().traceEnter();
+      
+      JSLogger.getInstance().trace("The current file is: " + theFileName);
+     
+      var path = "";
+      var scripts = document.getElementsByTagName('script');
+      if (scripts && scripts.length > 0) {
+    
+        for (var i in scripts) {
+            if (scripts[i].src && scripts[i].src.match(/.js$/)){
+               
+               //this.debug(methodName,"Path Script[ " + scripts[i].src + " ]");
+               
+               if (scripts[i].src.match(new RegExp(theFileName+'$'))){
+                  JSLogger.getInstance().trace("Current Script [ " + scripts[i].src + " ]");
+                  path = scripts[i].src.substr(0, scripts[i].src.indexOf(theFileName));
+                  
+                  break;
+               }
+            }
+           }
+       }
+      
+      JSLogger.getInstance().debug("File path [ " + path +" ]");
+      JSLogger.getInstance().traceExit();
+      return path;
    };
    
    HtmlObject.prototype.PARAM_BACKGROUND_COLOR_C = PARAM_BACKGROUND_COLOR_C;
