@@ -42,8 +42,8 @@ var FileBrowser = FileBrowser || function (){
    
    var callbackM = null;
    
-   var stackPathM = new Array();
-   var stackFilesAndDirectoriesM = new Array();
+   var stackPathM = [];
+   var stackFilesAndDirectoriesM = [];
    var idxStackM = -1;
    
    var elementSelectedM = "";
@@ -55,6 +55,22 @@ var FileBrowser = FileBrowser || function (){
    JSLogger.getInstance().registerLogger("FileBrowser", JSLogger.levelsE.TRACE);
    
    /****** Private functions *******/
+   
+   /**
+    * It sets up the object memory to an initial status
+    */
+   function initObjectMemory(){
+      JSLogger.getInstance().traceEnter();
+      
+      stackPathM = [];
+      stackFilesAndDirectoriesM = [];
+      idxStackM = -1;
+      
+      elementSelectedM = "";
+      previousSelectedM = elementSelectedM;
+      
+      JSLogger.getInstance().traceExit();
+   }
    
    /**
     * Addes a directory data (directories and files) in a stack
@@ -349,6 +365,8 @@ var FileBrowser = FileBrowser || function (){
      
      this.showLoading();
      
+     initObjectMemory();
+     
      typeM = this.getParameter(paramTypeC, this.parametersM);
      if (typeM == null){
         typeM = "a";
@@ -377,7 +395,6 @@ var FileBrowser = FileBrowser || function (){
   var addButtons = function addButtons(){
      JSLogger.getInstance().traceEnter();
   
-  
      var buttonCancel= $("<button type=\"button\" id=\"btnCancel\">Cancelar</button>");
      $('#ButtonsContainer').append(buttonCancel);
      buttonCancel.click(function(){
@@ -389,7 +406,8 @@ var FileBrowser = FileBrowser || function (){
      var buttonSelect = $("<button type=\"button\" id=\"btnSelect\">Seleccionar</button>");
      buttonSelect.attr("disabled", true);
      
-     
+     localCallback = this.getParameter(paramCallbackC, this.parametersM);
+     JSLogger.getInstance().trace("Callback [ " + localCallback + " ]");
      buttonSelect.click(function (){
        
          JSLogger.getInstance().traceEnter();
@@ -401,13 +419,13 @@ var FileBrowser = FileBrowser || function (){
          }else{
              dataCallback.file = false;
          }
-         var callback = this.getParameter(paramCallbackC, this.parametersM);
-         if (callback != null){
+         
+         if (localCallback != null){
             JSLogger.getInstance().trace("Calling callback with parameter [ " + 
                   JSON.stringify(dataCallback) + " ]");
          
          
-            callbackM(dataCallback);
+            localCallback(dataCallback);
          }
          $('#btnCancel').click();
          JSLogger.getInstance().traceExit();

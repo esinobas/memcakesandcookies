@@ -180,7 +180,7 @@
       function callbackFileBrowserImage(dataCallback){
          $('#image-preview').empty();
          $('#image-preview').append('<img src="<?php printf("%s/%s",$url, $tbConfiguration->getValue());?>/'+dataCallback.path+'">');
-         console.debug('<img src="<?php printf("%s/%s",$url,$tbConfiguration->getValue());?>/'+dataCallback.path+'">');
+         //console.debug('<img src="<?php printf("%s/%s",$url,$tbConfiguration->getValue());?>/'+dataCallback.path+'">');
       }
       fileBrowserImage = new FileBrowser({path:{root_path:
                <?php printf("\"%s/%s\"",$_SERVER['DOCUMENT_ROOT'],
@@ -194,7 +194,7 @@
                callback:callbackFileBrowserImage,
                toolbar:"upload_file|create_folder"
                   });
-      fileBrowserImage.show();
+      //ileBrowserImage.show();
      
                   
 
