@@ -192,7 +192,7 @@
                   Caption:"Selecciona una imagen ...",
                   Background_Color:"orange"},
                callback:callbackFileBrowserImage,
-               toolbar:"upload_file|create_folder"
+               toolbar:"upload_file|create_folder|delete"
                   });
       //ileBrowserImage.show();
      

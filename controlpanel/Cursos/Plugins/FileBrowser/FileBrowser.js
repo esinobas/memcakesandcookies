@@ -31,6 +31,7 @@ var FileBrowser = FileBrowser || function (){
    var TOOLBAR_C = "toolbar";
    var TOOLBAR_BUTTON_UPLOAD_FILE_C = "upload_file";
    var TOOLBAR_CREATE_FOLDER_C = "create_folder";
+   var TOOLBAR_DELETE_C = "delete";
    
    var INCREASE_HEIGHT_C = 75;
    /*** Private variables ***/
@@ -219,11 +220,13 @@ var FileBrowser = FileBrowser || function (){
       if (typeM.toUpperCase() == "A" && getFilesAndDirectories()[$(this).attr('id')] == null){
          JSLogger.getInstance().trace("Is all and the element is a file");
          $('#btnSelect').attr("disabled", false);
+         
       }else{
       
          if (typeM.toUpperCase() == "F"){
             JSLogger.getInstance().trace("Is only files");
             $('#btnSelect').attr("disabled", false);
+            $('#FileBrowser-delete-folder').attr("disabled", true);
          }else{
             if (typeM.toUpperCase() == "D"){
                JSLogger.getInstance().trace("Is only directories");
@@ -235,8 +238,10 @@ var FileBrowser = FileBrowser || function (){
       if ($(this).attr('id') != ".."){
          previousSelectedM = elementSelectedM;
          elementSelectedM = $(this).attr('id');
+         $('#FileBrowser-delete').attr("disabled", false);
       }else{
          elementSelectedM = previousSelectedM;
+         
       }
       JSLogger.getInstance().trace("Selected Element: " +elementSelectedM);
       JSLogger.getInstance().traceExit();
@@ -251,6 +256,7 @@ var FileBrowser = FileBrowser || function (){
       
       JSLogger.getInstance().traceEnter();
       $('#btnSelect').attr("disabled", true);
+      $('#FileBrowser-delete').attr("disabled", true);
       JSLogger.getInstance().trace("Selected: [ " + 
             $(this).attr('id') +" ]");
       
@@ -466,7 +472,7 @@ var FileBrowser = FileBrowser || function (){
         var toolbarObject = $('#FileBrowser-Toolbar div');
         for( var button in buttons){
            
-           if (buttons[button] == TOOLBAR_BUTTON_UPLOAD_FILE_C){
+           if ( buttons[button] == TOOLBAR_BUTTON_UPLOAD_FILE_C ){
               JSLogger.getInstance().trace("Show button [ " + 
                     TOOLBAR_BUTTON_UPLOAD_FILE_C +" ]");
               toolbarObject.append('<button type="button" '+
@@ -477,7 +483,9 @@ var FileBrowser = FileBrowser || function (){
               
                     
            }
-           if (buttons[button] == TOOLBAR_CREATE_FOLDER_C ){
+           
+           
+           if ( buttons[button] == TOOLBAR_CREATE_FOLDER_C ){
               JSLogger.getInstance().trace("Show button [ " + 
                     TOOLBAR_CREATE_FOLDER_C +" ]");
               toolbarObject.append('<button type="button" '+
@@ -486,6 +494,16 @@ var FileBrowser = FileBrowser || function (){
                     this.getCurrentPath("FileBrowser.js")+'icons/folder_add.png\');'+
                     'background-repeat: no-repeat;background-position: center"></button>');
               
+           }
+           if ( buttons[button] == TOOLBAR_DELETE_C ){
+              JSLogger.getInstance().trace("Show button [ " + 
+                    TOOLBAR_DELETE_C +" ]");
+              toolbarObject.append('<button type="button" '+
+                    'id="FileBrowser-delete" title="Borrar" '+
+                    'style="background-image:url(\''+
+                    this.getCurrentPath("FileBrowser.js")+'icons/delete.png\');'+
+                    'background-repeat: no-repeat;background-position: center"></button>');
+              $('#FileBrowser-delete').attr("disabled", true);
            }
           
         }
