@@ -239,6 +239,8 @@ var FileBrowser = FileBrowser || function (){
          previousSelectedM = elementSelectedM;
          elementSelectedM = $(this).attr('id');
          $('#FileBrowser-delete').attr("disabled", false);
+         //$('#FileBrowser-delete').css("background-image","url('"+
+         //      this.getCurrentPath("FileBrowser.js")+"'icons/delete.png'");
       }else{
          elementSelectedM = previousSelectedM;
          
@@ -257,6 +259,9 @@ var FileBrowser = FileBrowser || function (){
       JSLogger.getInstance().traceEnter();
       $('#btnSelect').attr("disabled", true);
       $('#FileBrowser-delete').attr("disabled", true);
+      //$('#FileBrowser-delete').css("background-image","url('"+
+      //    this.getCurrentPath("FileBrowser.js")+"'icons/disabled_delete.png'");
+      
       JSLogger.getInstance().trace("Selected: [ " + 
             $(this).attr('id') +" ]");
       
@@ -501,7 +506,7 @@ var FileBrowser = FileBrowser || function (){
               toolbarObject.append('<button type="button" '+
                     'id="FileBrowser-delete" title="Borrar" '+
                     'style="background-image:url(\''+
-                    this.getCurrentPath("FileBrowser.js")+'icons/delete.png\');'+
+                    this.getCurrentPath("FileBrowser.js")+'icons/disabled_delete.png\');'+
                     'background-repeat: no-repeat;background-position: center"></button>');
               $('#FileBrowser-delete').attr("disabled", true);
            }
