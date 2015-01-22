@@ -50,6 +50,8 @@ var FileBrowser = FileBrowser || function (){
    var elementSelectedM = "";
    var previousSelectedM = elementSelectedM;
    
+   var localGetCurrentPath;
+   
    
 
    
@@ -74,7 +76,7 @@ var FileBrowser = FileBrowser || function (){
    }
    
    /**
-    * Addes a directory data (directories and files) in a stack
+    * Adds a directory data (directories and files) in a stack
     * 
     * @param theFilesAndDirectories. Array with the files and directories
     */
@@ -239,11 +241,14 @@ var FileBrowser = FileBrowser || function (){
          previousSelectedM = elementSelectedM;
          elementSelectedM = $(this).attr('id');
          $('#FileBrowser-delete').attr("disabled", false);
-         //$('#FileBrowser-delete').css("background-image","url('"+
-         //      this.getCurrentPath("FileBrowser.js")+"'icons/delete.png'");
+         
+         $('#FileBrowser-delete').css("background-image","url('"+
+               localGetCurrentPath("FileBrowser.js")+"icons/delete.png'");
       }else{
          elementSelectedM = previousSelectedM;
          
+         $('#FileBrowser-delete').css("background-image","url('"+
+               localGetCurrentPath("FileBrowser.js")+"icons/disabled_delete.png'");
       }
       JSLogger.getInstance().trace("Selected Element: " +elementSelectedM);
       JSLogger.getInstance().traceExit();
@@ -259,8 +264,8 @@ var FileBrowser = FileBrowser || function (){
       JSLogger.getInstance().traceEnter();
       $('#btnSelect').attr("disabled", true);
       $('#FileBrowser-delete').attr("disabled", true);
-      //$('#FileBrowser-delete').css("background-image","url('"+
-      //    this.getCurrentPath("FileBrowser.js")+"'icons/disabled_delete.png'");
+      $('#FileBrowser-delete').css("background-image","url('"+
+            localGetCurrentPath("FileBrowser.js")+"icons/disabled_delete.png'");
       
       JSLogger.getInstance().trace("Selected: [ " + 
             $(this).attr('id') +" ]");
@@ -395,7 +400,9 @@ var FileBrowser = FileBrowser || function (){
      
      showFilesAndDirectories(fullPathToString());
      
-     this.hideLoading()
+     this.hideLoading();
+     
+     localGetCurrentPath = this.getCurrentPath;
      
      JSLogger.getInstance().traceExit();
   };
