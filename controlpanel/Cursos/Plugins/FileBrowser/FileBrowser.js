@@ -453,6 +453,22 @@ var FileBrowser = FileBrowser || function (){
      $('#ButtonsContainer').append(buttonSelect);
      JSLogger.getInstance().traceExit();
   }
+  
+  /**
+   * It shows a input text for get the directory name and call to the 
+   * funtion in the server that creates the directory
+   */
+  function createDirectory(){
+     JSLogger.getInstance().traceEnter();
+     JSLogger.getInstance().traceExit();
+  }
+  
+  function showEnterDirectoryName(theEvent){
+     JSLogger.getInstance().traceEnter();
+     
+     JSLogger.getInstance().traceExit();
+  }
+  
   /**
    * Function that show the toolbar button
    */
@@ -505,7 +521,9 @@ var FileBrowser = FileBrowser || function (){
                     'style="background-image:url(\''+
                     this.getCurrentPath("FileBrowser.js")+'icons/folder_add.png\');'+
                     'background-repeat: no-repeat;background-position: center"></button>');
-              
+              $('#FileBrowser-create-folder').click(function(theEvent){
+                 showEnterDirectoryName(theEvent);
+              });
            }
            if ( buttons[button] == TOOLBAR_DELETE_C ){
               JSLogger.getInstance().trace("Show button [ " + 
