@@ -463,8 +463,12 @@ var FileBrowser = FileBrowser || function (){
      JSLogger.getInstance().traceExit();
   }
   
-  function showEnterDirectoryName(theEvent){
+  function showEnterDirectoryName(theObject, theEvent){
      JSLogger.getInstance().traceEnter();
+     var posX = theObject.offset().left;
+     var posY = theObject.offset().top;
+     JSLogger.getInstance().trace("left [ " + (theEvent.pageX - posX) + 
+                             " ]. top [ " + (theEvent.pageY - posY) + " ]");
      
      JSLogger.getInstance().traceExit();
   }
@@ -522,7 +526,7 @@ var FileBrowser = FileBrowser || function (){
                     this.getCurrentPath("FileBrowser.js")+'icons/folder_add.png\');'+
                     'background-repeat: no-repeat;background-position: center"></button>');
               $('#FileBrowser-create-folder').click(function(theEvent){
-                 showEnterDirectoryName(theEvent);
+                 showEnterDirectoryName($(this), theEvent);
               });
            }
            if ( buttons[button] == TOOLBAR_DELETE_C ){
