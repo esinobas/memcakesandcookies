@@ -463,16 +463,19 @@ var FileBrowser = FileBrowser || function (){
      JSLogger.getInstance().traceExit();
   }
   
-  function showEnterDirectoryName(theObject, theEvent){
+  function showEnterDirectoryName(theObject, theEvent, theCurrentPath){
      JSLogger.getInstance().traceEnter();
      var posX = theObject.offset().left;
      var posY = theObject.offset().top;
      JSLogger.getInstance().trace("left [ " + (theEvent.pageX) + 
                              " ]. top [ " + (theEvent.pageY) + " ]");
-     alert("left [ " + (theEvent.pageX - posX) + 
-                             " ]. top [ " + (theEvent.pageY) + " ]");
+     
      //open a div where the directory name will be written
+     $('body').append('<div id="Background-Name-Entry"></div>');
      var directoryNameObj = $('<div id="Directory-Name-Entry"></div>');
+     directoryNameObj.append('<div><input id="Input-Directory-Name-Entry" type="text"></div>');
+     directoryNameObj.append('<img src="' + theCurrentPath +'icons/accept.png">');
+     directoryNameObj.append('<img src="' + theCurrentPath +'icons/cancel.png">');
      directoryNameObj.css('top', (theEvent.pageY)+"px");
      directoryNameObj.css('left',(theEvent.pageX)+"px");
      $('body').append(directoryNameObj)
@@ -522,7 +525,7 @@ var FileBrowser = FileBrowser || function (){
                     
            }
            
-           
+           var localGetCurrentPath = this.getCurrentPath("FileBrowser.js");
            if ( buttons[button] == TOOLBAR_CREATE_FOLDER_C ){
               JSLogger.getInstance().trace("Show button [ " + 
                     TOOLBAR_CREATE_FOLDER_C +" ]");
@@ -532,7 +535,7 @@ var FileBrowser = FileBrowser || function (){
                     this.getCurrentPath("FileBrowser.js")+'icons/folder_add.png\');'+
                     'background-repeat: no-repeat;background-position: center"></button>');
               $('#FileBrowser-create-folder').click(function(theEvent){
-                 showEnterDirectoryName($(this), theEvent);
+                 showEnterDirectoryName($(this), theEvent, localGetCurrentPath);
               });
            }
            if ( buttons[button] == TOOLBAR_DELETE_C ){
