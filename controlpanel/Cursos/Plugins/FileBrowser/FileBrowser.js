@@ -467,9 +467,15 @@ var FileBrowser = FileBrowser || function (){
      JSLogger.getInstance().traceEnter();
      var posX = theObject.offset().left;
      var posY = theObject.offset().top;
-     JSLogger.getInstance().trace("left [ " + (theEvent.pageX - posX) + 
-                             " ]. top [ " + (theEvent.pageY - posY) + " ]");
-     
+     JSLogger.getInstance().trace("left [ " + (theEvent.pageX) + 
+                             " ]. top [ " + (theEvent.pageY) + " ]");
+     alert("left [ " + (theEvent.pageX - posX) + 
+                             " ]. top [ " + (theEvent.pageY) + " ]");
+     //open a div where the directory name will be written
+     var directoryNameObj = $('<div id="Directory-Name-Entry"></div>');
+     directoryNameObj.css('top', (theEvent.pageY)+"px");
+     directoryNameObj.css('left',(theEvent.pageX)+"px");
+     $('body').append(directoryNameObj)
      JSLogger.getInstance().traceExit();
   }
   

@@ -162,3 +162,12 @@
    color: white;
    padding: 2px 5px 2px 5px;
 }
+
+#Directory-Name-Entry{
+ 
+   position: absolute;
+   width: 200px;
+   height: 20px;
+   z-index: 21;
+   background-color: red;
+}
