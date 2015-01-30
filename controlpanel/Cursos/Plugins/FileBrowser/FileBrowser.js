@@ -376,6 +376,7 @@ var FileBrowser = FileBrowser || function (){
      JSLogger.getInstance().debug("Add the buttons");
      $('#Filebrowser').append("<div id=\"ButtonsContainer\"></div>");
      
+     localGetCurrentPath = this.getCurrentPath;
      
      this.addButtons();
      
@@ -402,7 +403,6 @@ var FileBrowser = FileBrowser || function (){
      
      this.hideLoading();
      
-     localGetCurrentPath = this.getCurrentPath;
      
      JSLogger.getInstance().traceExit();
   };
@@ -454,15 +454,22 @@ var FileBrowser = FileBrowser || function (){
      JSLogger.getInstance().traceExit();
   }
   
-  /**
-   * It shows a input text for get the directory name and call to the 
-   * funtion in the server that creates the directory
-   */
-  function createDirectory(){
+  
+  function createDirectory(theDirectoryName){
      JSLogger.getInstance().traceEnter();
+     
+     showLoading();
+     JSLogger.getInstance().trace("The directory name is [ " +theDirectoryName +
+                     " ]");
+     hideLoading();
+     
      JSLogger.getInstance().traceExit();
   }
   
+  /**
+   * It shows a input text for get the directory name and call to the 
+   * function in the server that creates the directory
+   */
   function showEnterDirectoryName(theObject, theEvent, theCurrentPath){
      JSLogger.getInstance().traceEnter();
      var posX = theObject.offset().left;
@@ -492,8 +499,6 @@ var FileBrowser = FileBrowser || function (){
      //the input text
      $('#Input-Directory-Name-Entry').keyup(function(){
         
-        JSLogger.getInstance().trace("The directory name has [ " + 
-              $(this).val().length + " ] ");
         if ($(this).val().length > 0){
            buttonAccept.attr("src", theCurrentPath +"icons/accept.png")
         }else{
@@ -501,6 +506,17 @@ var FileBrowser = FileBrowser || function (){
         }
      });
      
+     //Add the event to the accept button for create the directory.
+     buttonAccept.click(function(){
+        if ($('#Input-Directory-Name-Entry').val().length > 0){
+           
+           
+           createDirectory($('#Input-Directory-Name-Entry').val());
+           $('#Directory-Name-Entry').remove();
+           $('#Background-Name-Entry').remove();
+        }
+      }
+     );
      JSLogger.getInstance().traceExit();
   }
   
@@ -582,7 +598,7 @@ var FileBrowser = FileBrowser || function (){
    */
   var showLoading = function showLoading(){
      JSLogger.getInstance().traceEnter();
-     $('#FilesContainer').append("<img src=\""+ this.getCurrentPath("FileBrowser.js") +
+     $('#FilesContainer').append("<img src=\""+ localGetCurrentPath("FileBrowser.js") +
      "/icons/load.gif\" width=\"48\" height=\"48\" style=\"position:absolute;"+
      "left:220px; top:175px\" id=\"loading\">");
      JSLogger.getInstance().traceExit();
