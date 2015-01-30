@@ -473,12 +473,21 @@ var FileBrowser = FileBrowser || function (){
      //open a div where the directory name will be written
      $('body').append('<div id="Background-Name-Entry"></div>');
      var directoryNameObj = $('<div id="Directory-Name-Entry"></div>');
-     directoryNameObj.append('<div><input id="Input-Directory-Name-Entry" type="text"></div>');
+     directoryNameObj.append('<div><input id="Input-Directory-Name-Entry" type="text" autofocus="autofocus"></div>');
      directoryNameObj.append('<img src="' + theCurrentPath +'icons/accept.png">');
-     directoryNameObj.append('<img src="' + theCurrentPath +'icons/cancel.png">');
+     var cancelButton = $('<img src="' + theCurrentPath +'icons/cancel.png">');
+     directoryNameObj.append(cancelButton);
      directoryNameObj.css('top', (theEvent.pageY)+"px");
      directoryNameObj.css('left',(theEvent.pageX)+"px");
-     $('body').append(directoryNameObj)
+     $('body').append(directoryNameObj);
+     $('#Input-Directory-Name-Entry').focus();
+     
+     //Add cancel event to the cancel button
+     cancelButton.click(function() {
+        $('#Directory-Name-Entry').remove();
+        $('#Background-Name-Entry').remove();
+     });
+     
      JSLogger.getInstance().traceExit();
   }
   

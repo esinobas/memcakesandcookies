@@ -185,24 +185,32 @@
    background-color: white;
    box-shadow: 3px 3px 3px;
    
-   padding: 1px 2px;
+   padding: 2px 2px;
 }   
+#Directory-Name-Entry div{
+   margin-top: 1px;
+}
 
 #Input-Directory-Name-Entry{
 
   appearance: none;
   box-shadow: none;
   border-radius: none;
-  width: 80%;
+  width: 85%;
   height: 26px;
+  float: left;
+  font-size: 12px;
+  font-style: italic;
+  font-family: inherit;
   
 }
 #Directory-Name-Entry img{
  
    position: relative;
-   margin-left: 2px;
+   margin-left: 3px;
    width: 21px;
    height: 21px;
-   top: 4px;
    float: left;
+   margin-top: 2px;
+   cursor: pointer;
 }
