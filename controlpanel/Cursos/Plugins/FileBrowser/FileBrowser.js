@@ -474,7 +474,7 @@ var FileBrowser = FileBrowser || function (){
      $('body').append('<div id="Background-Name-Entry"></div>');
      var directoryNameObj = $('<div id="Directory-Name-Entry"></div>');
      directoryNameObj.append('<div><input id="Input-Directory-Name-Entry" type="text" autofocus="autofocus"></div>');
-     directoryNameObj.append('<img src="' + theCurrentPath +'icons/accept.png">');
+     directoryNameObj.append('<img src="' + theCurrentPath +'icons/disabled_accept.png">');
      var cancelButton = $('<img src="' + theCurrentPath +'icons/cancel.png">');
      directoryNameObj.append(cancelButton);
      directoryNameObj.css('top', (theEvent.pageY)+"px");
