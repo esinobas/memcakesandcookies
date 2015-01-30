@@ -474,8 +474,9 @@ var FileBrowser = FileBrowser || function (){
      $('body').append('<div id="Background-Name-Entry"></div>');
      var directoryNameObj = $('<div id="Directory-Name-Entry"></div>');
      directoryNameObj.append('<div><input id="Input-Directory-Name-Entry" type="text" autofocus="autofocus"></div>');
-     directoryNameObj.append('<img src="' + theCurrentPath +'icons/disabled_accept.png">');
+     var buttonAccept = $('<img src="' + theCurrentPath +'icons/disabled_accept.png">');
      var cancelButton = $('<img src="' + theCurrentPath +'icons/cancel.png">');
+     directoryNameObj.append(buttonAccept);
      directoryNameObj.append(cancelButton);
      directoryNameObj.css('top', (theEvent.pageY)+"px");
      directoryNameObj.css('left',(theEvent.pageX)+"px");
@@ -486,6 +487,18 @@ var FileBrowser = FileBrowser || function (){
      cancelButton.click(function() {
         $('#Directory-Name-Entry').remove();
         $('#Background-Name-Entry').remove();
+     });
+     //Add the event of JQuery keyup, for count the number of characters into
+     //the input text
+     $('#Input-Directory-Name-Entry').keyup(function(){
+        
+        JSLogger.getInstance().trace("The directory name has [ " + 
+              $(this).val().length + " ] ");
+        if ($(this).val().length > 0){
+           buttonAccept.attr("src", theCurrentPath +"icons/accept.png")
+        }else{
+           buttonAccept.attr("src", theCurrentPath +"icons/disabled_accept.png")
+        }
      });
      
      JSLogger.getInstance().traceExit();
