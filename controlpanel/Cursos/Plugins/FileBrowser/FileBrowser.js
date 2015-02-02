@@ -479,7 +479,18 @@ var FileBrowser = FileBrowser || function (){
      
      JSLogger.getInstance().debug("Create directory [ " +
                                           newDirectory +" ]") ;
-     //parameters.rootDirectory = FileBrowser.prototype.getParameter(paramRootPathC, pathParameters);
+     
+     parameters.command = "mkdir";
+     parameters.parameters = {}
+     parameters.parameters.new_dir = newDirectory;
+     
+     JSLogger.getInstance().debug("Ajax Parameters [ " + JSON.stringify(parameters) +" ]");
+     ajaxObject.setParameters( JSON.stringify(parameters));
+     ajaxObject.setCallback(null);
+     JSLogger.getInstance().debug("Sending sync request ...");
+     ajaxObject.send();
+     JSLogger.getInstance().debug("Response [ " + ajaxObject.getResponse() +" ]");
+   
      hideLoading();
      
      JSLogger.getInstance().traceExit();

@@ -14,7 +14,8 @@
    $PARAM_ROOT_DIRECTORY = "root_dir";
    $PARAM_NEW_DIRECTORY = "new_dir";
    
-   $RETURN_RESULT = "result";
+   $RESULT_RETURN = "result";
+   $MESSAGE_RETURN = "message_return";
    
    /**
     * Function creates a directory
@@ -27,15 +28,27 @@
    function createDirectory($theParameters, &$theResult){
       
       global $loggerM;
+      global $RESULT_RETURN;
+      global $MESSAGE_RETURN;
+      global $PARAM_NEW_DIRECTORY;
+      
       $loggerM->trace("Enter");
-      $jsonParameter = json_decode($theParameters);
+      $jsonParameter = json_decode($theParameters, JSON_UNESCAPED_SLASHES);
+      
       $newDirectory = $jsonParameter[$PARAM_NEW_DIRECTORY];
       $loggerM->trace("Creating the directory [ $newDirectory ]");
       if ( ! mkdir($newDirectory)){
-         $logger->error("The directory [ $newDirectory ] has been not created");
-         $result[$RETURN_RESULT] = "ERROR";
+         
+         $strError = substr(error_get_last()['message'], 
+               strpos(error_get_last()['message'],":") + 1 , 
+               (strlen(error_get_last()['message']))-strpos(error_get_last()['message'],":"));
+         $loggerM->error("The directory [ $newDirectory ] has been not created.".
+               " Reason [ $strError ]");
+         $theResult[$RESULT_RETURN] = "ERROR";
+         $theResult[$MESSAGE_RETURN] = $strError;
+         
       }else{
-         $logger->debug("The directory [ $newDirectoyr ] has beeb created successfuly");
+         $loggerM->debug("The directory [ $newDirectory ] has been created successfuly");
       }
       
       $loggerM->trace("Exit");
@@ -46,18 +59,20 @@
    $loggerM = LoggerMgr::Instance()->getLogger("FileSystem.php");
    $command = $_POST[$PARAM_COMMAND];
    $params = $_POST[$PARAM_PARAMETERS];
-   $logger->trace("The command received is [ $command ]");
+   $loggerM->trace("The command received is [ $command ]");
    $result = array();
-   $result[$RETURN_RESULT] = "OK";
+   $result[$RESULT_RETURN] = "OK";
    switch ($command){
       case $COMMAND_CREATE_DIR:
-         $logger->trace("A directory will be created");
+         $loggerM->trace("A directory will be created");
          createDirectory($params, $result);
          break;
       default:
-         $logger->error("The command received is unkown");
-         $result[$RETURN_RESULT] = "ERROR";
+         $loggerM->error("The command received is unkown");
+         $result[$RESULT_RETURN] = "ERROR";
+         $result[$MESSAGE_RETURN] = "Unkown command";
    }
    
+   $loggerM->trace("The result is [ ".json_encode($result) ." ]");
    print(json_encode($result));
 ?>
