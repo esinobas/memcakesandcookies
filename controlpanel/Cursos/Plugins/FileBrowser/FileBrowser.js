@@ -274,7 +274,8 @@ var FileBrowser = FileBrowser || function (){
          
          JSLogger.getInstance().trace("Go to parent directory");
          popFilesAndDirectories();
-         showFilesAndDirectories(fullPathToString());
+         currentPathM = fullPathToString()
+         showFilesAndDirectories(currentPathM);
       }
       var directoryData = getFilesAndDirectories();
       
@@ -455,12 +456,30 @@ var FileBrowser = FileBrowser || function (){
   }
   
   
-  function createDirectory(theDirectoryName){
+  function createDirectory(theDirectoryName, theParameters){
      JSLogger.getInstance().traceEnter();
      
      showLoading();
-     JSLogger.getInstance().trace("The directory name is [ " +theDirectoryName +
-                     " ]");
+     JSLogger.getInstance().trace("The directory name is [ " +theDirectoryName + " ]");
+     
+     var url = FileBrowser.prototype.getCurrentPath("FileBrowser.js")+"FileSystem.php";
+     JSLogger.getInstance().trace("URL: [ " + url + " ]");
+     
+     var ajaxObject = new Ajax();
+     ajaxObject.setUrl(url);
+     ajaxObject.setPostMethod();
+     ajaxObject.setSyn();
+     var parameters = {};
+     var rootDirectory = FileBrowser.prototype.getParameter(paramRootPathC,
+                        FileBrowser.prototype.getParameter(paramPathC, 
+                              theParameters));
+     
+     var newDirectory = (rootDirectory == currentPathM ? currentPathM +  theDirectoryName:
+        rootDirectory+"/"+ currentPathM + theDirectoryName);
+     
+     JSLogger.getInstance().debug("Create directory [ " +
+                                          newDirectory +" ]") ;
+     //parameters.rootDirectory = FileBrowser.prototype.getParameter(paramRootPathC, pathParameters);
      hideLoading();
      
      JSLogger.getInstance().traceExit();
@@ -470,10 +489,11 @@ var FileBrowser = FileBrowser || function (){
    * It shows a input text for get the directory name and call to the 
    * function in the server that creates the directory
    */
-  function showEnterDirectoryName(theObject, theEvent, theCurrentPath){
+  function showEnterDirectoryName(theObject, theEvent, theCurrentPath, theParameters){
      JSLogger.getInstance().traceEnter();
      var posX = theObject.offset().left;
      var posY = theObject.offset().top;
+      
      JSLogger.getInstance().trace("left [ " + (theEvent.pageX) + 
                              " ]. top [ " + (theEvent.pageY) + " ]");
      
@@ -511,7 +531,7 @@ var FileBrowser = FileBrowser || function (){
         if ($('#Input-Directory-Name-Entry').val().length > 0){
            
            
-           createDirectory($('#Input-Directory-Name-Entry').val());
+           createDirectory($('#Input-Directory-Name-Entry').val(), theParameters);
            $('#Directory-Name-Entry').remove();
            $('#Background-Name-Entry').remove();
         }
@@ -564,6 +584,7 @@ var FileBrowser = FileBrowser || function (){
            }
            
            var localGetCurrentPath = this.getCurrentPath("FileBrowser.js");
+           var localParameters = this.parametersM;
            if ( buttons[button] == TOOLBAR_CREATE_FOLDER_C ){
               JSLogger.getInstance().trace("Show button [ " + 
                     TOOLBAR_CREATE_FOLDER_C +" ]");
@@ -573,7 +594,8 @@ var FileBrowser = FileBrowser || function (){
                     this.getCurrentPath("FileBrowser.js")+'icons/folder_add.png\');'+
                     'background-repeat: no-repeat;background-position: center"></button>');
               $('#FileBrowser-create-folder').click(function(theEvent){
-                 showEnterDirectoryName($(this), theEvent, localGetCurrentPath);
+                 showEnterDirectoryName($(this), theEvent, localGetCurrentPath, 
+                                       localParameters);
               });
            }
            if ( buttons[button] == TOOLBAR_DELETE_C ){
