@@ -39,9 +39,12 @@
       $loggerM->trace("Creating the directory [ $newDirectory ]");
       if ( ! mkdir($newDirectory)){
          
-         $strError = substr(error_get_last()['message'], 
+         $strError = trim(substr(error_get_last()['message'], 
                strpos(error_get_last()['message'],":") + 1 , 
-               (strlen(error_get_last()['message']))-strpos(error_get_last()['message'],":"));
+               (strlen(error_get_last()['message']))-strpos(error_get_last()['message'],":")));
+         if (strcmp($strError, "File exists") == 0){
+            $strError = "Directory Exists";
+         }
          $loggerM->error("The directory [ $newDirectory ] has been not created.".
                " Reason [ $strError ]");
          $theResult[$RESULT_RETURN] = "ERROR";

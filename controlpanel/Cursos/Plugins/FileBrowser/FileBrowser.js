@@ -491,6 +491,11 @@ var FileBrowser = FileBrowser || function (){
      ajaxObject.send();
      JSLogger.getInstance().debug("Response [ " + ajaxObject.getResponse() +" ]");
    
+     var jsonResponse = JSON.parse(ajaxObject.getResponse());
+     if (jsonResponse["result"] == "ERROR"){
+        alert('El directorio no se ha creado. Error [ ' + 
+              jsonResponse["message_return"] +" ]");
+     }
      hideLoading();
      
      JSLogger.getInstance().traceExit();
