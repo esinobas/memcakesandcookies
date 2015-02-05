@@ -467,8 +467,6 @@ var FileBrowser = FileBrowser || function (){
      
      directoryStructure[theNewDirectory]= {};
      
-     JSLogger.getInstance().trace("Current directory contain [ " + 
-           JSON.stringify(directoryStructure));
      showFilesAndDirectories(fullPathToString());
      JSLogger.getInstance().traceExit();
   }
@@ -580,6 +578,25 @@ var FileBrowser = FileBrowser || function (){
   }
   
   /**
+   * Function that shows a window dialog asking confirmation for remove a
+   * file or a directory. Depending of the user's response the file or 
+   * directory is removed.
+   */
+  function removeFileOrDirectory(theParameters){
+     JSLogger.getInstance().traceEnter();
+     
+     if (confirm('¿Borrar " ' + elementSelectedM + ' "?') == true){
+        var rootDirectory = FileBrowser.prototype.getParameter(paramRootPathC,
+              FileBrowser.prototype.getParameter(paramPathC, 
+                    theParameters));
+        var elmentToRemove = (rootDirectory == currentPathM ? currentPathM +  theDirectoryName:
+           rootDirectory+"/"+ currentPathM + elementSelectedM);
+        JSLogger.getInstance().debug("Trying remove [ " + elmentToRemove +" ]");
+     } 
+     JSLogger.getInstance().traceExit();
+  }
+  
+  /**
    * Function that show the toolbar button
    */
   this.setToolbar = function setToolbar(){
@@ -646,6 +663,9 @@ var FileBrowser = FileBrowser || function (){
                     this.getCurrentPath("FileBrowser.js")+'icons/disabled_delete.png\');'+
                     'background-repeat: no-repeat;background-position: center"></button>');
               $('#FileBrowser-delete').attr("disabled", true);
+              $('#FileBrowser-delete').click(function(){
+                 removeFileOrDirectory(localParameters);
+              });
            }
           
         }
