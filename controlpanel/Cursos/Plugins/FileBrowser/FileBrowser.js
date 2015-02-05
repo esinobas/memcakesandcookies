@@ -592,6 +592,31 @@ var FileBrowser = FileBrowser || function (){
         var elmentToRemove = (rootDirectory == currentPathM ? currentPathM + "/" + elementSelectedM:
            rootDirectory+"/"+ currentPathM + elementSelectedM);
         JSLogger.getInstance().debug("Trying remove [ " + elmentToRemove +" ]");
+        
+        
+        var url = FileBrowser.prototype.getCurrentPath("FileBrowser.js")+"FileSystem.php";
+        JSLogger.getInstance().trace("URL: [ " + url + " ]");
+        
+        var ajaxObject = new Ajax();
+        ajaxObject.setUrl(url);
+        ajaxObject.setPostMethod();
+        ajaxObject.setSyn();
+        var parameters = {};
+        
+         parameters.command = "rm";
+         parameters.parameters = {}
+         parameters.parameters.element_name = elmentToRemove;
+
+        JSLogger.getInstance().debug("Ajax Parameters [ " + JSON.stringify(parameters) +" ]");
+        ajaxObject.setParameters( JSON.stringify(parameters));
+        ajaxObject.setCallback(null);
+        JSLogger.getInstance().debug("Sending sync request ...");
+        ajaxObject.send();
+        JSLogger.getInstance().debug("Response [ " + ajaxObject.getResponse() +" ]");
+      
+        var jsonResponse = JSON.parse(ajaxObject.getResponse());
+        //if (jsonResponse["result"] == "ERROR"){
+       
      } 
      JSLogger.getInstance().traceExit();
   }
