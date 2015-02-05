@@ -457,6 +457,8 @@ var FileBrowser = FileBrowser || function (){
   
   /**
    * Function that adds in the current directory the new directory
+   *
+   * @param theNewDirectory. The directory name
    */
   function addDirectory(theNewDirectory){
      JSLogger.getInstance().traceEnter();
@@ -466,6 +468,26 @@ var FileBrowser = FileBrowser || function (){
      var directoryStructure = getFilesAndDirectories();
      
      directoryStructure[theNewDirectory]= {};
+     
+     showFilesAndDirectories(fullPathToString());
+     JSLogger.getInstance().traceExit();
+  }
+  
+  /**
+   * Function that removes the element from the file-directory structure
+   * 
+   * @param theElementName: The file or directory name
+   */
+  function removeElement(theElementName){
+     
+     JSLogger.getInstance().traceEnter();
+     JSLogger.getInstance().trace("Remove [ " + theElementName +
+           " ] from  [ " + fullPathToString() +" ]");
+     
+     var directoryStructure = getFilesAndDirectories();
+     
+     delete directoryStructure[theElementName];
+     
      
      showFilesAndDirectories(fullPathToString());
      JSLogger.getInstance().traceExit();
@@ -586,6 +608,9 @@ var FileBrowser = FileBrowser || function (){
      JSLogger.getInstance().traceEnter();
      
      if (confirm('¿Borrar " ' + elementSelectedM + ' "?') == true){
+        
+        showLoading();
+        
         var rootDirectory = FileBrowser.prototype.getParameter(paramRootPathC,
               FileBrowser.prototype.getParameter(paramPathC, 
                     theParameters));
@@ -615,7 +640,13 @@ var FileBrowser = FileBrowser || function (){
         JSLogger.getInstance().debug("Response [ " + ajaxObject.getResponse() +" ]");
       
         var jsonResponse = JSON.parse(ajaxObject.getResponse());
-        //if (jsonResponse["result"] == "ERROR"){
+        if (jsonResponse["result"] == "ERROR"){
+           alert('No se ha podido borrar "' +elementSelectedM +'". Error [ ' + 
+                 jsonResponse["message_return"] +" ]");
+        }else{
+           removeElement(elementSelectedM);
+        }
+        hideLoading();
        
      } 
      JSLogger.getInstance().traceExit();

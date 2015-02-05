@@ -92,15 +92,18 @@
       $elements = scandir($theDirName);
       foreach ($elements as $element){
          if (strcmp($element, ".") != 0 && strcmp($element, "..") != 0){
-            if (is_dir($element)){
-               if ( !removeDir($element)){
-                  $loggerM->debug("The directory [ $element ] can not be removed");
+            
+            if (is_dir($theDirName.'/'.$element)){
+               $loggerM->trace("It is a directory");
+               if ( !removeDir($theDirName.'/'.$element)){
+                  $loggerM->debug("The directory [ $theDirName.'/'.$element ] can not be removed");
                   $result = false;
                   break;
                }
             }else{
-               if ( ! unlink($element) ){
-                  $loggerM->error("The file [ $element ] can not be removed");
+               $loggerM->trace("it is a file");
+               if ( ! unlink( $theDirName.'/'.$element) ){
+                  $loggerM->error("The file [ $theDirName.'/'.$element ] can not be removed");
                   $result = false;
                   break;
                }
