@@ -455,7 +455,27 @@ var FileBrowser = FileBrowser || function (){
      JSLogger.getInstance().traceExit();
   }
   
+  /**
+   * Function that adds in the current directory the new directory
+   */
+  function addDirectory(theNewDirectory){
+     JSLogger.getInstance().traceEnter();
+     JSLogger.getInstance().trace("Add new directory [ " + theNewDirectory +
+           " ] into [ " + fullPathToString() +" ]");
+     
+     var directoryStructure = getFilesAndDirectories();
+     
+     directoryStructure[theNewDirectory]= {};
+     
+     JSLogger.getInstance().trace("Current directory contain [ " + 
+           JSON.stringify(directoryStructure));
+     showFilesAndDirectories(fullPathToString());
+     JSLogger.getInstance().traceExit();
+  }
   
+  /**
+   * Function that sends to the server the commnad for create a directory
+   */
   function createDirectory(theDirectoryName, theParameters){
      JSLogger.getInstance().traceEnter();
      
@@ -495,6 +515,9 @@ var FileBrowser = FileBrowser || function (){
      if (jsonResponse["result"] == "ERROR"){
         alert('El directorio no se ha creado. Error [ ' + 
               jsonResponse["message_return"] +" ]");
+     }else{
+        //refresh the files showed
+        addDirectory(theDirectoryName);
      }
      hideLoading();
      
