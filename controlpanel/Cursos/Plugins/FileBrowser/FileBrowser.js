@@ -514,7 +514,7 @@ var FileBrowser = FileBrowser || function (){
                         FileBrowser.prototype.getParameter(paramPathC, 
                               theParameters));
      
-     var newDirectory = (rootDirectory == currentPathM ? currentPathM +  theDirectoryName:
+     var newDirectory = (rootDirectory == currentPathM ? currentPathM + "/"+ theDirectoryName:
         rootDirectory+"/"+ currentPathM + theDirectoryName);
      
      JSLogger.getInstance().debug("Create directory [ " +
@@ -645,6 +645,9 @@ var FileBrowser = FileBrowser || function (){
                  jsonResponse["message_return"] +" ]");
         }else{
            removeElement(elementSelectedM);
+           $('#FileBrowser-delete').attr("disabled", true);
+           $('#FileBrowser-delete').css("background-image","url('"+
+                 localGetCurrentPath("FileBrowser.js")+"icons/disabled_delete.png'");
         }
         hideLoading();
        
