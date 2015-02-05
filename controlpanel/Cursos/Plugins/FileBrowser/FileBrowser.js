@@ -589,7 +589,7 @@ var FileBrowser = FileBrowser || function (){
         var rootDirectory = FileBrowser.prototype.getParameter(paramRootPathC,
               FileBrowser.prototype.getParameter(paramPathC, 
                     theParameters));
-        var elmentToRemove = (rootDirectory == currentPathM ? currentPathM +  theDirectoryName:
+        var elmentToRemove = (rootDirectory == currentPathM ? currentPathM + "/" + elementSelectedM:
            rootDirectory+"/"+ currentPathM + elementSelectedM);
         JSLogger.getInstance().debug("Trying remove [ " + elmentToRemove +" ]");
      } 
