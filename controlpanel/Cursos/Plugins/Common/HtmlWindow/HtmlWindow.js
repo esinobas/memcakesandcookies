@@ -36,20 +36,20 @@ var HtmlWindow = HtmlWindow || function(){
       var barTitle = this.getParameter(TITLE_PARAMS_C, this.parametersM);
       if ( barTitle != null){
          JSLogger.getInstance().trace("The window has bar title, adding it");
-         
-         this.htmlObjectM.prepend('<div id="Title-Bar"><div></div></div>');
+         var tittleBar = $('<div class="Title-Bar"><div></div></div>');
+         this.htmlObjectM.prepend(tittleBar);
          
          var backgroundColor = this.getParameter(this.PARAM_BACKGROUND_COLOR_C,barTitle);
          if (backgroundColor != null){
-            $('#Title-Bar div').css("background-color", backgroundColor);
+            tittleBar.children('div').css("background-color", backgroundColor);
          }
          var fontColor = this.getParameter(FONT_COLOR_C, barTitle);
          if (fontColor !=null ){
-            $('#Title-Bar div').css("color", fontColor);
+            tittleBar.children('div').css("color", fontColor);
          }
          var caption = this.getParameter(CAPTION_C, barTitle);
          if (caption !=null ){
-            $('#Title-Bar div').append(caption);
+            tittleBar.children('div').append(caption);
          }
       }
       JSLogger.getInstance().traceExit();

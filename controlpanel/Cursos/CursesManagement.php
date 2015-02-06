@@ -18,6 +18,7 @@
      <link rel="stylesheet" type="text/css" href="./Plugins/DataGrid/style/DataGrid.css">
      <link rel="stylesheet" type="text/css" href="./Plugins/DataEntryForm/style/DataEntryForm.css">
      <link rel="stylesheet" type="text/css" href="./style/CursesManagement.css">
+     <link rel="stylesheet" type="text/css" href="./Plugins/Common/HtmlWindow/HtmlWindow.css">
    </head>
    <body>
       
