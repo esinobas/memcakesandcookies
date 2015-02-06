@@ -60,6 +60,8 @@ var HtmlWindow = HtmlWindow || function(){
    HtmlWindow.prototype = Object.create(HtmlObject.prototype);
    HtmlWindow.prototype.constructor = HtmlWindow;
    HtmlWindow.prototype.setTitle = setTitle;
+   HtmlWindow.prototype.TITLE_PARAMS_C = TITLE_PARAMS_C;
+   HtmlWindow.prototype.CAPTION_C = CAPTION_C;
    
    return HtmlWindow;
 }();

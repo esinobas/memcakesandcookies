@@ -7,10 +7,10 @@
       <div class="toolbar-bottom" id="btnNew">
          <img src="./icons/page_add.png">Nuevo
       </div>
-      <div class="toolbar-bottom">
+      <div class="toolbar-bottom" id="btnEdit">
          <img src="./icons/page_edit.png">Abrir
       </div>
-      <div class="toolbar-bottom">
+      <div class="toolbar-bottom" id="btnRemove">
          <img src="./icons/page_delete.png">Borrar
       </div>
    </div>
@@ -167,6 +167,10 @@
                                      }
                            });
       
+   });
+
+   $('#btnEdit').click(function(){
+         MessageBox("Caption", "Texto");
    });
 
     
