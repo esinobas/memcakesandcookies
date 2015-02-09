@@ -73,3 +73,19 @@
    width: 48px;
    height: auto;
 }
+
+#MessageBox-Buttons{
+ 
+   width: 98%;
+   height: auto;
+   
+}
+
+.MessageBox-Btn{
+   font-family: Arial;
+   font-size:12px;
+   float: right;
+   margin-left: 2px;
+   margin-bottom: 2px;
+ 
+}

@@ -170,7 +170,10 @@
    });
 
    $('#btnEdit').click(function(){
-         MessageBox("Caption", "No se ha podido borrar el fichero, me cago en la mar");
+         MessageBox("¿Borrar fichero?", 
+               "¿Borrar el fichero?",
+               {Buttons: MessageBox.ButtonsE.YES_NO_CANCEL,
+                Icon: MessageBox.IconsE.QUESTION});
    });
 
     

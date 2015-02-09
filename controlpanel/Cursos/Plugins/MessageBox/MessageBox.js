@@ -47,7 +47,7 @@ var vMessageBox = vMessageBox || function (){
    var BUTTON_YES_NO_PARAM_C = "Yes_No";
    var BUTTON_YES_NO_CANCEL_PARAM_C = "Yes_No_Cancel";
    
-   
+
   
    /**
     * Constructor
@@ -168,6 +168,30 @@ var vMessageBox = vMessageBox || function (){
       }
       
       //Add the buttons
+      
+      var divButtons = $('<div id="MessageBox-Buttons"></div>');
+      if (buttonsParam == MessageBox.ButtonsE.OK_CANCEL || 
+            buttonsParam ==  MessageBox.ButtonsE.YES_NO_CANCEL){
+            JSLogger.getInstance().trace("Add cancel button");
+            divButtons.append('<button type="button" id="MessageBox-BtnCancel" class="MessageBox-Btn">Cancelar</button>');
+      }
+      switch(buttonsParam){
+                    
+         case MessageBox.ButtonsE.OK:
+         case MessageBox.ButtonsE.OK_CANCEL:
+            JSLogger.getInstance().trace("Add Ok button");
+            divButtons.append('<button type="button" id="MessageBox-BtnOk" class="MessageBox-Btn">Aceptar</button>');
+            break;         
+        
+         case MessageBox.ButtonsE.YES_NO:
+         case MessageBox.ButtonsE.YES_NO_CANCEL:
+            JSLogger.getInstance().trace("Add yes & no buttons");
+            divButtons.append('<button type="button" id="MessageBox-BtnNo" class="MessageBox-Btn">No</button>');
+            divButtons.append('<button type="button" id="MessageBox-BtnYes" class="MessageBox-Btn">Si</button>');
+            break;
+         
+      }
+      $('#MessageBox').append(divButtons);
       
       //Center the window
       var marginLeft = 0 - $('#MessageBox').width()/2;
