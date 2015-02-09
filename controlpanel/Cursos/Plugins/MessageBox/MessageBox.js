@@ -17,6 +17,13 @@
  *          MessageBox
  */
 
+/*** Enumerated definition of the buttons and icons that will be showed 
+     in the message box  ***/
+
+MessageBox.ButtonsE = {OK: 0, OK_CANCEL: 1, YES_NO: 2, YES_NO_CANCEL: 3};
+MessageBox.IconsE = {QUESTION: 0, ERROR: 1, WARNING: 2, INFORMATION: 3};
+
+
 var vMessageBox = vMessageBox || function (){
    
    
@@ -40,10 +47,12 @@ var vMessageBox = vMessageBox || function (){
    var BUTTON_YES_NO_PARAM_C = "Yes_No";
    var BUTTON_YES_NO_CANCEL_PARAM_C = "Yes_No_Cancel";
    
+   
+  
    /**
     * Constructor
     * 
-    * @param theCaption: The message tittle
+    * @param theCaption: The message title
     * @param theMessage: Message that is displayed in the window
     * @param theOptionalParams. JSON structure that contains the paramteres for create
     * the messagebox. The parameter are the following:
@@ -86,54 +95,87 @@ var vMessageBox = vMessageBox || function (){
       //Check icon param
       var iconParam = this.getParameter(ICON_PARAM_C, theOptionalParams);
       if (iconParam == null){
-         theOptionalParams[ICON_PARAM_C] = ICON_INFORMATION_PARAM_C;
+         theOptionalParams[ICON_PARAM_C] = MessageBox.IconsE.INFORMATION;
+         iconParam = MessageBox.IconsE.INFORMATION;
       }
       
     //Check buttons param
       var buttonsParam = this.getParameter(BUTTONS_PARAM_C, theOptionalParams);
       if (buttonsParam == null){
-         theOptionalParams[BUTTONS_PARAM_C] = BUTTONS_OK_PARAM_C;
+         theOptionalParams[BUTTONS_PARAM_C] = MessageBox.ButtonsE.OK;
+         buttonsParam = MessageBox.ButtonsE.OK;
       }
       
-      //Calculate the size of the window
-      /*
-      <p id="place-name"> Llanfairpwllgwyngyllgogerychwyrndrobwllllantysiliogogogoch</p>
       
-         
-      #place-name{
-          position: absolute;
-          height: auto;
-          width: auto;
-      }
-      JavaScript
       
-         
-      var oPlaceName = document.getElementById("place-name");
-      if (oPlaceName){
-          var iHeight = oPlaceName.clientHeight + 1;
-          var iWidth = oPlaceName.clientWidth + 1;
-          if (iWidth > 200){
-              //Deal with the long text.
-          }
-      }
-      */
       JSLogger.getInstance().trace("Processed Option Params [ " + 
             JSON.stringify(theOptionalParams) +" ]");
       
       HtmlWindow.call(this, $('#MessageBox'), theOptionalParams);
       
-      $('#MessageBox').append(theMessage);
+      //Add the divs, one for the icon and the message and other
+      //where the buttons are showed.
+      var divData = $('<div id="MessageBox-Data"></div>');
+      var divIcon = $('<div id="MessageBox-Icon"></div>');
+      var divMessage = $('<div id="MessageBox-Message">'+theMessage+'</div>');
+      divData.append(divIcon);
+      divData.append(divMessage);
+      //Show the Icon.
+      var urlImg = "";
+      switch (iconParam){
+         case MessageBox.IconsE.QUESTION:
+              urlImg = this.getCurrentPath('MessageBox.js')+"/icons/question-icon.png";
+              break;
+         case MessageBox.IconsE.ERROR:
+            urlImg = this.getCurrentPath('MessageBox.js')+"/icons/icon-error.png";
+            break;
+         case MessageBox.IconsE.WARNING:
+            urlImg = this.getCurrentPath('MessageBox.js')+"/icons/icon-warning.png";
+            break;
+         case MessageBox.IconsE.INFORMATION:
+            urlImg = this.getCurrentPath('MessageBox.js')+"/icons/information-icon.png";
+            break;
+      }
+      divIcon.append('<img src="'+ urlImg + '">');
+      $('#MessageBox').append(divData);
+      
+    //Calculate the size of the window
+      
+      var widthIcon = $('#MessageBox-Icon img').width();
+      var marginLeft = parseInt($('#MessageBox-Message').css("margin-left"));
+      
+      JSLogger.getInstance().trace("The text width is [ " + divMessage.width() +" px] ");
+      var widthMessageBox = divMessage.width() + widthIcon + (marginLeft*2) +20;
+      JSLogger.getInstance().trace("Messagebox width [ " + widthMessageBox +" px] ");
+
+      $('#MessageBox').width(widthMessageBox);
+      
+      $('#MessageBox-Message').width(widthMessageBox - widthIcon - (marginLeft*2));
+      $('#MessageBox-Message').css("max-width", 
+            $('#MessageBox').width() - widthIcon -(marginLeft*2)-5 +"px");
+      
+      
+      $('#MessageBox-Message').height();
+      
+      divData.height($('#MessageBox-Icon').height() > $('#MessageBox-Message').height() ? 
+            $('#MessageBox-Icon').height() : $('#MessageBox-Message').height());
+      
+            
+      if (divData.height() > $('#MessageBox-Message').height()){
+         
+         $('#MessageBox-Message').css("margin-top", 
+               (divData.height() - $('#MessageBox-Message').height())/2 + "px"); 
+      }
       
       JSLogger.getInstance().traceExit();
    }
-   
+
    /*
     * Herachy definition 
     */
    vMessageBox.prototype = Object.create(HtmlWindow.prototype);
    vMessageBox.prototype.constructor = vMessageBox;
-   
-   
+      
    return vMessageBox;
 }();
 
@@ -143,3 +185,5 @@ function MessageBox(theCaption, theText, theOptionalParams){
    var messageBox = new vMessageBox(theCaption, theText, theOptionalParams);
    
 }
+
+

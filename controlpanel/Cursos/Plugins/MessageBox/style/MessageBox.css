@@ -16,6 +16,7 @@
 #MessageBox{
    position: absolute;
    width: auto;
+   max-width: 600px;
    /*margin-left: -250px;*/
    height: auto;
    /*margin-top: -175px;
@@ -27,4 +28,48 @@
    background-color: graytext;
    border-style: solid;
    border-color: black;
+   
+   font-size: 12px;
+   font-family: Arial;
+}
+.Title-bar div{
+ 
+   font-size: 12;
+   font-family: Arial;
+}
+
+
+#MessageBox-Data{
+ 
+   width: 100%;
+   
+   padding-left: 0px;
+   padding-top: 10px;
+   padding-right: 0px;
+   padding-bottom: 10px;
+}
+
+#MessageBox-Icon, #MessageBox-Message{
+ 
+   float: left;
+   margin-left: 5px;
+}
+
+#MessageBox-Message{
+ 
+   text-align: center;
+   width: auto;
+   height: auto;
+   
+  
+   
+}
+#MessageBox-Icon{
+   width: auto;
+   height: auto;
+}
+#MessageBox-Icon img{
+ 
+   width: 48px;
+   height: auto;
 }

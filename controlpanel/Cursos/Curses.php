@@ -170,7 +170,7 @@
    });
 
    $('#btnEdit').click(function(){
-         MessageBox("Caption", "Texto");
+         MessageBox("Caption", "No se ha podido borrar el fichero, me cago en la mar");
    });
 
     
