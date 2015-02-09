@@ -167,6 +167,18 @@ var vMessageBox = vMessageBox || function (){
                (divData.height() - $('#MessageBox-Message').height())/2 + "px"); 
       }
       
+      //Add the buttons
+      
+      //Center the window
+      var marginLeft = 0 - $('#MessageBox').width()/2;
+      var marginTop = 0 - $('#MessageBox').height()/2;
+      
+      JSLogger.getInstance().trace("margin-left [ " + marginLeft + 
+            "px ]. margin-top [ " + marginTop +"px ]");
+      
+      $('#MessageBox').css("margin-left", marginLeft+"px");
+      $('#MessageBox').css("margin-top", marginTop+"px");
+      
       JSLogger.getInstance().traceExit();
    }
 
