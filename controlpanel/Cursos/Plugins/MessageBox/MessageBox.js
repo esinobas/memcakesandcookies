@@ -22,6 +22,7 @@
 
 MessageBox.ButtonsE = {OK: 0, OK_CANCEL: 1, YES_NO: 2, YES_NO_CANCEL: 3};
 MessageBox.IconsE = {QUESTION: 0, ERROR: 1, WARNING: 2, INFORMATION: 3};
+MessageBox.ResultCodeE = {WITHOUT_RESULT: 0, OK: 1, CANCEL: 2, YES: 3, NO: 4};
 
 
 var vMessageBox = vMessageBox || function (){
@@ -47,7 +48,7 @@ var vMessageBox = vMessageBox || function (){
    var BUTTON_YES_NO_PARAM_C = "Yes_No";
    var BUTTON_YES_NO_CANCEL_PARAM_C = "Yes_No_Cancel";
    
-
+   var resultCodeM = MessageBox.ResultCodeE.WITHOUT_RESULT;
   
    /**
     * Constructor
@@ -203,23 +204,61 @@ var vMessageBox = vMessageBox || function (){
       $('#MessageBox').css("margin-left", marginLeft+"px");
       $('#MessageBox').css("margin-top", marginTop+"px");
       
+      /*** Add the click event to the buttons ***/
+      
+      $('#MessageBox-BtnCancel').click(function(){
+         
+         vMessageBox.resultCodeM = MessageBox.ResultCodeE.CANCEL;
+         
+      });
+      
+      $('#MessageBox-BtnOk').click(function(){
+         
+         vMessageBox.resultCodeM = MessageBox.ResultCodeE.OK;
+         
+      });
+      $('#MessageBox-BtnYes').click(function(){
+         
+         vMessageBox.resultCodeM = MessageBox.ResultCodeE.YES;
+         
+      });
+      $('#MessageBox-BtnNo').click(function(){
+         
+         vMessageBox.resultCodeM = MessageBox.ResultCodeE.NO;
+         
+      });
+      
       JSLogger.getInstance().traceExit();
    }
 
+   var getResult = function getResult(){
+      
+      return resultCodeM;
+   }
+   var setResult = function getResult(theResultCode){
+      
+      resultCodeM = theResultCode;
+   }
    /*
     * Herachy definition 
     */
    vMessageBox.prototype = Object.create(HtmlWindow.prototype);
    vMessageBox.prototype.constructor = vMessageBox;
+   vMessageBox.prototype.getResult = getResult;
       
    return vMessageBox;
 }();
 
 function MessageBox(theCaption, theText, theOptionalParams){
    
-   console.log("Enter");
-   var messageBox = new vMessageBox(theCaption, theText, theOptionalParams);
    
+   var messageBox = new vMessageBox(theCaption, theText, theOptionalParams);
+   //MessageBox.ResultCodeE = {WITHOUT_RESULT: 0, OK: 1, CANCEL: 2, YES: 3, NO: 4};
+   var result = MessageBox.ResultCodeE.WITHOUT_RESULT;
+   
+   
+
+   console.log("result : " + result);
 }
 
 
