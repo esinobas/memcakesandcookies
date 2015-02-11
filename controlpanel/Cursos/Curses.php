@@ -172,7 +172,9 @@
    $('#btnEdit').click(function(){
          MessageBox("¿Borrar fichero?", 
                "¿Borrar el fichero?",
-               {Buttons: MessageBox.ButtonsE.YES_NO_CANCEL,
+               {Buttons: {Buttons: MessageBox.ButtonsE.YES_NO_CANCEL,
+                  Callback_Yes: function(){alert('YES');},
+                  Callback_No: function(){alert('NO');}},
                 Icon: MessageBox.IconsE.QUESTION});
    });
 

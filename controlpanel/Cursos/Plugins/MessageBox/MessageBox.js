@@ -22,14 +22,13 @@
 
 MessageBox.ButtonsE = {OK: 0, OK_CANCEL: 1, YES_NO: 2, YES_NO_CANCEL: 3};
 MessageBox.IconsE = {QUESTION: 0, ERROR: 1, WARNING: 2, INFORMATION: 3};
-MessageBox.ResultCodeE = {WITHOUT_RESULT: 0, OK: 1, CANCEL: 2, YES: 3, NO: 4};
-
+MessageBox.CallbacksE = {OK: 0, YES: 1, NO: 2};
 
 var vMessageBox = vMessageBox || function (){
    
    
    /*** private properties ***/
-   JSLogger.getInstance().registerLogger("MessageBox", JSLogger.levelsE.TRACE);
+   JSLogger.getInstance().registerLogger("MessageBox", JSLogger.levelsE.DEBUG);
    
    /*** Define the constante ***/
   
@@ -48,7 +47,11 @@ var vMessageBox = vMessageBox || function (){
    var BUTTON_YES_NO_PARAM_C = "Yes_No";
    var BUTTON_YES_NO_CANCEL_PARAM_C = "Yes_No_Cancel";
    
-   var resultCodeM = MessageBox.ResultCodeE.WITHOUT_RESULT;
+   var CALLBACK_OK_C = "Callback_OK";
+   var CALLBACK_YES_C = "Callback_Yes";
+   var CALLBACK_NO_C = "Callback_No";
+   
+   var arrayCallbacksM = {};
   
    /**
     * Constructor
@@ -59,20 +62,30 @@ var vMessageBox = vMessageBox || function (){
     * the messagebox. The parameter are the following:
     *                
     *                Icon:       The icon that is displayed.
-    *                Buttons:    The buttons that are displayed and the user can
+    *                Buttons:    
+    *                            Buttons:The buttons that are displayed and the user can
     *                            select.
+    *                            Callbacks: Callback functions to the buttons.
     *                Z-index:    The html-css z-index
     *                Title_Params: 
     *                            Background_Color: Title background color
     *                            Font_Color: The text color.
     *                Appearance:
-    *                            Background_Color: Window bankground color
+    *                            Background_Color: Window background color
     */
-   
+   function closeMessageBox(){
+      $('#MessageBox_Background').remove();
+      $('#MessageBox').remove();
+   }
    
    
    function vMessageBox(theCaption, theMessage, theOptionalParams){
       JSLogger.getInstance().traceEnter();
+      
+      arrayCallbacksM[MessageBox.CallbacksE.OK] = null;
+      arrayCallbacksM[MessageBox.CallbacksE.YES] = null;
+      arrayCallbacksM[MessageBox.CallbacksE.NO] = null;
+      
       JSLogger.getInstance().debug("Add the div used like messagebox");
       $('body').append("<div id=\"MessageBox_Background\"></div>");
       $('body').append("<div id=\"MessageBox\"></div>");
@@ -102,12 +115,14 @@ var vMessageBox = vMessageBox || function (){
       
     //Check buttons param
       var buttonsParam = this.getParameter(BUTTONS_PARAM_C, theOptionalParams);
+      var buttons = null;
       if (buttonsParam == null){
-         theOptionalParams[BUTTONS_PARAM_C] = MessageBox.ButtonsE.OK;
-         buttonsParam = MessageBox.ButtonsE.OK;
+         buttons = {};
+         buttons[BUTTONS_PARAM_C] = MessageBox.ButtonsE.OK;
+         theOptionalParams[BUTTONS_PARAM_C] = buttons;
+      }else{
+         buttons = theOptionalParams[BUTTONS_PARAM_C];
       }
-      
-      
       
       JSLogger.getInstance().trace("Processed Option Params [ " + 
             JSON.stringify(theOptionalParams) +" ]");
@@ -171,24 +186,33 @@ var vMessageBox = vMessageBox || function (){
       //Add the buttons
       
       var divButtons = $('<div id="MessageBox-Buttons"></div>');
-      if (buttonsParam == MessageBox.ButtonsE.OK_CANCEL || 
-            buttonsParam ==  MessageBox.ButtonsE.YES_NO_CANCEL){
+      if (buttons[BUTTONS_PARAM_C] == MessageBox.ButtonsE.OK_CANCEL || 
+            buttons[BUTTONS_PARAM_C] ==  MessageBox.ButtonsE.YES_NO_CANCEL){
             JSLogger.getInstance().trace("Add cancel button");
             divButtons.append('<button type="button" id="MessageBox-BtnCancel" class="MessageBox-Btn">Cancelar</button>');
       }
-      switch(buttonsParam){
+      switch(buttons[BUTTONS_PARAM_C]){
                     
          case MessageBox.ButtonsE.OK:
          case MessageBox.ButtonsE.OK_CANCEL:
             JSLogger.getInstance().trace("Add Ok button");
             divButtons.append('<button type="button" id="MessageBox-BtnOk" class="MessageBox-Btn">Aceptar</button>');
-            break;         
+            if (buttons[CALLBACK_OK_C] != 'undefined'){
+               arrayCallbacksM[MessageBox.CallbacksE.OK] = buttons[CALLBACK_OK_C];
+            }
+            break;
         
          case MessageBox.ButtonsE.YES_NO:
          case MessageBox.ButtonsE.YES_NO_CANCEL:
             JSLogger.getInstance().trace("Add yes & no buttons");
             divButtons.append('<button type="button" id="MessageBox-BtnNo" class="MessageBox-Btn">No</button>');
             divButtons.append('<button type="button" id="MessageBox-BtnYes" class="MessageBox-Btn">Si</button>');
+            if (buttons[CALLBACK_YES_C] != 'undefined'){
+               arrayCallbacksM[MessageBox.CallbacksE.YES] = buttons[CALLBACK_YES_C];
+            }
+            if (buttons[CALLBACK_NO_C] != 'undefined'){
+               arrayCallbacksM[MessageBox.CallbacksE.NO] = buttons[CALLBACK_NO_C];
+            }
             break;
          
       }
@@ -208,23 +232,27 @@ var vMessageBox = vMessageBox || function (){
       
       $('#MessageBox-BtnCancel').click(function(){
          
-         vMessageBox.resultCodeM = MessageBox.ResultCodeE.CANCEL;
+         closeMessageBox();
          
       });
       
       $('#MessageBox-BtnOk').click(function(){
          
-         vMessageBox.resultCodeM = MessageBox.ResultCodeE.OK;
+         closeMessageBox();
+         arrayCallbacksM[MessageBox.CallbacksE.OK]();
+         
          
       });
       $('#MessageBox-BtnYes').click(function(){
-         
-         vMessageBox.resultCodeM = MessageBox.ResultCodeE.YES;
+         closeMessageBox();
+         arrayCallbacksM[MessageBox.CallbacksE.YES]();
          
       });
       $('#MessageBox-BtnNo').click(function(){
          
-         vMessageBox.resultCodeM = MessageBox.ResultCodeE.NO;
+         closeMessageBox();
+         arrayCallbacksM[MessageBox.CallbacksE.NO]();
+         
          
       });
       
@@ -253,12 +281,7 @@ function MessageBox(theCaption, theText, theOptionalParams){
    
    
    var messageBox = new vMessageBox(theCaption, theText, theOptionalParams);
-   //MessageBox.ResultCodeE = {WITHOUT_RESULT: 0, OK: 1, CANCEL: 2, YES: 3, NO: 4};
-   var result = MessageBox.ResultCodeE.WITHOUT_RESULT;
    
-   
-
-   console.log("result : " + result);
 }
 
 
