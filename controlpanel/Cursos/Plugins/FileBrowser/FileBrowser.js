@@ -13,7 +13,7 @@
  *                                                               a = all, default value)
  *                                     [filter]: Filter to the files. Default value *.*
  * @param theCallback: The function that is executed when the ok button is pushed
- * 
+ * a
  */
 var FileBrowser = FileBrowser || function (){
    
@@ -51,11 +51,11 @@ var FileBrowser = FileBrowser || function (){
    var previousSelectedM = elementSelectedM;
    
    var localGetCurrentPath;
-   
+   var localParamsM = null;
    
 
    
-   JSLogger.getInstance().registerLogger("FileBrowser", JSLogger.levelsE.TRACE);
+   JSLogger.getInstance().registerLogger("FileBrowser", JSLogger.levelsE.DEBUG);
    
    /****** Private functions *******/
    
@@ -401,7 +401,7 @@ var FileBrowser = FileBrowser || function (){
      goToCurrentPath(rootPath, currentPathM);
      
      showFilesAndDirectories(fullPathToString());
-     
+     localParamsM = this.parametersM;
      this.hideLoading();
      
      
@@ -533,8 +533,11 @@ var FileBrowser = FileBrowser || function (){
    
      var jsonResponse = JSON.parse(ajaxObject.getResponse());
      if (jsonResponse["result"] == "ERROR"){
-        alert('El directorio no se ha creado. Error [ ' + 
-              jsonResponse["message_return"] +" ]");
+        MessageBox("Error", "El directorio no se ha creado. Error [ " + 
+              jsonResponse["message_return"] +" ]",
+              {Icon: MessageBox.IconsE.ERROR }
+        );
+        
      }else{
         //refresh the files showed
         addDirectory(theDirectoryName);
@@ -600,6 +603,64 @@ var FileBrowser = FileBrowser || function (){
   }
   
   /**
+   * Function that performances the remove in the server of the file or 
+   * directory
+   
+   */
+  function removeInServer(){
+     
+     JSLogger.getInstance().traceEnter();
+     
+     
+     showLoading();
+     
+     var rootDirectory = FileBrowser.prototype.getParameter(paramRootPathC,
+           FileBrowser.prototype.getParameter(paramPathC, 
+                                 localParamsM));
+     var elmentToRemove = (rootDirectory == currentPathM ? currentPathM + "/" + elementSelectedM:
+        rootDirectory+"/"+ currentPathM + elementSelectedM);
+     JSLogger.getInstance().debug("Trying remove [ " + elmentToRemove +" ]");
+     
+     
+     var url = FileBrowser.prototype.getCurrentPath("FileBrowser.js")+"FileSystem.php";
+     JSLogger.getInstance().trace("URL: [ " + url + " ]");
+     
+     var ajaxObject = new Ajax();
+     ajaxObject.setUrl(url);
+     ajaxObject.setPostMethod();
+     ajaxObject.setSyn();
+     var parameters = {};
+     
+      parameters.command = "rm";
+      parameters.parameters = {}
+      parameters.parameters.element_name = elmentToRemove;
+
+     JSLogger.getInstance().debug("Ajax Parameters [ " + JSON.stringify(parameters) +" ]");
+     ajaxObject.setParameters( JSON.stringify(parameters));
+     ajaxObject.setCallback(null);
+     JSLogger.getInstance().debug("Sending sync request ...");
+     ajaxObject.send();
+     JSLogger.getInstance().debug("Response [ " + ajaxObject.getResponse() +" ]");
+   
+     var jsonResponse = JSON.parse(ajaxObject.getResponse());
+     if (jsonResponse["result"] == "ERROR"){
+
+        MessageBox("Error", "No se ha podido borrar \"" + elementSelectedM +
+              "\". Error [ " +jsonResponse["message_return"] + " ]",
+              {Icon: MessageBox.IconsE.ERROR});
+     }else{
+        removeElement(elementSelectedM);
+        $('#FileBrowser-delete').attr("disabled", true);
+        $('#FileBrowser-delete').css("background-image","url('"+
+              localGetCurrentPath("FileBrowser.js")+"icons/disabled_delete.png'");
+     }
+     hideLoading();
+    
+   
+     JSLogger.getInstance().traceExit();
+  }
+  
+  /**
    * Function that shows a window dialog asking confirmation for remove a
    * file or a directory. Depending of the user's response the file or 
    * directory is removed.
@@ -607,51 +668,12 @@ var FileBrowser = FileBrowser || function (){
   function removeFileOrDirectory(theParameters){
      JSLogger.getInstance().traceEnter();
      
-     if (confirm('¿Borrar " ' + elementSelectedM + ' "?') == true){
-        
-        showLoading();
-        
-        var rootDirectory = FileBrowser.prototype.getParameter(paramRootPathC,
-              FileBrowser.prototype.getParameter(paramPathC, 
-                    theParameters));
-        var elmentToRemove = (rootDirectory == currentPathM ? currentPathM + "/" + elementSelectedM:
-           rootDirectory+"/"+ currentPathM + elementSelectedM);
-        JSLogger.getInstance().debug("Trying remove [ " + elmentToRemove +" ]");
-        
-        
-        var url = FileBrowser.prototype.getCurrentPath("FileBrowser.js")+"FileSystem.php";
-        JSLogger.getInstance().trace("URL: [ " + url + " ]");
-        
-        var ajaxObject = new Ajax();
-        ajaxObject.setUrl(url);
-        ajaxObject.setPostMethod();
-        ajaxObject.setSyn();
-        var parameters = {};
-        
-         parameters.command = "rm";
-         parameters.parameters = {}
-         parameters.parameters.element_name = elmentToRemove;
-
-        JSLogger.getInstance().debug("Ajax Parameters [ " + JSON.stringify(parameters) +" ]");
-        ajaxObject.setParameters( JSON.stringify(parameters));
-        ajaxObject.setCallback(null);
-        JSLogger.getInstance().debug("Sending sync request ...");
-        ajaxObject.send();
-        JSLogger.getInstance().debug("Response [ " + ajaxObject.getResponse() +" ]");
-      
-        var jsonResponse = JSON.parse(ajaxObject.getResponse());
-        if (jsonResponse["result"] == "ERROR"){
-           alert('No se ha podido borrar "' +elementSelectedM +'". Error [ ' + 
-                 jsonResponse["message_return"] +" ]");
-        }else{
-           removeElement(elementSelectedM);
-           $('#FileBrowser-delete').attr("disabled", true);
-           $('#FileBrowser-delete').css("background-image","url('"+
-                 localGetCurrentPath("FileBrowser.js")+"icons/disabled_delete.png'");
-        }
-        hideLoading();
-       
-     } 
+     MessageBox("Borrar", "¿Borrar \"" + elementSelectedM + "\"?",
+           {Buttons:{Buttons: MessageBox.ButtonsE.YES_NO,
+                     Callback_Yes: removeInServer},
+            Icon: MessageBox.IconsE.QUESTION});
+     
+     
      JSLogger.getInstance().traceExit();
   }
   
@@ -678,7 +700,7 @@ var FileBrowser = FileBrowser || function (){
         JSLogger.getInstance().trace("The new filebrowser margin top is [ " +
               $('#Filebrowser').css('margin-top') + " ]");
         
-        $('#Title-Bar').after('<div id="FileBrowser-Toolbar"><div></div></div>');
+        $('#Filebrowser').find('.Title-Bar').after('<div id="FileBrowser-Toolbar"><div></div></div>');
         
         var buttons = toolbar.split("|");
         JSLogger.getInstance().trace("The toolbar has [ " + buttons.length +
@@ -839,7 +861,7 @@ var FileBrowser = FileBrowser || function (){
      goToCurrentPath(rootPath, currentPathM);
      
      showFilesAndDirectories(fullPathToString());
-     
+    
      fileBrowser.hideLoading();
      
      JSLogger.getInstance().traceExit();

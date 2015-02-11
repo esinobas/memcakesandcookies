@@ -30,7 +30,7 @@ var vMessageBox = vMessageBox || function (){
    /*** private properties ***/
    JSLogger.getInstance().registerLogger("MessageBox", JSLogger.levelsE.DEBUG);
    
-   /*** Define the constante ***/
+   /*** Define the constants ***/
   
    var ICON_PARAM_C = "Icon";
    var BUTTONS_PARAM_C = "Buttons";
