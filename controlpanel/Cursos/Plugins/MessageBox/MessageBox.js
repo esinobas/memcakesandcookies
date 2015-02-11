@@ -239,20 +239,24 @@ var vMessageBox = vMessageBox || function (){
       $('#MessageBox-BtnOk').click(function(){
          
          closeMessageBox();
-         arrayCallbacksM[MessageBox.CallbacksE.OK]();
+         if (arrayCallbacksM[MessageBox.CallbacksE.OK] != null){
+            arrayCallbacksM[MessageBox.CallbacksE.OK]();
+         }
          
          
       });
       $('#MessageBox-BtnYes').click(function(){
          closeMessageBox();
-         arrayCallbacksM[MessageBox.CallbacksE.YES]();
-         
+         if (arrayCallbacksM[MessageBox.CallbacksE.YES] != null){
+            arrayCallbacksM[MessageBox.CallbacksE.YES]();
+         }
       });
       $('#MessageBox-BtnNo').click(function(){
          
          closeMessageBox();
-         arrayCallbacksM[MessageBox.CallbacksE.NO]();
-         
+         if (arrayCallbacksM[MessageBox.CallbacksE.NO] != null){
+            arrayCallbacksM[MessageBox.CallbacksE.NO]();
+         }
          
       });
       
