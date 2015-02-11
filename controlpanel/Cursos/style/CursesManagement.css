@@ -269,4 +269,7 @@ body{
    max-width: 500px;
    max-height: 300px;
  }
+ #input-duration{
+   width:100px;
+ }
  

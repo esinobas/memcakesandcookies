@@ -2,6 +2,13 @@
    include_once 'Database/TB_Curso.php';
    include_once 'Database/TB_Level.php'
 ?>
+<script type="text/javascript">
+<!--
+
+//-->
+
+JSLogger.getInstance().registerLogger("Curses.php",JSLogger.levelsE.TRACE);
+</script>
 <div class="data-container">
    <div class="toolbar">
       <div class="toolbar-bottom" id="btnNew">
@@ -136,6 +143,13 @@
       <div class="Data-Entry-Form-Data-Label">Euros</div>
    </div>
    <div class="Data-Entry-Form-Data">
+      <div class="Data-Entry-Form-Data-Label">Duracion:</div>
+         <div class="Data-Entry-Form-Data-Value">
+            <input type="number" id="input-duration" >
+         </div>
+      <div class="Data-Entry-Form-Data-Label">Días</div>
+   </div>
+   <div class="Data-Entry-Form-Data">
       <div class="Data-Entry-Form-Data-Label">Portada:</div>
    </div>
    <div class="Data-Entry-Form-Data">
@@ -154,6 +168,34 @@
 
 <!-- Add click event to the bottons -->
 <script type="text/javascript">
+
+   /**
+   * Function that is ised like callback for create a new curse in the ddbb
+   */
+   function createCurse(){
+      JSLogger.getInstance().traceEnter();
+      JSLogger.getInstance().trace("Check is all data have been entered");
+      //To do, check if all were inserted
+      
+      var nameCurse = $('#input-curse-name').val();
+      var descCurse = $('#textarea-curse-description').val();
+      var dificultadCurseId = $('#frmDificultad').val();
+      var dificultadCurse = $.trim($('#frmDificultad option:selected').text());
+      var priceCurse = $('#input-price').val();
+      var durationCurse = $('#input-duration').val();
+      var imageUrl = $('#image-preview img').attr('src');
+      
+      JSLogger.getInstance().trace("Create a new curse with the following data:\n"+
+            "Name [ " + nameCurse +" ]\n"+
+            "Description [ " + descCurse +" ]\n"+
+            "Dificultad [ " + dificultadCurseId +" ]->[ "+ dificultadCurse + "]\n"+
+            "Price [ " + priceCurse +" ] Euros\n"+
+            "Duration [ " + durationCurse +" ] days\n"+
+            "Image URL [ " + imageUrl +" ]");
+     
+      JSLogger.getInstance().traceExit();
+   }
+            
    $('#btnNew').click(function(){
        
        DataEntryForm.show({html_Id:"frmCurse",
@@ -164,6 +206,7 @@
                                                        Label_Font_Color: "#ce5c00",
                                                        Input_Font_Color: "#7D5F3F"}
                                        ,Buttons:{Background_Color:"orange"}
+                                       ,Callbacks: {Callback_OK: createCurse}
                                      }
                            });
       
