@@ -192,7 +192,38 @@ JSLogger.getInstance().registerLogger("Curses.php",JSLogger.levelsE.TRACE);
             "Price [ " + priceCurse +" ] Euros\n"+
             "Duration [ " + durationCurse +" ] days\n"+
             "Image URL [ " + imageUrl +" ]");
-     
+
+      var objAjax = new Ajax();
+      objAjax.setSyn();
+      objAjax.setPostMethod();
+      objAjax.setUrl("http://memcakesandcookies/controlpanel/Cursos/php/Database/RequestFromWeb.php");
+      var paramsRequest = {};
+      paramsRequest.command = <?php print("\"".$COMMAND_INSERT."\"");?>;
+      paramsRequest.paramsCommand = {};
+      paramsRequest.paramsCommand.Table = <?php print("\"".TB_Curso::TB_CursoTableC."\"");?>;
+      paramsRequest.paramsCommand.<?php print($PARAM_DATA);?> = {};
+      paramsRequest.paramsCommand.<?php print($PARAM_DATA);?>.
+                           <?php print TB_Curso::NameColumnC?> = nameCurse;
+      paramsRequest.paramsCommand.<?php print($PARAM_DATA);?>.
+                           <?php print TB_Curso::DescriptionColumnC?> = descCurse;
+      paramsRequest.paramsCommand.<?php print($PARAM_DATA);?>.
+                           <?php print TB_Curso::ImageColumnC?> = imageUrl;
+      paramsRequest.paramsCommand.<?php print($PARAM_DATA);?>.
+                           <?php print TB_Curso::DurationColumnC?> = durationCurse;   
+      paramsRequest.paramsCommand.<?php print($PARAM_DATA);?>.
+                           <?php print TB_Curso::PriceColumnC?> = priceCurse;                           
+      paramsRequest.paramsCommand.<?php print($PARAM_DATA);?>.
+                           <?php print TB_Curso::LevelIdColumnC?> = dificultadCurseId;                           
+      paramsRequest.paramsCommand.<?php print($PARAM_DATA);?>.
+                           <?php print TB_Curso::LevelColumnC?> = dificultadCurse;                           
+            
+
+      JSLogger.getInstance().debug("Trying create curse with theses parameters [ " +
+            JSON.stringify(paramsRequest) +" ]");
+
+      objAjax.setParameters(JSON.stringify(paramsRequest));
+      objAjax.send();
+      JSLogger.getInstance().trace("Response [ " + objAjax.getResponse() + " ]");
       JSLogger.getInstance().traceExit();
    }
             

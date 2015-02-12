@@ -24,6 +24,8 @@
    $PARAMS = "paramsCommand";
    $PARAM_TABLE = "Table";
    $PARAM_ROWS = "rows";
+   $PARAM_DATA = "data";
+   $COMMAND_INSERT = "I";
    $COMMAND_UPDATE = "U";
    $PARAM_KEY = "key";
 
@@ -118,6 +120,12 @@
                              $row[TB_Curso::DurationColumnC] ." ]");
                   $theTable->setDuration($row[TB_Curso::DurationColumnC ]);
                 }
+               if (isset($row[TB_Curso::PriceColumnC])){
+                  $logger->trace("Set value to column [ ".
+                             TB_Curso::PriceColumnC ." ] -> [ ".
+                             $row[TB_Curso::PriceColumnC] ." ]");
+                  $theTable->setPrice($row[TB_Curso::PriceColumnC ]);
+                }
                if (isset($row[TB_Curso::LevelIdColumnC])){
                   $logger->trace("Set value to column [ ".
                              TB_Curso::LevelIdColumnC ." ] -> [ ".
@@ -140,6 +148,51 @@
       }
    }
 
+   function insertData($theTable, $theData){
+      global $logger;
+      $logger->trace("Enter");
+      $logger->trace("Insert data: [ ".json_encode($theData)." ]");
+      $logger->trace("Into [ " . $theTable->getTableName() ." ]");
+            if (strcmp($theTable->getTableName(),TB_Configuration::TB_ConfigurationTableC) == 0){
+               //Declare variables
+               $varValue = $theData["Value"];
+               $varDescription = $theData["Description"];
+               $varLabel = $theData["Label"];
+
+               $theTable->insert($varValue
+                                ,$varDescription
+                                ,$varLabel
+                                );
+            }
+            if (strcmp($theTable->getTableName(),TB_Level::TB_LevelTableC) == 0){
+               //Declare variables
+               $varLevel = $theData["Level"];
+
+               $theTable->insert($varLevel
+                                );
+            }
+            if (strcmp($theTable->getTableName(),TB_Curso::TB_CursoTableC) == 0){
+               //Declare variables
+               $varName = $theData["Name"];
+               $varDescription = $theData["Description"];
+               $varImage = $theData["Image"];
+               $varDuration = $theData["Duration"];
+               $varPrice = $theData["Price"];
+               $varLevelId = $theData["LevelId"];
+               $varLevel = $theData["Level"];
+
+               $theTable->insert($varName
+                                ,$varDescription
+                                ,$varImage
+                                ,$varDuration
+                                ,$varPrice
+                                ,$varLevelId
+                                ,$varLevel
+                                );
+            }
+      $logger->trace("Exit");
+   }
+
    
    /******************* MAIN *********************************/
 
@@ -149,10 +202,14 @@
    
 
       $logger->info("A request has been received from web");
-   
+      $resultArray = array();
       if (!isset ($_POST[$COMMAND]) || ! isset ($_POST[$PARAMS])){
-         $logger->error("Unmatched format request. Absence of param $COMMAND or $PARAMS");
-         print("ERROR 500. Unmatched format request. Absence of param $COMMAND or $PARAMS");
+         $resultArray['ResultCode'] = "ERROR 500";
+         $resultArray['MsgError'] = "Unmatched format request. Absence of param $COMMAND or $PARAMS";
+         $logger->error(json_encode($resultArray));
+         //$logger->error("Unmatched format request. Absence of param $COMMAND or $PARAMS");
+            //print("ERROR 500. Unmatched format request. Absence of param $COMMAND or $PARAMS");
+         
       }else{
          $strCommand = $_POST[$COMMAND];
          $strParams = $_POST[$PARAMS];
@@ -167,10 +224,15 @@
             $logger->debug("It is a update command in table [ ". $table->getTableName() . " ]");
             updateData($table, $params[$PARAM_ROWS]);
          }
-
+         if (strcmp(strtoupper($strCommand), $COMMAND_INSERT) == 0){
+            $logger->debug("It is a insert command in table [ ". $table->getTableName() . " ]");
+            insertData($table, $params[$PARAM_DATA]);
+         }
          $logger->trace("The request has been processed");
-         print ("OK. 200");
+         $resultArray['ResultCode'] = "OK 200";
+         
       }
+      print(json_encode($resultArray));
    } 
    
 ?>
