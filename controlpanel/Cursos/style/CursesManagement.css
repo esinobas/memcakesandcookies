@@ -219,6 +219,7 @@ body{
    float: left;
    display: inline;
    border: 1px solid black;
+   text-align: center;
  }
  #div-image-cursos img{
    max-width: 324px;
