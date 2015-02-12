@@ -204,7 +204,7 @@
       $logger->info("A request has been received from web");
       $resultArray = array();
       if (!isset ($_POST[$COMMAND]) || ! isset ($_POST[$PARAMS])){
-         $resultArray['ResultCode'] = "ERROR 500";
+         $resultArray['ResultCode'] = "500";
          $resultArray['MsgError'] = "Unmatched format request. Absence of param $COMMAND or $PARAMS";
          $logger->error(json_encode($resultArray));
          //$logger->error("Unmatched format request. Absence of param $COMMAND or $PARAMS");
@@ -229,7 +229,7 @@
             insertData($table, $params[$PARAM_DATA]);
          }
          $logger->trace("The request has been processed");
-         $resultArray['ResultCode'] = "OK 200";
+         $resultArray['ResultCode'] = "200";
          
       }
       print(json_encode($resultArray));
