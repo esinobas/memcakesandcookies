@@ -215,7 +215,7 @@
       static public function updateTable(TableMapping $theTableMapping,
                                           array $theTableData){
          $logger = LoggerMgr::Instance()->getLogger(__CLASS__);
-         $result = false;
+         $result = true;
          $logger->trace("Enter");
          $logger->trace("Filter the modified rows. The table has [ ".
                   count($theTableData) . " ] rows before the filter" );
@@ -368,12 +368,16 @@
        * @param TableMapping $theTableMapping
        * @param array $theNewData
        * @param array $theReturnData
+       * @param string $theColumnKey. 
+       * @param Integer [in|out] $theNewId: It is the id of the new row inserted in
+       * into the table in the database.
        * @return boolean
        */
       static public function insert(TableMapping $theTableMapping,
                                     array $theNewData,
                                     array &$theReturnData,
-                                    $theColumnKey){
+                                    $theColumnKey,
+                                    $theNewId){
          $logger = LoggerMgr::Instance()->getLogger(__CLASS__);
          $logger->trace("Enter");
          $result = true;
@@ -392,6 +396,7 @@
                      $idx = count($theReturnData);
                      $theReturnData[$idx] = array();
                      $theReturnData[$idx][$theColumnKey] = $database->getLastId();
+                     $theNewId = $database->getLastId();
                      $keys = array_keys($theNewData);
                      foreach ($keys as $key){
                         $logger->trace("Add new data [ $theNewData[$key] ] in column [ $key ]");
@@ -439,6 +444,22 @@
             $logger->trace("The connection doesn't exist");
          }
          $logger->trace("Exit");
+      }
+      
+      /**
+       * Functions that returns the error ocurred in a database after a command
+       * @return string
+       */
+      static public function getDatabaseError(){
+         $logger = LoggerMgr::Instance()->getLogger(__CLASS__);
+         $logger->trace("Enter");
+         $strError = "";
+         if (self::$databaseM != null){
+            $strError = self::$databaseM->getSqlError();
+         }
+         $logger->debug("Error returned [ $strError ]");
+         $logger->trace("Exit");
+         return $strError;
       }
    }
 

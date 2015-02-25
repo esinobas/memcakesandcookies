@@ -62,6 +62,14 @@
        */
       private $keysM = array();
       
+      /**
+       * Property where is saved the message error when a operation or action
+       * on the table is executed with fail.
+       * 
+       * @var string
+       */
+      private $strErrorM = "";
+      
       /**************** Methods **************/
       /**
        * Constructor of the class. It is protected to avoid it is instanced 
@@ -87,6 +95,7 @@
          foreach ($keys as $key){
             $newData = $this->tableDataM[$key];
             $this->backupTableDataM[$key] = $newData;
+            
             
          }
          unset($this->tableDataM);
@@ -157,7 +166,6 @@
       public function rewind(){
          $this->loggerM->trace("Enter");
          $this->rowIdxM = -1;
-         reset($this->tableDataM);
          $this->loggerM->trace("Exit");
       }
       
@@ -178,16 +186,23 @@
        */
       public function insertData($theDataArray){
          $this->loggerM->trace("Enter");
+         $newId = -1;
          if (DatabaseMgr::insert($this->tableMappingM, $theDataArray, 
                              $this->tableDataM,
-                             $this->tableDefinitionM->getKeys()[0])){
-            $this->loggerM->trace("The data was inserted successfully");
+                             $this->tableDefinitionM->getKeys()[0],
+                             $newId)){
+            $this->loggerM->trace("The data was inserted successfully. ".
+                                  "The new Id is [ $newId ]");
+            $this->strErrorM = "";
          }else{
-            $this->loggerM->error("The data was not inserted");
+            $this->strErrorM = DatabaseMgr::getDatabaseError();
+            $this->loggerM->error("The data was not inserted [ " .
+                    $this->strErrorM ." ]");
          }
          $this->rewind();
          
          $this->loggerM->trace("Exit");
+         return $newId;
       }
       
       /**
@@ -196,9 +211,21 @@
        */
       public function update(){
          $this->loggerM->trace("Enter");
-         DatabaseMgr::updateTable($this->tableMappingM, $this->tableDataM);
-         $this->mergeTableData();
+         if ($this->backupTableDataM != null){
+         
+            $this->mergeTableData();
+         }
+         $result = DatabaseMgr::updateTable($this->tableMappingM, $this->tableDataM);
+         if ($result){
+            //$this->mergeTableData();
+            $this->strErrorM ="";
+         }else{
+            $this->strErrorM = DatabaseMgr::getDatabaseError();
+            $this->loggerM->error("The row was not updated [ " .
+                  $this->strErrorM ." ]");
+         }
          $this->loggerM->trace("Exit");
+         return $result;
       }
       
       /**
@@ -207,9 +234,21 @@
        */
       public function updateRow(){
          $this->loggerM->trace("Enter");
-         DatabaseMgr::updateTable($this->tableMappingM, array(current($this->tableDataM)));
-         $this->mergeTableData();
+         if ($this->backupTableDataM != null){
+         
+            $this->mergeTableData();
+         }
+         $result = DatabaseMgr::updateTable($this->tableMappingM, array(current($this->tableDataM)));
+         if ($result){
+            //$this->mergeTableData();
+            $this->strErrorM ="";
+         }else{
+            $this->strErrorM = DatabaseMgr::getDatabaseError();
+            $this->loggerM->error("The row was not updated [ " .
+                  $this->strErrorM ." ]");
+         }
          $this->loggerM->trace("Exit");
+         return $result;
       }
       
       protected function get($theColumn){
@@ -268,6 +307,11 @@
       public function searchByColummn($theColumn, $theValue){
          $this->loggerM->trace("Enter");
          
+         if ($this->backupTableDataM != null){
+            
+            $this->mergeTableData();
+         }
+         
          $callbackSearchByColumn = function ($var) use ($theColumn, $theValue){
             $this->loggerM->trace("Enter");
             $this->loggerM->trace("Exit");
@@ -303,7 +347,14 @@
          
       }
       
-      
-      
+      /**
+       * (non-PHPdoc)
+       * @see TableIf::getStrError()
+       */
+      public function getStrError(){
+         $this->loggerM->trace("Enter");
+         $this->loggerM->trace("Exit");
+         return $this->strErrorM;
+      }
    }
 ?>
