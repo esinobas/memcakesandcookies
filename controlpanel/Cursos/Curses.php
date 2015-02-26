@@ -43,7 +43,7 @@ JSLogger.getInstance().registerLogger("Curses.php",JSLogger.levelsE.TRACE);
             <div class="class-grid-row-hidden-data"><?php print($tableCurses->getDescription());?></div>
             <div class="class-grid-row-hidden-data"><?php print($tableCurses->getImage());?></div>
          </div>
-         <div class="new-row"></div>
+         <!--  <div class="new-row"></div> -->
          <?php
             }
          ?>
