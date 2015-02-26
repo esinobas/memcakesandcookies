@@ -28,7 +28,11 @@
    $COMMAND_INSERT = "I";
    $COMMAND_UPDATE = "U";
    $PARAM_KEY = "key";
-
+   $RESULT_CODE = "ResultCode";
+   $MSG_ERROR = "ErrorMsg";
+   $RESULT_CODE_SUCCESS = 200;
+   $RESULT_CODE_INTERNAL_ERROR = 500;
+   $RETURN_LAST_ID = "lastID";
 
    /****************** Functions *****************************/
 
@@ -53,10 +57,14 @@
       return  $returnedTable;
    }
 
-   function updateData($theTable, $theRows){
+   function updateData($theTable, $theRows, &$theResult){
       global $logger;
       global $PARAM_KEY;
 
+      global $RESULT_CODE;
+      global $MSG_ERROR;
+      global $RESULT_CODE_SUCCESS;
+      global $RESULT_CODE_INTERNAL_ERROR;
       $logger->trace("Enter");
       $logger->trace("Rows: [ ".json_encode($theRows)." ]");
       $logger->trace("Update data of [ " . $theTable->getTableName() ." ]");
@@ -140,48 +148,66 @@
                 }
             }
 
-            $logger->trace("Update the data in the database");
-            $theTable->updateRow();
-         }else{
-            $logger->trace("The Key has not been found.");
+            }else{
+               $theResult[$RESULT_CODE] = $RESULT_CODE_INTERNAL_ERROR;
+               $theResult[$MSG_ERROR] = "The Key has not been found.";
+               $logger->warn($theResult[$MSG_ERROR]);
+               break;
+            }
          }
-      }
+         $logger->trace("Update the data in the database");
+         if ( ! $theTable->updateRow()){
+            $theResult[$RESULT_CODE] = $RESULT_CODE_INTERNAL_ERROR;
+            $theResult[$MSG_ERROR] = $theTable->getStrError();
+            $logger->error("The update failed. Error [ " . $theResult[$MSG_ERROR] . " ]");
+         }
+      $logger->trace("Exit");
    }
 
-   function insertData($theTable, $theData){
+   function insertData($theTable, $theData, &$theResult){
       global $logger;
+      global $RESULT_CODE;
+      global $MSG_ERROR;
+      global $RESULT_CODE_SUCCESS;
+      global $RESULT_CODE_INTERNAL_ERROR;
       $logger->trace("Enter");
       $logger->trace("Insert data: [ ".json_encode($theData)." ]");
       $logger->trace("Into [ " . $theTable->getTableName() ." ]");
-            if (strcmp($theTable->getTableName(),TB_Configuration::TB_ConfigurationTableC) == 0){
-               //Declare variables
-               $varValue = $theData["Value"];
-               $varDescription = $theData["Description"];
-               $varLabel = $theData["Label"];
 
-               $theTable->insert($varValue
+      if (strcmp($theTable->getTableName(),TB_Configuration::TB_ConfigurationTableC) == 0){
+
+         //Declare variables
+         $varValue = $theData["Value"];
+         $varDescription = $theData["Description"];
+         $varLabel = $theData["Label"];
+
+         $newId = $theTable->insert($varValue
                                 ,$varDescription
                                 ,$varLabel
                                 );
-            }
-            if (strcmp($theTable->getTableName(),TB_Level::TB_LevelTableC) == 0){
-               //Declare variables
-               $varLevel = $theData["Level"];
+      }
 
-               $theTable->insert($varLevel
+      if (strcmp($theTable->getTableName(),TB_Level::TB_LevelTableC) == 0){
+
+         //Declare variables
+         $varLevel = $theData["Level"];
+
+         $newId = $theTable->insert($varLevel
                                 );
-            }
-            if (strcmp($theTable->getTableName(),TB_Curso::TB_CursoTableC) == 0){
-               //Declare variables
-               $varName = $theData["Name"];
-               $varDescription = $theData["Description"];
-               $varImage = $theData["Image"];
-               $varDuration = $theData["Duration"];
-               $varPrice = $theData["Price"];
-               $varLevelId = $theData["LevelId"];
-               $varLevel = $theData["Level"];
+      }
 
-               $theTable->insert($varName
+      if (strcmp($theTable->getTableName(),TB_Curso::TB_CursoTableC) == 0){
+
+         //Declare variables
+         $varName = $theData["Name"];
+         $varDescription = $theData["Description"];
+         $varImage = $theData["Image"];
+         $varDuration = $theData["Duration"];
+         $varPrice = $theData["Price"];
+         $varLevelId = $theData["LevelId"];
+         $varLevel = $theData["Level"];
+
+         $newId = $theTable->insert($varName
                                 ,$varDescription
                                 ,$varImage
                                 ,$varDuration
@@ -189,7 +215,17 @@
                                 ,$varLevelId
                                 ,$varLevel
                                 );
-            }
+      }
+
+      if( $newId != -1){
+           $logger->trace("The insertion was exectuted successfully. ".
+                           "The new Id is [ $newId ]");
+           $theResult[$RETURN_LAST_ID]=$theNewId;
+        }else{
+           $theResult[$RESULT_CODE] = $RESULT_CODE_INTERNAL_ERROR;
+           $theResult[$MSG_ERROR] = $theTable->getStrError();
+           $logger->error("The insert failed. Error [ " . $theResult[$MSG_ERROR] . " ]");
+        }
       $logger->trace("Exit");
    }
 
@@ -204,13 +240,14 @@
       $logger->info("A request has been received from web");
       $resultArray = array();
       if (!isset ($_POST[$COMMAND]) || ! isset ($_POST[$PARAMS])){
-         $resultArray['ResultCode'] = "500";
-         $resultArray['MsgError'] = "Unmatched format request. Absence of param $COMMAND or $PARAMS";
+         $resultArray[$RESULT_CODE] = $RESULT_CODE_INTERNAL_ERROR;
+         $resultArray[$MSG_ERROR] = "Unmatched format request. Absence of param $COMMAND or $PARAMS";
          $logger->error(json_encode($resultArray));
          //$logger->error("Unmatched format request. Absence of param $COMMAND or $PARAMS");
             //print("ERROR 500. Unmatched format request. Absence of param $COMMAND or $PARAMS");
          
       }else{
+         $resultArray[$RESULT_CODE] = $RESULT_CODE_SUCCESS;
          $strCommand = $_POST[$COMMAND];
          $strParams = $_POST[$PARAMS];
          $logger->trace("The command is [ $strCommand ] and the params are [ $strParams ]");
@@ -222,15 +259,14 @@
       
          if (strcmp(strtoupper($strCommand), $COMMAND_UPDATE) == 0){
             $logger->debug("It is a update command in table [ ". $table->getTableName() . " ]");
-            updateData($table, $params[$PARAM_ROWS]);
+            updateData($table, $params[$PARAM_ROWS],$resultArray);
          }
          if (strcmp(strtoupper($strCommand), $COMMAND_INSERT) == 0){
             $logger->debug("It is a insert command in table [ ". $table->getTableName() . " ]");
-            insertData($table, $params[$PARAM_DATA]);
+            insertData($table, $params[$PARAM_DATA], $resultArray);
          }
-         $logger->trace("The request has been processed");
-         $resultArray['ResultCode'] = "200";
-         
+         $logger->trace("The request has been processed. Result [ " . json_encode($resultArray) ." ]");
+        
       }
       print(json_encode($resultArray));
    } 
