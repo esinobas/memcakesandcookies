@@ -96,7 +96,8 @@
             $newData = $this->tableDataM[$key];
             $this->backupTableDataM[$key] = $newData;
             
-            
+            //$this->loggerM->trace("Key [ $key ] Modified " .
+            //      ($this->backupTableDataM[$key][DatabaseMgr::modifiedRowC]?"[TRUE]":"[FALSE]"));
          }
          unset($this->tableDataM);
          $this->tableDataM =  $this->backupTableDataM;

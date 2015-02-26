@@ -149,8 +149,9 @@
          $arrayData[self::PriceColumnC] = $thePrice;
          $arrayData[self::LevelIdColumnC] = $theLevelId;
          $arrayData[self::LevelColumnC] = $theLevel;
-         parent::insertData($arrayData);
+         
          $this->loggerM->trace("Exit");
+         return parent::insertData($arrayData);
       }
       
       public function getId(){

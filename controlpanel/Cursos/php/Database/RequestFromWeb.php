@@ -156,7 +156,7 @@
             }
          }
          $logger->trace("Update the data in the database");
-         if ( ! $theTable->updateRow()){
+         if ( ! $theTable->update()){
             $theResult[$RESULT_CODE] = $RESULT_CODE_INTERNAL_ERROR;
             $theResult[$MSG_ERROR] = $theTable->getStrError();
             $logger->error("The update failed. Error [ " . $theResult[$MSG_ERROR] . " ]");

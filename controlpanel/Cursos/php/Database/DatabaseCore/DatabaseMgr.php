@@ -19,6 +19,8 @@
       
       static private $databaseM = null;
       
+      static private $dataBaseErrorM = "";
+      
       /**
        * Create a database object with the parameters saved in the config file
        * @return MySqlDatabase
@@ -36,8 +38,10 @@
             if (self::$databaseM->connect($theAutoCommit)){
                $logger->debug("The connection with the database was established successfull");
             }else{
-               $error = self::$databaseM->getConnectError();
-               $logger->error("An error has been produced in connect with database. Error [ $error ]");
+               self::$dataBaseErrorM = self::$databaseM->getConnectError();
+               $logger->error("An error has been produced in connect with database. Error [ ".
+                                self::$dataBaseErrorM . "] ");
+               
                self::$databaseM = null;
             }
             
@@ -252,6 +256,7 @@
                              $database->getSqlError() . " ]");
                   $error = true;
                   $result = false;
+                  self::$dataBaseErrorM = $database->getSqlError();
                }
             }
             if (! $error ){
@@ -319,7 +324,7 @@
             //Todavia no esta hecho el borrado, falta implementar.
             //Cuando este terminado el insert, borramos
             
-            $database->closeConnection();
+            //$database->closeConnection();
          }
          $logger->trace("Exit");
       }
@@ -403,9 +408,10 @@
                         $theReturnData[$idx][$key] = $theNewData[$key];
                      }
                   }else{
-                     $logger->error("The command [ $sqlInsert] fails. Error [" .
+                     $logger->error("The command [ $sqlInsert] fails. Error [ " .
                            $database->getSqlError() ." ]");
                      $result = false;
+                     self::$dataBaseErrorM = $database->getSqlError();
                      break;
                   }
                }else{
@@ -456,6 +462,7 @@
          $strError = "";
          if (self::$databaseM != null){
             $strError = self::$databaseM->getSqlError();
+            $strError = self::$dataBaseErrorM;
          }
          $logger->debug("Error returned [ $strError ]");
          $logger->trace("Exit");

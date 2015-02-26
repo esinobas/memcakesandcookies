@@ -224,6 +224,13 @@ JSLogger.getInstance().registerLogger("Curses.php",JSLogger.levelsE.TRACE);
       objAjax.setParameters(JSON.stringify(paramsRequest));
       objAjax.send();
       JSLogger.getInstance().trace("Response [ " + objAjax.getResponse() + " ]");
+      var objResponse = JSON.parse(objAjax.getResponse());
+      if (parseInt(objResponse['ResultCode']) != 200){
+          MessageBox("Error", 
+                     "No se ha podido crear el curso. Error [ " +
+                     objResponse['ErrorMsg'] + " ]",
+                     {Icon: MessageBox.IconsE.ERROR});
+      }
       JSLogger.getInstance().traceExit();
    }
             
