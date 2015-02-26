@@ -382,7 +382,7 @@
                                     array $theNewData,
                                     array &$theReturnData,
                                     $theColumnKey,
-                                    $theNewId){
+                                    &$theNewId){
          $logger = LoggerMgr::Instance()->getLogger(__CLASS__);
          $logger->trace("Enter");
          $result = true;

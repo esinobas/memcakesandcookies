@@ -230,6 +230,18 @@ JSLogger.getInstance().registerLogger("Curses.php",JSLogger.levelsE.TRACE);
                      "No se ha podido crear el curso. Error [ " +
                      objResponse['ErrorMsg'] + " ]",
                      {Icon: MessageBox.IconsE.ERROR});
+      }else{
+         //Refresh the grid with the new data
+         var newGridRow = $('<div class="class-grid-row"></div>');
+         
+         var newId = parseInt(objResponse['lastID']);
+         newGridRow.append('<div class="class-grid-row-key">'+newId+'</div>');
+         newGridRow.append('<div class="class-grid-row-data">'+nameCurse+'</div>');
+         newGridRow.append('<div class="class-grid-row-data">'+dificultadCurse+'</div>');
+         newGridRow.append('<div class="class-grid-row-data">'+priceCurse+'</div>');
+         newGridRow.append('<div class="class-grid-row-hidden-data">'+descCurse+'</div>');
+         newGridRow.append('<div class="class-grid-row-hidden-data">'+imageUrl+'</div>');
+         $('#grid-cursos').append(newGridRow);
       }
       JSLogger.getInstance().traceExit();
    }

@@ -170,6 +170,7 @@
       global $MSG_ERROR;
       global $RESULT_CODE_SUCCESS;
       global $RESULT_CODE_INTERNAL_ERROR;
+      global $RETURN_LAST_ID;
       $logger->trace("Enter");
       $logger->trace("Insert data: [ ".json_encode($theData)." ]");
       $logger->trace("Into [ " . $theTable->getTableName() ." ]");
@@ -220,7 +221,7 @@
       if( $newId != -1){
            $logger->trace("The insertion was exectuted successfully. ".
                            "The new Id is [ $newId ]");
-           $theResult[$RETURN_LAST_ID]=$theNewId;
+           $theResult[$RETURN_LAST_ID]=$newId;
         }else{
            $theResult[$RESULT_CODE] = $RESULT_CODE_INTERNAL_ERROR;
            $theResult[$MSG_ERROR] = $theTable->getStrError();
