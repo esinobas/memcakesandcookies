@@ -26,6 +26,9 @@
  *                           [double_click_callback]: Function that is executed
  *                                  when a double click is done on a row. 
  */
+
+
+
 var DataGrid = DataGrid || function(theHtmlObject, theParams){
    
    /*************** Constants *************************/
@@ -52,7 +55,62 @@ var DataGrid = DataGrid || function(theHtmlObject, theParams){
    
    
    /************* private variables ************/
-   JSLogger.getInstance().registerLogger("DataGrid", JSLogger.levelsE.ERROR);
+   JSLogger.getInstance().registerLogger("DataGrid", JSLogger.levelsE.TRACE);
+   
+   function addCSSRules(theSelector, theRules){
+      JSLogger.getInstance().traceEnter();
+      JSLogger.getInstance().trace("Selector [ " + theSelector + " ]");
+      JSLogger.getInstance().trace("Num rules [ " + Object.keys(theRules).length + " ]");
+      
+      var exit = false;
+     
+      var idxStyleSheet = document.styleSheets.length -1 ;
+      
+      while (!exit && idxStyleSheet >= 0){
+         
+         if (document.styleSheets[idxStyleSheet].type == "text/css" ){
+            JSLogger.getInstance().trace("File [ " + 
+                        document.styleSheets[idxStyleSheet].href+ " ] ");
+            var rules = document.styleSheets[idxStyleSheet].cssRules 
+                           || document.styleSheets[idxStyleSheet].rules;
+         
+            var idxRules = rules.length -1;
+            while (!exit && idxRules >= 0){
+               
+               //JSLogger.getInstance().trace("Selector [ " + rules[idxRules].selectorText + " ]");
+               
+               if (rules[idxRules].selectorText.toLowerCase().indexOf(theSelector.toLowerCase())!=-1){
+                  exit = true;
+               }else{
+                  idxRules --;
+               }
+            }
+         
+         }
+         if (!exit)
+            idxStyleSheet --;
+      }
+      JSLogger.getInstance().trace("Add rule in style sheet [ " + 
+                      document.styleSheets[idxStyleSheet].href+ " ] ");
+      var objectRule = document.styleSheets[idxStyleSheet].cssRules[idxRules] 
+                         || document.styleSheets[idxStyleSheet].rules[idxRules];
+      
+      
+      
+      var newRule = ""+theSelector + "{";
+      for (var key in theRules){
+         newRule += key +":"+theRules[key]+";";
+         JSLogger.getInstance().trace(objectRule+'.style.'+key+'="'+theRules[key]+'"');
+         
+      }
+      newRule += "}";
+      JSLogger.getInstance().trace("New rules [ " + newRule+" ]");
+      document.styleSheets[idxStyleSheet].insertRule(newRule,
+                               (document.styleSheets[idxStyleSheet].cssRules 
+                           || document.styleSheets[idxStyleSheet].rules).length);
+      JSLogger.getInstance().traceExit();
+   }
+   
    
    
    var columnsSizeM = new Array();
@@ -80,13 +138,19 @@ var DataGrid = DataGrid || function(theHtmlObject, theParams){
           
          if (this.getParameter(HEADER_BACKGROUND_COLOR_C, this.parametersM) != null){
             
-            this.htmlObjectM.find('.class-grid-header div').css("background-color", 
-                  this.getParameter(HEADER_BACKGROUND_COLOR_C, this.parametersM));
+            //this.htmlObjectM.find('.class-grid-header div').css("background-color", 
+            //      this.getParameter(HEADER_BACKGROUND_COLOR_C, this.parametersM));
+            addCSSRules('.class-grid-header div', 
+                  {"background-color":this.getParameter(HEADER_BACKGROUND_COLOR_C, this.parametersM)});
+         
          }
          if (this.getParameter(HEADER_FONT_COLOR_C, this.parametersM) != null){
             
-            this.htmlObjectM.find('.class-grid-header').css("color", 
-                  this.getParameter(HEADER_FONT_COLOR_C, this.parametersM) );
+            //this.htmlObjectM.find('.class-grid-header').css("color", 
+            //      this.getParameter(HEADER_FONT_COLOR_C, this.parametersM) );
+            addCSSRules('.class-grid-header',
+                  {"color":this.getParameter(HEADER_FONT_COLOR_C, this.parametersM)});
+                  
          }
          
         if (this.getParameter(ROW_BACKGROUND_COLOR_C, this.parametersM) != null){
@@ -325,7 +389,7 @@ var DataGrid = DataGrid || function(theHtmlObject, theParams){
    var show = function(theHtmlObject, theParams){
       var a = new DataGrid(theHtmlObject, theParams);
       a.format();
-   }
+   } 
    
    return {
       show: show
