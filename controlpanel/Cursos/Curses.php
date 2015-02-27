@@ -55,6 +55,9 @@ JSLogger.getInstance().registerLogger("Curses.php",JSLogger.levelsE.TRACE);
    <div id="div-description-cursos">
    </div>
    <script type="text/javascript">
+         //Variable where is saved the selected row of the grid
+         var selectedRowM = -1;
+         
          function getRow(theRowNumber){
             JSLogger.getInstance().trace("Getting the row [ " +theRowNumber +
             " ] from grid");
@@ -67,24 +70,6 @@ JSLogger.getInstance().registerLogger("Curses.php",JSLogger.levelsE.TRACE);
                
             });
             return row;
-         };
-         
-         var gridOnClick = function (theIndex){
-            JSLogger.getInstance().trace("The selected row is [ " +theIndex +
-                  "  ]");
-            var row = getRow(theIndex);
-            var description = $(row).find('.class-grid-row-hidden-data')[0];
-            
-            $('#div-description-cursos').empty();
-            $('#div-description-cursos').append('<p>'+ $(description).text()+
-                       '</p>');
-            var divImage = $(row).find('.class-grid-row-hidden-data')[1];
-            $('#div-image-cursos').empty();
-            $('#div-image-cursos').append('<img src="' + $(divImage).text()+'">');
-            
-         };
-         var gridOnDoubleClick = function (theIndex){
-            
          };
          function formatDataGrid(){
             DataGrid.show($('#grid-cursos'),{Size:{Width: 490, Height: 490},
@@ -99,6 +84,26 @@ JSLogger.getInstance().registerLogger("Curses.php",JSLogger.levelsE.TRACE);
                      click_callback: gridOnClick,
                      double_click_callback: gridOnDoubleClick});
          }
+         var gridOnClick = function (theIndex){
+            JSLogger.getInstance().trace("The selected row is [ " +theIndex +
+                  " ]");
+            var row = getRow(theIndex);
+            selectedRowM = theIndex;
+            var description = $(row).find('.class-grid-row-hidden-data')[0];
+            
+            $('#div-description-cursos').empty();
+            $('#div-description-cursos').append('<p>'+ $(description).text()+
+                       '</p>');
+            var divImage = $(row).find('.class-grid-row-hidden-data')[1];
+            $('#div-image-cursos').empty();
+            $('#div-image-cursos').append('<img src="' + $(divImage).text()+'">');
+            
+         };
+         var gridOnDoubleClick = function (theIndex){
+            
+         };
+         
+         
          formatDataGrid();
         
          
@@ -266,12 +271,17 @@ JSLogger.getInstance().registerLogger("Curses.php",JSLogger.levelsE.TRACE);
    });
 
    $('#btnEdit').click(function(){
-         MessageBox("¿Borrar fichero?", 
-               "¿Borrar el fichero?",
-               {Buttons: {Buttons: MessageBox.ButtonsE.YES_NO_CANCEL,
-                  Callback_Yes: function(){alert('YES');},
-                  Callback_No: function(){alert('NO');}},
-                Icon: MessageBox.IconsE.QUESTION});
+      JSLogger.getInstance().traceEnter();
+      JSLogger.getInstance().trace("The selected row is [ " + selectedRowM + " / "+
+            $('.class-grid-row').length +" ]");
+      var rowElements = $('.class-grid-row').get(selectedRowM);
+      JSLogger.getInstance().trace("The selected row has [ " + rowElements +
+            " ] elements");
+      
+         MessageBox("Curso seleccionado", 
+               "La fila seleccionada es : " + selectedRowM,
+               {Icon: MessageBox.IconsE.INFORMATION});
+      JSLogger.getInstance().traceExit();
    });
 
     
