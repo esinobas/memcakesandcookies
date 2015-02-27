@@ -55,7 +55,7 @@ var DataGrid = DataGrid || function(theHtmlObject, theParams){
    
    
    /************* private variables ************/
-   JSLogger.getInstance().registerLogger("DataGrid", JSLogger.levelsE.TRACE);
+   JSLogger.getInstance().registerLogger("DataGrid", JSLogger.levelsE.DEBUG);
    
    function addCSSRules(theSelector, theRules){
       JSLogger.getInstance().traceEnter();
@@ -155,13 +155,17 @@ var DataGrid = DataGrid || function(theHtmlObject, theParams){
          
         if (this.getParameter(ROW_BACKGROUND_COLOR_C, this.parametersM) != null){
             
-           this.htmlObjectM.find('.class-grid-row').css("background-color", 
-                 this.getParameter(ROW_BACKGROUND_COLOR_C, this.parametersM) );
+           //this.htmlObjectM.find('.class-grid-row').css("background-color", 
+           //      this.getParameter(ROW_BACKGROUND_COLOR_C, this.parametersM) );
+           addCSSRules('.class-grid-row',
+                      {"background-color":this.getParameter(ROW_BACKGROUND_COLOR_C, this.parametersM)});
         }
         if (this.getParameter(ROW_FONT_COLOR_C, this.parametersM) != null){
            
-           this.htmlObjectM.find('.class-grid-row').css("color", 
-                 this.getParameter(ROW_FONT_COLOR_C, this.parametersM) );
+           //this.htmlObjectM.find('.class-grid-row').css("color", 
+           //      this.getParameter(ROW_FONT_COLOR_C, this.parametersM) );
+           addCSSRules('.class-grid-row',
+                 {"color":this.getParameter(ROW_FONT_COLOR_C, this.parametersM)});
         }
          JSLogger.getInstance().traceExit();
       };
@@ -393,5 +397,6 @@ var DataGrid = DataGrid || function(theHtmlObject, theParams){
    
    return {
       show: show
+      
     }
  }();

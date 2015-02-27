@@ -67,7 +67,7 @@ JSLogger.getInstance().registerLogger("Curses.php",JSLogger.levelsE.TRACE);
                
             });
             return row;
-         }
+         };
          
          var gridOnClick = function (theIndex){
             JSLogger.getInstance().trace("The selected row is [ " +theIndex +
@@ -82,11 +82,12 @@ JSLogger.getInstance().registerLogger("Curses.php",JSLogger.levelsE.TRACE);
             $('#div-image-cursos').empty();
             $('#div-image-cursos').append('<img src="' + $(divImage).text()+'">');
             
-         }
+         };
          var gridOnDoubleClick = function (theIndex){
             
-         }
-         DataGrid.show($('#grid-cursos'),{Size:{Width: 490, Height: 490},
+         };
+         function formatDataGrid(){
+            DataGrid.show($('#grid-cursos'),{Size:{Width: 490, Height: 490},
                                     columns_size:{0:300,1:94,2:65},
                      header_background_color: "#7D5F3F",
                      header_font_color: "white",
@@ -97,7 +98,8 @@ JSLogger.getInstance().registerLogger("Curses.php",JSLogger.levelsE.TRACE);
                      show_lines:"vertical",
                      click_callback: gridOnClick,
                      double_click_callback: gridOnDoubleClick});
-           
+         }
+         formatDataGrid();
         
          
       </script>
@@ -242,6 +244,7 @@ JSLogger.getInstance().registerLogger("Curses.php",JSLogger.levelsE.TRACE);
          newGridRow.append('<div class="class-grid-row-hidden-data">'+descCurse+'</div>');
          newGridRow.append('<div class="class-grid-row-hidden-data">'+imageUrl+'</div>');
          $('#grid-cursos').append(newGridRow);
+         formatDataGrid();
       }
       JSLogger.getInstance().traceExit();
    }
