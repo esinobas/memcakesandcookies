@@ -678,6 +678,27 @@ var FileBrowser = FileBrowser || function (){
   }
   
   /**
+   * Function that upload a file to the server
+   * 
+   * @param theFileName: The file name that will be uploaded to the server
+   */
+  function uploadFile(theFileName, theParameters){
+     JSLogger.getInstance().traceEnter();
+     showLoading();
+     var rootDirectory = FileBrowser.prototype.getParameter(paramRootPathC,
+           FileBrowser.prototype.getParameter(paramPathC, 
+                 theParameters));
+     //var url = FileBrowser.prototype.getCurrentPath("FileBrowser.js")+"FileSystem.php";
+     var toDirectory = (rootDirectory == currentPathM ? currentPathM :
+                      rootDirectory+"/"+ currentPathM );
+     
+     JSLogger.getInstance().debug("The file [ " + theFileName +" ] will be "+
+           "uploaded to the server in path [ " + toDirectory +" ]");
+     hideLoading();
+     JSLogger.getInstance().traceExit();
+  }
+  
+  /**
    * Function that show the toolbar button
    */
   this.setToolbar = function setToolbar(){
@@ -707,7 +728,8 @@ var FileBrowser = FileBrowser || function (){
               " ] buttons");
         var toolbarObject = $('#FileBrowser-Toolbar div');
         for( var button in buttons){
-           
+           var localParameters = this.parametersM;
+           var localGetCurrentPath = this.getCurrentPath("FileBrowser.js");
            if ( buttons[button] == TOOLBAR_BUTTON_UPLOAD_FILE_C ){
               JSLogger.getInstance().trace("Show button [ " + 
                     TOOLBAR_BUTTON_UPLOAD_FILE_C +" ]");
@@ -717,11 +739,28 @@ var FileBrowser = FileBrowser || function (){
                     this.getCurrentPath("FileBrowser.js")+'icons/file_upload.png\');'+
                     'background-repeat: no-repeat;background-position: center"></button>');
               
-                    
+               //Add the hidden file input htnl object.
+              toolbarObject.append("<input id=\"inputUploadFile\" type=\"file\" style=\"display:none;\" name=\"selectedFile\">");
+              $('#inputUploadFile').change(
+                    function () {
+                       JSLogger.getInstance().traceEnter();
+                       if ($('#inputUploadFile').val().length > 0){
+                          JSLogger.getInstance().debug("The file [ " + $('#inputUploadFile').val() +
+                          " ] will be uploaded to the server");
+                          
+                          uploadFile($('#inputUploadFile').val(),localParameters);
+                       }
+                       JSLogger.getInstance().traceExit();
+                    }
+                 );
+              $('#FileBrowser-upload-file').click(function(){
+                 
+                 $('#inputUploadFile').click();
+              });
            }
            
-           var localGetCurrentPath = this.getCurrentPath("FileBrowser.js");
-           var localParameters = this.parametersM;
+          
+           
            if ( buttons[button] == TOOLBAR_CREATE_FOLDER_C ){
               JSLogger.getInstance().trace("Show button [ " + 
                     TOOLBAR_CREATE_FOLDER_C +" ]");
