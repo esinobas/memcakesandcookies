@@ -55,7 +55,7 @@ var FileBrowser = FileBrowser || function (){
    
 
    
-   JSLogger.getInstance().registerLogger("FileBrowser", JSLogger.levelsE.DEBUG);
+   JSLogger.getInstance().registerLogger("FileBrowser", JSLogger.levelsE.TRACE);
    
    /****** Private functions *******/
    
@@ -682,7 +682,7 @@ var FileBrowser = FileBrowser || function (){
    * 
    * @param theFileName: The file name that will be uploaded to the server
    */
-  function uploadFile(theFileName, theParameters){
+  function uploadFile(theFileName, theParameters, theLocalCurrentPath){
      JSLogger.getInstance().traceEnter();
      showLoading();
      var rootDirectory = FileBrowser.prototype.getParameter(paramRootPathC,
@@ -694,6 +694,41 @@ var FileBrowser = FileBrowser || function (){
      
      JSLogger.getInstance().debug("The file [ " + theFileName +" ] will be "+
            "uploaded to the server in path [ " + toDirectory +" ]");
+     
+     var file = $('#inputUploadFile').get(0).files[0];
+     
+     var ajaxObject = new Ajax();
+     var url = theLocalCurrentPath + "UploadFile.php";
+     JSLogger.getInstance().trace("The file is uploaded using [ " + url +" ] ");
+     ajaxObject.setUrl(url);
+     ajaxObject.setPostMethod();
+     ajaxObject.setCallback(null);
+     var parameters = {};
+     parameters.path = toDirectory;
+     JSLogger.getInstance().trace("Paremeters [ " + JSON.stringify(parameters) +
+           " ]");
+     ajaxObject.setParameters(JSON.stringify(parameters));
+     ajaxObject.sendFile(file);
+     JSLogger.getInstance().debug("The request was processed with this response [ " + 
+                            ajaxObject.getResponse() +" ]");
+     
+     //Process the response
+     var jsonResponse = JSON.parse(ajaxObject.getResponse());
+     if (parseInt(jsonResponse['ResultCode']) != 200 ){
+        JSLogger.getInstance().error("The file [ "+theFileName+
+              " ] has not been uploaded to the server. Error [ " +
+              jsonResponse['ErrorMsg'] +" ]");
+        
+        MessageBox("Error", "El fichero \"" + theFileName +
+              "\" no se ha subido al servidor. Error [ " + 
+              jsonResponse['ErrorMsg'] +" ]",
+              {Icon: MessageBox.IconsE.ERROR }
+        );
+        
+     }else{
+        JSLogger.getInstance().debug("The file [ " + theFileName + 
+              " ] was uploaded sucessfull");
+     }
      hideLoading();
      JSLogger.getInstance().traceExit();
   }
@@ -728,8 +763,10 @@ var FileBrowser = FileBrowser || function (){
               " ] buttons");
         var toolbarObject = $('#FileBrowser-Toolbar div');
         for( var button in buttons){
+           
            var localParameters = this.parametersM;
            var localGetCurrentPath = this.getCurrentPath("FileBrowser.js");
+           
            if ( buttons[button] == TOOLBAR_BUTTON_UPLOAD_FILE_C ){
               JSLogger.getInstance().trace("Show button [ " + 
                     TOOLBAR_BUTTON_UPLOAD_FILE_C +" ]");
@@ -748,7 +785,8 @@ var FileBrowser = FileBrowser || function (){
                           JSLogger.getInstance().debug("The file [ " + $('#inputUploadFile').val() +
                           " ] will be uploaded to the server");
                           
-                          uploadFile($('#inputUploadFile').val(),localParameters);
+                          uploadFile($('#inputUploadFile').val(),localParameters,
+                                localGetCurrentPath);
                        }
                        JSLogger.getInstance().traceExit();
                     }
