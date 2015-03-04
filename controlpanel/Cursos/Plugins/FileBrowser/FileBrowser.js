@@ -728,6 +728,13 @@ var FileBrowser = FileBrowser || function (){
      }else{
         JSLogger.getInstance().debug("The file [ " + theFileName + 
               " ] was uploaded sucessfull");
+        
+        var directoryStructure = getFilesAndDirectories();
+        
+        directoryStructure[theFileName]= null;
+        
+        showFilesAndDirectories(fullPathToString());
+        
      }
      hideLoading();
      JSLogger.getInstance().traceExit();

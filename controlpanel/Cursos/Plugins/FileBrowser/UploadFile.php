@@ -94,7 +94,7 @@
          $logger->trace("The root path is NOT present in the path");
          $dir_destin = $_SERVER['DOCUMENT_ROOT'].'/'.$_POST[$PARAM_PATH].'/';
       }
-      $logger->trace("XXX. Directory destin: $dir_destin");
+      
      
       $logger->trace("Trying move [ " . 
             $_FILES[$PARAM_FILE_NAME_TO_SEND][$PARAM_FILE_NAME] . " ] from [ ".
