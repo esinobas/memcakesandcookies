@@ -160,6 +160,8 @@
             self::phisicalTB_StepIdColumnC );
 
       $this->tableMappingM->addCondition("TB_Curso.Id = TB_Step.Curso_Id");
+
+      $this->tableMappingM->addCondition("TB_Curso.Level_Id = TB_Level.Id");
       
       $this->loggerM->trace("Exit");
 	}
