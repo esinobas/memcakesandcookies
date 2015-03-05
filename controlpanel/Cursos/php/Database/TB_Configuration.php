@@ -98,8 +98,9 @@
          $arrayData[self::ValueColumnC] = $theValue;
          $arrayData[self::DescriptionColumnC] = $theDescription;
          $arrayData[self::LabelColumnC] = $theLabel;
-         parent::insertData($arrayData);
          $this->loggerM->trace("Exit");
+
+         return parent::insertData($arrayData);
       }
       
       public function getProperty(){

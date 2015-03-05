@@ -76,8 +76,9 @@
          $this->loggerM->trace("Enter");
          $arrayData = array();
          $arrayData[self::LevelColumnC] = $theLevel;
-         parent::insertData($arrayData);
          $this->loggerM->trace("Exit");
+
+         return parent::insertData($arrayData);
       }
       
       public function getId(){

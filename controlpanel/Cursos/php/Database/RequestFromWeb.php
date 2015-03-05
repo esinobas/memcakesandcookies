@@ -12,6 +12,7 @@
    include_once 'Database/TB_Configuration.php';
    include_once 'Database/TB_Level.php';
    include_once 'Database/TB_Curso.php';
+   include_once 'Database/TB_Curse_Step.php';
 
    /*** Definition of the global variables and constants ***/
    /**
@@ -52,6 +53,10 @@
 
       if (strcmp($theTableName, TB_Curso::TB_CursoTableC) == 0){
          $returnedTable = new TB_Curso();
+      }
+
+      if (strcmp($theTableName, TB_Curse_Step::TB_Curse_StepTableC) == 0){
+         $returnedTable = new TB_Curse_Step();
       }
       $logger->trace("Exit");
       return  $returnedTable;
@@ -148,6 +153,69 @@
                 }
             }
 
+            if (strcmp($theTable->getTableName(),TB_Curse_Step::TB_Curse_StepTableC) == 0){
+               if (isset($row[TB_Curse_Step::TitleColumnC])){
+                  $logger->trace("Set value to column [ ".
+                             TB_Curse_Step::TitleColumnC ." ] -> [ ".
+                             $row[TB_Curse_Step::TitleColumnC] ." ]");
+                  $theTable->setTitle($row[TB_Curse_Step::TitleColumnC ]);
+                }
+               if (isset($row[TB_Curse_Step::HtmlColumnC])){
+                  $logger->trace("Set value to column [ ".
+                             TB_Curse_Step::HtmlColumnC ." ] -> [ ".
+                             $row[TB_Curse_Step::HtmlColumnC] ." ]");
+                  $theTable->setHtml($row[TB_Curse_Step::HtmlColumnC ]);
+                }
+               if (isset($row[TB_Curse_Step::Curse_IdColumnC])){
+                  $logger->trace("Set value to column [ ".
+                             TB_Curse_Step::Curse_IdColumnC ." ] -> [ ".
+                             $row[TB_Curse_Step::Curse_IdColumnC] ." ]");
+                  $theTable->setCurse_Id($row[TB_Curse_Step::Curse_IdColumnC ]);
+                }
+               if (isset($row[TB_Curse_Step::CurseNameColumnC])){
+                  $logger->trace("Set value to column [ ".
+                             TB_Curse_Step::CurseNameColumnC ." ] -> [ ".
+                             $row[TB_Curse_Step::CurseNameColumnC] ." ]");
+                  $theTable->setCurseName($row[TB_Curse_Step::CurseNameColumnC ]);
+                }
+               if (isset($row[TB_Curse_Step::CurseDescriptionColumnC])){
+                  $logger->trace("Set value to column [ ".
+                             TB_Curse_Step::CurseDescriptionColumnC ." ] -> [ ".
+                             $row[TB_Curse_Step::CurseDescriptionColumnC] ." ]");
+                  $theTable->setCurseDescription($row[TB_Curse_Step::CurseDescriptionColumnC ]);
+                }
+               if (isset($row[TB_Curse_Step::CurseImageColumnC])){
+                  $logger->trace("Set value to column [ ".
+                             TB_Curse_Step::CurseImageColumnC ." ] -> [ ".
+                             $row[TB_Curse_Step::CurseImageColumnC] ." ]");
+                  $theTable->setCurseImage($row[TB_Curse_Step::CurseImageColumnC ]);
+                }
+               if (isset($row[TB_Curse_Step::CurseDurationColumnC])){
+                  $logger->trace("Set value to column [ ".
+                             TB_Curse_Step::CurseDurationColumnC ." ] -> [ ".
+                             $row[TB_Curse_Step::CurseDurationColumnC] ." ]");
+                  $theTable->setCurseDuration($row[TB_Curse_Step::CurseDurationColumnC ]);
+                }
+               if (isset($row[TB_Curse_Step::CursePriceColumnC])){
+                  $logger->trace("Set value to column [ ".
+                             TB_Curse_Step::CursePriceColumnC ." ] -> [ ".
+                             $row[TB_Curse_Step::CursePriceColumnC] ." ]");
+                  $theTable->setCursePrice($row[TB_Curse_Step::CursePriceColumnC ]);
+                }
+               if (isset($row[TB_Curse_Step::CurseLevelIdColumnC])){
+                  $logger->trace("Set value to column [ ".
+                             TB_Curse_Step::CurseLevelIdColumnC ." ] -> [ ".
+                             $row[TB_Curse_Step::CurseLevelIdColumnC] ." ]");
+                  $theTable->setCurseLevelId($row[TB_Curse_Step::CurseLevelIdColumnC ]);
+                }
+               if (isset($row[TB_Curse_Step::CurseLevelColumnC])){
+                  $logger->trace("Set value to column [ ".
+                             TB_Curse_Step::CurseLevelColumnC ." ] -> [ ".
+                             $row[TB_Curse_Step::CurseLevelColumnC] ." ]");
+                  $theTable->setCurseLevel($row[TB_Curse_Step::CurseLevelColumnC ]);
+                }
+            }
+
             }else{
                $theResult[$RESULT_CODE] = $RESULT_CODE_INTERNAL_ERROR;
                $theResult[$MSG_ERROR] = "The Key has not been found.";
@@ -215,6 +283,33 @@
                                 ,$varPrice
                                 ,$varLevelId
                                 ,$varLevel
+                                );
+      }
+
+      if (strcmp($theTable->getTableName(),TB_Curse_Step::TB_Curse_StepTableC) == 0){
+
+         //Declare variables
+         $varTitle = $theData["Title"];
+         $varHtml = $theData["Html"];
+         $varCurse_Id = $theData["Curse_Id"];
+         $varCurseName = $theData["CurseName"];
+         $varCurseDescription = $theData["CurseDescription"];
+         $varCurseImage = $theData["CurseImage"];
+         $varCurseDuration = $theData["CurseDuration"];
+         $varCursePrice = $theData["CursePrice"];
+         $varCurseLevelId = $theData["CurseLevelId"];
+         $varCurseLevel = $theData["CurseLevel"];
+
+         $newId = $theTable->insert($varTitle
+                                ,$varHtml
+                                ,$varCurse_Id
+                                ,$varCurseName
+                                ,$varCurseDescription
+                                ,$varCurseImage
+                                ,$varCurseDuration
+                                ,$varCursePrice
+                                ,$varCurseLevelId
+                                ,$varCurseLevel
                                 );
       }
 
