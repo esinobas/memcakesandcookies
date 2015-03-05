@@ -50,7 +50,7 @@ var FileBrowser = FileBrowser || function (){
    var elementSelectedM = "";
    var previousSelectedM = elementSelectedM;
    
-   var localGetCurrentPath;
+   var localGetCurrentPathM;
    var localParamsM = null;
    
 
@@ -243,12 +243,12 @@ var FileBrowser = FileBrowser || function (){
          $('#FileBrowser-delete').attr("disabled", false);
          
          $('#FileBrowser-delete').css("background-image","url('"+
-               localGetCurrentPath("FileBrowser.js")+"icons/delete.png'");
+               localGetCurrentPathM("FileBrowser.js")+"icons/delete.png'");
       }else{
          elementSelectedM = previousSelectedM;
          
          $('#FileBrowser-delete').css("background-image","url('"+
-               localGetCurrentPath("FileBrowser.js")+"icons/disabled_delete.png'");
+               localGetCurrentPathM("FileBrowser.js")+"icons/disabled_delete.png'");
       }
       JSLogger.getInstance().trace("Selected Element: " +elementSelectedM);
       JSLogger.getInstance().traceExit();
@@ -265,7 +265,7 @@ var FileBrowser = FileBrowser || function (){
       $('#btnSelect').attr("disabled", true);
       $('#FileBrowser-delete').attr("disabled", true);
       $('#FileBrowser-delete').css("background-image","url('"+
-            localGetCurrentPath("FileBrowser.js")+"icons/disabled_delete.png'");
+            localGetCurrentPathM("FileBrowser.js")+"icons/disabled_delete.png'");
       
       JSLogger.getInstance().trace("Selected: [ " + 
             $(this).attr('id') +" ]");
@@ -377,7 +377,7 @@ var FileBrowser = FileBrowser || function (){
      JSLogger.getInstance().debug("Add the buttons");
      $('#Filebrowser').append("<div id=\"ButtonsContainer\"></div>");
      
-     localGetCurrentPath = this.getCurrentPath;
+     localGetCurrentPathM = this.getCurrentPath;
      
      this.addButtons();
      
@@ -652,7 +652,7 @@ var FileBrowser = FileBrowser || function (){
         removeElement(elementSelectedM);
         $('#FileBrowser-delete').attr("disabled", true);
         $('#FileBrowser-delete').css("background-image","url('"+
-              localGetCurrentPath("FileBrowser.js")+"icons/disabled_delete.png'");
+              localGetCurrentPathM("FileBrowser.js")+"icons/disabled_delete.png'");
      }
      hideLoading();
     
@@ -678,27 +678,60 @@ var FileBrowser = FileBrowser || function (){
   }
   
   /**
+   * Checks if the file exists in the current directory
+   */
+  function fileExistsInDirectory(theFileName, theDirectory){
+     JSLogger.getInstance().traceEnter();
+     JSLogger.getInstance().trace("Checking if the file [ " + theFileName +
+           " ] exist in the current directory [ " + 
+                          theDirectory+ " ]");
+     
+    
+     var directoryStructure = getFilesAndDirectories();
+     var exists = false;
+     for (var key in directoryStructure){
+        JSLogger.getInstance().trace("Key [ " + key +" ]");
+        if (key == theFileName){
+           JSLogger.getInstance().trace("The file has been found in the directory");
+           exists = true;
+           break;
+        }
+     }
+     
+     JSLogger.getInstance().traceExit();
+     return exists;
+  }
+  
+  /**
    * Function that upload a file to the server
    * 
    * @param theFileName: The file name that will be uploaded to the server
    */
-  function uploadFile(theFileName, theParameters, theLocalCurrentPath){
+  //function uploadFile(theFileName, theParameters, theLocalCurrentPath){
+  function uploadFile(){
      JSLogger.getInstance().traceEnter();
      showLoading();
      var rootDirectory = FileBrowser.prototype.getParameter(paramRootPathC,
            FileBrowser.prototype.getParameter(paramPathC, 
-                 theParameters));
-     //var url = FileBrowser.prototype.getCurrentPath("FileBrowser.js")+"FileSystem.php";
+                 localParamsM));
+    
      var toDirectory = (rootDirectory == currentPathM ? currentPathM :
                       rootDirectory+"/"+ currentPathM );
      
-     JSLogger.getInstance().debug("The file [ " + theFileName +" ] will be "+
+     //if ( fileExistsInDirectory(theFileName,toDirectory) ){
+     //   MessageBox("Sobreescribir fichero", 
+     //             "El fichero \"" + theFileName +
+     //              "\" ya existe. ¿Quieres sobreescribirlo? ",
+     //              {Icon: MessageBox.IconsE.QUESTION});
+     //}
+     var fileName = $('#inputUploadFile').val();
+     JSLogger.getInstance().debug("The file [ " + fileName +" ] will be "+
            "uploaded to the server in path [ " + toDirectory +" ]");
      
      var file = $('#inputUploadFile').get(0).files[0];
      
      var ajaxObject = new Ajax();
-     var url = theLocalCurrentPath + "UploadFile.php";
+     var url = localGetCurrentPathM("FileBrowser.js") + "UploadFile.php";
      JSLogger.getInstance().trace("The file is uploaded using [ " + url +" ] ");
      ajaxObject.setUrl(url);
      ajaxObject.setPostMethod();
@@ -715,23 +748,23 @@ var FileBrowser = FileBrowser || function (){
      //Process the response
      var jsonResponse = JSON.parse(ajaxObject.getResponse());
      if (parseInt(jsonResponse['ResultCode']) != 200 ){
-        JSLogger.getInstance().error("The file [ "+theFileName+
+        JSLogger.getInstance().error("The file [ "+fileName+
               " ] has not been uploaded to the server. Error [ " +
               jsonResponse['ErrorMsg'] +" ]");
         
-        MessageBox("Error", "El fichero \"" + theFileName +
+        MessageBox("Error", "El fichero \"" + fileName +
               "\" no se ha subido al servidor. Error [ " + 
               jsonResponse['ErrorMsg'] +" ]",
               {Icon: MessageBox.IconsE.ERROR }
         );
         
      }else{
-        JSLogger.getInstance().debug("The file [ " + theFileName + 
+        JSLogger.getInstance().debug("The file [ " + fileName + 
               " ] was uploaded sucessfull");
         
         var directoryStructure = getFilesAndDirectories();
         
-        directoryStructure[theFileName]= null;
+        directoryStructure[fileName]= null;
         
         showFilesAndDirectories(fullPathToString());
         
@@ -772,7 +805,7 @@ var FileBrowser = FileBrowser || function (){
         for( var button in buttons){
            
            var localParameters = this.parametersM;
-           var localGetCurrentPath = this.getCurrentPath("FileBrowser.js");
+           var localGetCurrentPathM = this.getCurrentPath("FileBrowser.js");
            
            if ( buttons[button] == TOOLBAR_BUTTON_UPLOAD_FILE_C ){
               JSLogger.getInstance().trace("Show button [ " + 
@@ -792,8 +825,30 @@ var FileBrowser = FileBrowser || function (){
                           JSLogger.getInstance().debug("The file [ " + $('#inputUploadFile').val() +
                           " ] will be uploaded to the server");
                           
-                          uploadFile($('#inputUploadFile').val(),localParameters,
-                                localGetCurrentPath);
+                          //uploadFile($('#inputUploadFile').val(),localParameters,
+                          //      localGetCurrentPathM);
+                          var rootDirectory = FileBrowser.prototype.getParameter(paramRootPathC,
+                                FileBrowser.prototype.getParameter(paramPathC, 
+                                      localParamsM));
+                          var toDirectory = (rootDirectory == currentPathM ? currentPathM :
+                             rootDirectory+"/"+ currentPathM );
+            
+                          if ( fileExistsInDirectory($('#inputUploadFile').val(),
+                                toDirectory) ){
+                             JSLogger.getInstance().trace("The file [ " + 
+                                              $('#inputUploadFile').val() +
+                                         " ] exists in the directory.");
+                              MessageBox("Sobreescribir fichero", 
+                                          "El fichero \"" + $('#inputUploadFile').val() +
+                                       "\" ya existe. ¿Quieres sobreescribirlo? ",
+                                          {Icon: MessageBox.IconsE.QUESTION,
+                                           Buttons: {Buttons: MessageBox.ButtonsE.YES_NO,
+                                                   Callback_Yes: uploadFile}
+                                           });
+                          
+                          }else{
+                             uploadFile();
+                          }
                        }
                        JSLogger.getInstance().traceExit();
                     }
@@ -815,7 +870,7 @@ var FileBrowser = FileBrowser || function (){
                     this.getCurrentPath("FileBrowser.js")+'icons/folder_add.png\');'+
                     'background-repeat: no-repeat;background-position: center"></button>');
               $('#FileBrowser-create-folder').click(function(theEvent){
-                 showEnterDirectoryName($(this), theEvent, localGetCurrentPath, 
+                 showEnterDirectoryName($(this), theEvent, localGetCurrentPathM, 
                                        localParameters);
               });
            }
@@ -844,7 +899,7 @@ var FileBrowser = FileBrowser || function (){
    */
   var showLoading = function showLoading(){
      JSLogger.getInstance().traceEnter();
-     $('#FilesContainer').append("<img src=\""+ localGetCurrentPath("FileBrowser.js") +
+     $('#FilesContainer').append("<img src=\""+ localGetCurrentPathM("FileBrowser.js") +
      "/icons/load.gif\" width=\"48\" height=\"48\" style=\"position:absolute;"+
      "left:220px; top:175px\" id=\"loading\">");
      JSLogger.getInstance().traceExit();
