@@ -71,4 +71,9 @@
       <appender_ref ref = "CursesMangementFileAppdender"></appender_ref>
    </logger>
    
+   <logger name="TB_Curse_Step">
+      <level value="TRACE"/>
+      <appender_ref ref = "CursesMangementFileAppdender"></appender_ref>
+   </logger>
+   
 </configuration>

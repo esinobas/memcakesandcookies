@@ -290,7 +290,7 @@
          $result = false;
          $columnkey = $this->tableDefinitionM->getKeys()[0];
          $this->loggerM->debug("Search in [ $columnkey ][ $theKey ]");
-         if ($this->searchByColummn($columnkey, $theKey)){
+         if ($this->searchByColumn($columnkey, $theKey)){
             $this->loggerM->debug("The [ $theKey ] has been found in [ $columnkey ]");
             $result = true;
          }else{
@@ -305,7 +305,7 @@
        * (non-PHPdoc)
        * @see TableIf::searchByColummn()
        */
-      public function searchByColummn($theColumn, $theValue){
+      public function searchByColumn($theColumn, $theValue){
          $this->loggerM->trace("Enter");
          
          if ($this->backupTableDataM != null){

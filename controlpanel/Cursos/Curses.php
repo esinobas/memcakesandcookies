@@ -1,6 +1,7 @@
 <?php 
    include_once 'Database/TB_Curso.php';
-   include_once 'Database/TB_Level.php'
+   include_once 'Database/TB_Level.php';
+   include_once 'Database/TB_Curse_Step.php';
 ?>
 <script type="text/javascript">
 <!--
@@ -177,7 +178,7 @@ JSLogger.getInstance().registerLogger("Curses.php",JSLogger.levelsE.TRACE);
 <script type="text/javascript">
 
    /**
-   * Function that is ised like callback for create a new curse in the ddbb
+   * Function that is used like callback for create a new curse in the ddbb
    */
    function createCurse(){
       JSLogger.getInstance().traceEnter();
@@ -203,7 +204,7 @@ JSLogger.getInstance().registerLogger("Curses.php",JSLogger.levelsE.TRACE);
       var objAjax = new Ajax();
       objAjax.setSyn();
       objAjax.setPostMethod();
-      objAjax.setUrl("http://memcakesandcookies/controlpanel/Cursos/php/Database/RequestFromWeb.php");
+      objAjax.setUrl(<?php printf("\"%s\"",$tbConfiguration->getValue());?>+"/Cursos/php/Database/RequestFromWeb.php");
       var paramsRequest = {};
       paramsRequest.command = <?php print("\"".$COMMAND_INSERT."\"");?>;
       paramsRequest.paramsCommand = {};
@@ -274,14 +275,22 @@ JSLogger.getInstance().registerLogger("Curses.php",JSLogger.levelsE.TRACE);
       JSLogger.getInstance().traceEnter();
       JSLogger.getInstance().trace("The selected row is [ " + selectedRowM + " / "+
             $('.class-grid-row').length +" ]");
-      var rowElements = $('.class-grid-row').get(selectedRowM);
-      JSLogger.getInstance().trace("The selected row has [ " + rowElements +
-            " ] elements");
-      
-         MessageBox("Curso seleccionado", 
-               "La fila seleccionada es : " + selectedRowM,
-               {Icon: MessageBox.IconsE.INFORMATION});
-      JSLogger.getInstance().traceExit();
+      var curseKey = $($('.class-grid-row').get(selectedRowM)).find('.class-grid-row-key').html();
+      JSLogger.getInstance().trace("The selected row key is [ " + curseKey +
+            " ]");
+      //var key = rowElements.find('.class-grid-row-key');
+      //   MessageBox("Curso seleccionado", 
+      //         "La fila seleccionada es : " + selectedRowM + "y clave: " + curseKey,
+      //         {Icon: MessageBox.IconsE.INFORMATION});
+      //JSLogger.getInstance().traceExit();
+      <?php 
+      $tbConfiguration->rewind();
+      $tbConfiguration->searchByKey('URL');
+      ?>
+      var url = <?php printf("\"%s\"",$tbConfiguration->getValue());?> + 
+                     "/controlpanel/Cursos/EditCurse.php?key="+curseKey;
+      JSLogger.getInstance().trace("Open url [ " +url+" ]");
+      location.href = url;
    });
 
     
@@ -318,3 +327,6 @@ JSLogger.getInstance().registerLogger("Curses.php",JSLogger.levelsE.TRACE);
       
    
 </script>
+
+  
+                           
