@@ -1,0 +1,41 @@
+.class-tabs, .class-tab{
+   width: 100%;
+   background-color: inherit;
+}
+
+ul.title-tab{
+   list-style-type: none;
+   padding: 0px;
+   margin: 0px;
+}
+ul.title-tab li a{
+   text-decoration: none;
+   color: inherit;
+}
+
+.class-tab, ul.title-tab li{
+   border-style: solid;
+   border-width: 1px;
+   border-color: orange; 
+}
+
+ul.title-tab li{
+   float: left;
+   padding: 5px 10px;
+   margin: 0px;
+   border-top-left-radius: 15px;
+   border-top-right-radius: 15px;
+   
+}
+.tab-RC{
+   clear: both;
+}
+
+.class-tab{
+   margin-top: -1px;
+}
+
+ul.title-tab li.active{
+ 
+   border-bottom-color: white;
+})
