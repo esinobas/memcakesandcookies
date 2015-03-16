@@ -34,6 +34,7 @@
      const PriceColumnC = "Price";
      const LevelIdColumnC = "LevelId";
      const LevelColumnC = "Level";
+     const PublicColumnC = "Public";
       
       /*** Phisical constants ***/
 
@@ -50,6 +51,7 @@
       const phisicalTB_CursoDurationColumnC = "Duration";
       const phisicalTB_CursoPriceColumnC = "Price";
       const phisicalTB_CursoLevel_IdColumnC = "Level_Id";
+      const phisicalTB_CursoPublicColumnC = "Public";
 
      /*
       * Constructor. The table definition is done here
@@ -76,6 +78,8 @@
                               self::LevelIdColumnC,ColumnType::integerC));
 		$this->tableDefinitionM->addColumn(new ColumnDef(
                               self::LevelColumnC,ColumnType::stringC));
+		$this->tableDefinitionM->addColumn(new ColumnDef(
+                              self::PublicColumnC,ColumnType::booleanC));
 		$this->tableDefinitionM->addKey(self::IdColumnC);
    
       $this->tableMappingM = new TableMapping();
@@ -123,6 +127,11 @@
             self::phisicalTB_CursoLevel_IdColumnC ,
             self::LevelIdColumnC,
             ColumnType::integerC);
+      $this->tableMappingM->addColumn(
+            self::phisicalTB_CursoC ,
+            self::phisicalTB_CursoPublicColumnC ,
+            self::PublicColumnC,
+            ColumnType::booleanC);
       
       $this->tableMappingM->addKey(self::phisicalTB_CursoC,
             self::phisicalTB_CursoIdColumnC );
@@ -139,6 +148,7 @@
                               ,$thePrice
                               ,$theLevelId
                               ,$theLevel
+                              ,$thePublic
                                 ){
          $this->loggerM->trace("Enter");
          $arrayData = array();
@@ -149,6 +159,7 @@
          $arrayData[self::PriceColumnC] = $thePrice;
          $arrayData[self::LevelIdColumnC] = $theLevelId;
          $arrayData[self::LevelColumnC] = $theLevel;
+         $arrayData[self::PublicColumnC] = $thePublic;
          $this->loggerM->trace("Exit");
 
          return parent::insertData($arrayData);
@@ -227,6 +238,16 @@
       public function setLevel($Level){
          $this->loggerM->trace("Enter");
          $this->set(self::LevelColumnC, $Level);
+         $this->loggerM->trace("Exit");
+      }
+      public function getPublic(){
+         $this->loggerM->trace("Enter/Exit");
+         return $this->get(self::PublicColumnC);
+      }
+      
+      public function setPublic($Public){
+         $this->loggerM->trace("Enter");
+         $this->set(self::PublicColumnC, $Public);
          $this->loggerM->trace("Exit");
       }
 

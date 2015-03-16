@@ -123,6 +123,10 @@
       <name>Level</name>
       <type>string</type>
    </column>
+   <column>
+      <name>Public</name>
+      <type>boolean</type>
+   </column>
    <key>
       <column>Id</column>
    </key>

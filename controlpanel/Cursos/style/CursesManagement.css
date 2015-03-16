@@ -11,7 +11,7 @@ body{
    border-right-style: solid;
    border-right-width: 1px;
    border-right-color: orange;
-   width: 960px;
+   width: 1024px;
    height: 100%;
    margin-left: auto;
    margin-right: auto;
@@ -21,7 +21,7 @@ body{
 #header{
  
    
-   width: 955px;
+   width: 1019px;
    height: 25px;
    padding-left: 5px;
    border-bottom-style: solid;
@@ -33,7 +33,7 @@ body{
 }
 
 #central{
-   width: 955px;
+   width: 1019px;
    height: 100%;
    padding: 0px 2px;
  
@@ -43,7 +43,7 @@ body{
    font-family: Arial;
    font-size: 15px;
    font-weight: bold;
-   width: 955px;
+   width: 1019px;
    height: 20px;
    border-bottom-style: solid;
    border-bottom-width: 1px;
@@ -200,7 +200,7 @@ body{
  }
  #div-cursos{
    
-   width: 494px;
+   width: 561px;
    height: 500px;
    padding: 0px 3px;
    float: left;
@@ -215,10 +215,11 @@ body{
    
    width: 324px;
    height: 246px;
-   padding: 2px 3px;
+   padding: 2px 0px;
    float: left;
    display: inline;
    border: 1px solid black;
+   margin-left: 5px;
    text-align: center;
  }
  #div-image-cursos img{

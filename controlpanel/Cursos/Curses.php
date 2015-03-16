@@ -28,6 +28,7 @@ JSLogger.getInstance().registerLogger("Curses.php",JSLogger.levelsE.TRACE);
             <div>Nombre del Curso</div>
             <div>Dificultad</div>
             <div>Precio</div>
+            <div>Publicado</div>
          </div>
          <div class="new-row"></div>
          
@@ -41,6 +42,14 @@ JSLogger.getInstance().registerLogger("Curses.php",JSLogger.levelsE.TRACE);
             <div class="class-grid-row-data"><?php print($tableCurses->getName());?></div>
             <div class="class-grid-row-data"><?php print($tableCurses->getLevel());?></div>
             <div class="class-grid-row-data"><?php print($tableCurses->getPrice());?></div>
+            <div class="class-grid-row-data"><?php
+                     if ($tableCurses->getPublic() == 0){
+                        print("No");
+                     }else{
+                        print("Si");
+                     } 
+                  ?>
+            </div>
             <div class="class-grid-row-hidden-data"><?php print($tableCurses->getDescription());?></div>
             <div class="class-grid-row-hidden-data"><?php print($tableCurses->getImage());?></div>
          </div>
@@ -73,8 +82,8 @@ JSLogger.getInstance().registerLogger("Curses.php",JSLogger.levelsE.TRACE);
             return row;
          };
          function formatDataGrid(){
-            DataGrid.show($('#grid-cursos'),{Size:{Width: 490, Height: 490},
-                                    columns_size:{0:300,1:94,2:65},
+            DataGrid.show($('#grid-cursos'),{Size:{Width: 561, Height: 490},
+                                    columns_size:{0:300,1:94,2:65,3:65},
                      header_background_color: "#7D5F3F",
                      header_font_color: "white",
                      row_background_color: "white",
@@ -224,7 +233,8 @@ JSLogger.getInstance().registerLogger("Curses.php",JSLogger.levelsE.TRACE);
                            <?php print TB_Curso::LevelIdColumnC?> = dificultadCurseId;                           
       paramsRequest.paramsCommand.<?php print($PARAM_DATA);?>.
                            <?php print TB_Curso::LevelColumnC?> = dificultadCurse;                           
-            
+     paramsRequest.paramsCommand.<?php print($PARAM_DATA);?>.
+                          <?php print TB_Curso::PublicColumnC?> = 0;// Default value
 
       JSLogger.getInstance().debug("Trying create curse with theses parameters [ " +
             JSON.stringify(paramsRequest) +" ]");

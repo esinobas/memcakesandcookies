@@ -151,6 +151,12 @@
                              $row[TB_Curso::LevelColumnC] ." ]");
                   $theTable->setLevel($row[TB_Curso::LevelColumnC ]);
                 }
+               if (isset($row[TB_Curso::PublicColumnC])){
+                  $logger->trace("Set value to column [ ".
+                             TB_Curso::PublicColumnC ." ] -> [ ".
+                             $row[TB_Curso::PublicColumnC] ." ]");
+                  $theTable->setPublic($row[TB_Curso::PublicColumnC ]);
+                }
             }
 
             if (strcmp($theTable->getTableName(),TB_Curse_Step::TB_Curse_StepTableC) == 0){
@@ -275,6 +281,7 @@
          $varPrice = $theData["Price"];
          $varLevelId = $theData["LevelId"];
          $varLevel = $theData["Level"];
+         $varPublic = $theData["Public"];
 
          $newId = $theTable->insert($varName
                                 ,$varDescription
@@ -283,6 +290,7 @@
                                 ,$varPrice
                                 ,$varLevelId
                                 ,$varLevel
+                                ,$varPublic
                                 );
       }
 
