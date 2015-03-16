@@ -1,7 +1,7 @@
 body{
    background-color: white;
    font-family: arial;
-   
+
 }
 
 header, footer, section{
@@ -11,8 +11,11 @@ header, footer, section{
    margin-right: auto;
    color: #ce5c00;
 }
+header{
+   font-size: 26px;
+}
 section{
-   height: 600px;
+   height: 500px;
 }
 header{
    background-color: inherit;
@@ -24,4 +27,47 @@ header span{
    color: inherit;
    font-weight: bold;
    font-style: italic;
+}
+
+.data-curse{
+   padding: 5px 10px;
+   text-align: center;
+   
+}
+.data-curse div{
+   float: left;
+   margin-left: 10px
+}
+.data-curse input, .data-curse textarea, .data-curse select{
+   font-style: italic;
+   color: blue;
+}
+.data-curse textarea{
+   font-size: 14px;
+   resize: none;
+}
+.data-curse input:FOCUS, .data-curse textarea:FOCUS, .data-curse select:FOCUS{
+   color: red;
+   background-color: yellow;
+}
+
+#data-curse-name{
+   width: 600px;
+}
+#data-curse-desc{
+   width: 600px;
+   
+}
+ #data-curse-duration{
+   width: 60px;
+}
+#data-curse-price{
+   width: 60px;
+}
+#data-curse-level{
+   width: 100px;
+}
+.data-curse img{
+ 
+   max-width: 324px;
 }

@@ -96,7 +96,7 @@
                      >
                   </div>
                   <div class="data-curse">
-                     Descripción: <textarea rows=4 id="data-curse-desc">
+                     <div>Descripción:</div><textarea rows=4 id="data-curse-desc">
                      <?php 
                         if ($tbCurseStep->getCardinality() == 0){
                            printf("%s",$tbCurse->getDescription());
@@ -176,6 +176,7 @@
                         }?>
                         >
                   </div>
+               </div>
                <div id="tab-steps" class="class-tab">
                   Pasos
                </div>
