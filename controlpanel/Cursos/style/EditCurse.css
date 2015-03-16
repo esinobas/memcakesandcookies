@@ -6,10 +6,13 @@ body{
 
 header, footer, section{
    
-   width: 1200px;
+   width: 1024px;
    margin-left: auto;
    margin-right: auto;
-  color: #ce5c00;
+   color: #ce5c00;
+}
+section{
+   height: 600px;
 }
 header{
    background-color: inherit;

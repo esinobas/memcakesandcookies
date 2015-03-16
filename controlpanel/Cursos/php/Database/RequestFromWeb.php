@@ -208,6 +208,12 @@
                              $row[TB_Curse_Step::CursePriceColumnC] ." ]");
                   $theTable->setCursePrice($row[TB_Curse_Step::CursePriceColumnC ]);
                 }
+               if (isset($row[TB_Curse_Step::CursePublicColumnC])){
+                  $logger->trace("Set value to column [ ".
+                             TB_Curse_Step::CursePublicColumnC ." ] -> [ ".
+                             $row[TB_Curse_Step::CursePublicColumnC] ." ]");
+                  $theTable->setCursePublic($row[TB_Curse_Step::CursePublicColumnC ]);
+                }
                if (isset($row[TB_Curse_Step::CurseLevelIdColumnC])){
                   $logger->trace("Set value to column [ ".
                              TB_Curse_Step::CurseLevelIdColumnC ." ] -> [ ".
@@ -305,6 +311,7 @@
          $varCurseImage = $theData["CurseImage"];
          $varCurseDuration = $theData["CurseDuration"];
          $varCursePrice = $theData["CursePrice"];
+         $varCursePublic = $theData["CursePublic"];
          $varCurseLevelId = $theData["CurseLevelId"];
          $varCurseLevel = $theData["CurseLevel"];
 
@@ -316,6 +323,7 @@
                                 ,$varCurseImage
                                 ,$varCurseDuration
                                 ,$varCursePrice
+                                ,$varCursePublic
                                 ,$varCurseLevelId
                                 ,$varCurseLevel
                                 );

@@ -35,6 +35,7 @@
      const CurseImageColumnC = "CurseImage";
      const CurseDurationColumnC = "CurseDuration";
      const CursePriceColumnC = "CursePrice";
+     const CursePublicColumnC = "CursePublic";
      const CurseLevelIdColumnC = "CurseLevelId";
      const CurseLevelColumnC = "CurseLevel";
       
@@ -48,6 +49,7 @@
       const phisicalTB_CursoDurationColumnC = "Duration";
       const phisicalTB_CursoPriceColumnC = "Price";
       const phisicalTB_CursoLevel_IdColumnC = "Level_Id";
+      const phisicalTB_CursoPublicColumnC = "Public";
 
    
       const phisicalTB_LevelC = "TB_Level";
@@ -88,6 +90,8 @@
 		$this->tableDefinitionM->addColumn(new ColumnDef(
                               self::CursePriceColumnC,ColumnType::floatC));
 		$this->tableDefinitionM->addColumn(new ColumnDef(
+                              self::CursePublicColumnC,ColumnType::booleanC));
+		$this->tableDefinitionM->addColumn(new ColumnDef(
                               self::CurseLevelIdColumnC,ColumnType::integerC));
 		$this->tableDefinitionM->addColumn(new ColumnDef(
                               self::CurseLevelColumnC,ColumnType::stringC));
@@ -126,6 +130,11 @@
             self::phisicalTB_CursoLevel_IdColumnC ,
             self::CurseLevelIdColumnC,
             ColumnType::integerC);
+      $this->tableMappingM->addColumn(
+            self::phisicalTB_CursoC ,
+            self::phisicalTB_CursoPublicColumnC ,
+            self::CursePublicColumnC,
+            ColumnType::booleanC);
       
       $this->tableMappingM->addTable(self::phisicalTB_LevelC);
       $this->tableMappingM->addColumn(
@@ -174,6 +183,7 @@
                               ,$theCurseImage
                               ,$theCurseDuration
                               ,$theCursePrice
+                              ,$theCursePublic
                               ,$theCurseLevelId
                               ,$theCurseLevel
                                 ){
@@ -187,6 +197,7 @@
          $arrayData[self::CurseImageColumnC] = $theCurseImage;
          $arrayData[self::CurseDurationColumnC] = $theCurseDuration;
          $arrayData[self::CursePriceColumnC] = $theCursePrice;
+         $arrayData[self::CursePublicColumnC] = $theCursePublic;
          $arrayData[self::CurseLevelIdColumnC] = $theCurseLevelId;
          $arrayData[self::CurseLevelColumnC] = $theCurseLevel;
          $this->loggerM->trace("Exit");
@@ -277,6 +288,16 @@
       public function setCursePrice($CursePrice){
          $this->loggerM->trace("Enter");
          $this->set(self::CursePriceColumnC, $CursePrice);
+         $this->loggerM->trace("Exit");
+      }
+      public function getCursePublic(){
+         $this->loggerM->trace("Enter/Exit");
+         return $this->get(self::CursePublicColumnC);
+      }
+      
+      public function setCursePublic($CursePublic){
+         $this->loggerM->trace("Enter");
+         $this->set(self::CursePublicColumnC, $CursePublic);
          $this->loggerM->trace("Exit");
       }
       public function getCurseLevelId(){
