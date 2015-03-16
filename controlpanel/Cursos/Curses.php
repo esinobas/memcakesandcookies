@@ -213,7 +213,7 @@ JSLogger.getInstance().registerLogger("Curses.php",JSLogger.levelsE.TRACE);
       var objAjax = new Ajax();
       objAjax.setSyn();
       objAjax.setPostMethod();
-      objAjax.setUrl(<?php printf("\"%s\"",$tbConfiguration->getValue());?>+"/Cursos/php/Database/RequestFromWeb.php");
+      objAjax.setUrl(<?php printf("\"%s\"",$tbConfiguration->getValue());?>+"/controlpanel/Cursos/php/Database/RequestFromWeb.php");
       var paramsRequest = {};
       paramsRequest.command = <?php print("\"".$COMMAND_INSERT."\"");?>;
       paramsRequest.paramsCommand = {};
@@ -242,25 +242,33 @@ JSLogger.getInstance().registerLogger("Curses.php",JSLogger.levelsE.TRACE);
       objAjax.setParameters(JSON.stringify(paramsRequest));
       objAjax.send();
       JSLogger.getInstance().trace("Response [ " + objAjax.getResponse() + " ]");
-      var objResponse = JSON.parse(objAjax.getResponse());
-      if (parseInt(objResponse['ResultCode']) != 200){
-          MessageBox("Error", 
+     
+      if(objAjax.getResponse().indexOf("404 Not Found") != -1){
+         MessageBox("Error", 
+               "El curso no se ha creado. No se ha podido acceder al script en el servidor",
+               {Icon: MessageBox.IconsE.ERROR});
+      }else{
+         var objResponse = JSON.parse(objAjax.getResponse());
+         if (parseInt(objResponse['ResultCode']) != 200){
+                MessageBox("Error", 
                      "No se ha podido crear el curso. Error [ " +
                      objResponse['ErrorMsg'] + " ]",
                      {Icon: MessageBox.IconsE.ERROR});
-      }else{
-         //Refresh the grid with the new data
-         var newGridRow = $('<div class="class-grid-row"></div>');
+         }else{
+            //Refresh the grid with the new data
+            var newGridRow = $('<div class="class-grid-row"></div>');
          
-         var newId = parseInt(objResponse['lastID']);
-         newGridRow.append('<div class="class-grid-row-key">'+newId+'</div>');
-         newGridRow.append('<div class="class-grid-row-data">'+nameCurse+'</div>');
-         newGridRow.append('<div class="class-grid-row-data">'+dificultadCurse+'</div>');
-         newGridRow.append('<div class="class-grid-row-data">'+priceCurse+'</div>');
-         newGridRow.append('<div class="class-grid-row-hidden-data">'+descCurse+'</div>');
-         newGridRow.append('<div class="class-grid-row-hidden-data">'+imageUrl+'</div>');
-         $('#grid-cursos').append(newGridRow);
-         formatDataGrid();
+            var newId = parseInt(objResponse['lastID']);
+            newGridRow.append('<div class="class-grid-row-key">'+newId+'</div>');
+            newGridRow.append('<div class="class-grid-row-data">'+nameCurse+'</div>');
+            newGridRow.append('<div class="class-grid-row-data">'+dificultadCurse+'</div>');
+            newGridRow.append('<div class="class-grid-row-data">'+priceCurse+'</div>');
+            newGridRow.append('<div class="class-grid-row-data">No</div>');
+            newGridRow.append('<div class="class-grid-row-hidden-data">'+descCurse+'</div>');
+            newGridRow.append('<div class="class-grid-row-hidden-data">'+imageUrl+'</div>');
+            $('#grid-cursos').append(newGridRow);
+            formatDataGrid();
+         }
       }
       JSLogger.getInstance().traceExit();
    }
