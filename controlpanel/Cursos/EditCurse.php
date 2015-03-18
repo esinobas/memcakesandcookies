@@ -96,8 +96,7 @@
                      >
                   </div>
                   <div class="data-curse">
-                     <div>Descripción:</div><textarea rows=4 id="data-curse-desc">
-                     <?php 
+                     <div>Descripción:</div><textarea rows=4 id="data-curse-desc"><?php 
                         if ($tbCurseStep->getCardinality() == 0){
                            printf("%s",$tbCurse->getDescription());
                         }else{
