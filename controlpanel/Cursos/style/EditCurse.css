@@ -35,12 +35,13 @@ header span{
    
 }
 .data-curse div{
-   float: left;
-   margin-left: 10px
+   /*float: left;
+   margin-left: 10px*/
 }
 .data-curse input, .data-curse textarea, .data-curse select{
    font-style: italic;
    color: blue;
+   float: left;
 }
 .data-curse textarea{
    font-size: 14px;
@@ -49,6 +50,7 @@ header span{
 .data-curse input:FOCUS, .data-curse textarea:FOCUS, .data-curse select:FOCUS{
    color: red;
    background-color: yellow;
+   
 }
 
 #data-curse-name{
@@ -70,4 +72,14 @@ header span{
 .data-curse img{
  
    max-width: 324px;
+}
+.div-return-carriage{
+ 
+   display: block;
+   clear: both;
+}
+.data-curse-label{
+   float: left;
+   padding-top: 3px;
+   margin-left: 0px;
 }

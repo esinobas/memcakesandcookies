@@ -85,7 +85,8 @@
                <div class="tab-RC"></div>
                <div id="tab-data" class="class-tab">
                   <div class="data-curse">
-                     Nombre: <input type="text" id="data-curse-name" value=
+                     <div class="data-curse-label">Nombre:</div>
+                      <input type="text" id="data-curse-name" value=
                      <?php 
                         if ($tbCurseStep->getCardinality() == 0){
                            printf("\"%s\"",$tbCurse->getName());
@@ -95,8 +96,10 @@
                      ?>
                      >
                   </div>
+                  <div class="div-return-carriage"></div>
                   <div class="data-curse">
-                     <div>Descripción:</div><textarea rows=4 id="data-curse-desc"><?php 
+                     <div class="data-curse-label">Descripción:</div>
+                     <textarea rows=4 id="data-curse-desc"><?php 
                         if ($tbCurseStep->getCardinality() == 0){
                            printf("%s",$tbCurse->getDescription());
                         }else{
@@ -105,25 +108,32 @@
                      ?>
                      </textarea>
                   </div>
+                  <div class="div-return-carriage"></div>
                   <div class="data-curse">
-                     Duración:<input type="number" id="data-curse-duration" value=
+                     <div class="data-curse-label">Duración:</div>
+                     <input type="number" id="data-curse-duration" value=
                      <?php 
                         if ($tbCurseStep->getCardinality() == 0){
                            printf("\"%s\"",$tbCurse->getDuration());
                         }else{
                            printf("\"%s\"",$tbCurseStep->getCurseDuration());
                         }
-                     ?>> Días.
-                     Precio:
+                     ?>> 
+                     <div class="data-curse-label">Días.</div>
+                     
+                     <div class="data-curse-label">Precio:</div>
                      <input type="number" id="data-curse-price" value=
-                     <?php 
-                        if ($tbCurseStep->getCardinality() == 0){
-                           printf("\"%s\"",$tbCurse->getPrice());
-                        }else{
-                           printf("\"%s\"",$tbCurseStep->getCursePrice());
-                        }
-                     ?>> Euros.
-                     Nivel:
+                        <?php 
+                           if ($tbCurseStep->getCardinality() == 0){
+                              printf("\"%s\"",$tbCurse->getPrice());
+                           }else{
+                              printf("\"%s\"",$tbCurseStep->getCursePrice());
+                           }
+                        ?>>
+                      <div class="data-curse-label">Euros.</div>
+                     
+                     
+                     <div class="data-curse-label">Nivel:</div>
                      <?php
                         $TB_Level = new TB_Level();
                         $TB_Level->open();
@@ -131,31 +141,34 @@
                      <select id="data-curse-level" name="data-curse-level">
                      <?php 
                         while($TB_Level->next()){
-                           ?>
+                     ?>
                            <option value=
-                              <?php
-                                 printf("\"".$TB_Level->getId()."\"");
-                                 $selectedLevel = 0;
-                                 if ($tbCurseStep->getCardinality() == 0){
-                                    $selectedLevel = $tbCurse->getLevelId();
-                                 }else{
-                                    $selectedLevel = $tbCurseStep->getCurseLevelId();
-                                 }
-                                 if ($TB_Level->getId() == $selectedLevel){
-                                    print(" selected");
-                                 }?>
+                           <?php
+                              printf("\"".$TB_Level->getId()."\"");
+                              $selectedLevel = 0;
+                              if ($tbCurseStep->getCardinality() == 0){
+                                 $selectedLevel = $tbCurse->getLevelId();
+                              }else{
+                                 $selectedLevel = $tbCurseStep->getCurseLevelId();
+                              }
+                              if ($TB_Level->getId() == $selectedLevel){
+                                 print(" selected");
+                              }
+                           ?>
                            >
-                              <?php printf("%s", $TB_Level->getLevel());?>
+                           <?php printf("%s", $TB_Level->getLevel());?>
                            </option>
                         <?php 
-                        }
-                     ?>
+                           }
+                        ?>
                      </select>
-                     Publicado:<input type="checkbox" id="data-curse-public" value=
+                     
+                     <div class="data-curse-label">Publicado:</div>
+                     <input type="checkbox" id="data-curse-public" value=
                      <?php 
                         $cursePubliced = false;
                         if ($tbCurseStep->getCardinality() == 0){
-                           $cursePubliced = ($tbCurse->getPublic() != 0);
+                          $cursePubliced = ($tbCurse->getPublic() != 0);
                         }else{
                            $cursePubliced = ($tbCurseStep->getCursePrice() != 0);
                         }
@@ -166,6 +179,8 @@
                         }
                      ?>>
                   </div>
+
+                  <div class="div-return-carriage"></div>
                   <div class="data-curse">
                      <img title="Pincha para seleccionar una portada" alt="Portada" src=
                         <?php if ($tbCurseStep->getCardinality() == 0){
