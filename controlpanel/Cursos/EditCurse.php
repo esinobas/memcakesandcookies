@@ -190,6 +190,29 @@
                         }?>
                         >
                   </div>
+                  <div class="div-return-carriage"></div>
+                  <button id="btnDataCurseSave" type="button" disabled="disabled">Guardar</button>
+                  
+                  <!--  Declare function for enable button save when any value is changed in any input control -->
+                  <script type="text/javascript">
+                     /*$('#data-curse-name','#data-curse-desc','#data-curse-duration',
+                           '#data-curse-price','#data-curse-level',
+                           '#data-curse-public').change(function(){
+                              //$('#btnDataCurseSave').prop('disabled', false);
+                              alert('Change');
+                           }
+                      );*/
+                      function enableDataCurseEnableButton(){
+                         $('#btnDataCurseSave').prop('disabled', false);
+                      }
+                      $('#data-curse-name').keypress(enableDataCurseEnableButton);
+                      $('#data-curse-desc').keypress(enableDataCurseEnableButton);
+                      $('#data-curse-duration').change(enableDataCurseEnableButton);
+                      $('#data-curse-price').change(enableDataCurseEnableButton);
+                      $('#data-curse-level').change(enableDataCurseEnableButton);
+                      $('#data-curse-public').change(enableDataCurseEnableButton);
+                  </script>
+               
                </div>
                <div id="tab-steps" class="class-tab">
                   Pasos

@@ -28,11 +28,12 @@ header span{
    font-weight: bold;
    font-style: italic;
 }
-
+#tab-data{
+   min-height: 525px;
+}
 .data-curse{
    padding: 5px 150px;
    text-align: center;
-   
 }
 .data-curse div{
    /*float: left;
@@ -87,4 +88,15 @@ header span{
 }
 #duration-label, #price-label, #level-label,#public-label{
    margin-left: 30px;
+}
+#data-curse-public{
+ 
+   margin-top: 5px;
+}
+
+#btnDataCurseSave{
+ 
+   float: right;
+   margin-right: 20px;
+   margin-bottom: 10px;
 }
