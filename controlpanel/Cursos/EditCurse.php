@@ -110,7 +110,7 @@
                   </div>
                   <div class="div-return-carriage"></div>
                   <div class="data-curse">
-                     <div class="data-curse-label">Duración:</div>
+                     <div class="data-curse-label" id="duration-label">Duración:</div>
                      <input type="number" id="data-curse-duration" value=
                      <?php 
                         if ($tbCurseStep->getCardinality() == 0){
@@ -121,7 +121,7 @@
                      ?>> 
                      <div class="data-curse-label">Días.</div>
                      
-                     <div class="data-curse-label">Precio:</div>
+                     <div class="data-curse-label" id="price-label">Precio:</div>
                      <input type="number" id="data-curse-price" value=
                         <?php 
                            if ($tbCurseStep->getCardinality() == 0){
@@ -133,7 +133,7 @@
                       <div class="data-curse-label">Euros.</div>
                      
                      
-                     <div class="data-curse-label">Nivel:</div>
+                     <div class="data-curse-label" id="level-label">Nivel:</div>
                      <?php
                         $TB_Level = new TB_Level();
                         $TB_Level->open();
@@ -163,7 +163,7 @@
                         ?>
                      </select>
                      
-                     <div class="data-curse-label">Publicado:</div>
+                     <div class="data-curse-label" id="public-label">Publicado:</div>
                      <input type="checkbox" id="data-curse-public" value=
                      <?php 
                         $cursePubliced = false;

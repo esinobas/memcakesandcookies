@@ -30,7 +30,7 @@ header span{
 }
 
 .data-curse{
-   padding: 5px 10px;
+   padding: 5px 150px;
    text-align: center;
    
 }
@@ -55,9 +55,11 @@ header span{
 
 #data-curse-name{
    width: 600px;
+   margin-left: 30px;
 }
 #data-curse-desc{
    width: 600px;
+   margin-left: 3px;
    
 }
  #data-curse-duration{
@@ -82,4 +84,7 @@ header span{
    float: left;
    padding-top: 3px;
    margin-left: 0px;
+}
+#duration-label, #price-label, #level-label,#public-label{
+   margin-left: 30px;
 }
