@@ -2,6 +2,8 @@
    /**
     * File used for receive the request from the web and map the request params
     * in functions
+    * 
+    * Format request: {command: <> paramsCommand: {Table:<> }} 
     */
 
    /****************** INCLUDES ******************************/

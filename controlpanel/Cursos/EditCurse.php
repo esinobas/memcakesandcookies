@@ -12,13 +12,16 @@
          include_once 'Database/TB_Curse_Step.php';
          include_once 'Database/TB_Curso.php';
          include_once 'Database/TB_Level.php';
+         include_once 'Database/TB_Configuration.php';
+         include_once 'Database/RequestFromWeb.php';
       ?>
       
       <!--  ******* SCRTIPS ********* -->
       <script type="text/javascript" src="./Plugins/JSLogger/JSLogger.js"></script>
       <script type="text/javascript" src="./Plugins/JQuery/jquery-1.9.0.js"></script>
       <script type="text/javascript" src="./Plugins/Tabs/Tabs.js"></script>
-      
+      <script type="text/javascript" src="./Plugins/Ajax/Ajax.js"></script>
+            
       <!--  ******* STYLES ******** -->
       <link rel="stylesheet" type="text/css" href="./style/EditCurse.css">
       <link rel="stylesheet" type="text/css" href="./Plugins/Tabs/style/Tabs.css">
@@ -34,7 +37,9 @@
          }
       </script>
       <?php
-      
+         $tbConfiguration = new TB_Configuration();
+         $tbConfiguration->open();
+         
          $curseKey = $_GET["key"];
          $tbCurseStep = new TB_Curse_Step();
          $tbCurse = null;
@@ -105,8 +110,7 @@
                         }else{
                            printf("%s",$tbCurseStep->getCurseDescription());
                         }
-                     ?>
-                     </textarea>
+                     ?></textarea>
                   </div>
                   <div class="div-return-carriage"></div>
                   <div class="data-curse">
@@ -155,34 +159,30 @@
                                  print(" selected");
                               }
                            ?>
-                           >
-                           <?php printf("%s", $TB_Level->getLevel());?>
-                           </option>
+                           ><?php printf("%s", $TB_Level->getLevel());?></option>
                         <?php 
                            }
                         ?>
                      </select>
                      
                      <div class="data-curse-label" id="public-label">Publicado:</div>
-                     <input type="checkbox" id="data-curse-public" value=
+                     <input type="checkbox" id="data-curse-public" 
                      <?php 
                         $cursePubliced = false;
                         if ($tbCurseStep->getCardinality() == 0){
                           $cursePubliced = ($tbCurse->getPublic() != 0);
                         }else{
-                           $cursePubliced = ($tbCurseStep->getCursePrice() != 0);
+                           $cursePubliced = ($tbCurseStep->getCursePublic() != 0);
                         }
                         if ($cursePubliced ){
-                           print("\"true\"");
-                        }else{
-                           print("\"false\"");
+                           print("checked");
                         }
                      ?>>
                   </div>
 
                   <div class="div-return-carriage"></div>
                   <div class="data-curse">
-                     <img title="Pincha para seleccionar una portada" alt="Portada" src=
+                     <img id ="CurseImage" title="Pincha para seleccionar una portada" alt="Portada" src=
                         <?php if ($tbCurseStep->getCardinality() == 0){
                            printf("\"%s\"",$tbCurse->getImage());
                         }else{
@@ -195,13 +195,7 @@
                   
                   <!--  Declare function for enable button save when any value is changed in any input control -->
                   <script type="text/javascript">
-                     /*$('#data-curse-name','#data-curse-desc','#data-curse-duration',
-                           '#data-curse-price','#data-curse-level',
-                           '#data-curse-public').change(function(){
-                              //$('#btnDataCurseSave').prop('disabled', false);
-                              alert('Change');
-                           }
-                      );*/
+                     
                       function enableDataCurseEnableButton(){
                          $('#btnDataCurseSave').prop('disabled', false);
                       }
@@ -211,6 +205,57 @@
                       $('#data-curse-price').change(enableDataCurseEnableButton);
                       $('#data-curse-level').change(enableDataCurseEnableButton);
                       $('#data-curse-public').change(enableDataCurseEnableButton);
+
+                      /* Funtion for modify the curse data in data base */
+                      function modifyCurseData(){
+                         JSLogger.getInstance().traceEnter();
+                         var ajaxObject = new Ajax();
+                         ajaxObject.setPostMethod();
+                         ajaxObject.setSyn();
+                         var url = <?php
+                               $tbConfiguration->rewind();
+                               $tbConfiguration->searchByKey('URL');
+                               printf("\"%s\"",$tbConfiguration->getValue());?>+
+                                     "/controlpanel/Cursos/php/Database/RequestFromWeb.php";
+                         JSLogger.getInstance().trace("url [ " + url +" ]");
+                         ajaxObject.setUrl(url);
+
+                         var paramsRequest = {};
+                         paramsRequest.command = <?php print("\"".$COMMAND_INSERT."\"");?>;
+                         paramsRequest.paramsCommand = {}
+                         paramsRequest.paramsCommand.Table = <?php print("\"".TB_Curse_Step::TB_Curse_StepTableC."\"");?>; 
+                         paramsRequest.paramsCommand.<?php print($PARAM_DATA);?> = {};
+                         paramsRequest.paramsCommand.<?php print($PARAM_DATA);?>.
+                                  <?php print(TB_Curse_Step::CurseNameColumnC);?> = 
+                                     $('#data-curse-name').val();
+                         paramsRequest.paramsCommand.<?php print($PARAM_DATA);?>.
+                              <?php print(TB_Curse_Step::CurseDescriptionColumnC);?> = 
+                                    $('#data-curse-desc').val();
+                         paramsRequest.paramsCommand.<?php print($PARAM_DATA);?>.
+                              <?php print(TB_Curse_Step::CurseDurationColumnC);?> = 
+                                       $('#data-curse-duration').val();
+                         paramsRequest.paramsCommand.<?php print($PARAM_DATA);?>.
+                              <?php print(TB_Curse_Step::CursePriceColumnC);?> = 
+                                       $('#data-curse-price').val();
+                         paramsRequest.paramsCommand.<?php print($PARAM_DATA);?>.
+                               <?php print(TB_Curse_Step::CurseLevelIdColumnC);?> = 
+                                  $('#data-curse-level').val();
+                         paramsRequest.paramsCommand.<?php print($PARAM_DATA);?>.
+                                     <?php print(TB_Curse_Step::CurseLevelColumnC);?> =
+                                  $('#data-curse-level option:selected').text();
+                         paramsRequest.paramsCommand.<?php print($PARAM_DATA);?>.
+                                 <?php print(TB_Curse_Step::CursePublicColumnC);?> = 
+                                 ($('#data-curse-public').prop("checked") == false ? 0 : 1);
+                         paramsRequest.paramsCommand.<?php print($PARAM_DATA);?>.
+                                <?php print(TB_Curse_Step::CurseImageColumnC);?> =
+                               $('#CurseImage').prop("src");
+
+                                JSLogger.getInstance().debug("Trying modify data curse with theses parameters [ " +
+                               JSON.stringify(paramsRequest) +" ]");
+                         
+                         JSLogger.getInstance().traceExit();
+                      }
+                      $('#btnDataCurseSave').click(modifyCurseData);
                   </script>
                
                </div>
