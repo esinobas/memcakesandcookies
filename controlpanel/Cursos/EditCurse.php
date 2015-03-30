@@ -21,10 +21,15 @@
       <script type="text/javascript" src="./Plugins/JQuery/jquery-1.9.0.js"></script>
       <script type="text/javascript" src="./Plugins/Tabs/Tabs.js"></script>
       <script type="text/javascript" src="./Plugins/Ajax/Ajax.js"></script>
+      <script type="text/javascript" src="./Plugins/Common/HtmlObject/HtmlObject.js"></script>
+      <script type="text/javascript" src="./Plugins/Common/HtmlWindow/HtmlWindow.js"></script>
+      <script type="text/javascript" src="./Plugins/MessageBox/MessageBox.js"></script>
             
       <!--  ******* STYLES ******** -->
       <link rel="stylesheet" type="text/css" href="./style/EditCurse.css">
       <link rel="stylesheet" type="text/css" href="./Plugins/Tabs/style/Tabs.css">
+      <link rel="stylesheet" type="text/css" href="./Plugins/Common/HtmlWindow/HtmlWindow.css">
+      <link rel="stylesheet" type="text/css" href="./Plugins/MessageBox/style/MessageBox.css">
    </head>
    <body>
       <script type="text/javascript">
@@ -221,7 +226,7 @@
                          ajaxObject.setUrl(url);
 
                          var paramsRequest = {};
-                         paramsRequest.command = <?php print("\"".$COMMAND_INSERT."\"");?>;
+                         paramsRequest.command = <?php print("\"".$COMMAND_UPDATE."\"");?>;
                          paramsRequest.paramsCommand = {}
                          paramsRequest.paramsCommand.Table = <?php print("\"".TB_Curse_Step::TB_Curse_StepTableC."\"");?>; 
                          paramsRequest.paramsCommand.<?php print($PARAM_DATA);?> = {};
@@ -250,11 +255,36 @@
                                 <?php print(TB_Curse_Step::CurseImageColumnC);?> =
                                $('#CurseImage').prop("src");
 
-                                JSLogger.getInstance().debug("Trying modify data curse with theses parameters [ " +
+                               JSLogger.getInstance().debug("Trying modify data curse with theses parameters [ " +
                                JSON.stringify(paramsRequest) +" ]");
-                         
+
+                               ajaxObject.setParameters(JSON.stringify(paramsRequest));
+                         ajaxObject.send();
+                         JSLogger.getInstance().trace("Response [ " + ajaxObject.getResponse() + " ]");
+
+                         if (ajaxObject.getResponse().indexOf("404 Not Found") != -1){
+                            JSLogger.getInstance().error("The script [ " + url +
+                                  " ] has been found");
+                            MessageBox("Error", 
+                                  "El curso no se ha modificado. No se ha podido acceder al script en el servidor",
+                                  {Icon: MessageBox.IconsE.ERROR});
+                         }else{
+                            var objResponse = JSON.parse(ajaxObject.getResponse());
+                            if (parseInt(objResponse['ResultCode']) != 200){
+                                     MessageBox("Error", 
+                                        "No se ha podido modificar el curso. Error [ " +
+                                        objResponse['ErrorMsg'] + " ]",
+                                        {Icon: MessageBox.IconsE.ERROR});
+                                   JSLogger.getInstance().error("The curse has been not update. [ " +
+                                         objResponse['ErrorMsg'] + " ]");
+                            }else{
+                               $('#btnDataCurseSave').prop('disabled', true);
+                            }
+                         }
                          JSLogger.getInstance().traceExit();
-                      }
+                      }//function modifyCurseData
+
+                      
                       $('#btnDataCurseSave').click(modifyCurseData);
                   </script>
                
