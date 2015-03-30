@@ -100,3 +100,10 @@ header span{
    margin-right: 20px;
    margin-bottom: 10px;
 }
+
+#CurseImage{
+   border: 1px solid black;
+   
+   max-height: 325px;
+   
+}

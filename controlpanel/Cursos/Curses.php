@@ -336,7 +336,7 @@ JSLogger.getInstance().registerLogger("Curses.php",JSLogger.levelsE.TRACE);
                callback:callbackFileBrowserImage,
                toolbar:"upload_file|create_folder|delete"
                   });
-      //ileBrowserImage.show();
+      
      
                   
 

@@ -23,6 +23,8 @@
       <script type="text/javascript" src="./Plugins/Ajax/Ajax.js"></script>
       <script type="text/javascript" src="./Plugins/Common/HtmlObject/HtmlObject.js"></script>
       <script type="text/javascript" src="./Plugins/Common/HtmlWindow/HtmlWindow.js"></script>
+      <script type="text/javascript" src="./Plugins/Common/HtmlForm/HtmlForm.js"></script>
+      <script type="text/javascript" src="./Plugins/FileBrowser/FileBrowser.js"></script>
       <script type="text/javascript" src="./Plugins/MessageBox/MessageBox.js"></script>
             
       <!--  ******* STYLES ******** -->
@@ -30,6 +32,7 @@
       <link rel="stylesheet" type="text/css" href="./Plugins/Tabs/style/Tabs.css">
       <link rel="stylesheet" type="text/css" href="./Plugins/Common/HtmlWindow/HtmlWindow.css">
       <link rel="stylesheet" type="text/css" href="./Plugins/MessageBox/style/MessageBox.css">
+      <link rel="stylesheet" type="text/css" href="./Plugins/FileBrowser/style/Filebrowser.css">
    </head>
    <body>
       <script type="text/javascript">
@@ -283,9 +286,40 @@
                          }
                          JSLogger.getInstance().traceExit();
                       }//function modifyCurseData
-
+                      
                       
                       $('#btnDataCurseSave').click(modifyCurseData);
+
+                      //***** Add functionality to the image 
+                      $('#CurseImage').click(function(){
+                        JSLogger.getInstance().traceEnter();
+                        <?php
+                           $tbConfiguration->rewind();
+                           $tbConfiguration->searchByKey('URL');
+                           $url = $tbConfiguration->getValue();
+                           $tbConfiguration->rewind();
+                           $tbConfiguration->searchByKey('Path');
+                           $pathCurses = $tbConfiguration->getValue();
+                         ?>
+                         function callbackFileBrowserImage(dataCallback){
+
+                            $('#CurseImage').prop('src',<?php printf("'%s/%s'",$url, $pathCurses);?>+'/'+dataCallback.path);
+                            
+                         }
+                         fileBrowserImage = new FileBrowser({path:{root_path:
+                            <?php printf("\"%s/%s\"",$_SERVER['DOCUMENT_ROOT'],
+                                           $pathCurses);
+                            ?>,
+                            },
+                            type: "a", filter: "*.*",
+                            Title_Params:{
+                               Caption:"Selecciona una imagen ...",
+                               Background_Color:"orange"},
+                               callback: callbackFileBrowserImage,
+                            toolbar:"upload_file|create_folder|delete"
+                               });
+                        JSLogger.getInstance().traceExit();
+                      });
                   </script>
                
                </div>
