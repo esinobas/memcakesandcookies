@@ -1,0 +1,23 @@
+#steps-list, #steps-work{
+   min-height: 490px;
+}
+
+#steps-data{
+ 
+   width: 100%;
+   min-height: 495px;
+   padding-top: 5px;
+}
+
+#steps-list{
+   width:24%;
+   float: left;
+   padding: 3px;
+   border-right: 1px solid orange;
+   text-align: center;
+}
+#step-work{
+   width: 75%;   
+   float: left;
+   
+}
