@@ -54,6 +54,7 @@
       JSLogger.getInstance().trace("Add [ " + newStep + " ]");
       $('#step').append(newStep);
       //Add the TinyMCE plugin to the elements
+      
       tinymce.init({
          selector: "#new-title-step",
          theme: "modern",
@@ -64,8 +65,22 @@
          language: "es",
          plugins: "textcolor",
          menubar: false,
-         toolbar: "bold italic underline | forecolor backcolor | fontselect fontsizeselect | alignleft aligncenter alignright alignjustify "
+         toolbar: "bold italic underline | fontselect fontsizeselect | forecolor backcolor | alignleft aligncenter alignright alignjustify "
       });
+      tinymce.init({
+         selector: "#new-html-step",
+         theme: "modern",
+         inline: true,
+         statusbar: false,
+         add_unload_trigger: false,
+         schema: "html5",
+         language: "es",
+         plugins: "textcolor advlist image link lists",
+         menubar: false,
+         toolbar1: "undo redo | bold italic underline | fontselect fontsizeselect | forecolor backcolor",
+         toolbar2: "alignleft aligncenter alignright alignjustify | outdent indent | bullist numlist | cut copy paste | image link"
+      });
+      
       JSLogger.getInstance().traceExit();
    });
 </script>
