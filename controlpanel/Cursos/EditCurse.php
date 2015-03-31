@@ -235,59 +235,67 @@
                                    if ($tbCurseStep->getCardinality() == 0)
                                       print("\"".TB_Curso::TB_CursoTableC."\"");
                                    else
-                                      print("\"".TB_Curse_Step::TB_Curse_StepTableC."\"");?>; 
+                                      print("\"".TB_Curse_Step::TB_Curse_StepTableC."\"");?>;
+                         
                          paramsRequest.paramsCommand.<?php print($PARAM_ROWS);?> = {};
-                         paramsRequest.paramsCommand.<?php print($PARAM_ROWS);?>.
-                                  <?php if ($tbCurseStep->getCardinality() == 0)
-                                        print TB_Curso::NameColumnC;
-                                     else 
-                                        print(TB_Curse_Step::CurseNameColumnC);?> = 
-                                     $('#data-curse-name').val();
-                         paramsRequest.paramsCommand.<?php print($PARAM_ROWS);?>.
-                              <?php if ($tbCurseStep->getCardinality() == 0) 
-                                       print TB_Curso::DescriptionColumnC;
-                                    else 
-                                       print(TB_Curse_Step::CurseDescriptionColumnC);?> = 
-                                    $('#data-curse-desc').val();
-                         paramsRequest.paramsCommand.<?php print($PARAM_ROWS);?>.
-                              <?php if ($tbCurseStep->getCardinality() == 0) 
-                                       print TB_Curso::DurationColumnC;
-                                    else 
-                                       print(TB_Curse_Step::CurseDurationColumnC);?> = 
-                                       $('#data-curse-duration').val();
-                         paramsRequest.paramsCommand.<?php print($PARAM_ROWS);?>.
-                              <?php if ($tbCurseStep->getCardinality() == 0)
-                                       print TB_Curso::PriceColumnC;
-                                    else 
-                                       print(TB_Curse_Step::CursePriceColumnC);?> = 
-                                       $('#data-curse-price').val();
-                         paramsRequest.paramsCommand.<?php print($PARAM_ROWS);?>.
-                               <?php if ($tbCurseStep->getCardinality() == 0)
-                                       print TB_Curso::LevelIdColumnC;
-                                    else
-                                       print(TB_Curse_Step::CurseLevelIdColumnC);?> = 
-                                  $('#data-curse-level').val();
-                         paramsRequest.paramsCommand.<?php print($PARAM_ROWS);?>.
-                                     <?php if ($tbCurseStep->getCardinality() == 0) 
-                                             print TB_Curso::LevelColumnC;
-                                           else 
-                                             print(TB_Curse_Step::CurseLevelColumnC);?> =
-                                  $('#data-curse-level option:selected').text();
-                         paramsRequest.paramsCommand.<?php print($PARAM_ROWS);?>.
-                                 <?php if ($tbCurseStep->getCardinality() == 0) 
-                                          print TB_Curso::PublicColumnC;
-                                       else 
-                                          print(TB_Curse_Step::CursePublicColumnC);?> = 
-                                 ($('#data-curse-public').prop("checked") == false ? 0 : 1);
-                         paramsRequest.paramsCommand.<?php print($PARAM_ROWS);?>.
-                                <?php if ($tbCurseStep->getCardinality() == 0)
-                                        print TB_Curso::ImageColumnC;
-                                      else
-                                        print(TB_Curse_Step::CurseImageColumnC);?> =
-                               $('#CurseImage').prop("src");
-
-                               JSLogger.getInstance().debug("Trying modify data curse with theses parameters [ " +
-                               JSON.stringify(paramsRequest) +" ]");
+                         paramsRequest.paramsCommand.<?php printf("%s.%s",$PARAM_ROWS,$PARAM_ROW);?> = {};
+                         paramsRequest.paramsCommand.<?php printf("%s.%s.%s",$PARAM_ROWS,$PARAM_ROW, $PARAM_KEY);?> =
+                                 <?php if ($tbCurseStep->getCardinality() == 0)
+                                          print $tbCurse->getId();
+                                       else
+                                          print $tbCurseStep->getId();
+                                  ?>;
+                         paramsRequest.paramsCommand.<?php printf("%s.%s.",$PARAM_ROWS,$PARAM_ROW); 
+                                 if ($tbCurseStep->getCardinality() == 0)
+                                    print TB_Curso::NameColumnC;
+                                 else 
+                                    print(TB_Curse_Step::CurseNameColumnC);?> = 
+                         $('#data-curse-name').val();
+                         paramsRequest.paramsCommand.<?php printf("%s.%s.",$PARAM_ROWS,$PARAM_ROW);
+                                 if ($tbCurseStep->getCardinality() == 0) 
+                                    print TB_Curso::DescriptionColumnC;
+                                 else 
+                                    print(TB_Curse_Step::CurseDescriptionColumnC);?> = 
+                         $('#data-curse-desc').val();
+                         paramsRequest.paramsCommand.<?php printf("%s.%s.",$PARAM_ROWS,$PARAM_ROW);
+                                 if ($tbCurseStep->getCardinality() == 0) 
+                                    print TB_Curso::DurationColumnC;
+                                 else 
+                                    print(TB_Curse_Step::CurseDurationColumnC);?> = 
+                         $('#data-curse-duration').val();
+                         paramsRequest.paramsCommand.<?php printf("%s.%s.",$PARAM_ROWS,$PARAM_ROW);
+                                 if ($tbCurseStep->getCardinality() == 0)
+                                    print TB_Curso::PriceColumnC;
+                                 else 
+                                    print(TB_Curse_Step::CursePriceColumnC);?> = 
+                         $('#data-curse-price').val();
+                         paramsRequest.paramsCommand.<?php printf("%s.%s.",$PARAM_ROWS,$PARAM_ROW);
+                                if ($tbCurseStep->getCardinality() == 0)
+                                    print TB_Curso::LevelIdColumnC;
+                                 else
+                                    print(TB_Curse_Step::CurseLevelIdColumnC);?> = 
+                         $('#data-curse-level').val();
+                         paramsRequest.paramsCommand.<?php printf("%s.%s.",$PARAM_ROWS,$PARAM_ROW);
+                                 if ($tbCurseStep->getCardinality() == 0) 
+                                    print TB_Curso::LevelColumnC;
+                                 else 
+                                    print(TB_Curse_Step::CurseLevelColumnC);?> =
+                         $('#data-curse-level option:selected').text();
+                         paramsRequest.paramsCommand.<?php printf("%s.%s.",$PARAM_ROWS,$PARAM_ROW);
+                                 if ($tbCurseStep->getCardinality() == 0) 
+                                    print TB_Curso::PublicColumnC;
+                                 else 
+                                    print(TB_Curse_Step::CursePublicColumnC);?> = 
+                         ($('#data-curse-public').prop("checked") == false ? 0 : 1);
+                         paramsRequest.paramsCommand.<?php printf("%s.%s.",$PARAM_ROWS,$PARAM_ROW);
+                                 if ($tbCurseStep->getCardinality() == 0)
+                                    print TB_Curso::ImageColumnC;
+                                 else
+                                    print(TB_Curse_Step::CurseImageColumnC);?> =
+                         $('#CurseImage').prop("src");
+                               
+                         JSLogger.getInstance().debug("Trying modify data curse with theses parameters [ " +
+                         JSON.stringify(paramsRequest) +" ]");
 
                                ajaxObject.setParameters(JSON.stringify(paramsRequest));
                          ajaxObject.send();

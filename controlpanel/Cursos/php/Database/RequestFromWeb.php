@@ -27,6 +27,7 @@
    $PARAMS = "paramsCommand";
    $PARAM_TABLE = "Table";
    $PARAM_ROWS = "rows";
+   $PARAM_ROW = "row";
    $PARAM_DATA = "data";
    $COMMAND_INSERT = "I";
    $COMMAND_UPDATE = "U";
@@ -77,6 +78,7 @@
       $logger->trace("Update data of [ " . $theTable->getTableName() ." ]");
       foreach ( $theRows as $row){
          $key = $row[$PARAM_KEY];
+         $logger->trace("row: [ ".json_encode($row)." ]");
          $logger->trace("Search by [ $key ]");
          if ( $theTable->searchByKey($key)){
             $logger->trace("The Key has been found.");
