@@ -47,14 +47,25 @@
       
       $('.step-data').hide();
       //Add the div where for the step tittle
-      var newStep = "<div class=\"step-data\"><div class=\"step-title\">"
+      var newStep = "<div class=\"step-data\"><div class=\"step-title\" id=\"new-title-step\">"
       newStep +="Pulsa para escribir el titulo</div>";
-      newStep += "<div class=\"step-html\">Pulsa para escribir las instrucciones";
+      newStep += "<div class=\"step-html\" id=\"new-html-step\">Pulsa para escribir las instrucciones";
       newStep += "</div></div>";
       JSLogger.getInstance().trace("Add [ " + newStep + " ]");
       $('#step').append(newStep);
       //Add the TinyMCE plugin to the elements
-      
+      tinymce.init({
+         selector: "#new-title-step",
+         theme: "modern",
+         inline: true,
+         statusbar: false,
+         add_unload_trigger: false,
+         schema: "html5",
+         language: "es",
+         plugins: "textcolor",
+         menubar: false,
+         toolbar: "bold italic underline | forecolor backcolor | fontselect fontsizeselect | alignleft aligncenter alignright alignjustify "
+      });
       JSLogger.getInstance().traceExit();
    });
 </script>

@@ -26,6 +26,7 @@
       <script type="text/javascript" src="./Plugins/Common/HtmlForm/HtmlForm.js"></script>
       <script type="text/javascript" src="./Plugins/FileBrowser/FileBrowser.js"></script>
       <script type="text/javascript" src="./Plugins/MessageBox/MessageBox.js"></script>
+      <script type="text/javascript" src="./Plugins/TinyMCE/js/tinymce/tinymce.min.js"></script>
             
       <!--  ******* STYLES ******** -->
       <link rel="stylesheet" type="text/css" href="./style/EditCurse.css">
