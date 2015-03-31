@@ -77,8 +77,36 @@
          language: "es",
          plugins: "textcolor advlist image link lists",
          menubar: false,
-         toolbar1: "undo redo | bold italic underline | fontselect fontsizeselect | forecolor backcolor",
-         toolbar2: "alignleft aligncenter alignright alignjustify | outdent indent | bullist numlist | cut copy paste | image link"
+         toolbar1: "formatselect | undo redo | bold italic underline | fontselect fontsizeselect | forecolor backcolor",
+         toolbar2: "alignleft aligncenter alignright alignjustify | outdent indent | bullist numlist | cut copy paste | image link",
+         file_browser_callback: function (field_name, url, type, win) {
+            /*** function callback that show a file browser where the user select a image ***/
+            JSLogger.getInstance().traceEnter();
+            JSLogger.getInstance().trace("field name [ " + field_name + " ] url [ " + url + " ]. type [ " + type + " ]");
+
+            function callbackTinyMCEFileBrowser(dataCallback){
+               JSLogger.getInstance().traceEnter();
+               JSLogger.getInstance().trace("Path in callback [ " + dataCallback.path +" ]");
+               JSLogger.getInstance().trace("Complete url [ " + <?php printf("'%s/%s'",$url, $pathCurses);?>+'/'+dataCallback.path +" ]");
+               //win.document.getElementById(field_name).value = 'my browser value';
+               $('#'+field_name).val(<?php printf("'%s/%s'",$url, $pathCurses);?>+'/'+dataCallback.path);
+               JSLogger.getInstance().traceExit(); 
+            }
+            fileBrowserImage = new FileBrowser({path:{root_path:
+               <?php printf("\"%s/%s\"",$_SERVER['DOCUMENT_ROOT'],
+                                           $pathCurses);
+               ?>,
+               },
+               type: "a", filter: "*.*",
+               Title_Params:{
+                  Caption:"Selecciona una imagen ...",
+                  Background_Color:"orange"},
+                  callback: callbackTinyMCEFileBrowser,
+               toolbar:"upload_file|create_folder|delete"
+                  });
+            
+            JSLogger.getInstance().traceExit();
+         }
       });
       
       JSLogger.getInstance().traceExit();

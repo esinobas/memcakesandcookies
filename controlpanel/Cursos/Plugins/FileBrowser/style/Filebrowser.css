@@ -5,7 +5,7 @@
    position: absolute;
    left: 0px;
    top: 0px;
-    z-index: 19;
+    z-index: 65537;
    /*Cambiar la opacidad del div*/
    opacity: 0.7;
    /*Cambiar para cambiar el color del fondo-*/
@@ -21,7 +21,7 @@
    margin-top: -175px;
    top: 50%;
    left: 50%;
-   z-index: 20;
+   z-index: 65538;
    border-width: 1px;
    
    background-color: white;
