@@ -15,7 +15,7 @@ header{
    font-size: 26px;
 }
 section{
-   height: 500px;
+   min-height: 500px;
 }
 header{
    background-color: inherit;
@@ -105,5 +105,8 @@ header span{
    border: 1px solid black;
    
    max-height: 325px;
+   
+}
+
    
 }

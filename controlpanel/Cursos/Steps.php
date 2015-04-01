@@ -37,6 +37,7 @@
       <div id="step">
       </div>
    </div>
+
 </div>
 <script type="text/javascript">
    JSLogger.getInstance().registerLogger("Steps.php",JSLogger.levelsE.TRACE);

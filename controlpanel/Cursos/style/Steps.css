@@ -1,25 +1,32 @@
-#steps-list, #steps-work{
-   min-height: 490px;
-}
 
 #steps-data{
- 
+   min-height: 520px;
+   float: left;
+}
+
+#steps-list {
+ min-height: 515px;
+ /*background-color: blue;*/
+ float: left;
+}
+#steps-data{
    width: 100%;
-   min-height: 495px;
    padding-top: 5px;
+   /*background: red;*/
 }
 
 #steps-list{
    width:24%;
    float: left;
    padding: 3px;
-   border-right: 1px solid orange;
+   /*border-right: 1px solid orange;*/
    text-align: center;
 }
 #step-work{
    width: 75%;   
    float: left;
-   
+   border-left: 1px solid orange;
+   min-height: inherit;
 }
 #step-toolbar > ul{
  
@@ -33,21 +40,30 @@
 #step-toolbar{
    border-bottom: 1px solid orange;
    padding: 0px 0px 10px 0px;
+   float: left;
+   width: 100%;
 }
 #step{
    width: 99%;
-   min-height: 455px;
+   /*min-height: 455px;*/
    padding-left: 1%;
    padding-top: 1%;
+   float: left;
+   /*background-color:green;*/
 }
 .step-data{
    witdh:100%;
-   height: 100%;
+
 }
 .step-title, .step-html{
    width: 100%;
    padding: 2px;
+   float: left;
 }
-.step-html{
-   height: 100%
+
+#tab-steps{
+   min-height: 525px;
 }
+
+
+
