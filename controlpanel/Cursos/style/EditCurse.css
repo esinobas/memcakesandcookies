@@ -1,6 +1,6 @@
 body{
    background-color: white;
-   font-family: arial;
+  
 
 }
 
@@ -9,6 +9,7 @@ header, footer, section{
    width: 1024px;
    margin-left: auto;
    margin-right: auto;
+   font-family: Arial;
    color: #ce5c00;
 }
 header{
