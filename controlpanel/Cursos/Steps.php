@@ -41,18 +41,55 @@
 </div>
 <script type="text/javascript">
    JSLogger.getInstance().registerLogger("Steps.php",JSLogger.levelsE.TRACE);
+   //Global variables
+   var stepSavedM = true;
+   var stepModifiedM = false;
    /****** Add functionality to the toolbar buttons ********/
+   
+   /**
+    * It saves the step data in the data base
+    */
+   function saveStepInDDBB(){
+      JSLogger.getInstance().traceEnter();
+      JSLogger.getInstance().traceExit();
+   }
+   /**
+    * It sets up the new step data and it shows then by screeen
+    */  
+   function setUpTheNewStep(){
+      JSLogger.getInstance().traceEnter();
+      JSLogger.getInstance().traceExit();
+   }
+    
    /*** New step button ***/
    $('#button-new-curse').click(function(){
       JSLogger.getInstance().traceEnter();
-      
+      JSLogger.getInstance().trace("Step saved [ " + (stepSavedM ? "TRUE":"FALSE") +" ]. Step modified [ " + (stepModifiedM ? "TRUE":"FALSE") +" ]");
+      if (!stepSavedM && stepModifiedM){
+         MessageBox("Advertencia", 
+               "El paso no se ha guardado, ¿quieres guardarlo ahora?",
+               {Icon: MessageBox.IconsE.QUESTION,
+                Buttons: {Buttons: MessageBox.ButtonsE.YES_NO, 
+                          Callback_Yes: saveStepInDDBB,
+                          Callback_No: setUpTheNewStep}
+                });
+          
+      }
+      if (!stepSavedM && !stepModifiedM){
+         JSLogger.getInstance().traceExit();
+         return 0;
+      }
+      stepSavedM = false;
+      stepModifiedM = false;
       $('.step-data').hide();
+      //Remove the news object if these exist
+      $('#new-title-step, #new-html-step').remove();
       //Add the div where for the step tittle
       var newStep = "<div class=\"step-data\"><div class=\"step-title\" id=\"new-title-step\">"
       newStep +="Pulsa para escribir el titulo</div>";
       newStep += "<div class=\"step-html\" id=\"new-html-step\">Pulsa para escribir las instrucciones";
       newStep += "</div></div>";
-      JSLogger.getInstance().trace("Add [ " + newStep + " ]");
+      //JSLogger.getInstance().trace("Add [ " + newStep + " ]");
       $('#step').append(newStep);
       //Add the TinyMCE plugin to the elements
       
@@ -103,13 +140,28 @@
                   Caption:"Selecciona una imagen ...",
                   Background_Color:"orange"},
                   callback: callbackTinyMCEFileBrowser,
-               toolbar:"upload_file|create_folder|delete"
+                  toolbar:"upload_file|create_folder|delete"
                   });
             
             JSLogger.getInstance().traceExit();
          }
       });
+
+      /** Add the onchange event **/
+      $('#new-html-step, #new-title-step').keypress(function(){
+         //JSLogger.getInstance().traceEnter();
+         stepSavedM = false;
+         stepModifiedM = true;
+         //JSLogger.getInstance().traceExit();
+      });
       
+      JSLogger.getInstance().traceExit();
+   });
+   /*** Add functionality to the save curse ***/
+   $('#button-save-curse').click(function(){
+      JSLogger.getInstance().traceEnter();
+      stepSavedM = false;
+      stepModifiedM = false;
       JSLogger.getInstance().traceExit();
    });
 </script>

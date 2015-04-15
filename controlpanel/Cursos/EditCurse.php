@@ -32,9 +32,10 @@
       <link rel="stylesheet" type="text/css" href="./style/EditCurse.css">
       <link rel="stylesheet" type="text/css" href="./style/Steps.css">
       <link rel="stylesheet" type="text/css" href="./Plugins/Tabs/style/Tabs.css">
+      <link rel="stylesheet" type="text/css" href="./Plugins/FileBrowser/style/Filebrowser.css">
       <link rel="stylesheet" type="text/css" href="./Plugins/Common/HtmlWindow/HtmlWindow.css">
       <link rel="stylesheet" type="text/css" href="./Plugins/MessageBox/style/MessageBox.css">
-      <link rel="stylesheet" type="text/css" href="./Plugins/FileBrowser/style/Filebrowser.css">
+      
    </head>
    <body>
       <script type="text/javascript">
