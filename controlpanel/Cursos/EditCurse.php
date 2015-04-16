@@ -60,17 +60,15 @@
             $tbCurse = new TB_Curso();
             $tbCurse->open();
             $tbCurse->searchByColumn(TB_Curso::IdColumnC, $curseKey);
-            while ($tbCurse->next()){
+            //while ($tbCurse->next()){
                //printf("<p>%s</p>\n", $tbCurse->getName());
                ?>
                <script>
                   modifyPageTitleName(<?php printf("\"%s\"",$tbCurse->getName())?>);
                </script>
                <?php 
-            }
-         }
-         while ($tbCurseStep->next()){
-            //printf("%s\n", $tbCurseStep->getCurseName());
+            //}
+         }else{
             ?>
                <script>
                   modifyPageTitleName(<?php printf("\"%s\"",$tbCurseStep->getCurseName())?>);

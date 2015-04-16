@@ -4,10 +4,24 @@
     * the curse steps are handled.
     */
 ?>
+<script type="text/javascript">
+   JSLogger.getInstance().registerLogger("Steps.php",JSLogger.levelsE.TRACE);
+</script>
 <div id="steps-data">
-
+   <?php 
+      $tbCurseStep->rewind();
+   ?>
    <div id="steps-list">
       Pasos del curso
+      <?php 
+         print("\n");
+         while ($tbCurseStep->next()){
+            $title = new DOMDocument();
+            $title->loadHTML($tbCurseStep->getTitle());
+            printf("%s\n", $title->textContent);
+         }
+      ?>
+      
    </div>
    <div id="step-work">
       <div id="step-toolbar">
@@ -40,7 +54,7 @@
 
 </div>
 <script type="text/javascript">
-   JSLogger.getInstance().registerLogger("Steps.php",JSLogger.levelsE.TRACE);
+   //JSLogger.getInstance().registerLogger("Steps.php",JSLogger.levelsE.TRACE);
    //Global variables
    var stepSavedM = true;
    var stepModifiedM = false;
