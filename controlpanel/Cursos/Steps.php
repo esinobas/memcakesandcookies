@@ -20,7 +20,9 @@
             $title->loadHTML($tbCurseStep->getTitle());
       ?>
          <li id=<?php printf("\"Curse-Index-%s\"",$tbCurseStep->getId());?> class="Curse-Index">
-            <?php printf("%s\n",$title->textContent);?>
+            <a href=<?php printf("\"#Step-Id-%d\"", $tbCurseStep->getId());?>>
+               <?php printf("%s\n",$title->textContent);?>
+           </a>
          </li>
       <?php
          }
@@ -313,5 +315,8 @@
    $('.Curse-Index').click(function(){
       $('.Curse-Index').removeClass('Selected-Curse-Index');
       $(this).addClass('Selected-Curse-Index');
+      $('.step-data').hide();
+      var selectedStep = $(this).find('a').attr('href');
+      $(selectedStep).show();
    });
 </script>
