@@ -135,7 +135,8 @@
        * @return boolean. When the table cursor has arrived to the table finish
        */
       public function next(){
-         $this->loggerM->trace("Enter: ". count($this->tableDataM));
+         $this->loggerM->trace("Enter: rowIdx [ ".$this->rowIdxM .
+                " ]. Rows [ " .count($this->tableDataM) ." ]");
          $thereAreMoreRows = true;
          if ( $this->rowIdxM == (count($this->tableDataM) -1) ){
             $thereAreMoreRows = false;
@@ -167,6 +168,7 @@
       public function rewind(){
          $this->loggerM->trace("Enter");
          $this->rowIdxM = -1;
+         reset($this->tableDataM);
          $this->loggerM->trace("Exit");
       }
       

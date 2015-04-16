@@ -53,6 +53,21 @@
          </ul>
       </div>
       <div id="step">
+      <?php 
+         $tbCurseStep->rewind();
+         while ($tbCurseStep->next()){
+      ?>
+            <div id=<?php printf("\"Step-Id-%d\"", $tbCurseStep->getId());?> class="step-data">
+               <div class="step-title">
+                  <?php printf("%s\n", $tbCurseStep->getTitle());?>
+               </div>
+               <div class="step-html">
+                  <?php printf("%s\n", $tbCurseStep->getHtml());?>
+               </div>
+            </div>
+      <?php
+         }
+      ?>
       </div>
    </div>
 
