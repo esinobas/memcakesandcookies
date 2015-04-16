@@ -44,41 +44,30 @@
    //Global variables
    var stepSavedM = true;
    var stepModifiedM = false;
+   var newStepM = true;
    /****** Add functionality to the toolbar buttons ********/
-   
+   /*********************************************************/
    /**
     * It saves the step data in the data base
     */
    function saveStepInDDBB(){
       JSLogger.getInstance().traceEnter();
+      
+      JSLogger.getInstance().trace("Trying " + (newStepM?"INSERT":"UPDATE") +
+                    " in the data base the step with the following data: "+
+                    "Curse key [ " + <?php print ($curseKey);?> + " ] " +
+                    (newStepM?"":"Step key [ TEMPORAL ] ")+ 
+                    "Title [ " + (newStepM?$('#new-title-step').html():"TEMPORAL") +
+                     " ]. Step [ " + (newStepM?$('#new-html-step').html():"TEMPORAL")+
+                      " ]");
       JSLogger.getInstance().traceExit();
    }
+   /**************************************************************************/
    /**
     * It sets up the new step data and it shows then by screeen
     */  
    function setUpTheNewStep(){
       JSLogger.getInstance().traceEnter();
-      JSLogger.getInstance().traceExit();
-   }
-    
-   /*** New step button ***/
-   $('#button-new-curse').click(function(){
-      JSLogger.getInstance().traceEnter();
-      JSLogger.getInstance().trace("Step saved [ " + (stepSavedM ? "TRUE":"FALSE") +" ]. Step modified [ " + (stepModifiedM ? "TRUE":"FALSE") +" ]");
-      if (!stepSavedM && stepModifiedM){
-         MessageBox("Advertencia", 
-               "El paso no se ha guardado, ¿quieres guardarlo ahora?",
-               {Icon: MessageBox.IconsE.QUESTION,
-                Buttons: {Buttons: MessageBox.ButtonsE.YES_NO, 
-                          Callback_Yes: saveStepInDDBB,
-                          Callback_No: setUpTheNewStep}
-                });
-          
-      }
-      if (!stepSavedM && !stepModifiedM){
-         JSLogger.getInstance().traceExit();
-         return 0;
-      }
       stepSavedM = false;
       stepModifiedM = false;
       $('.step-data').hide();
@@ -146,7 +135,11 @@
             JSLogger.getInstance().traceExit();
          }
       });
-
+      /**********************************************************************/
+      /**
+       * Keypress event that is launched when a key is pressed in the new html step
+       * or in the step tittle.
+       */
       /** Add the onchange event **/
       $('#new-html-step, #new-title-step').keypress(function(){
          //JSLogger.getInstance().traceEnter();
@@ -156,12 +149,44 @@
       });
       
       JSLogger.getInstance().traceExit();
+   }
+   /*******************************************************************/ 
+   /*** New step button ***/
+   /**
+    * Click event that is triggered when the new step button is pressed.
+    */
+   $('#button-new-curse').click(function(){
+      JSLogger.getInstance().traceEnter();
+      JSLogger.getInstance().trace("Step saved [ " + (stepSavedM ? "TRUE":"FALSE") +" ]. Step modified [ " + (stepModifiedM ? "TRUE":"FALSE") +" ]");
+      if (!stepSavedM && stepModifiedM){
+         MessageBox("Advertencia", 
+               "El paso no se ha guardado, ¿quieres guardarlo ahora?",
+               {Icon: MessageBox.IconsE.QUESTION,
+                Buttons: {Buttons: MessageBox.ButtonsE.YES_NO, 
+                          Callback_Yes: saveStepInDDBB,
+                          Callback_No: setUpTheNewStep}
+                });
+          
+      }else{
+         setUpTheNewStep();
+      }
+      if (!stepSavedM && !stepModifiedM){
+         JSLogger.getInstance().traceExit();
+         return 0;
+      }
+            
+      JSLogger.getInstance().traceExit();
    });
+   /*************************************************************************************/
    /*** Add functionality to the save curse ***/
+   /**
+    * Click event that is launched when the save button is pressed
+   */
    $('#button-save-curse').click(function(){
       JSLogger.getInstance().traceEnter();
       stepSavedM = false;
       stepModifiedM = false;
+      saveStepInDDBB();
       JSLogger.getInstance().traceExit();
    });
 </script>
