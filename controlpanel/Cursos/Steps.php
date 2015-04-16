@@ -46,6 +46,48 @@
    var stepModifiedM = false;
    var newStepM = true;
    /****** Add functionality to the toolbar buttons ********/
+   
+   /*****************************************************************/
+   /**
+    * It prepares the parameters when the step is new and it is added
+    * in the data base
+    */
+   function insertionParameters( theTitle, theHtml, theCurseKey, theCurseName, 
+                                    theCurseDesc,
+                                    theCurseDuration, theCursePrice,
+                                    theCurseLevelId, theCurseLevel,
+                                    theCursePublic, theCurseImage){
+      JSLogger.getInstance().traceEnter();
+      var paramsRequest = {};
+      paramsRequest.command = <?php print("\"".$COMMAND_INSERT."\"");?>;
+      paramsRequest.paramsCommand = {};
+      paramsRequest.paramsCommand.Table = <?php print("\"".TB_Curse_Step::TB_Curse_StepTableC."\"");?>;
+      paramsRequest.paramsCommand.<?php print($PARAM_DATA);?> = {};
+      paramsRequest.paramsCommand.<?php printf("%s.%s",$PARAM_DATA,
+                             TB_Curse_Step::TitleColumnC);?> = theTitle;
+      paramsRequest.paramsCommand.<?php printf("%s.%s",$PARAM_DATA,
+                              TB_Curse_Step::HtmlColumnC);?> = theHtml;
+      paramsRequest.paramsCommand.<?php printf("%s.%s",$PARAM_DATA,
+                  TB_Curse_Step::Curse_IdColumnC);?> = theCurseKey
+      paramsRequest.paramsCommand.<?php printf("%s.%s",$PARAM_DATA,
+                  TB_Curse_Step::CurseNameColumnC);?> = theCurseName;
+      paramsRequest.paramsCommand.<?php printf("%s.%s",$PARAM_DATA,
+                  TB_Curse_Step::CurseDescriptionColumnC);?> = theCurseDesc;
+      paramsRequest.paramsCommand.<?php printf("%s.%s",$PARAM_DATA,
+                  TB_Curse_Step::CurseDurationColumnC);?> = theCurseDuration;
+      paramsRequest.paramsCommand.<?php printf("%s.%s",$PARAM_DATA,
+                  TB_Curse_Step::CursePriceColumnC);?> = theCursePrice;
+      paramsRequest.paramsCommand.<?php printf("%s.%s",$PARAM_DATA,
+                  TB_Curse_Step::CurseLevelIdColumnC);?> = theCurseLevelId;
+      paramsRequest.paramsCommand.<?php printf("%s.%s",$PARAM_DATA,
+                   TB_Curse_Step::CurseLevelColumnC);?> = theCurseLevel;
+      paramsRequest.paramsCommand.<?php printf("%s.%s",$PARAM_DATA,
+                  TB_Curse_Step::CursePublicColumnC);?> = theCursePublic;
+      paramsRequest.paramsCommand.<?php printf("%s.%s",$PARAM_DATA,
+                  TB_Curse_Step::CurseImageColumnC);?> = theCurseImage;
+      JSLogger.getInstance().traceExit();
+      return paramsRequest;
+   }
    /*********************************************************/
    /**
     * It saves the step data in the data base
@@ -65,42 +107,45 @@
       var ajaxObject = new Ajax()
       ajaxObject.setSyn();
       ajaxObject.setPostMethod();
+      <?php
+         $tbConfiguration->rewind();
+         $tbConfiguration->searchByKey('URL');
+      ?>
+      JSLogger.getInstance().trace("Url wehere send the request: " + <?php
+                     printf("\"%s\"",$tbConfiguration->getValue());?>+
+               "/controlpanel/Cursos/php/Database/RequestFromWeb.php");
       ajaxObject.setUrl(<?php printf("\"%s\"",$tbConfiguration->getValue());?>+"/controlpanel/Cursos/php/Database/RequestFromWeb.php");
-      var paramsRequest = {};
-      paramsRequest.command = (newStepM?<?php print("\"".$COMMAND_INSERT."\"");?>:<?php print("\"".$COMMAND_UPDATE."\"");?>);
-      paramsRequest.paramsCommand = {};
-      paramsRequest.paramsCommand.Table = <?php print("\"".TB_Curse_Step::TB_Curse_StepTableC."\"");?>;
-      paramsRequest.paramsCommand.<?php print($PARAM_ROWS);?> = {};
-      paramsRequest.paramsCommand.<?php printf("%s.%s",$PARAM_ROWS,$PARAM_ROW);?> = {};
-      if (!newStepM){
-         paramsRequest.paramsCommand.<?php printf("%s.%s.%s",$PARAM_ROWS,$PARAM_ROW, $PARAM_KEY);?> = "Por definir";
+      var paramsRequest = null;
+      if (newStepM){
+        
+         paramsRequest = insertionParameters($('#new-title-step').html(),
+                                             $('#new-html-step').html(),
+                                             <?php print ($curseKey);?>,
+                                             $('#data-curse-name').val(),
+                                             $('#data-curse-desc').val(),
+                                             $('#data-curse-duration').val(),
+                                             $('#data-curse-price').val(),
+                                             $('#data-curse-level').val(),
+                                             $('#data-curse-level option:selected').text(),
+                                             ($('#data-curse-public').prop("checked") == false ? 0 : 1),
+                                             $('#CurseImage').prop("src"));
+                                             
+      }else{
+        //paramsRequest.paramsCommand.<?php //print($PARAM_ROWS);?> = {};
       }
-      paramsRequest.paramsCommand.<?php printf("%s.%s.",$PARAM_ROWS,$PARAM_ROW).
-                  print(TB_Curse_Step::TitleColumnC);?> = (newStepM?$('#new-title-step').html():"TEMPORAL");
-      paramsRequest.paramsCommand.<?php printf("%s.%s.",$PARAM_ROWS,$PARAM_ROW).
-                  print(TB_Curse_Step::HtmlColumnC);?> = (newStepM?$('#new-html-step').html():"TEMPORAL");
-      paramsRequest.paramsCommand.<?php printf("%s.%s.",$PARAM_ROWS,$PARAM_ROW).
-                 print(TB_Curse_Step::Curse_IdColumnC);?> = <?php print ($curseKey);?>; 
-      paramsRequest.paramsCommand.<?php printf("%s.%s.",$PARAM_ROWS,$PARAM_ROW).
-                  print(TB_Curse_Step::CurseNameColumnC);?> = $('#data-curse-name').val();
-      paramsRequest.paramsCommand.<?php printf("%s.%s.",$PARAM_ROWS,$PARAM_ROW).
-                  print(TB_Curse_Step::CurseDescriptionColumnC);?>= $('#data-curse-desc').val();
-      paramsRequest.paramsCommand.<?php printf("%s.%s.",$PARAM_ROWS,$PARAM_ROW).
-                  print(TB_Curse_Step::CurseDurationColumnC);?> = $('#data-curse-duration').val();
-      paramsRequest.paramsCommand.<?php printf("%s.%s.",$PARAM_ROWS,$PARAM_ROW).
-                  print(TB_Curse_Step::CursePriceColumnC);?> = $('#data-curse-price').val();
-      paramsRequest.paramsCommand.<?php printf("%s.%s.",$PARAM_ROWS,$PARAM_ROW).
-                  print(TB_Curse_Step::CurseLevelIdColumnC);?> = $('#data-curse-level').val();
-      paramsRequest.paramsCommand.<?php printf("%s.%s.",$PARAM_ROWS,$PARAM_ROW).
-                  print(TB_Curse_Step::CurseLevelColumnC);?> =
-                             $('#data-curse-level option:selected').text();
-      paramsRequest.paramsCommand.<?php printf("%s.%s.",$PARAM_ROWS,$PARAM_ROW).
-                   print(TB_Curse_Step::CursePublicColumnC);?> =
-                               ($('#data-curse-public').prop("checked") == false ? 0 : 1);
-      paramsRequest.paramsCommand.<?php printf("%s.%s.",$PARAM_ROWS,$PARAM_ROW).
-                   print(TB_Curse_Step::CurseImageColumnC);?> =
-                               $('#CurseImage').prop("src");
+      
+      //if (!newStepM){
+      //   paramsRequest.paramsCommand.<?php //printf("%s.%s",$PARAM_ROWS,$PARAM_ROW);?> = {};
+      //   paramsRequest.paramsCommand.<?php //printf("%s.%s.%s",$PARAM_ROWS,$PARAM_ROW, $PARAM_KEY);?> = "Por definir";
+      //}
+      
+                         
       JSLogger.getInstance().debug("Command parameters [ " + JSON.stringify(paramsRequest) +" ]");
+
+      ajaxObject.setParameters(JSON.stringify(paramsRequest));
+      ajaxObject.send();
+      JSLogger.getInstance().trace("Response [ " + ajaxObject.getResponse() + " ]");
+      
       JSLogger.getInstance().traceExit();
    }
    /**************************************************************************/
