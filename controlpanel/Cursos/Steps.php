@@ -13,15 +13,19 @@
    ?>
    <div id="steps-list">
       Pasos del curso
+      <ul id="List-Curse-Index">
       <?php 
-         print("\n");
          while ($tbCurseStep->next()){
             $title = new DOMDocument();
             $title->loadHTML($tbCurseStep->getTitle());
-            printf("%s\n", $title->textContent);
+      ?>
+         <li id=<?php printf("\"Curse-Index-%s\"",$tbCurseStep->getId());?> class="Curse-Index">
+            <?php printf("%s\n",$title->textContent);?>
+         </li>
+      <?php
          }
       ?>
-      
+      </ul>
    </div>
    <div id="step-work">
       <div id="step-toolbar">
@@ -288,5 +292,11 @@
       stepModifiedM = false;
       saveStepInDDBB();
       JSLogger.getInstance().traceExit();
+   });
+
+   /***************************** Add the event click to all curses index *******************/
+   $('.Curse-Index').click(function(){
+      $('.Curse-Index').removeClass('Selected-Curse-Index');
+      $(this).addClass('Selected-Curse-Index');
    });
 </script>

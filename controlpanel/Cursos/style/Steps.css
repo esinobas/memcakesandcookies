@@ -65,5 +65,20 @@
    min-height: 525px;
 }
 
-
-
+#List-Curse-Index{
+   
+   text-align: justify;
+   list-style: none;
+   padding: 0px 10px;
+}
+.Curse-Index{
+   padding: 1px 2px;
+ 
+}
+.Selected-Curse-Index{
+ 
+   font-weight: bold;
+   font-style: italic;
+   color: white;
+   background-color: orange;
+}
