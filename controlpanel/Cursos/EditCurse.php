@@ -300,7 +300,7 @@
                          JSLogger.getInstance().debug("Trying modify data curse with theses parameters [ " +
                          JSON.stringify(paramsRequest) +" ]");
 
-                               ajaxObject.setParameters(JSON.stringify(paramsRequest));
+                         ajaxObject.setParameters(JSON.stringify(paramsRequest));
                          ajaxObject.send();
                          JSLogger.getInstance().trace("Response [ " + ajaxObject.getResponse() + " ]");
 
