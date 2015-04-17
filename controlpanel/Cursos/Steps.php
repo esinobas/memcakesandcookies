@@ -79,7 +79,7 @@
    //Global variables
    var stepSavedM = true;
    var stepModifiedM = false;
-   var newStepM = true;
+   var newStepM = false;
    /****** Add functionality to the toolbar buttons ********/
    
    /*****************************************************************/
@@ -122,6 +122,27 @@
                   TB_Curse_Step::CurseImageColumnC);?> = theCurseImage;
       JSLogger.getInstance().traceExit();
       return paramsRequest;
+   }
+
+   /*****************************************************************/
+   /**
+     * Refresh the index steps adding a new step
+     *
+     * @param theStepId
+     * @param theTitle
+     * @param theHtml
+     */
+   function refreshAddingStep(theStepId, theTitle, theHtml){
+      JSLogger.getInstance().traceEnter();
+      $('#new-title-step').remove();
+      $('#new-html-step').remove();
+      $('.Curse-Index').removeClass('Selected-Curse-Index');
+      var newIndexStep = $('<li>'+theTitle+'</li>');
+      newIndexStep.attr('id', 'Curse-Index-'+theStepId);
+      newIndexStep.addClass('Curse-Index');
+      newIndexStep.addClass('Selected-Curse-Index');
+      $('#List-Curse-Index').append(newIndexStep);
+      JSLogger.getInstance().traceExit();
    }
    /*********************************************************/
    /**
@@ -178,8 +199,42 @@
       JSLogger.getInstance().debug("Command parameters [ " + JSON.stringify(paramsRequest) +" ]");
 
       ajaxObject.setParameters(JSON.stringify(paramsRequest));
+     
       ajaxObject.send();
       JSLogger.getInstance().trace("Response [ " + ajaxObject.getResponse() + " ]");
+
+      if (ajaxObject.getResponse().indexOf("404 Not Found") != -1){
+         JSLogger.getInstance().error("The script [ " + url +
+               " ] has been found");
+         MessageBox("Error", 
+               "El paso no se ha "+(newStepM?"insertado":"modificado")+
+                 ". No se ha podido acceder al script en el servidor",
+               {Icon: MessageBox.IconsE.ERROR});
+      }else{
+         var objResponse = JSON.parse(ajaxObject.getResponse());
+         if (parseInt(objResponse['ResultCode']) != 200){
+                  MessageBox("Error", 
+                     "No se ha podido "+(newStepM?"insertar":"modificadar")+ 
+                     " el curso. Error [ " +
+                     objResponse['ErrorMsg'] + " ]",
+                     {Icon: MessageBox.IconsE.ERROR});
+                JSLogger.getInstance().error("The curse has been not insert/update. [ " +
+                      objResponse['ErrorMsg'] + " ]");
+         }else{
+           
+            JSLogger.getInstance().error("The curse has been  insert/update sucessful");
+            if ( newStepM ){
+               var temporal = $($('#new-title-step').html());
+               
+               refreshAddingStep(parseInt(objResponse['lastID']), 
+                                          temporal.last().html(),
+                                          $('#new-html-step').html());
+               newStepM = false;
+               
+            }
+            
+         }
+      }
       
       JSLogger.getInstance().traceExit();
    }
@@ -257,6 +312,7 @@
       JSLogger.getInstance().traceEnter();
       stepSavedM = false;
       stepModifiedM = false;
+      newStepM = true;
       $('.step-data').hide();
       //Remove the news object if these exist
       $('#new-title-step, #new-html-step').remove();
