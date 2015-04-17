@@ -310,7 +310,10 @@
       saveStepInDDBB();
       JSLogger.getInstance().traceExit();
    });
-
+   /***************   Selected and show the first step ******************/
+   $('.Curse-Index:first').addClass('Selected-Curse-Index');
+   $('.step-data').hide();
+   $('.step-data:first').show();
    /***************************** Add the event click to all curses index *******************/
    $('.Curse-Index').click(function(){
       $('.Curse-Index').removeClass('Selected-Curse-Index');
