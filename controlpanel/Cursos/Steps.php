@@ -183,28 +183,18 @@
       
       JSLogger.getInstance().traceExit();
    }
-   /**************************************************************************/
+
+   /**********************************************************************/
    /**
-    * It sets up the new step data and it shows then by screeen
-    */  
-   function setUpTheNewStep(){
+    * Add the Tinymce to the title and the html step
+    *
+    * @param theTitleSelector: The title selector
+    * @param theHtmlStepSelector: The Html Step selector
+    */
+   function applyTinymce(theTitleSelector, theHtlmlSelector){
       JSLogger.getInstance().traceEnter();
-      stepSavedM = false;
-      stepModifiedM = false;
-      $('.step-data').hide();
-      //Remove the news object if these exist
-      $('#new-title-step, #new-html-step').remove();
-      //Add the div where for the step tittle
-      var newStep = "<div class=\"step-data\"><div class=\"step-title\" id=\"new-title-step\">"
-      newStep +="Pulsa para escribir el titulo</div>";
-      newStep += "<div class=\"step-html\" id=\"new-html-step\">Pulsa para escribir las instrucciones";
-      newStep += "</div></div>";
-      //JSLogger.getInstance().trace("Add [ " + newStep + " ]");
-      $('#step').append(newStep);
-      //Add the TinyMCE plugin to the elements
-      
       tinymce.init({
-         selector: "#new-title-step",
+         selector: theTitleSelector,
          theme: "modern",
          inline: true,
          statusbar: false,
@@ -216,7 +206,7 @@
          toolbar: "bold italic underline | fontselect fontsizeselect | forecolor backcolor | alignleft aligncenter alignright alignjustify "
       });
       tinymce.init({
-         selector: "#new-html-step",
+         selector: theHtlmlSelector,
          theme: "modern",
          inline: true,
          statusbar: false,
@@ -256,7 +246,31 @@
             JSLogger.getInstance().traceExit();
          }
       });
-      /**********************************************************************/
+      JSLogger.getInstance().traceExit();
+   }
+   
+   /**************************************************************************/
+   /**
+    * It sets up the new step data and it shows then by screeen
+    */  
+   function setUpTheNewStep(){
+      JSLogger.getInstance().traceEnter();
+      stepSavedM = false;
+      stepModifiedM = false;
+      $('.step-data').hide();
+      //Remove the news object if these exist
+      $('#new-title-step, #new-html-step').remove();
+      //Add the div where for the step tittle
+      var newStep = "<div class=\"step-data\"><div class=\"step-title\" id=\"new-title-step\">"
+      newStep +="Pulsa para escribir el titulo</div>";
+      newStep += "<div class=\"step-html\" id=\"new-html-step\">Pulsa para escribir las instrucciones";
+      newStep += "</div></div>";
+      //JSLogger.getInstance().trace("Add [ " + newStep + " ]");
+      $('#step').append(newStep);
+      //Add the TinyMCE plugin to the elements
+      applyTinymce("#new-title-step","#new-html-step");
+      
+            /**********************************************************************/
       /**
        * Keypress event that is launched when a key is pressed in the new html step
        * or in the step tittle.
@@ -322,4 +336,6 @@
       var selectedStep = $(this).find('a').attr('href');
       $(selectedStep).show();
    });
+   /*******  Add the Tinymce funcionality to all the titles and html steps ****/
+   applyTinymce(".step-title",".step-html");
 </script>
