@@ -137,11 +137,23 @@
       $('#new-title-step').remove();
       $('#new-html-step').remove();
       $('.Curse-Index').removeClass('Selected-Curse-Index');
-      var newIndexStep = $('<li>'+theTitle+'</li>');
+      var temporal = $(theTitle);
+      var newIndexStep = $('<li>'+temporal.last().html()+'</li>');
       newIndexStep.attr('id', 'Curse-Index-'+theStepId);
       newIndexStep.addClass('Curse-Index');
       newIndexStep.addClass('Selected-Curse-Index');
       $('#List-Curse-Index').append(newIndexStep);
+      var stepData = $('<div></div>');
+      stepData.addClass('step-data');
+      stepData.attr('id','Step-Id-'+theStepId);
+      var stepTitle = $('<div></div>');
+      stepTitle.addClass('step-title');
+      stepTitle.append(theTitle);
+      stepData.append(stepTitle);
+      var stepHtml = $('<div></div>');
+      stepHtml.addClass('step-html');
+      stepHtml.append(theHtml);
+      stepData.append(stepHtml);
       JSLogger.getInstance().traceExit();
    }
    /*********************************************************/
@@ -224,10 +236,9 @@
            
             JSLogger.getInstance().error("The curse has been  insert/update sucessful");
             if ( newStepM ){
-               var temporal = $($('#new-title-step').html());
                
                refreshAddingStep(parseInt(objResponse['lastID']), 
-                                          temporal.last().html(),
+                                          $('#new-title-step').html(),
                                           $('#new-html-step').html());
                newStepM = false;
                
