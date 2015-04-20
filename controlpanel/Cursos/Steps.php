@@ -44,7 +44,7 @@
              </li>
             <li>
                <button type="button" id="button-remove-curse" title="Borrar">
-                  Borrar
+                  <img src="./icons/delete.png" height="16" width="16">
                </button>
             </li>
             <li>
