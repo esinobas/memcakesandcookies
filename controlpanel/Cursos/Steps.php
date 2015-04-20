@@ -403,6 +403,21 @@
       var selectedStep = $(this).find('a').attr('href');
       $(selectedStep).show();
    });
+
+   /*************************************************************/
+   /*** Add the functionality to the remove button ***/
+   /**
+    * 
+    */
+   $('#button-remove-curse').click(function(){
+      JSLogger.getInstance().traceEnter();
+      var stepIdSelected = $('.Selected-Curse-Index').attr('id').split('-')[2];
+      
+      JSLogger.getInstance().debug('Trying remove step with id [ ' +
+               stepIdSelected + ' ]');
+      JSLogger.getInstance().traceExit();
+   });
+     
    /*******  Add the Tinymce funcionality to all the titles and html steps ****/
    applyTinymce(".step-title",".step-html");
 </script>
