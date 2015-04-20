@@ -156,6 +156,17 @@
       stepData.append(stepHtml);
       JSLogger.getInstance().traceExit();
    }
+   /************************************************************************/
+   /**
+    * It removes the step from the data base
+    */
+   function removeStepInDDBB(){
+      JSLogger.getInstance().traceEnter();
+      var stepId = $('.Selected-Curse-Index').attr('id').split('-')[2];
+      JSLogger.getInstance().trace('Trying remove step with id [ ' + stepId + 
+            ' ]');
+      JSLogger.getInstance().traceExit();
+   }
    /*********************************************************/
    /**
     * It saves the step data in the data base
@@ -404,6 +415,8 @@
       $(selectedStep).show();
    });
 
+    
+   
    /*************************************************************/
    /*** Add the functionality to the remove button ***/
    /**
@@ -417,6 +430,14 @@
       var stepTitle = $('.Selected-Curse-Index a').last().html(); 
       JSLogger.getInstance().debug('Trying remove step with id [ ' +
                stepIdSelected + ' ] and name [ ' + stepTitle.trim() + ' ]');
+
+      MessageBox("Borrar paso de curso", 
+            "¿Quieres borrar el paso \""+stepTitle.trim()+"\"?",
+            {Icon: MessageBox.IconsE.QUESTION,
+             Buttons: {Buttons: MessageBox.ButtonsE.YES_NO, 
+                         Callback_Yes: removeStepInDDBB
+                       }
+             });
       JSLogger.getInstance().traceExit();
    });
      
