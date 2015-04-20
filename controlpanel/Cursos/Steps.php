@@ -22,7 +22,7 @@
          <li id=<?php printf("\"Curse-Index-%s\"",$tbCurseStep->getId());?> class="Curse-Index">
             <a href=<?php printf("\"#Step-Id-%d\"", $tbCurseStep->getId());?>>
                <?php printf("%s\n",$title->textContent);?>
-           </a>
+            </a>
          </li>
       <?php
          }
@@ -412,9 +412,11 @@
    $('#button-remove-curse').click(function(){
       JSLogger.getInstance().traceEnter();
       var stepIdSelected = $('.Selected-Curse-Index').attr('id').split('-')[2];
+      var temporal = $($('.Selected-Curse-Index a').attr('href')).find('.step-title');
       
+      var stepTitle = $('.Selected-Curse-Index a').last().html(); 
       JSLogger.getInstance().debug('Trying remove step with id [ ' +
-               stepIdSelected + ' ]');
+               stepIdSelected + ' ] and name [ ' + stepTitle.trim() + ' ]');
       JSLogger.getInstance().traceExit();
    });
      
