@@ -2,8 +2,6 @@
    /**
     * File used for receive the request from the web and map the request params
     * in functions
-    * 
-    * Format request: {command: <> paramsCommand: {Table:<> }} 
     */
 
    /****************** INCLUDES ******************************/
@@ -31,6 +29,7 @@
    $PARAM_DATA = "data";
    $COMMAND_INSERT = "I";
    $COMMAND_UPDATE = "U";
+   $COMMAND_DELETE = "D";
    $PARAM_KEY = "key";
    $RESULT_CODE = "ResultCode";
    $MSG_ERROR = "ErrorMsg";
@@ -78,7 +77,6 @@
       $logger->trace("Update data of [ " . $theTable->getTableName() ." ]");
       foreach ( $theRows as $row){
          $key = $row[$PARAM_KEY];
-         $logger->trace("row: [ ".json_encode($row)." ]");
          $logger->trace("Search by [ $key ]");
          if ( $theTable->searchByKey($key)){
             $logger->trace("The Key has been found.");
@@ -345,6 +343,56 @@
       $logger->trace("Exit");
    }
 
+   function delete($theTable, $theData, &$theResult){
+      global $logger;
+      global $RESULT_CODE;
+      global $MSG_ERROR;
+      global $RESULT_CODE_SUCCESS;
+      global $RESULT_CODE_INTERNAL_ERROR;
+      global $PARAM_KEY;
+      $logger->trace("Enter");
+      $jsonKey = $theData[$PARAM_KEY];
+      $logger->trace("Delete from table ".$theTable->getTableName().
+                    " with key [ ".json_encode($jsonKey)." ]");
+
+      if (strcmp($theTable->getTableName(),TB_Configuration::TB_ConfigurationTableC) == 0){
+         $composedKey = array();
+         $composedKey["Property"] = $jsonKey["Property"];
+         $logger->trace("Order table [ ".$theTable->getTableName().
+                  " ] with key [ " . json_encode($composedKey). " ]");
+          $theTable->searchByKey($composedKey);
+          $theTable->delete();
+      }
+
+      if (strcmp($theTable->getTableName(),TB_Level::TB_LevelTableC) == 0){
+         $composedKey = array();
+         $composedKey["Id"] = $jsonKey["Id"];
+         $logger->trace("Order table [ ".$theTable->getTableName().
+                  " ] with key [ " . json_encode($composedKey). " ]");
+          $theTable->searchByKey($composedKey);
+          $theTable->delete();
+      }
+
+      if (strcmp($theTable->getTableName(),TB_Curso::TB_CursoTableC) == 0){
+         $composedKey = array();
+         $composedKey["Id"] = $jsonKey["Id"];
+         $logger->trace("Order table [ ".$theTable->getTableName().
+                  " ] with key [ " . json_encode($composedKey). " ]");
+          $theTable->searchByKey($composedKey);
+          $theTable->delete();
+      }
+
+      if (strcmp($theTable->getTableName(),TB_Curse_Step::TB_Curse_StepTableC) == 0){
+         $composedKey = array();
+         $composedKey["Id"] = $jsonKey["Id"];
+         $logger->trace("Order table [ ".$theTable->getTableName().
+                  " ] with key [ " . json_encode($composedKey). " ]");
+          $theTable->searchByKey($composedKey);
+          $theTable->delete();
+      }
+      $logger->trace("Exit");
+   }
+
    
    /******************* MAIN *********************************/
 
@@ -380,6 +428,10 @@
          if (strcmp(strtoupper($strCommand), $COMMAND_INSERT) == 0){
             $logger->debug("It is a insert command in table [ ". $table->getTableName() . " ]");
             insertData($table, $params[$PARAM_DATA], $resultArray);
+         }
+         if (strcmp(strtoupper($strCommand), $COMMAND_DELETE) == 0){
+            $logger->debug("It is a delete command in table [ ". $table->getTableName() . " ]");
+            delete($table, $params[$PARAM_DATA], $resultArray);
          }
          $logger->trace("The request has been processed. Result [ " . json_encode($resultArray) ." ]");
         

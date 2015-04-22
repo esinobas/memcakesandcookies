@@ -165,6 +165,35 @@
       var stepId = $('.Selected-Curse-Index').attr('id').split('-')[2];
       JSLogger.getInstance().trace('Trying remove step with id [ ' + stepId + 
             ' ]');
+     //Create the ajax object to send the remove step data to the server with the data base
+      var ajaxObject = new Ajax()
+      ajaxObject.setSyn();
+      ajaxObject.setPostMethod();
+      <?php
+         $tbConfiguration->rewind();
+         $tbConfiguration->searchByKey('URL');
+      ?>
+      JSLogger.getInstance().trace("Url wehere send the request: " + <?php
+                     printf("\"%s\"",$tbConfiguration->getValue());?>+
+               "/controlpanel/Cursos/php/Database/RequestFromWeb.php");
+      ajaxObject.setUrl(<?php printf("\"%s\"",$tbConfiguration->getValue());?>+"/controlpanel/Cursos/php/Database/RequestFromWeb.php");
+      var paramsRequest = {};
+
+      paramsRequest.command = <?php print("\"".$COMMAND_DELETE."\"");?>;
+      paramsRequest.paramsCommand = {};
+      paramsRequest.paramsCommand.Table = <?php print("\"".TB_Curse_Step::TB_Curse_StepTableC."\"");?>;
+      paramsRequest.paramsCommand.<?php print($PARAM_DATA);?> = {};
+      paramsRequest.paramsCommand.<?php print($PARAM_DATA);?>.<?php print($PARAM_KEY);?> = {};
+      paramsRequest.paramsCommand.<?php printf("%s.%s.%s",$PARAM_DATA,$PARAM_KEY,TB_Curse_Step::IdColumnC);?> = stepId; 
+      
+      JSLogger.getInstance().debug("Command parameters [ " + JSON.stringify(paramsRequest) +" ]");
+
+      ajaxObject.setParameters(JSON.stringify(paramsRequest));
+      
+      ajaxObject.send();
+      JSLogger.getInstance().trace("Response [ " + ajaxObject.getResponse() + " ]");
+      
+      
       JSLogger.getInstance().traceExit();
    }
    /*********************************************************/
