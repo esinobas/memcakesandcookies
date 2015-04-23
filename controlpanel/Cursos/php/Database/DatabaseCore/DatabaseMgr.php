@@ -310,23 +310,45 @@
          
          $logger = LoggerMgr::Instance()->getLogger(__CLASS__);
          $logger->trace("Enter");
+         $result = true;
          $database = self::getDatabase();
          if ( $database->connect(false)){
             $error = false;
-            //Go to the last table in the array. It is the last table in the 
-            //database configuration xml file.
-            //In a relationship, always are removed the last rows of the it.
-            $table = end($theTableMapping->getTables());
-               
-               $sqlDelete = self::createSqlDelete(
-                                                  $table,
-                                                  $theRow);
-            //Todavia no esta hecho el borrado, falta implementar.
-            //Cuando este terminado el insert, borramos
+            foreach($theTableMapping->getTables() as $table){
+               if ($table->getKey() != null){
+                  $logger->trace("The table [ " .$table->getName().
+                        " ] has key.");
+                  $sqlDelete = self::createSqlDelete(
+                        $table,
+                        $theRow);
+                  $logger->debug("Execute command [ $sqlDelete ]");
+                  if ($database->sqlCommand($sqlDelete) == 0){
+                     $logger->trace("The operation was executed successfully");
+                  }else{
+                     $logger->error("The command [ $sqlInsert] fails. Error [ " .
+                           $database->getSqlError() ." ]");
+                     $result = false;
+                     self::$dataBaseErrorM = $database->getSqlError();
+                     break;
+                  }
+                  
+               }else{
+                  $logger->trace("The table [ " .$table->getName(). 
+                        " ] has not key. Skip the table");
+               }
+            }
+            if ($result){
+               $database->commit();
+            }else{
+               $database->rollback();
+            }   
             
-            //$database->closeConnection();
+         }else{
+            $logger->warn("The row has not could be deleted");
+            $result = false;
          }
-         $logger->trace("Exit");
+         $logger->trace("Exit ");
+         return $result;
       }
       
       static protected function createSqlInsert(PhisicalTableDef $theTableDef,

@@ -361,7 +361,7 @@
          $logger->trace("Order table [ ".$theTable->getTableName().
                   " ] with key [ " . json_encode($composedKey). " ]");
           $theTable->searchByKey($composedKey);
-          $theTable->delete();
+         
       }
 
       if (strcmp($theTable->getTableName(),TB_Level::TB_LevelTableC) == 0){
@@ -370,7 +370,7 @@
          $logger->trace("Order table [ ".$theTable->getTableName().
                   " ] with key [ " . json_encode($composedKey). " ]");
           $theTable->searchByKey($composedKey);
-          $theTable->delete();
+         
       }
 
       if (strcmp($theTable->getTableName(),TB_Curso::TB_CursoTableC) == 0){
@@ -379,7 +379,7 @@
          $logger->trace("Order table [ ".$theTable->getTableName().
                   " ] with key [ " . json_encode($composedKey). " ]");
           $theTable->searchByKey($composedKey);
-          $theTable->delete();
+          
       }
 
       if (strcmp($theTable->getTableName(),TB_Curse_Step::TB_Curse_StepTableC) == 0){
@@ -388,7 +388,13 @@
          $logger->trace("Order table [ ".$theTable->getTableName().
                   " ] with key [ " . json_encode($composedKey). " ]");
           $theTable->searchByKey($composedKey);
-          $theTable->delete();
+          
+      }
+      $logger->trace("Delete data in the database");
+      if (! $theTable->delete()){
+         $theResult[$RESULT_CODE] = $RESULT_CODE_INTERNAL_ERROR;
+         $theResult[$MSG_ERROR] = $theTable->getStrError();
+         $logger->error("The delete failed. Error [ " . $theResult[$MSG_ERROR] . " ]");
       }
       $logger->trace("Exit");
    }

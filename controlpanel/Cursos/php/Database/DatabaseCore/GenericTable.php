@@ -176,9 +176,10 @@
        */
       public function delete(){
          $this->loggerM->trace("Enter");
-         DatabaseMgr::delete($this->tableMappingM, current($this->tableDataM));
+         $result = DatabaseMgr::delete($this->tableMappingM, current($this->tableDataM));
          //$this->refresh();
          $this->loggerM->trace("Exit");
+         return $result;
       }
       /**
        * Inserts data in the table. The data are passed in an array parameter, 
