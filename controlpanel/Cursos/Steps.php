@@ -156,6 +156,23 @@
       stepData.append(stepHtml);
       JSLogger.getInstance().traceExit();
    }
+   /****************************************************************/
+   /**
+    * Refreshs the index after remove a step
+    *
+    */
+   function refreshAfterDeleteStep(){
+      JSLogger.getInstance().traceEnter();
+      
+      var dataStep = $('.Selected-Curse-Index').find('a').attr('href');
+      $(dataStep).remove();
+      $('.Selected-Curse-Index').remove();
+      $('.Curse-Index:first').addClass('Selected-Curse-Index');
+      $('.step-data').hide();
+      $('.step-data:first').show();
+      
+      JSLogger.getInstance().traceExit();
+   }
    /************************************************************************/
    /**
     * It removes the step from the data base
@@ -192,8 +209,30 @@
       
       ajaxObject.send();
       JSLogger.getInstance().trace("Response [ " + ajaxObject.getResponse() + " ]");
-      
-      
+
+      if (ajaxObject.getResponse().indexOf("404 Not Found") != -1){
+         JSLogger.getInstance().error("The script [ " + url +
+               " ] has been found");
+         MessageBox("Error", 
+               "El paso no se ha borrado"+
+                 ". No se ha podido acceder al script en el servidor",
+               {Icon: MessageBox.IconsE.ERROR});
+      }else{
+         var objResponse = JSON.parse(ajaxObject.getResponse());
+         if (parseInt(objResponse['ResultCode']) != 200){
+                  MessageBox("Error", 
+                     "No se ha podido borrar "+ 
+                     " el paso. Error [ " +
+                     objResponse['ErrorMsg'] + " ]",
+                     {Icon: MessageBox.IconsE.ERROR});
+                JSLogger.getInstance().error("The step has been not delete. [ " +
+                      objResponse['ErrorMsg'] + " ]");
+         }else{
+           
+            JSLogger.getInstance().error("The step has been deleted sucessful");
+            refreshAfterDeleteStep();
+         }
+      }
       JSLogger.getInstance().traceExit();
    }
    /*********************************************************/
