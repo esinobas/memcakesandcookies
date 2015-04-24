@@ -123,7 +123,20 @@
       JSLogger.getInstance().traceExit();
       return paramsRequest;
    }
+   function getLast(theTitle){
+      JSLogger.getInstance().traceEnter();
 
+      var p = theTitle;
+      do{
+         JSLogger.getInstance().trace(theTitle);
+         theTitle = $(theTitle).children().first().html();
+         if (theTitle != null) 
+            p = theTitle;
+      }while(theTitle!=null);
+      JSLogger.getInstance().trace("RETURN: " + $(p).val());
+      JSLogger.getInstance().traceExit();
+      return p;
+    }
    /*****************************************************************/
    /**
      * Refresh the index steps adding a new step
@@ -137,15 +150,17 @@
       $('#new-title-step').remove();
       $('#new-html-step').remove();
       $('.Curse-Index').removeClass('Selected-Curse-Index');
+      getLast(theTitle);
       var temporal = $(theTitle);
-      var newIndexStep = $('<li>'+temporal.last().html()+'</li>');
+      JSLogger.getInstance().trace(temporal.children().first().html());
+      var newIndexStep = $('<li>'+temporal.children().first().html()+'</li>');
       newIndexStep.attr('id', 'Curse-Index-'+theStepId);
       newIndexStep.addClass('Curse-Index');
       newIndexStep.addClass('Selected-Curse-Index');
       $('#List-Curse-Index').append(newIndexStep);
       var stepData = $('<div></div>');
-      stepData.addClass('step-data');
       stepData.attr('id','Step-Id-'+theStepId);
+      stepData.addClass('step-data');
       var stepTitle = $('<div></div>');
       stepTitle.addClass('step-title');
       stepTitle.append(theTitle);
@@ -154,6 +169,8 @@
       stepHtml.addClass('step-html');
       stepHtml.append(theHtml);
       stepData.append(stepHtml);
+      $('#step').append(stepData);
+      stepData.show();
       JSLogger.getInstance().traceExit();
    }
    /****************************************************************/
