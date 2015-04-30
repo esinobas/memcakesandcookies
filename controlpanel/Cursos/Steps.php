@@ -124,6 +124,24 @@
       return paramsRequest;
    }
 
+   /*****************************************************************/
+   /**
+     * It creates the updata parameteres for they be sent to the server and
+     * updates the step
+     *
+     * @param
+     *
+     * @return An array parameters with the update parameters
+     */
+   function updateParameters( theTitle, theHtml, theCurseKey, theCurseName, 
+           theCurseDesc,
+           theCurseDuration, theCursePrice,
+           theCurseLevelId, theCurseLevel,
+           theCursePublic, theCurseImage){
+
+      JSLogger.getInstance().traceEnter();
+      JSLogger.getInstance().traceExit();
+   }
 
    /****************************************************************************/
    /**
@@ -302,6 +320,17 @@
                                              
       }else{
         //paramsRequest.paramsCommand.<?php //print($PARAM_ROWS);?> = {};
+         paramsRequest = updateParameters($('#new-title-step').html(),
+                                          $('#new-html-step').html(),
+                                          <?php print ($curseKey);?>,
+                                          $('#data-curse-name').val(),
+                                          $('#data-curse-desc').val(),
+                                          $('#data-curse-duration').val(),
+                                          $('#data-curse-price').val(),
+                                          $('#data-curse-level').val(),
+                                          $('#data-curse-level option:selected').text(),
+                                          ($('#data-curse-public').prop("checked") == false ? 0 : 1),
+                                          $('#CurseImage').prop("src"));
       }
       
       //if (!newStepM){
@@ -501,12 +530,7 @@
    $('.Curse-Index').click(function(){
 
       addFunctionalityToShowStep($(this));
-      /*$('.Curse-Index').removeClass('Selected-Curse-Index');
-      $(this).addClass('Selected-Curse-Index');
-      $('.step-data').hide();
-      var selectedStep = $(this).find('a').attr('href');
-      $(selectedStep).show();
-      */
+      
    });
 
     
