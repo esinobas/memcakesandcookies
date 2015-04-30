@@ -123,19 +123,20 @@
       JSLogger.getInstance().traceExit();
       return paramsRequest;
    }
-   function getLast(theTitle){
-      JSLogger.getInstance().traceEnter();
 
-      var p = theTitle;
-      /*do{
-         JSLogger.getInstance().trace(theTitle);
-         theTitle = $(theTitle).children().first().html();
-         if (theTitle != null) 
-            p = theTitle;
-      }while(theTitle!=null);*/
-      JSLogger.getInstance().trace("RETURN: " + $(p).text());
-      JSLogger.getInstance().traceExit();
-      return p;
+
+   /****************************************************************************/
+   /**
+     * Add the functionality to show the step selected in the index
+     *
+     * @param theObject. JQuery object the funcionality is added
+     */
+   function addFunctionalityToShowStep(theObject){
+      $('.Curse-Index').removeClass('Selected-Curse-Index');
+      theObject.addClass('Selected-Curse-Index');
+      $('.step-data').hide();
+      var selectedStep = theObject.find('a').attr('href');
+      $(selectedStep).show();
     }
    /*****************************************************************/
    /**
@@ -150,13 +151,14 @@
       $('#new-title-step').remove();
       $('#new-html-step').remove();
       $('.Curse-Index').removeClass('Selected-Curse-Index');
-      //getLast(theTitle);
       var temporal = $(theTitle);
       JSLogger.getInstance().trace(temporal.text());
-      var newIndexStep = $('<li>'+temporal.text()+'</li>');
+      var newIndexStep = $('<li><a href="#Step-Id-' + theStepId + 
+                          '">'+temporal.text()+'</a></li>');
       newIndexStep.attr('id', 'Curse-Index-'+theStepId);
       newIndexStep.addClass('Curse-Index');
       newIndexStep.addClass('Selected-Curse-Index');
+      
       $('#List-Curse-Index').append(newIndexStep);
       var stepData = $('<div></div>');
       stepData.attr('id','Step-Id-'+theStepId);
@@ -171,6 +173,10 @@
       stepData.append(stepHtml);
       $('#step').append(stepData);
       stepData.show();
+      //Add the funcionality in the new index
+      newIndexStep.click(function(){
+         addFunctionalityToShowStep($(this));
+      });
       JSLogger.getInstance().traceExit();
    }
    /****************************************************************/
@@ -493,11 +499,14 @@
    $('.step-data:first').show();
    /***************************** Add the event click to all curses index *******************/
    $('.Curse-Index').click(function(){
-      $('.Curse-Index').removeClass('Selected-Curse-Index');
+
+      addFunctionalityToShowStep($(this));
+      /*$('.Curse-Index').removeClass('Selected-Curse-Index');
       $(this).addClass('Selected-Curse-Index');
       $('.step-data').hide();
       var selectedStep = $(this).find('a').attr('href');
       $(selectedStep).show();
+      */
    });
 
     
