@@ -127,13 +127,13 @@
       JSLogger.getInstance().traceEnter();
 
       var p = theTitle;
-      do{
+      /*do{
          JSLogger.getInstance().trace(theTitle);
          theTitle = $(theTitle).children().first().html();
          if (theTitle != null) 
             p = theTitle;
-      }while(theTitle!=null);
-      JSLogger.getInstance().trace("RETURN: " + $(p).val());
+      }while(theTitle!=null);*/
+      JSLogger.getInstance().trace("RETURN: " + $(p).text());
       JSLogger.getInstance().traceExit();
       return p;
     }
@@ -150,10 +150,10 @@
       $('#new-title-step').remove();
       $('#new-html-step').remove();
       $('.Curse-Index').removeClass('Selected-Curse-Index');
-      getLast(theTitle);
+      //getLast(theTitle);
       var temporal = $(theTitle);
-      JSLogger.getInstance().trace(temporal.children().first().html());
-      var newIndexStep = $('<li>'+temporal.children().first().html()+'</li>');
+      JSLogger.getInstance().trace(temporal.text());
+      var newIndexStep = $('<li>'+temporal.text()+'</li>');
       newIndexStep.attr('id', 'Curse-Index-'+theStepId);
       newIndexStep.addClass('Curse-Index');
       newIndexStep.addClass('Selected-Curse-Index');
