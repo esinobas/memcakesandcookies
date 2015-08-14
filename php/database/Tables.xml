@@ -524,7 +524,7 @@
                   <type>integer</type>
                </column>
                <column>
-                  <name>optionMenu</name>
+                  <name>option_menu</name>
                   <logical>MenuOption</logical>
                   <type>string</type>
                </column>

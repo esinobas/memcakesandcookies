@@ -39,7 +39,7 @@
    
       const phisicalTB_MENUC = "TB_MENU";
       const phisicalTB_MENUIDColumnC = "ID";
-      const phisicalTB_MENUoptionMenuColumnC = "optionMenu";
+      const phisicalTB_MENUoption_menuColumnC = "option_menu";
 
    
       const phisicalTB_COLLECTIONC = "TB_COLLECTION";
@@ -75,7 +75,7 @@
             ColumnType::integerC);
       $this->tableMappingM->addColumn(
             self::phisicalTB_MENUC ,
-            self::phisicalTB_MENUoptionMenuColumnC ,
+            self::phisicalTB_MENUoption_menuColumnC ,
             self::MenuOptionColumnC,
             ColumnType::stringC);
       
