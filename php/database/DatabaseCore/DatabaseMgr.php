@@ -3,7 +3,9 @@
     * Class with static methods that allows manipulate the database data
     */
 
-   set_include_path( get_include_path() . PATH_SEPARATOR . dirname(__FILE__));
+   if ( ! strpos(get_include_path(), dirname(__FILE__))){ 
+      set_include_path( get_include_path() . PATH_SEPARATOR . dirname(__FILE__));
+   }
    
    include_once 'DatabaseType/MySqlDatabase.php';
    include_once 'LoggerMgr/LoggerMgr.php';

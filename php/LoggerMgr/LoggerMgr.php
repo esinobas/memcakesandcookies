@@ -5,8 +5,10 @@
     * The class returns the log4php object or class, it allows access to its methods
     * to write in the log.
     */
+   if ( ! strpos(get_include_path(), dirname(__FILE__))){
+      set_include_path( get_include_path() . PATH_SEPARATOR . dirname(__FILE__));
+   }
    
-   set_include_path( get_include_path() . PATH_SEPARATOR . dirname(__FILE__));
    
    include_once dirname(__FILE__).'/log4php/Logger.php';
    

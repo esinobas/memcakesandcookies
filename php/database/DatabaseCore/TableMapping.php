@@ -6,7 +6,9 @@
     * database
     */
    
-   set_include_path( get_include_path() . PATH_SEPARATOR . dirname(__FILE__));
+   if ( ! strpos(get_include_path(), dirname(__FILE__))){ 
+      set_include_path( get_include_path() . PATH_SEPARATOR . dirname(__FILE__));
+   }
    include_once 'LoggerMgr/LoggerMgr.php';
    include_once 'PhisicalTableDef.php';
    
