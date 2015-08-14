@@ -29,7 +29,11 @@
    
    
    <?php
-      include_once dirname(__FILE__).'/php/LoggerMgr/LoggerMgr.php';
+   
+      // Set the paths where are the php code
+      set_include_path( get_include_path() . PATH_SEPARATOR . dirname(__FILE__).'/php/');
+      
+      require_once 'LoggerMgr/LoggerMgr.php';
       $logger =  LoggerMgr::Instance()->getLogger("index.php");
       //require_once(dirname(__FILE__).'/php/localConfiguration/configuration.php');
    ?>
@@ -39,7 +43,8 @@
          
          $logger->debug("A request has been received from [ ". $_SERVER['REMOTE_ADDR'] . " ]"); 
          $logger->trace("Getting the configuration");
-         include_once dirname(__FILE__).'/php/database/TB_Configuration.php';
+        
+         require_once dirname(__FILE__).'/php/database/TB_Configuration.php';
          $tableConfiguration = new TB_Configuration();
          $tableConfiguration->open();
          $logger->trace("The configuration was get");
@@ -65,7 +70,9 @@
 
             <div id="div_menu">
                <?php
+                $logger->trace("include menu.php");
                  include_once (dirname(__FILE__).'/menu.php');
+
                ?>
             </div>
          </div>

@@ -1,38 +1,49 @@
 <?php
-   require_once(dirname(__FILE__).'/php/ddbb/DBIterator.php');
-   require_once(dirname(__FILE__).'/php/localDB/TB_MENUS.php');
-   include_once 'TB_COLLECTION.php';
+   $loggerMenu =  LoggerMgr::Instance()->getLogger("menu.php");
+   $loggerMenu->trace("menu.php. Enter");
    
-   $options = TB_MENUS::getMenu(0);
-  
+   require_once 'database/TB_Menu.php';
+   require_once 'database/TB_MenuCollection.php';
+   
+   $tableMenu = new TB_Menu();
+   $tableMenu->open();
+   $tableMenuCollection = new TB_MenuCollection();
+   $tableMenuCollection->open();
+   
+   $tableConfiguration->rewind();
+   $tableConfiguration->searchByKey("URL");
+
 ?>
 <br>
 <br>
 <ul id="menu">
    <?php
-   while ($options->next()){
+      while ($tableMenu->next()){
    ?>
    <li>
    <?php
-      $row = $options->getRow();   
-      
-      if (TB_MENUS::hasSubmenu($row->getId()) == true){
-         ?>
+
+      if ($tableMenuCollection->searchByColumn(TB_MenuCollection::MenuIdColumnC,
+              $tableMenu->getId()) == true){
+   ?>
          <a href="#"></a>
          <?php
-            printf("%s", $row->getOption());
-            $optionsSubmenu = TB_COLLECTION::getCollectionsFromMenu($row->getId());
+            printf("%s", $tableMenu->getOption());
+            $loggerMenu->trace("The option \"".$tableMenu->getOption().
+                  "\" has [ " .$tableMenuCollection->getCardinality() .
+                  " ] submenus.");
          ?>
          <div class="submenu">
                  
          <?php
-            while($optionsSubmenu->next()){
+            while($tableMenuCollection->next()){
             ?>
-                  <a href=<?php printf("\"%s?pageId=%s&collection=%s\"", url, 
-                       $row->getId(),$optionsSubmenu->getRow()->getId() ); ?>> 
+                  <a href=<?php printf("\"%s?pageId=%s&collection=%s\"", 
+                        $tableConfiguration->getValue(),
+                        $tableMenuCollection->getMenuId(),
+                        $tableMenuCollection->getCollectionId());?>> 
                   <?php
-                  
-                     printf("%s",$optionsSubmenu->getRow()->getName());
+                     printf("%s",$tableMenuCollection->getCollectionName());
                   ?>
                   </a>
                   <br>
@@ -45,8 +56,9 @@
          <?php      
       }else{
          ?>
-         <a href=<?php printf("\"%s?pageId=%s\"",url, $row->getId());?>>
-            <?php printf("%s", $row->getOption()); ?>
+         <a href=<?php printf("\"%s?pageId=%s\"",$tableConfiguration->getValue(),
+                $tableMenu->getId());?>>
+            <?php printf("%s", $tableMenu->getOption()); ?>
          
          <?php      
       }
