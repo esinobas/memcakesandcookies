@@ -72,7 +72,6 @@
                <?php
                 $logger->trace("include menu.php");
                  include_once (dirname(__FILE__).'/menu.php');
-
                ?>
             </div>
          </div>
@@ -124,6 +123,7 @@
                }
            
             }else{
+               $logger->trace("Include start.php");
                require_once(dirname(__FILE__).'/start.php');
             }
          ?>

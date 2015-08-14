@@ -67,5 +67,6 @@
    </li>
    <?php
    }
+   $loggerMenu->trace("menu.php. Exit");
    ?>
 </ul>
