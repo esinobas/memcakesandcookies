@@ -2,12 +2,18 @@
 /**
  * Library that contains functions to handle images
  */
-  require_once(dirname(__FILE__).'/ImageGDFactory.php');
-  require_once(dirname(__FILE__).'/AbstractImageGD.php');
+
+   if ( ! strpos(get_include_path(), dirname(__FILE__))){
+      set_include_path( get_include_path() . PATH_SEPARATOR . dirname(__FILE__));
+   }    
+
+   $loggerImageLibrary =  LoggerMgr::Instance()->getLogger("ImageLibrary.php");
+   $loggerImageLibrary->trace("ImageLibrary.php. Enter");
+   
+   require_once 'image/ImageGDFactory.php';
+   require_once('image/AbstractImageGD.php');
   
-  include_once ($_SERVER['DOCUMENT_ROOT'].'/php/log4php/Logger.php');
-  
-  
+   
  /**
   * Function that creates a thumbnail from an image and return the name and path
   * of the thumbnail.
@@ -20,8 +26,9 @@
                           ,$theThumbnailPrefix = 'Thumb_'
                           ,$theLogger = null) {
     
-    ($theLogger != null ? $theLogger->trace("Enter"):null);
-    ($theLogger != null ? $theLogger->trace("Create thumbnail with :\n".
+    global $loggerImageLibrary;
+    ($loggerImageLibrary != null ? $loggerImageLibrary->trace("Enter"):null);
+    ($loggerImageLibrary != null ? $loggerImageLibrary->trace("Create thumbnail with :\n".
                                     "Path [ " . $theFilePath ." ]\n".
                                     "File [ " . $theFileName ." ]\n".
                                     "Width [ " .$theWitdh . " ] px\n".
@@ -34,11 +41,11 @@
     /*$nameFileThumbnail = $theThumbnailPath.'/'.$theThumbnailPrefix.$theFileName;
     ($theLogger != null ? $theLogger->trace("Name file thumbnail [ " . $nameFileThumbnail ." ]"):null);
     */
-    ($theLogger != null ? $theLogger->trace("Exit"):null);
+    ($loggerImageLibrary != null ? $loggerImageLibrary->trace("Exit"):null);
     
     return $image->converToThumbnail($theThumbnailPath, $theWitdh, $theHeight,$theThumbnailPrefix, true);
            
      
  }
-
+ $loggerImageLibrary->trace("ImageLibrary.php. Exit");
 ?>

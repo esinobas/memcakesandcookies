@@ -1,6 +1,6 @@
 <?php
     
-   include_once ($_SERVER['DOCUMENT_ROOT'].'/php/log4php/Logger.php');
+   include_once 'php/LoggerMgr/LoggerMgr.php';
    
    abstract class AbstractImageGD{
 

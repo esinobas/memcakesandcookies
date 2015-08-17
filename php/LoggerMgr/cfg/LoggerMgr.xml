@@ -11,12 +11,100 @@
          <param name="conversionPattern" value=" [%level]. %date{d/m/Y - H:i:s}. %logger. %method. line [%line]. %msg.%n" />
       </layout>
    </appender>
+   
+   <appender name="DatabaseFileAppender" class="LoggerAppenderRollingFile">
+      <!--  THis parameter must be change in each server -->
+      <param name="file" value="/home/tebi/Datos/webserver/MEMcakesandcookies/www/log/Database.log" />
+      <param name="maxFileSize" value="1MB" />
+      <param name="maxBackupIndex" value="1" />
+      <param name = "append" value = "true"/>
+      <layout class="LoggerLayoutPattern">
+         <param name="conversionPattern" value=" [%level]. %date{d/m/Y - H:i:s}. %logger. %method. line [%line]. %msg.%n" />
+      </layout>
+   </appender>
 
    <logger name="index.php">
       <level value="TRACE"></level>
       <appender_ref ref="WebFileAppender"></appender_ref>
    </logger>
    
+    <logger name="menu.php">
+      <level value="TRACE"></level>
+      <appender_ref ref="WebFileAppender"></appender_ref>
+   </logger>
+   
+   <logger name="start.php">
+      <level value="TRACE"></level>
+      <appender_ref ref="WebFileAppender"></appender_ref>
+   </logger>
+   
+    <logger name="getImages.php">
+      <level value="WARN"></level>
+      <appender_ref ref="WebFileAppender"></appender_ref>
+    </logger>
+    
+    <logger name="ImageLibrary.php">
+      <level value="WARN"></level>
+      <appender_ref ref="WebFileAppender"></appender_ref>
+    </logger>
+   
+   <logger name="ImageGDFactory">
+      <level value="WARN"></level>
+      <appender_ref ref="WebFileAppender"></appender_ref>
+    </logger>
+    
+    <logger name="AbstractImageGD">
+      <level value="WARN"></level>
+      <appender_ref ref="WebFileAppender"></appender_ref>
+    </logger>
+   
+   <logger name="TB_Configuration">
+      <level value="WARN"></level>
+      <appender_ref ref="DatabaseFileAppender"></appender_ref>
+      <appender_ref ref="WebFileAppender"></appender_ref>
+   </logger>
+   
+   <logger name="GenericTable">
+      <level value="WARN"></level>
+      <appender_ref ref="DatabaseFileAppender"></appender_ref>
+      <appender_ref ref="WebFileAppender"></appender_ref>
+   </logger>
+   
+   
+    <logger name="DatabaseMgr">
+      <level value="WARN"></level>
+      <appender_ref ref="DatabaseFileAppender"></appender_ref>
+      <appender_ref ref="WebFileAppender"></appender_ref>
+   </logger>
+   <logger name="MySqlDatabase">
+      <level value="WARN"></level>
+      <appender_ref ref="DatabaseFileAppender"></appender_ref>
+      <appender_ref ref="WebFileAppender"></appender_ref>
+   </logger>
+   
+   <logger name="TB_Menu">
+      <level value="WARN"></level>
+      <appender_ref ref="DatabaseFileAppender"></appender_ref>
+      <appender_ref ref="WebFileAppender"></appender_ref>
+   </logger>
+   
+   <logger name="TB_MenuCollection">
+      <level value="WARN"></level>
+      <appender_ref ref="DatabaseFileAppender"></appender_ref>
+      <appender_ref ref="WebFileAppender"></appender_ref>
+   </logger>
+   
+   <logger name="TB_SlideImagesHome">
+      <level value="WARN"></level>
+      <appender_ref ref="DatabaseFileAppender"></appender_ref>
+      <appender_ref ref="WebFileAppender"></appender_ref>
+   </logger>
+   
+   <logger name="TB_ImagesAndCollection">
+      <level value="WARN"></level>
+      <appender_ref ref="DatabaseFileAppender"></appender_ref>
+      <appender_ref ref="WebFileAppender"></appender_ref>
+   </logger>
    <!-- 
    <logger name="DatabaseDef">
       <level value="ERROR"></level>

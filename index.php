@@ -35,7 +35,7 @@
       
       require_once 'LoggerMgr/LoggerMgr.php';
       $logger =  LoggerMgr::Instance()->getLogger("index.php");
-      //require_once(dirname(__FILE__).'/php/localConfiguration/configuration.php');
+      
    ?>
    </head>
    <body>

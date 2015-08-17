@@ -551,4 +551,103 @@
          </conditions>
       </phisical_tables>
    </table_definition>
+   
+   <!--  Table TB_ImagesAndCollection -->
+   <table_definition>
+      <name>TB_ImagesAndCollection</name>
+      <columns>
+         <column>
+            <name>CollectionId</name>
+            <type>integer</type>
+         </column>
+         <column>
+            <name>CollectionName</name>
+            <type>string</type>
+         </column>
+         <column>
+            <name>CollectionMenuId</name>
+            <type>integer</type>
+         </column>
+         <column>
+            <name>ImageId</name>
+            <type>integer</type>
+         </column>
+         <column>
+            <name>ImagePath</name>
+            <type>string</type>
+         </column>
+         <column>
+            <name>ImageDescription</name>
+            <type>string</type>
+         </column>
+         <column>
+            <name>ImageName</name>
+            <type>string</type>
+         </column>
+      </columns>
+      <key>
+         <column>ImageId</column>
+         <column>CollectionId</column>
+      </key>
+      <!--  Phisical Mapping -->
+      <phisical_tables>
+         <!-- TB Images -->
+         <table>
+            <name>TB_IMAGES</name>
+            <columns>
+               <column>
+                  <name>Id</name>
+                  <logical>ImageId</logical>
+                  <type>integer</type>
+               </column>
+                <column>
+                  <name>Path</name>
+                  <logical>ImagePath</logical>
+                  <type>string</type>
+               </column>
+                <column>
+                  <name>Descripcion</name>
+                  <logical>ImageDescription</logical>
+                  <type>string</type>
+               </column>
+                <column>
+                  <name>Name</name>
+                  <logical>ImageName</logical>
+                  <type>string</type>
+               </column>
+            </columns>
+            <key>Id</key>
+         </table>
+         <!-- TB_Collection -->
+         <table>
+            <name>TB_COLLECTION</name>
+            <columns>
+               <column>
+                  <name>Id</name>
+                  <logical>CollectionId</logical>
+                  <type>integer</type>
+               </column>
+                <column>
+                  <name>Name</name>
+                  <logical>CollectionName</logical>
+                  <type>string</type>
+               </column>
+               <column>
+                  <name>Id_Menu</name>
+                  <logical>CollectionMenuId</logical>
+                  <type>integer</type>
+               </column>
+            </columns>
+         </table>
+         <!-- TB_Collection_Images -->
+         <table>
+            <name>TB_COLLECTION_IMAGES</name>
+         </table>
+         <conditions>
+            <condition>TB_COLLECTION.Id = TB_COLLECTION_IMAGES.Id_Collection</condition>
+            <condition>TB_IMAGES.Id = TB_COLLECTION_IMAGES.Id_Image</condition>
+         </conditions>
+      </phisical_tables>
+   </table_definition>
+   
 </Database>
