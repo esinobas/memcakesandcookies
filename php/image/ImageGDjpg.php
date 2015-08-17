@@ -1,5 +1,5 @@
 <?php
-  include_once('AbstractImageGD.php');
+   include_once 'image/AbstractImageGD.php';
 
   class ImageGDjpg extends AbstractImageGD{
 

@@ -1,8 +1,7 @@
 <?php
    
-   include_once('ImageGDjpg.php');
-   
-   include_once ($_SERVER['DOCUMENT_ROOT'].'/php/log4php/Logger.php');
+   include_once 'php/LoggerMgr/LoggerMgr.php';
+   require_once 'image/ImageGDjpg.php';
    
    class ImageGDFactory{
       
@@ -16,8 +15,9 @@
        */
       public static function getGDImage($thePath, $theFile, $theLogger= null) {
          
-         ($theLogger != null ? $theLogger->trace("Enter"):null);
-         ($theLogger != null ? $theLogger->trace("Path [ " .$thePath ." ]. ".
+         $logger = LoggerMgr::Instance()->getLogger(__CLASS__);
+         ($logger != null ? $logger->trace("Enter"):null);
+         ($logger != null ? $logger->trace("Path [ " .$thePath ." ]. ".
                                           "The file Name [ " . $theFile ." ]"):null);
          
          $returnImage;
@@ -26,18 +26,18 @@
          
          //get the image type
          $imageType =  $arrayImageSize[2];
-         ($theLogger != null ? $theLogger->trace("Image type [ " . $imageType ." ]"):null);
+         ($logger != null ? $logger->trace("Image type [ " . $imageType ." ]"):null);
          switch($imageType) {
             case 1://gif
                   break;
             case 2://jpg
-               ($theLogger != null ? $theLogger->trace("The image is jpg"):null);
+               ($logger != null ? $logger->trace("The image is jpg"):null);
                   $returnImage = new ImageGDjpg($thePath, $theFile);
                   break;
             case 3: //png
                   break;
          }   
-         ($theLogger != null ? $theLogger->trace("Exit"):null);
+         ($logger != null ? $logger->trace("Exit"):null);
          return $returnImage;      
       }
    

@@ -3,33 +3,37 @@
          
 <script type="text/javascript">
             
-<?php
-
-         
- require_once(dirname(__FILE__).'/php/ddbb/DBIterator.php');
- include(dirname(__FILE__)."/php/localDB/TB_SLIDES_HOME.php");
+   <?php
+      $loggerStart =  LoggerMgr::Instance()->getLogger("start.php");
+      $loggerStart->trace("start.php. Enter");
  
- $images = TB_SLIDES_HOME::getAll();
- ?>
- var arrayImages = new Array();
- <?php     
- $idx = 0;
- while($images->next()) {
+      require_once 'database/TB_SlideImagesHome.php';
+   
+      $loggerStart->trace("Get the rotate images");
+      $tableHomeImages = new TB_SlideImagesHome();
+      $tableHomeImages->open();
+         
+   ?>
+   var arrayImages = new Array();
+   <?php     
+      $idx = 0;
+      while($tableHomeImages->next()) {
                   
-    $row = $images->getRow();
-    /*get the image info and save it in the array*/
-    $imageData = getimagesize($row->getPath());
-    $imageWidth = $imageData[0];
-    $imageHeight = $imageData[1];
-?>    
-    arrayImages[<?php printf("%d",$idx); ?>] = <?php printf("\"%s;%d;%d\"", $row->getPath(),$imageWidth,$imageHeight);?>;
-    var img = new Image();
-    img.src =<?php printf("\"%s\"", $row->getPath());?>;
+      /*get the image info and save it in the array*/
+      $imageData = getimagesize($tableHomeImages->getPath());
+      $imageWidth = $imageData[0];
+      $imageHeight = $imageData[1];
+   ?>    
+   arrayImages[<?php printf("%d",$idx); ?>] = <?php printf("\"%s;%d;%d\"", 
+         $tableHomeImages->getPath(),$imageWidth,$imageHeight);?>;
+   var img = new Image();
+   img.src =<?php printf("\"%s\"", $tableHomeImages->getPath());?>;
     
-<?php    
-    $idx ++;               
- }
-?>
+   <?php    
+      $idx ++;               
+      }
+      $loggerMenu->trace("start.php. Exit");
+   ?>
                 
 slideImages($('#rotateImages'), 2, 2);
  
