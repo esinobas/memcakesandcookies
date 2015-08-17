@@ -86,10 +86,10 @@
             for ($x = 0; $x < count($columns); $x++){
                $logger->trace("Column Name [ $x ] -> [ " . $columnsKey[$x] . " ]");
                if ($isFirstColum){
-                  $sqlColumns .= $tablesName[$i].".".$columnsKey[$x];
+                  $sqlColumns .= $tablesName[$i].".".$columnsKey[$x]." as ".$tablesName[$i]."_".$columnsKey[$x];
                   $isFirstColum = false;
                }else{
-                  $sqlColumns .= ", ".$tablesName[$i].".".$columnsKey[$x];
+                  $sqlColumns .= ", ".$tablesName[$i].".".$columnsKey[$x]." as ".$tablesName[$i]."_".$columnsKey[$x];
                }
             }
          }
@@ -142,12 +142,12 @@
                   $keys = array_keys($theTableMapping->getColumns($tableNames[$i]));
                   $logger->trace("Get columns from table [ " . $tableNames[$i] ." ]");
                   for ($idxKeys = 0; $idxKeys < count($keys); $idxKeys++){
-                     $logger->trace("Get value for row [ $idx ] key [ $keys[$idxKeys] ]".
-                           " -> [ " . $resultQuery[$idx][$keys[$idxKeys]]. " ]");
+                     $logger->trace("Get value for row [ $idx ] key [ $tableNames[$i]_$keys[$idxKeys] ]".
+                           " -> [ " . $resultQuery[$idx][$tableNames[$i].'_'.$keys[$idxKeys]]. " ]");
                   
                   
                      $theReturnData[$idx][$theTableMapping->getColumns($tableNames[$i])[$keys[$idxKeys]]] =
-                                     $resultQuery[$idx][$keys[$idxKeys]];
+                                     $resultQuery[$idx][$tableNames[$i].'_'.$keys[$idxKeys]];
                   }
                 }
              $theReturnData[$idx][self::modifiedRowC] = false;

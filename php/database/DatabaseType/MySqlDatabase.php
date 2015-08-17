@@ -132,7 +132,9 @@
        */
       public function query($theQuery){
          
-         
+         //require_once 'LoggerMgr/LoggerMgr.php';
+         //$l = LoggerMgr::Instance()->getLogger(__CLASS__);
+         //$l->trace("******\nQuery [ ".$theQuery. " ]");
          $result = $this->connectionM->query($theQuery);     
          $resultQuery = null;         
              
@@ -140,10 +142,15 @@
             
             
             if ($result->num_rows > 0){
+               //$l->trace("The query has [ " . $result->num_rows ." ] rows");
                $idx = 0;
                while ($row = $result->fetch_assoc()){
+                  $columns = array_keys($row);
                   foreach ($row as $column => $value){
+                  //foreach ($columns as $column){
+                     //$l->trace("Row [ " . $idx . " ]. Column[ ". $column . " ]. Value [ ". $row[$column]. " ]");
                      $dataRow[$column] = $value;
+                     //$dataRow[$column] = $row[$column];
                   }
                   $resultQuery[$idx] = $dataRow;
                   $idx ++;

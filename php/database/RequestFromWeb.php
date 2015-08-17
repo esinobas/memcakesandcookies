@@ -18,6 +18,7 @@
    include_once 'Database/TB_CakesByCollection.php';
    include_once 'Database/TB_ModelsByCollection.php';
    include_once 'Database/TB_MenuCollection.php';
+   include_once 'Database/TB_ImagesAndCollection.php';
 
    /*** Definition of the global variables and constants ***/
    /**
@@ -84,6 +85,10 @@
 
       if (strcmp($theTableName, TB_MenuCollection::TB_MenuCollectionTableC) == 0){
          $returnedTable = new TB_MenuCollection();
+      }
+
+      if (strcmp($theTableName, TB_ImagesAndCollection::TB_ImagesAndCollectionTableC) == 0){
+         $returnedTable = new TB_ImagesAndCollection();
       }
       $logger->trace("Exit");
       return  $returnedTable;
@@ -294,6 +299,45 @@
                 }
             }
 
+            if (strcmp($theTable->getTableName(),TB_ImagesAndCollection::TB_ImagesAndCollectionTableC) == 0){
+               if (isset($row[TB_ImagesAndCollection::CollectionIdColumnC])){
+                  $logger->trace("Set value to column [ ".
+                             TB_ImagesAndCollection::CollectionIdColumnC ." ] -> [ ".
+                             $row[TB_ImagesAndCollection::CollectionIdColumnC] ." ]");
+                  $theTable->setCollectionId($row[TB_ImagesAndCollection::CollectionIdColumnC ]);
+                }
+               if (isset($row[TB_ImagesAndCollection::CollectionNameColumnC])){
+                  $logger->trace("Set value to column [ ".
+                             TB_ImagesAndCollection::CollectionNameColumnC ." ] -> [ ".
+                             $row[TB_ImagesAndCollection::CollectionNameColumnC] ." ]");
+                  $theTable->setCollectionName($row[TB_ImagesAndCollection::CollectionNameColumnC ]);
+                }
+               if (isset($row[TB_ImagesAndCollection::CollectionMenuIdColumnC])){
+                  $logger->trace("Set value to column [ ".
+                             TB_ImagesAndCollection::CollectionMenuIdColumnC ." ] -> [ ".
+                             $row[TB_ImagesAndCollection::CollectionMenuIdColumnC] ." ]");
+                  $theTable->setCollectionMenuId($row[TB_ImagesAndCollection::CollectionMenuIdColumnC ]);
+                }
+               if (isset($row[TB_ImagesAndCollection::ImagePathColumnC])){
+                  $logger->trace("Set value to column [ ".
+                             TB_ImagesAndCollection::ImagePathColumnC ." ] -> [ ".
+                             $row[TB_ImagesAndCollection::ImagePathColumnC] ." ]");
+                  $theTable->setImagePath($row[TB_ImagesAndCollection::ImagePathColumnC ]);
+                }
+               if (isset($row[TB_ImagesAndCollection::ImageDescriptionColumnC])){
+                  $logger->trace("Set value to column [ ".
+                             TB_ImagesAndCollection::ImageDescriptionColumnC ." ] -> [ ".
+                             $row[TB_ImagesAndCollection::ImageDescriptionColumnC] ." ]");
+                  $theTable->setImageDescription($row[TB_ImagesAndCollection::ImageDescriptionColumnC ]);
+                }
+               if (isset($row[TB_ImagesAndCollection::ImageNameColumnC])){
+                  $logger->trace("Set value to column [ ".
+                             TB_ImagesAndCollection::ImageNameColumnC ." ] -> [ ".
+                             $row[TB_ImagesAndCollection::ImageNameColumnC] ." ]");
+                  $theTable->setImageName($row[TB_ImagesAndCollection::ImageNameColumnC ]);
+                }
+            }
+
             }else{
                $theResult[$RESULT_CODE] = $RESULT_CODE_INTERNAL_ERROR;
                $theResult[$MSG_ERROR] = "The Key has not been found.";
@@ -438,6 +482,25 @@
                                 );
       }
 
+      if (strcmp($theTable->getTableName(),TB_ImagesAndCollection::TB_ImagesAndCollectionTableC) == 0){
+
+         //Declare variables
+         $varCollectionId = $theData["CollectionId"];
+         $varCollectionName = $theData["CollectionName"];
+         $varCollectionMenuId = $theData["CollectionMenuId"];
+         $varImagePath = $theData["ImagePath"];
+         $varImageDescription = $theData["ImageDescription"];
+         $varImageName = $theData["ImageName"];
+
+         $newId = $theTable->insert($varCollectionId
+                                ,$varCollectionName
+                                ,$varCollectionMenuId
+                                ,$varImagePath
+                                ,$varImageDescription
+                                ,$varImageName
+                                );
+      }
+
       if( $newId != -1){
            $logger->trace("The insertion was exectuted successfully. ".
                            "The new Id is [ $newId ]");
@@ -528,6 +591,15 @@
 
       if (strcmp($theTable->getTableName(),TB_MenuCollection::TB_MenuCollectionTableC) == 0){
          $composedKey = array();
+         $composedKey["CollectionId"] = $jsonKey["CollectionId"];
+         $logger->trace("Order table [ ".$theTable->getTableName().
+                  " ] with key [ " . json_encode($composedKey). " ]");
+          $theTable->searchByKey($composedKey);
+      }
+
+      if (strcmp($theTable->getTableName(),TB_ImagesAndCollection::TB_ImagesAndCollectionTableC) == 0){
+         $composedKey = array();
+         $composedKey["ImageId"] = $jsonKey["ImageId"];
          $composedKey["CollectionId"] = $jsonKey["CollectionId"];
          $logger->trace("Order table [ ".$theTable->getTableName().
                   " ] with key [ " . json_encode($composedKey). " ]");

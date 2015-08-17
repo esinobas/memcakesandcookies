@@ -88,21 +88,27 @@
                   }else{
                      ?>
                      <div id="Gallery">
+                     
                      <?php
+                     $logger->trace("Show gallery with images");
                      if (intval($_GET["pageId"]) >= 2 && intval($_GET["pageId"]) <= 4){
                         
                        ?>
                        <div id="Gallery-Tittle">
                           <?php
-                              $menu = TB_MENUS::getMenuById(intval($_GET["pageId"]));
-                              $collection = TB_COLLECTION::getCollectionById(intval($_GET["collection"]));
-                              if ($menu != null && $collection != null){
-                                 printf("%s / %s\n", $menu->getOption(), $collection->getName());
-                              }
+                              $tableMenu->searchByKey(intval($_GET["pageId"]));
+                              $tableMenuCollection->searchByKey(intval($_GET["collection"]));
+                              $logger->trace("Show gallery of: [ " . 
+                                    $tableMenuCollection->getMenuOption(). " ][ " .
+                                    $tableMenuCollection->getCollectionName(). " ]");
+                              printf("%s / %s\n", 
+                                       $tableMenuCollection->getMenuOption(), 
+                                       $tableMenuCollection->getCollectionName());
+                              
                           ?>
                        </div>
                        <?php 
-                       
+                       $logger->trace("Include getImages.php");
                        require_once(dirname(__FILE__).'/getImages.php');
 
                      }
