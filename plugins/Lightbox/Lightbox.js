@@ -21,48 +21,28 @@ var Lightbox = {
     
     maxWidthM: "800px",
     maxHeightM: "600px",
+    
        
-    enableDebug: false,
-    debugSetup: {
-                  file: "Lightbox.js"
-                                              
-    },
-    debugEnter: function (theMethod) {
-            if (this.enableDebug == true){
-               var textToDebug = this.debugSetup['file'] + '::'+theMethod+'()::Enter';
-               console.debug(textToDebug);
-            }
-    },
-    debugExit: function (theMethod) {
-            if (this.enableDebug == true){
-               var textToDebug = this.debugSetup['file'] + '::'+theMethod+'()::Exit';
-               console.debug(textToDebug);
-            }
-    },
-    debug: function (theMethod, theText) {
-            if (this.enableDebug == true){
-               var textToDebug = this.debugSetup['file'] + '::'+theMethod+'()::'+theText;
-               console.debug(textToDebug);
-            }
-    },
     closeLightbox: function(){
-         var methodName = "closeLightbox";
-         this.debugEnter(methodName);
          
-         this.debug(methodName,"Remove div lightbox and its contain");
+         
+        //JSLogger.getInstance().traceEnter();
+         //this.debug(methodName,"Remove div lightbox and its contain");
          $('#lightbox').remove();
-         this.debug(methodName,"Remove div shadow");
+         //this.debug(methodName,"Remove div shadow");
          $('#shadow').remove();
-         this.debug(methodName,"Remove image close");
+         //this.debug(methodName,"Remove image close");
          $('#img_close').remove();
          
-         this.debugExit(methodName);
+         //JSLogger.getInstance().traceExit();
          
     },
     show: function (theParameters){
-       var methodName = "show";
+       JSLogger.getInstance().registerLogger("Lightbox", JSLogger.levelsE.TRACE);
        
-       this.debugEnter(methodName);
+      
+       JSLogger.getInstance().traceEnter();
+       
        
        imageM = theParameters['image'];
        imageWidthM = theParameters['width'];
@@ -70,94 +50,116 @@ var Lightbox = {
        labelM = theParameters['label'];
           
                      
-       this.debug(methodName, 'image [ ' + imageM + ' ]. width [ ' +imageWidthM  + 
+       JSLogger.getInstance().trace('image [ ' + imageM + ' ]. width [ ' +imageWidthM  + 
                                           'px ]. height [ ' + imageHeightM + 'px ]');
-                                          
+
+       var heightLabel = 0;
+       
+       if (labelM != null){
+          heightLabel = parseInt($('<div id="div_label"/>').css('height')); 
+          $('#div_label').remove();
+       }
+       var closeImgHeight = 0;
+       closeImgHeight = parseInt($('<img id="img_close">').css('height'));
+       $('#img_close').remove();
+       
+       JSLogger.getInstance().trace("Label Height is [ " + heightLabel +" ] px. Close Height [ "+
+                                  closeImgHeight + " ] px");
+       
+       
+       imageHeightM = parseInt(imageHeightM) - heightLabel - closeImgHeight;
+       JSLogger.getInstance().trace("New imageHeight [ " + imageHeightM +" ] px")
+       
+       var windowWidth = $(window).width();
+       var pageWidth = $(document).width();
+       var windowHeight = $(window).height();
+       JSLogger.getInstance().trace('W: ' + windowWidth + 'H: '+ windowHeight);
+       
        var widthRatio = 1;
        var heightRatio = 1;
        
-       if (parseInt(this.maxWidthM) < parseInt(imageWidthM)){
+       if (parseInt(windowWidth) < parseInt(imageWidthM)){
           
-          widthRatio = parseInt(this.maxWidthM)/parseInt(imageWidthM);    
+          widthRatio = parseInt(windowWidth)/parseInt(imageWidthM);    
        }  
        
-       if (parseInt(this.maxHeightM) < parseInt(imageHeightM)){
-          heightRatio = parseInt(this.maxHeightM)/parseInt(imageHeightM);    
+       if (parseInt(windowHeight) < parseInt(imageHeightM)){
+          heightRatio = parseInt(windowHeight- heightLabel - closeImgHeight)/parseInt(imageHeightM);    
        }       
        
        
-       this.debug(methodName,"Width ratio [ " + widthRatio + " ]. Height ratio [ " + heightRatio + " ]");
+       JSLogger.getInstance().trace("Width ratio [ " + widthRatio + " ]. Height ratio [ " + heightRatio + " ]");
        
        imageWidthM = imageWidthM * widthRatio * heightRatio;
        imageHeightM = imageHeightM * widthRatio * heightRatio;
    
-       this.debug(methodName, 'image [ ' + imageM + ' ]. New width [ ' +imageWidthM  + 
+       JSLogger.getInstance().trace('image [ ' + imageM + ' ]. New width [ ' +imageWidthM  + 
                                           'px ]. New height [ ' + imageHeightM + 'px ]');
        
        if (labelM != null){
        
           positionTextM = labelM['position'];
           textM = labelM['text'];
-          this.debug(methodName, "Label position [ " + positionTextM + " ]");
-          this.debug(methodName, "Text[ " + textM + " ]");
+          JSLogger.getInstance().trace("Label position [ " + positionTextM + " ]");
+          JSLogger.getInstance().trace("Text[ " + textM + " ]");
        } 
        
-       this.debug(methodName, "Create and add the shadow");       
+       JSLogger.getInstance().trace("Create and add the shadow");       
        var shadow = $("<div id=\"shadow\"></div>");
        $('body').append(shadow);
        
        
        
-       this.debug(methodName, "Show the shadow");
+       JSLogger.getInstance().trace("Show the shadow");
             
        $('#shadow').show();
        
        var windowScrollTop = $(window).scrollTop();
        var windowHeight = $(window).height();
-       this.debug(methodName,"scrollTop [ " + windowScrollTop +" ]. window height [ " + windowHeight + " ]");
+       JSLogger.getInstance().trace("scrollTop [ " + windowScrollTop +" ]. window height [ " + windowHeight + " ]");
        
         if (labelM != null){
 
-         this.debug(methodName, "Create the label in lightbox.");
-         var label = $('<div id="div_label">'+textM+'</div>');
+           JSLogger.getInstance().trace("Create the label in lightbox.");
+           var label = $('<div id="div_label">'+textM+'</div>');
        }
    
        
        
        var lightbox = $("<div id=\"lightbox\"></div>");
        
-       this.debug(methodName, "Create lightbox");
+       JSLogger.getInstance().trace("Create lightbox");
       
-       this.debug(methodName, "Show the lightbox");
+       JSLogger.getInstance().trace("Show the lightbox");
        $('body').append(lightbox);
 
        var topLightbox = $('#lightbox').offset().top;
 
         
-       this.debug(methodName,"lightbox Top [ " + topLightbox +" ]. New top [ "+ ((parseInt(windowHeight)/2)+parseInt(windowScrollTop)) +" ]");
+       JSLogger.getInstance().trace("lightbox Top [ " + topLightbox +" ]. New top [ "+ ((parseInt(windowHeight)/2)+parseInt(windowScrollTop)) +" ]");
        $('#lightbox').show();
        
                            
        
                            
        topLightbox = $('#lightbox').offset().top;
-       this.debug(methodName,"NEW lightbox Top [ " + topLightbox +" ]");
+       JSLogger.getInstance().trace("NEW lightbox Top [ " + topLightbox +" ]");
        
-       
+              
        if (labelM != null){
 
          if (positionTextM == "up"){
-              this.debug(methodName, "Add in up the label in lightbox."); 
+            JSLogger.getInstance().trace("Add in up the label in lightbox."); 
              $('#lightbox').append(label);          
          }       
        }
    
                            
-       this.debug(methodName,"Create the image");
+       JSLogger.getInstance().trace("Create the image");
        var image = $("<img src=\""+imageM+"\" width=\""+imageWidthM+"\" height=\""+
-                imageHeightM+"\" />");
+                imageHeightM +"\" />");
        
-       this.debug(methodName,"Add the image to the lightbox");
+       JSLogger.getInstance().trace("Add the image to the lightbox");
        
        $('#lightbox').append(image);
        
@@ -165,20 +167,16 @@ var Lightbox = {
 
          
          if (positionTextM == "down"){
-              this.debug(methodName, "Add in down the label in lightbox."); 
+            JSLogger.getInstance().trace("Add in down the label in lightbox."); 
              $('#lightbox').append(label);          
          }       
        }
    
-       var heightLabel = 0;
        
-       if (labelM != null){
-          heightLabel = parseInt($('#div_label').css('height'));       
-       }
    
-   var heightLightbox = parseInt(heightLabel) + parseInt(imageHeightM);
+   var heightLightbox = parseInt(imageHeightM + heightLabel);
        
-       this.debug(methodName, "Height Image [ " +imageHeightM+" ] +  Height Label [ " + heightLabel +" ] =  Height LightBox [ " + heightLightbox + " ]" );
+   JSLogger.getInstance().trace("Height Image [ " +imageHeightM+" ] -  Height Label [ " + heightLabel +" ] =  Height LightBox [ " + heightLightbox + " ]" );
       
        
        $('#lightbox').css({'width':imageWidthM+'px',
@@ -191,14 +189,21 @@ var Lightbox = {
         //img close
        var imgClose = $('<img id="img_close" src="./plugins/Lightbox/Close.png" />');
        $('body').append(imgClose);  
-       $('#img_close').css('top',((parseInt(windowHeight)/2)+parseInt(windowScrollTop))-
-                                   (parseInt(heightLightbox)/2)-
-                                   parseInt($('#img_close').css('width')) +'px' ); 
-       $('#img_close').css('left', (parseInt(imageWidthM)/2)+
+       /*$('#img_close').css('top',((parseInt(windowHeight)/2)+parseInt(windowScrollTop))-
+                                   (parseInt(heightLightbox)/2)/*-
+                                   parseInt($('#img_close').css('height'))+'px' ); 
+        */
+       /*$('#img_close').css('left', (parseInt(imageWidthM)/2)+
                                     parseInt($('#lightbox').css('left'))+'px');     
-                                    
+         */
+         $('#img_close').css('top', ((parseInt(windowHeight)/2)+parseInt(windowScrollTop))+'px');
+         $('#img_close').css('margin-top', '-'+(parseInt(heightLightbox)/2) -
+                         (parseInt($('#img_close').css('height'))/2) +'px');
+         $('#img_close').css('margin-left', parseInt($('#lightbox').css('left'))
+                          +(parseInt(imageWidthM))/2+'px');
          $('#img_close').click(function () {Lightbox.closeLightbox()});
        
-       this.debugExit(methodName);
+         JSLogger.getInstance().traceExit();
+       
     }
 };

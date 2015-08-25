@@ -16,11 +16,17 @@
 
 
    <!-- Scripts -->
-   <script type="text/javascript" src="./scripts/jquery-1.9.0.js"></script>
+      <!--  Definitivo  -->
+   <script type="text/javascript" src="./plugins/JQuery/jquery-1.9.0.js"></script>
    <script type="text/javascript" src="./scripts/SlideImages.js"></script>
-   <script type="text/javascript" src="./plugins/Gallery/Gallery.js"></script>
+   <script type="text/javascript" src="./plugins/JSLogger/JSLogger.js"></script>
+   <script type="text/javascript" src="./plugins/Common/HtmlObject/HtmlObject.js"></script>
+   <script type="text/javascript" src="./plugins/Common/HtmlWindow/HtmlWindow.js"></script>
    <script type="text/javascript" src="./plugins/Lightbox/Lightbox.js"></script>
-
+   
+   <script type="text/javascript" src="./plugins/Gallery/Gallery.js"></script>
+   
+   
    <!-- Styles -->
    
       <link rel="stylesheet" type="text/css" href="./style/StyleMain.css"> 
