@@ -203,6 +203,12 @@ var Lightbox = {
                           +(parseInt(imageWidthM))/2+'px');
          $('#img_close').click(function () {Lightbox.closeLightbox()});
        
+         
+         $(document).keydown(function(e) {        
+            if (e.keyCode == 27) {
+               Lightbox.closeLightbox();
+            }
+         });
          JSLogger.getInstance().traceExit();
        
     }
