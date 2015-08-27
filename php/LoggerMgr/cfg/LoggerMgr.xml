@@ -22,6 +22,17 @@
          <param name="conversionPattern" value=" [%level]. %date{d/m/Y - H:i:s}. %logger. %method. line [%line]. %msg.%n" />
       </layout>
    </appender>
+   
+   <appender name="ControlPanelFileAppender" class="LoggerAppenderRollingFile">
+      <!--  THis parameter must be change in each server -->
+      <param name="file" value="/home/tebi/Datos/webserver/MEMcakesandcookies/www/log/ControlPanel.log" />
+      <param name="maxFileSize" value="1MB" />
+      <param name="maxBackupIndex" value="1" />
+      <param name = "append" value = "true"/>
+      <layout class="LoggerLayoutPattern">
+         <param name="conversionPattern" value=" [%level]. %date{d/m/Y - H:i:s}. %logger. %method. line [%line]. %msg.%n" />
+      </layout>
+   </appender>
 
    <logger name="login.php">
       <level value="TRACE"></level>
@@ -92,6 +103,7 @@
       <level value="WARN"></level>
       <appender_ref ref="DatabaseFileAppender"></appender_ref>
       <appender_ref ref="WebFileAppender"></appender_ref>
+      <appender_ref ref="ControlPanelFileAppender"></appender_ref>
    </logger>
    
    <logger name="TB_MenuCollection">
@@ -116,6 +128,13 @@
       <level value="WARN"></level>
       <appender_ref ref="DatabaseFileAppender"></appender_ref>
       <appender_ref ref="WebFileAppender"></appender_ref>
+   </logger>
+   
+   
+   <!--  Loggers for the control panel  -->
+   <logger name="controlpanel.php">
+      <level value="TRACE"></level>
+      <appender_ref ref="ControlPanelFileAppender"></appender_ref>
    </logger>
    <!-- 
    <logger name="DatabaseDef">

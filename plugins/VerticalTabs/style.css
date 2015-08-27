@@ -1,0 +1,17 @@
+@CHARSET "UTF-8";
+
+.Vertical-Tabs{
+ 
+   background-color: inherit;
+   float: left;
+   width: 100%;
+}
+
+
+ul.Title-Tabs{
+   list-style-type: none;
+   padding: 0px;
+   margin: 0px;
+   
+   
+}

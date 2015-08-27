@@ -133,7 +133,7 @@ body {
          if ($error == true){
          ?>   
             <div id="Error">
-               Has introducido mal el usuario o la contrase�a. Vuelve a intentarlo
+               Has introducido mal el usuario o la contraseña. Vuelve a intentarlo
             </div>
          <?php
          }
