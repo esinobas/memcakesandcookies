@@ -1,8 +1,9 @@
 <?php
-/*require_once("ddbb.php");
-require_once("MySqlDAO.php");
-*/
-function checkData(){
+
+require_once 'LoggerMgr/LoggerMgr.php';
+$logger =  LoggerMgr::Instance()->getLogger("login.php");
+
+/*function checkData(){
 
   if (!isset($_POST["user"]) || !isset($_POST["password"])){
 
@@ -14,29 +15,37 @@ function checkData(){
    }
    
    return true;
-}
+}*/
 
 function checkLogin($theLogin, $thePassword){
    
-  /*include_once($_SERVER["DOCUMENT_ROOT"]."/php/localDB/TB_USERS.php");*/
-  include_once($_SERVER['DOCUMENT_ROOT'].'/php/localDB/TB_USERS.php');
- 
-   $user = new TB_USERS();
+   global $logger;
+   require_once 'database/TB_Users.php';
    
-   $user->getUserByLogin($theLogin); 
-       
-   if ($user->exists()){
-          
-     if ($thePassword == $user->getPassword()){
-         return true; 
+   $logger->trace("Enter");
+   $logger->trace("Login [ $theLogin ]. Password [ $thePassword ]");
+  
+   $tableUsers = new TB_Users();
+   $tableUsers->open();
+   $tableUsers->searchByKey($theLogin);
+   
+   if ( ! $tableUsers->isEmpty()){
+      $logger->trace("The user [ $theLogin ] has been found.");
+      if ($thePassword == $tableUsers->getPassword()){
+         $logger->trace("The result is success");
+         $logger->trace("Exit");
+        return true; 
      }else{
+        $logger->debug("The password [ $thePassword ] is not correct for the login [ $theLogin ]");
+        $logger->trace("Exit");
          return false;     
      }   
-  }else{  
-      
+   }else{  
+      $logger->debug("The login [ $theLogin ] has been not found.");
+      $logger->trace("Exit");
       return false;
      
-  }
+   }
      
 }
 ?>

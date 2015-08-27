@@ -38,7 +38,7 @@ var Lightbox = {
          
     },
     show: function (theParameters){
-       JSLogger.getInstance().registerLogger("Lightbox", JSLogger.levelsE.TRACE);
+       JSLogger.getInstance().registerLogger("Lightbox", JSLogger.levelsE.ERROR);
        
       
        JSLogger.getInstance().traceEnter();
@@ -204,7 +204,7 @@ var Lightbox = {
          $('#img_close').click(function () {Lightbox.closeLightbox()});
        
          
-         $(document).keydown(function(e) {        
+         $(document).keypress(function(e) {        
             if (e.keyCode == 27) {
                Lightbox.closeLightbox();
             }

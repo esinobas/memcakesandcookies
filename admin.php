@@ -4,7 +4,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html><head>
   
-  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <!-- <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"> -->
   <title>Admin MEM Cakes and Cookies</title>
 
   <script type="text/javascript" src="./scripts/jquery-1.9.0.js"></script>
@@ -90,11 +91,14 @@ body {
   
 }
 
-  </style>
+   </style>
+      <?php 
+         set_include_path( get_include_path() . PATH_SEPARATOR . dirname(__FILE__).'/php/');
+      ?>
 </head>
    <body>
       <?php
-         include_once('./php/login/login.php');
+         include_once('login/login.php');
          $error = false;         
          if (isset($_POST["Boton"])){
             
@@ -114,13 +118,13 @@ body {
          <div style="width: 474px;" id="image"><img style="width: 300px; height: 221px;" alt="Logo" title="Logo" src="images/logoCMYKwithoutBorder.jpg"><br>
          </div>
       <div id="titulo">
-         <h1>Administración de MEM Cakes And Cookies</h1>
+         <h1>AdministraciÃ³n de MEM Cakes And Cookies</h1>
       </div>
       <div id="form">
          <form action="" method="post">
             <div id="labelUser" class="formLabel">Usuario:</div>
             <div class="formInput"><input class="textStyle" maxlength="30" name="user"></div>
-            <div class="formLabel">Contraseña:</div>
+            <div class="formLabel">ContraseÃ±a:</div>
             <div class="formInput"><input class="textStyle" maxlength="30" name="password" type="password"></div>
             <div id="boton"> <input name="Boton" value="Aceptar" type="submit"> </div>
          </form>
@@ -129,7 +133,7 @@ body {
          if ($error == true){
          ?>   
             <div id="Error">
-               Has introducido mal el usuario o la contraseña. Vuelve a intentarlo
+               Has introducido mal el usuario o la contraseï¿½a. Vuelve a intentarlo
             </div>
          <?php
          }

@@ -23,6 +23,12 @@
       </layout>
    </appender>
 
+   <logger name="login.php">
+      <level value="TRACE"></level>
+      <appender_ref ref="WebFileAppender"></appender_ref>
+   </logger>
+   
+   
    <logger name="index.php">
       <level value="TRACE"></level>
       <appender_ref ref="WebFileAppender"></appender_ref>
@@ -101,6 +107,12 @@
    </logger>
    
    <logger name="TB_ImagesAndCollection">
+      <level value="WARN"></level>
+      <appender_ref ref="DatabaseFileAppender"></appender_ref>
+      <appender_ref ref="WebFileAppender"></appender_ref>
+   </logger>
+   
+   <logger name="TB_Users">
       <level value="WARN"></level>
       <appender_ref ref="DatabaseFileAppender"></appender_ref>
       <appender_ref ref="WebFileAppender"></appender_ref>
