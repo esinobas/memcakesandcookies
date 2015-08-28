@@ -5,6 +5,7 @@
    background-color: inherit;
    float: left;
    width: 100%;
+   font: inherit;
 }
 
 
@@ -12,6 +13,33 @@ ul.Title-Tabs{
    list-style-type: none;
    padding: 0px;
    margin: 0px;
+   float: left;
+}
+
+ul.Title-Tabs li a{
+ 
+   text-decoration: none;
+   color:inherit;
+}
+
+ul.Title-Tabs li{
+ 
+   padding: 10px;
+   margin: -1px;
+   border-style: solid;
+   border-width: 1px;
+}
+
+ul.Title-Tabs li.active{
+ 
+   border-right-style: none;
    
+}
+
+.Vertical-Tab{
    
+   border-style: solid;
+   border-width: 1px;
+   float: left;
+ 
 }

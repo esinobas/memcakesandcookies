@@ -58,7 +58,7 @@
          </div> <!-- header -->
      
       <div id="data">
-         <div class="VerticalTabs" id="MainTab">
+         <div class="Vertical-Tabs" id="MainTab">
             <ul class="Title-Tabs">
                <li><a href="#Tab-Configuration">Configuracion</a></li>
                <li><a href="#Tab-Home">Home</a></li>
@@ -80,6 +80,31 @@
                
                <li><a href="#Tab-Subcription">Subcripciones</a></li>
             </ul>
+            <div class="Vertical-Tab" id="Tab-Configuration">
+               Configuración
+            </div>
+            <div class="Vertical-Tab" id="Tab-Home">
+               Home
+            </div>
+            <?php
+               $tableMenu->rewind();
+               $logger->trace("Get the options menu for the tabs");
+               while ($tableMenu->next()){
+                  if ($tableMenu->getId() > 1 && $tableMenu->getId() < 6){
+                     $logger->trace("Write the menu option [ ".
+                           $tableMenu->getOption() . " ] in tab");
+            ?>
+                  <div class="Vertical-Tab" id=<?php printf("\"Tab-%s\"",$tableMenu->getOption());?>>
+                     <?php print($tableMenu->getOption());?>
+                  </div>
+            <?php 
+                  }
+               }
+               
+            ?>
+            <div class="Vertical-Tab" id="Tab-Subcription">
+               Subscriptores
+            </div>
          </div>
       </div><!--  data -->
    </body>
