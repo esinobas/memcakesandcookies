@@ -59,6 +59,12 @@ $(function(){
       JSLogger.getInstance().trace("Max width [ " + maxLength + "px ]");
       $(this).find('.Title-Tabs ul li').css('width', maxLength + "px");
       
+      //Get the tabs title width, ul html elment
+      var tabsWidth = $(this).find('.Title-Tabs ul').css('width');
+      JSLogger.getInstance().trace("The tittle tabs width is [ " + tabsWidth +" ]");
+      //Set the margin left in the tabs
+      $('.Vertical-Tab').css('margin-left', (parseInt(tabsWidth)+1)+"px");
+      
       var localTabs = $(this);
       $(this).find('.Title-Tabs ul li:first').addClass('active');
       $(this).find('.Title-Tabs ul li').click(function(){

@@ -79,7 +79,7 @@ html {
   width: 960px;
   
   height: calc(100% - 100px);
-  height: -webkit-calc(100% - 100px);
+  /*height: -webkit-calc(100% - 100px);*/
   height: -moz-calc(100% - 100px);
   
 }

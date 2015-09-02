@@ -21,7 +21,6 @@
    border-width: 1px;
    border-bottom-style: none;
    border-right-style: none;  
-   z-index: 2;
    border-radius: 5px 0px 0px 15px;
 }
 
@@ -32,15 +31,7 @@
    
 }
 
-.Title-Tabs ul li
-{
- 
-   
-   border-bottom-style: solid;
-   border-bottom-width: 1px;
-   border-radius: 0px 0px 0px 15px;
-   
-}
+
 .Title-Tabs ul li a{
  
    text-decoration: none;
@@ -50,25 +41,33 @@
 
 .Title-Tabs ul li{
  
+   border-bottom-style: solid;
+   border-bottom-width: 1px;
+   border-radius: 0px 0px 0px 15px;
+   
    padding: 10px;
    margin-top: -1px;
    /*border-style: solid;
    border-width: 1px;*/
    font: inherit;
+   
+   
 }
 
 .Title-Tabs ul li.active{
  
-   /*border-right-style: solid*/;
    font-weight: bold;
-   
+   z-index: 2;
+   border-right-style: solid;
+   border-right-color: white;
+   border-right-width: 1px;
 }
 
 .Vertical-Tab{
-   
    border-style: solid;
    border-width: 1px;
    font: inherit;
-   overflow: hidden;
+   /*overflow: hidden;*/
+   
    height: 100%;      
 }
