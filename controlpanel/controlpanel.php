@@ -14,7 +14,9 @@
       <link rel="stylesheet" type="text/css" href="style.css">
       
       <!--  Plugins -->
-      <!-- <script type="text/javascript" src="../plugins/VerticalTabs/VerticalTabs.js"></script>-->
+      <script type="text/javascript" src="../plugins/JQuery/jquery-1.9.0.js"></script>
+      <script type="text/javascript" src="../plugins/JSLogger/JSLogger.js"></script>
+      <script type="text/javascript" src="../plugins/VerticalTabs/VerticalTabs.js"></script>
       <link rel="stylesheet" type="text/css" href="../plugins/VerticalTabs/style.css">
 
       <!-- Include the php dir in php path -->
@@ -57,56 +59,57 @@
             </div>
          </div> <!-- header -->
      
-      <div id="data">
-         <div class="Vertical-Tabs" id="MainTab">
-            <ul class="Title-Tabs">
-               <li><a href="#Tab-Configuration">Configuracion</a></li>
-               <li><a href="#Tab-Home">Home</a></li>
+         <div id="data">
+            <div class="Vertical-Tabs" id="MainTab">
+               <div class="Title-Tabs">
+                  <ul>
+                     <li><a href="#Tab-Configuration">Configuracion</a></li>
+                     <li><a href="#Tab-Home">Home</a></li>
+                     <?php
+                        // Include the options menu
+                        $tableMenu = new TB_Menu();
+                        $tableMenu->open();
+                        $logger->trace("Get the options menu for the tabs tittle");
+                        while ($tableMenu->next()){
+                           if ($tableMenu->getId() > 1 && $tableMenu->getId() < 6){
+                              $logger->trace("Write the menu option [ ". 
+                                   $tableMenu->getOption() . " ] in tab title");
+                     ?>
+                     <li><a href=<?php printf("\"#Tab-%s\"",$tableMenu->getOption());?>><?php print($tableMenu->getOption());?></a>
+                     <?php 
+                           }
+                        }
+                     ?>
+                     <li><a href="#Tab-Subcription">Subcripciones</a></li>
+                  </ul>
+               </div>
+               <div class="Vertical-Tab" id="Tab-Configuration">
+                  Configuración
+               </div>
+               <div class="Vertical-Tab" id="Tab-Home">
+                  Home
+               </div>
                <?php
-                  // Include the options menu
-                  $tableMenu = new TB_Menu();
-                  $tableMenu->open();
-                  $logger->trace("Get the options menu for the tabs tittle");
+                  $tableMenu->rewind();
+                  $logger->trace("Get the options menu for the tabs");
                   while ($tableMenu->next()){
                      if ($tableMenu->getId() > 1 && $tableMenu->getId() < 6){
-                        $logger->trace("Write the menu option [ ". 
-                                   $tableMenu->getOption() . " ] in tab title");
-                ?>
-                <li><a href=<?php printf("\"#Tab-%s\"",$tableMenu->getOption());?>><?php print($tableMenu->getOption());?></a>
-                <?php 
+                        $logger->trace("Write the menu option [ ".
+                           $tableMenu->getOption() . " ] in tab");
+                  ?>
+               <div class="Vertical-Tab" id=<?php printf("\"Tab-%s\"",$tableMenu->getOption());?>>
+                  <?php print($tableMenu->getOption());?>
+               </div>
+                  <?php 
                      }
                   }
                ?>
-               
-               <li><a href="#Tab-Subcription">Subcripciones</a></li>
-            </ul>
-            <div class="Vertical-Tab" id="Tab-Configuration">
-               Configuración
+               <div class="Vertical-Tab" id="Tab-Subcription">
+                  Subscriptores
+               </div>
             </div>
-            <div class="Vertical-Tab" id="Tab-Home">
-               Home
-            </div>
-            <?php
-               $tableMenu->rewind();
-               $logger->trace("Get the options menu for the tabs");
-               while ($tableMenu->next()){
-                  if ($tableMenu->getId() > 1 && $tableMenu->getId() < 6){
-                     $logger->trace("Write the menu option [ ".
-                           $tableMenu->getOption() . " ] in tab");
-            ?>
-                  <div class="Vertical-Tab" id=<?php printf("\"Tab-%s\"",$tableMenu->getOption());?>>
-                     <?php print($tableMenu->getOption());?>
-                  </div>
-            <?php 
-                  }
-               }
-               
-            ?>
-            <div class="Vertical-Tab" id="Tab-Subcription">
-               Subscriptores
-            </div>
-         </div>
-      </div><!--  data -->
+         </div> <!-- data   -->
+      </div> <!-- main -->
    </body>
 
 </html>
