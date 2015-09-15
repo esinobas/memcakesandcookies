@@ -25,7 +25,7 @@
  *  
  */
 
-JSLogger.getInstance().registerLogger("Vertical-Tabs",JSLogger.levelsE.TRACE);
+JSLogger.getInstance().registerLogger("Vertical-Tabs",JSLogger.levelsE.ERROR);
 
 $(function(){
    JSLogger.getInstance().traceEnter();
