@@ -136,6 +136,10 @@
       <level value="TRACE"></level>
       <appender_ref ref="ControlPanelFileAppender"></appender_ref>
    </logger>
+   <logger name="ControlpanelFunctions.php">
+      <level value="TRACE"></level>
+      <appender_ref ref="ControlPanelFileAppender"></appender_ref>
+   </logger>
    <!-- 
    <logger name="DatabaseDef">
       <level value="ERROR"></level>

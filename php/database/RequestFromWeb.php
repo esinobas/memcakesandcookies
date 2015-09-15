@@ -129,6 +129,12 @@
                              $row[TB_Configuration::LabelColumnC] ." ]");
                   $theTable->setLabel($row[TB_Configuration::LabelColumnC ]);
                 }
+               if (isset($row[TB_Configuration::DataTypeColumnC])){
+                  $logger->trace("Set value to column [ ".
+                             TB_Configuration::DataTypeColumnC ." ] -> [ ".
+                             $row[TB_Configuration::DataTypeColumnC] ." ]");
+                  $theTable->setDataType($row[TB_Configuration::DataTypeColumnC ]);
+                }
             }
 
             if (strcmp($theTable->getTableName(),TB_Menu::TB_MenuTableC) == 0){
@@ -371,10 +377,12 @@
          $varValue = $theData["Value"];
          $varDescription = $theData["Description"];
          $varLabel = $theData["Label"];
+         $varDataType = $theData["DataType"];
 
          $newId = $theTable->insert($varValue
                                 ,$varDescription
                                 ,$varLabel
+                                ,$varDataType
                                 );
       }
 

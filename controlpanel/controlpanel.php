@@ -18,12 +18,14 @@
       <script type="text/javascript" src="../plugins/JSLogger/JSLogger.js"></script>
       <script type="text/javascript" src="../plugins/VerticalTabs/VerticalTabs.js"></script>
       <link rel="stylesheet" type="text/css" href="../plugins/VerticalTabs/style.css">
+      <link rel="stylesheet" type="text/css" href="../plugins/DataGrid/DataGrid.css">
 
       <!-- Include the php dir in php path -->
       <?php
          set_include_path(get_include_path().PATH_SEPARATOR . dirname(__FILE__) . '/../php/'); 
          
-         require_once 'LoggerMgr/LoggerMgr.php';
+         include_once 'LoggerMgr/LoggerMgr.php';
+         require_once 'ControlpanelFunctions.php';
          //Include the tables files
          require_once 'database/TB_Configuration.php';
          require_once 'database/TB_Menu.php';
@@ -85,6 +87,7 @@
                </div>
                <div class="Vertical-Tab" id="Tab-Configuration">
                   Configuración
+                  <?php getConfiguration(); ?>
                </div>
                <div class="Vertical-Tab" id="Tab-Home">
                   Home

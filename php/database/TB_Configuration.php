@@ -33,6 +33,7 @@
      const ValueColumnC = "Value";
      const DescriptionColumnC = "Description";
      const LabelColumnC = "Label";
+     const DataTypeColumnC = "DataType";
       
       /*** Phisical constants ***/
 
@@ -42,6 +43,7 @@
       const phisicalTB_CONFIGURATIONValueColumnC = "Value";
       const phisicalTB_CONFIGURATIONDescriptionColumnC = "Description";
       const phisicalTB_CONFIGURATIONLabelColumnC = "Label";
+      const phisicalTB_CONFIGURATIONDataTypeColumnC = "DataType";
 
      /*
       * Constructor. The table definition is done here
@@ -60,6 +62,8 @@
                               self::DescriptionColumnC,ColumnType::stringC));
 		$this->tableDefinitionM->addColumn(new ColumnDef(
                               self::LabelColumnC,ColumnType::stringC));
+		$this->tableDefinitionM->addColumn(new ColumnDef(
+                              self::DataTypeColumnC,ColumnType::stringC));
 		$this->tableDefinitionM->addKey(self::PropertyColumnC);
    
       $this->tableMappingM = new TableMapping();
@@ -85,6 +89,11 @@
             self::phisicalTB_CONFIGURATIONLabelColumnC ,
             self::LabelColumnC,
             ColumnType::stringC);
+      $this->tableMappingM->addColumn(
+            self::phisicalTB_CONFIGURATIONC ,
+            self::phisicalTB_CONFIGURATIONDataTypeColumnC ,
+            self::DataTypeColumnC,
+            ColumnType::stringC);
       
       $this->tableMappingM->addKey(self::phisicalTB_CONFIGURATIONC,
             self::phisicalTB_CONFIGURATIONPropertyColumnC );
@@ -95,12 +104,14 @@
       public function insert( $theValue
                               ,$theDescription
                               ,$theLabel
+                              ,$theDataType
                                 ){
          $this->loggerM->trace("Enter");
          $arrayData = array();
          $arrayData[self::ValueColumnC] = $theValue;
          $arrayData[self::DescriptionColumnC] = $theDescription;
          $arrayData[self::LabelColumnC] = $theLabel;
+         $arrayData[self::DataTypeColumnC] = $theDataType;
          $this->loggerM->trace("Exit");
 
          return parent::insertData($arrayData);
@@ -139,6 +150,16 @@
       public function setLabel($Label){
          $this->loggerM->trace("Enter");
          $this->set(self::LabelColumnC, $Label);
+         $this->loggerM->trace("Exit");
+      }
+      public function getDataType(){
+         $this->loggerM->trace("Enter/Exit");
+         return $this->get(self::DataTypeColumnC);
+      }
+      
+      public function setDataType($DataType){
+         $this->loggerM->trace("Enter");
+         $this->set(self::DataTypeColumnC, $DataType);
          $this->loggerM->trace("Exit");
       }
 

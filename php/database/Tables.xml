@@ -20,6 +20,10 @@
             <name>Label</name>
             <type>string</type>
          </column>
+         <column>
+            <name>DataType</name>
+            <type>string</type>
+         </column>
       </columns>
       <key>
          <column>Property</column>
@@ -47,6 +51,11 @@
                <column>
                   <name>Label</name>
                   <logical>Label</logical>
+                  <type>string</type>
+               </column>
+               <column>
+                  <name>DataType</name>
+                  <logical>DataType</logical>
                   <type>string</type>
                </column>
             </columns>

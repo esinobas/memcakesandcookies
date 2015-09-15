@@ -1,0 +1,30 @@
+@CHARSET "UTF-8";
+
+.Data-Grid{
+ 
+   padding: 3px;
+   float: left;
+   
+   background-color: green;
+}
+
+.Data-Grid-Row{
+ 
+   padding: 2px;
+   clear: left;
+   /*width: calc (100% - 4px);
+   /*width: -moz-calc (100% - 4px);
+   width: -webkit-calc (100% - 4px);*/
+   text-align: left;
+   background-color: red;
+}
+
+.Data-Grid-Title{
+ 
+   background-color: cyan;
+}
+
+.Data-Grid-Column{
+ 
+   display: inline;
+}
