@@ -80,6 +80,11 @@ html {
 
 }
 
+#DataConfiguration{
+ 
+   font-size:22px;
+}
+
 #data{
   width: 960px;
   font-family: Cookie;

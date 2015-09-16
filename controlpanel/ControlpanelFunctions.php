@@ -21,36 +21,33 @@
       $tbConfiguration->open();
 ?>
       <div id="DataConfiguration" class="Data-Grid">
-         <div id="DataConfiguration-Title" class="Data-Grid-Row Data-Grid-Title">
-            <div id="DataConfiguration-Title-Column-Property" class="Data-Grid-Column">
-               Propiedad
-            </div>
-            <div id="DataConfiguration-Title-Column-Value" class="Data-Grid-Column">
-               Valor
-            </div>
-            <div id="DataConfiguration-Title-Column-Description" class="Data-Grid-Column">
-               Descripción
-            </div>
-         </div>
+        
 <?php 
       while ($tbConfiguration->next()){
 
 ?>
          <div id="DataConfiguration-<?php print ($tbConfiguration->getProperty());?>" class="Data-Grid-Row">
             <div class="Data-Grid-Column">
-                  <?php print ($tbConfiguration->getLabel());?>
+                  <?php printf ("%s: ", $tbConfiguration->getLabel());?>
             </div>
-            <div class="Data-Grid-Column">
+            <div class="Data-Grid-Column" title=<?php printf("\"%s\"", $tbConfiguration->getDescription());?>>
                   <?php print ($tbConfiguration->getValue());?>
             </div>
-            <div class="Data-Grid-Column">
-                  <?php print ($tbConfiguration->getDescription());?>
-            </div>
+            
          </div>
+         
 <?php 
       }
 ?>
-   </div>
+      </div>
+      <script type="text/javascript">
+      DataGrid.format($('#DataConfiguration'),{width:"500px",
+                                               columnsWidth: {0:"200px",1:"300px"}});
+      </script>
+<!--
+
+//-->
+</script>
 <?php 
       $loggerCpF->trace("Exit");
    }

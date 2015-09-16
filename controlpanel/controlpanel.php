@@ -17,6 +17,7 @@
       <script type="text/javascript" src="../plugins/JQuery/jquery-1.9.0.js"></script>
       <script type="text/javascript" src="../plugins/JSLogger/JSLogger.js"></script>
       <script type="text/javascript" src="../plugins/VerticalTabs/VerticalTabs.js"></script>
+      <script type="text/javascript" src="../plugins/DataGrid/DataGrid.js"></script>
       <link rel="stylesheet" type="text/css" href="../plugins/VerticalTabs/style.css">
       <link rel="stylesheet" type="text/css" href="../plugins/DataGrid/DataGrid.css">
 
@@ -86,7 +87,7 @@
                   </ul>
                </div>
                <div class="Vertical-Tab" id="Tab-Configuration">
-                  Configuración
+                  <div>Configuración</div>
                   <?php getConfiguration(); ?>
                </div>
                <div class="Vertical-Tab" id="Tab-Home">

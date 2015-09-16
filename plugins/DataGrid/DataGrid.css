@@ -2,29 +2,42 @@
 
 .Data-Grid{
  
-   padding: 3px;
-   float: left;
-   
-   background-color: green;
+   padding: 2px;
+  
+  /* background-color: green;*/
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  
 }
 
 .Data-Grid-Row{
  
    padding: 2px;
-   clear: left;
+   float: left;
+   
    /*width: calc (100% - 4px);
    /*width: -moz-calc (100% - 4px);
    width: -webkit-calc (100% - 4px);*/
    text-align: left;
-   background-color: red;
+   /*background-color: red;*/
+   width: 100%;
 }
 
 .Data-Grid-Title{
  
-   background-color: cyan;
+   /*background-color: cyan;*/
+   padding: 1px;
 }
 
 .Data-Grid-Column{
  
+   padding: 1px;
+   float: left;
    display: inline;
+   overflow: hidden;
+   text-overflow: clip;
+   white-space: nowrap;
+   
 }
+
