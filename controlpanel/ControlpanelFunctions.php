@@ -38,7 +38,8 @@
                      
                ?>
                <input type="<?php if(strcmp($tbConfiguration->getDataType(), "Numeric") == 0){print("number");}else{print("text");}?>"
-                      value="<?php print ($tbConfiguration->getValue());?>">
+                      value="<?php print ($tbConfiguration->getValue());?>" 
+                      <?php if(strcmp($tbConfiguration->getDataType(), "Directory") == 0){print("readonly");} ?>>
                
             </div>
             
