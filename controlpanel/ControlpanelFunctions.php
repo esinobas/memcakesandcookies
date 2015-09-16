@@ -31,7 +31,15 @@
                   <?php printf ("%s: ", $tbConfiguration->getLabel());?>
             </div>
             <div class="Data-Grid-Column" title=<?php printf("\"%s\"", $tbConfiguration->getDescription());?>>
-                  <?php print ($tbConfiguration->getValue());?>
+               <?php 
+                     $loggerCpF->trace("The [ ".$tbConfiguration->getProperty().
+                            " ] type data is [ " . $tbConfiguration->getDataType() .
+                           " ]");
+                     
+               ?>
+               <input type="<?php if(strcmp($tbConfiguration->getDataType(), "Numeric") == 0){print("number");}else{print("text");}?>"
+                      value="<?php print ($tbConfiguration->getValue());?>">
+               
             </div>
             
          </div>
@@ -44,10 +52,8 @@
       DataGrid.format($('#DataConfiguration'),{width:"500px",
                                                columnsWidth: {0:"200px",1:"300px"}});
       </script>
-<!--
 
-//-->
-</script>
+
 <?php 
       $loggerCpF->trace("Exit");
    }
