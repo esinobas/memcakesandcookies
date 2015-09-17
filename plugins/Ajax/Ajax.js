@@ -2,7 +2,8 @@
 
 function Ajax(){
 
-   console.debug("Ajax()::Enter");
+   JSLogger.getInstance().registerLogger(arguments.callee.name, JSLogger.levelsE.ERROR);
+   JSLogger.getInstance().traceEnter();
    
    this.urlM = "";
    this.parametersM = "";
@@ -12,7 +13,7 @@ function Ajax(){
    this.isFileM = false;
    this.responseM = "";
    
-   console.debug("Ajax()::Exit");
+   JSLogger.getInstance().traceExit();
 
 
 }
@@ -35,7 +36,7 @@ Ajax.prototype.setAsyn = function () {
    this.modeM = "asyn";
 }
 Ajax.prototype.setSyn = function () {
-   console.debug("Ajax::setSyn()::Enter-Exit");
+   JSLogger.getInstance().trace("Enter-Exit");
    this.modeM = "syn";
 }
 Ajax.prototype.setParameters = function (theParameters){
@@ -58,38 +59,38 @@ Ajax.prototype.getResponse = function(){
 
 Ajax.prototype.send = function(){
    
-      console.debug("Ajax::send()::Enter");
+      JSLogger.getInstance().traceEnter();
       
       var xmlHttpRequest = new XMLHttpRequest();
       
       var mode = true;
       if (this.modeM !== "asyn"){
       
-         console.debug("Ajax::send()::It is a synchronous request");
+         JSLogger.getInstance().trace("Ajax::send()::It is a synchronous request");
          mode = false;
       }
-      console.debug("Ajax::send()::Send request [ " + this.methodM + " ] to [ " +this.urlM + "] with these parameters [ " + this.parametersM + " ].");
+      JSLogger.getInstance().debug("Send request [ " + this.methodM + " ] to [ " +this.urlM + "] with these parameters [ " + this.parametersM + " ].");
       
       //if (this.methodM == "POST"){
          
         var callback = this.callbackM;
         var modeComm = this.modeM;
              
-        xmlHttpRequest.onreadystatechange = function () {
+        xmlHttpRequest.onreadystatechange = function onreadystatechange() {
             
         
               if (xmlHttpRequest.readyState==4 && xmlHttpRequest.status==200){
-                 console.debug("Ajax::onreadystatechange()::The request finished");
+                 JSLogger.getInstance().debug("The request finished");
                                   
                  if ((modeComm === "asyn") && (callback !== null)){
               
-                    console.debug("Ajax::onreadystatechange()::The response has been received.");
-                    console.debug("Ajax::onreadystatechange()::[ " + xmlHttpRequest.responseText +" ]");
+                    JSLogger.getInstance().trace("The response has been received.");
+                    JSLogger.getInstance().trace("Response[ " + xmlHttpRequest.responseText +" ]");
 
                  
-                    console.debug("Ajax::onreadystatechange()::Call callback");
+                    JSLogger.getInstance().trace("Call callback");
                     callback(xmlHttpRequest.responseText); 
-                    console.debug("Ajax::onreadystatechange()::The callback function has been called");
+                    JSLogger.getInstance().trace("The callback function has been called");
                  }
               }        
                   
@@ -97,16 +98,16 @@ Ajax.prototype.send = function(){
          
       //}
   
-      console.debug("Ajax::send()::The method is [ " + this.methodM +" ]");
+        JSLogger.getInstance().trace("The method is [ " + this.methodM +" ]");
       
       if (this.methodM == "GET"){
-         console.debug("Ajax::send()::GET request with parameters");
-         console.debug("Ajax::send()::Parameters [ " + this.parametersM + " ]");
+         JSLogger.getInstance().trace("GET request with parameters");
+         JSLogger.getInstance().trace("Parameters [ " + this.parametersM + " ]");
          var parameters = JSON.parse(this.parametersM);  
          var parameterString = ""; 
          var firstParameter = true;
          for (var key in parameters){
-            console.debug("Ajax::send()::[ " + key +" ][ " + parameters[key] + " ]");
+            JSLogger.getInstance().trace("[ " + key +" ][ " + parameters[key] + " ]");
             if (!firstParameter){
                parameterString = parameterString + "&";
                           
@@ -116,7 +117,7 @@ Ajax.prototype.send = function(){
             parameterString = parameterString + key + "="+parameters[key];
          }
          this.urlM = this.urlM+"?"+parameterString;
-         console.debug("Ajax::send()::New url: [ " + this.urlM + " ]");
+         JSLogger.getInstance().debug("New url: [ " + this.urlM + " ]");
             
       }
       xmlHttpRequest.open(this.methodM, this.urlM, mode);
@@ -124,7 +125,7 @@ Ajax.prototype.send = function(){
       if (this.methodM == "POST"){
          
          
-         console.debug("Ajax::send()::Method POST, adding header");
+         JSLogger.getInstance().trace("Method POST, adding header");
          xmlHttpRequest.setRequestHeader("Content-type","application/x-www-form-urlencoded");         
          
       }
@@ -132,19 +133,19 @@ Ajax.prototype.send = function(){
       if (this.methodM == "POST"){
          if(this.parametersM.length > 0){
          
-         console.debug("Ajax::send()::Send request with parameters");
-         console.debug("Ajax::send()::Parameters [ " + this.parametersM + " ]");
-         var parameters = JSON.parse(this.parametersM);  
-         var parameterString = ""; 
-         var firstParameter = true;
+            JSLogger.getInstance().trace("Send request with parameters");
+            JSLogger.getInstance().trace("Parameters [ " + this.parametersM + " ]");
+            var parameters = JSON.parse(this.parametersM);  
+            var parameterString = ""; 
+            var firstParameter = true;
 
-         for (var key in parameters){
+            for (var key in parameters){
             
                if (typeof(parameters[key])==="object"){
-                  console.debug("Ajax::send()::[ " + key +" ][ " +
+                  JSLogger.getInstance().trace("[ " + key +" ][ " +
                         JSON.stringify(parameters[key]) + " ]");
                }else{
-                   console.debug("Ajax::send()::[ " + key +" ][ " + parameters[key] + " ]");
+                  JSLogger.getInstance().trace("[ " + key +" ][ " + parameters[key] + " ]");
                }
                
                if (!firstParameter){
@@ -161,29 +162,29 @@ Ajax.prototype.send = function(){
                }
          }
             
-         console.debug("Ajax::send()::Parameters String [ " + parameterString + " ]");
+            JSLogger.getInstance().trace("Parameters String [ " + parameterString + " ]");
          xmlHttpRequest.send(parameterString);
         }else{
-         console.debug("Ajax::send()::Send request without parameters");
-         xmlHttpRequest.send();
+           JSLogger.getInstance().debug("Send request without parameters");
+           xmlHttpRequest.send();
         }
       }else{
-         console.debug("Ajax::send()::GET request without parameters");
+         JSLogger.getInstance().debug("GET request without parameters");
          xmlHttpRequest.send();
       }
             
-      console.debug("Ajax::send()::Request sent");
+      JSLogger.getInstance().debug("Request sent");
       if (this.modeM !== "asyn"){
          this.responseM = xmlHttpRequest.responseText;
-         console.debug("Ajax:.send()::reponse [ "+ this.responseM +" ]");
+         JSLogger.getInstance().debug("reponse [ "+ this.responseM +" ]");
       }
-      console.debug("Ajax::send()::Exit");
+      JSLogger.getInstance().traceExit();
    
    };
    
    Ajax.prototype.sendFile = function (theFile){
      
-      console.debug("Ajax::sendFile()::Enter");
+      JSLogger.getInstance().traceEnter();
       
       var xmlHttpRequest = new XMLHttpRequest();
       var formData = new FormData();
@@ -234,6 +235,6 @@ Ajax.prototype.send = function(){
       }
       console.debug("Ajax::sendFile()::The file was sent.");
      
-      console.debug("Ajax::sendFile()::Exit");
+      JSLogger.getInstance().traceExit();
    
    };

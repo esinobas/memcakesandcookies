@@ -16,9 +16,23 @@
       <script type="text/javascript" src="../plugins/JSLogger/JSLogger.js"></script>
       <script type="text/javascript" src="../plugins/VerticalTabs/VerticalTabs.js"></script>
       <script type="text/javascript" src="../plugins/DataGrid/DataGrid.js"></script>
+      
+      <script type="text/javascript" src="../plugins/Common/HtmlObject/HtmlObject.js"></script>
+      <script type="text/javascript" src="../plugins/Common/HtmlWindow/HtmlWindow.js"></script>
+      <script type="text/javascript" src="../plugins/Common/HtmlForm/HtmlForm.js"></script>
+      
+      <script type="text/javascript" src="../plugins/Ajax/Ajax.js"></script>
+      <script type="text/javascript" src="../plugins/MessageBox/MessageBox.js"></script>
+      <script type="text/javascript" src="../plugins/FileBrowser/FileBrowser.js"></script>
+      
+      
+      
       <link rel="stylesheet" type="text/css" href="../plugins/VerticalTabs/style.css">
       <link rel="stylesheet" type="text/css" href="../plugins/DataGrid/DataGrid.css">
       <link rel="stylesheet" type="text/css" href="../plugins/Styles/ButtonsStyles.css">
+      <link rel="stylesheet" type="text/css" href="../plugins/Common/HtmlWindow/HtmlWindow.css">
+      <link rel="stylesheet" type="text/css" href="../plugins/MessageBox/style/MessageBox.css">
+      <link rel="stylesheet" type="text/css" href="../plugins/FileBrowser/style/Filebrowser.css">
       
       
       <link rel="stylesheet" type="text/css" href="style.css">
@@ -38,6 +52,9 @@
       ?>
    </head>
    <body>
+      <script type="text/javascript">
+         JSLogger.getInstance().registerLogger("ControlPanel", JSLogger.levelsE.TRACE);
+      </script>
       
       <div id="main">
          <div id="header">      

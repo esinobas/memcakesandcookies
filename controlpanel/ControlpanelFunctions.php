@@ -67,7 +67,7 @@
                            " ]");
                      
                ?>
-               <input type="text" 
+               <input type="text" id="Input-Cakes-Directory"
                       value="<?php print ($tbConfiguration->getValue());?>" readonly>
                
             </div>
@@ -172,9 +172,33 @@
            
          </div>
       </div>
+      <?php 
+         $loggerCpF->trace("Format the DataGrid");
+      ?>
       <script type="text/javascript">
-      DataGrid.format($('#DataConfiguration'),{width:"575px",
+         DataGrid.format($('#DataConfiguration'),{width:"575px",
                                                columnsWidth: {0:"175px",1:"300px",2:"100px"}});
+
+         JSLogger.getInstance().trace("Define function callback showDirectoryCakes");
+         functionShowDirectoryCakes = function (theData){
+
+            var message = "Data: " + theData.path + ". Type: "+ (theData.file?"File":"Directory");;
+            JSLogger.getInstance().debug("Callback : " + message);
+            
+            //JSLogger.getInstance().debug("VALOR:" +$('#Data_Path_Cursos').val());
+        }
+         JSLogger.getInstance().trace("Add click event to the button #Button-Image-Cakes-Directory");
+         $('#Button-Image-Cakes-Directory').click(function(){
+            fileBrowser = new FileBrowser(
+                  {path:{
+                        root_path:<?php printf("\"%s\"",$_SERVER['DOCUMENT_ROOT']);?>,
+                        current_path: $('#Input-Cakes-Directory').val()},
+                        type: "d", filter: "*.*", 
+                        callback: functionShowDirectoryCakes,
+                        Title_Params:{
+                           Caption:"Selecciona el directorio donde se guardan las cakes",
+                           Background_Color:"orange"},});
+         });
       </script>
 
 
