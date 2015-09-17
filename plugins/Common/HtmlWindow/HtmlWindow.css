@@ -1,0 +1,14 @@
+.Title-Bar{
+ 
+   width: 100%;
+   background-color: graytext;
+}
+.Title-Bar div{
+ 
+   font-size: 12px;
+   font-weight: bold;
+   border: 1px solid white;
+   background-color: blue;
+   color: white;
+   padding: 2px 5px 2px 5px;
+}
