@@ -91,6 +91,14 @@ html {
    
 }
 
+.Round-Corners-Button{
+ 
+   background-color: #ff6600;
+   border-color: #ff6600;
+   color: white;
+   font-size: 18px;
+}
+
 #data{
   width: 960px;
   font-family: Cookie;
@@ -101,6 +109,7 @@ html {
   height: -moz-calc(100% - 100px);
   
 }
+/*****************************************************/
 #div_menu{
    width: 960px;
    /*height: 24px;*/

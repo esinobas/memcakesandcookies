@@ -9,9 +9,7 @@
       
       <meta http-equiv="content-type" content="text/html; charset=UTF-8">
       <meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8">
-      
-
-      <link rel="stylesheet" type="text/css" href="style.css">
+            
       
       <!--  Plugins -->
       <script type="text/javascript" src="../plugins/JQuery/jquery-1.9.0.js"></script>
@@ -20,6 +18,10 @@
       <script type="text/javascript" src="../plugins/DataGrid/DataGrid.js"></script>
       <link rel="stylesheet" type="text/css" href="../plugins/VerticalTabs/style.css">
       <link rel="stylesheet" type="text/css" href="../plugins/DataGrid/DataGrid.css">
+      <link rel="stylesheet" type="text/css" href="../plugins/Styles/ButtonsStyles.css">
+      
+      
+      <link rel="stylesheet" type="text/css" href="style.css">
 
       <!-- Include the php dir in php path -->
       <?php

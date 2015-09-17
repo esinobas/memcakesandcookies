@@ -72,7 +72,9 @@
                
             </div>
             <div class="Data-Grid-Column">
-               Seleccionar
+               <div class="Round-Corners-Button" id="Button-Image-Cakes-Directory">
+                  Seleccionar
+               </div>
             </div>
          </div>
 <?php
@@ -95,7 +97,9 @@
                
             </div>
             <div class="Data-Grid-Column">
-               Seleccionar
+               <div class="Round-Corners-Button" id="Button-Image-Cookies-Directory">
+                  Seleccionar
+               </div>
             </div>
          </div>
 <?php
@@ -118,7 +122,9 @@
                
             </div>
             <div class="Data-Grid-Column">
-               Seleccionar
+               <div class="Round-Corners-Button" id="Button-Image-Models-Directory">
+                  Seleccionar
+               </div>
             </div>
          </div>
 
