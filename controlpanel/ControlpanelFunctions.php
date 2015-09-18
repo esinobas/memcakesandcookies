@@ -343,4 +343,50 @@
 <?php 
       $loggerCpF->trace("Exit");
    }
+
+   /**
+    * Show the home page
+    */   
+   function getHome(){
+      global $loggerCpF;
+      $loggerCpF->trace("Enter");
+?>
+   <div>Imagenes que se muestran en la pagina principal</div>
+   
+<?php
+      $tbSlidesImageHome = new TB_SlideImagesHome();
+      $tbSlidesImageHome->open();
+      $tbConfiguration = new TB_Configuration();
+      $tbConfiguration->open();
+      $tbConfiguration->searchByKey(URL_C);
+?>
+      <div id="DataGrid-Images-Home" class="Data-Grid">
+<?php 
+      while ($tbSlidesImageHome->next()){
+?>
+         <div id="<?php print($tbSlidesImageHome->getId());?>" class="Data-Grid-Row">
+            <div class="Data-Grid-Column">
+               <img alt="<?php print($tbConfiguration->getValue().$tbSlidesImageHome->getPath())?>" 
+                     src="<?php print($tbConfiguration->getValue().$tbSlidesImageHome->getPath())?>"
+                     style="width: 300px">
+            </div>
+            <div class="Data-Grid-Column">
+               <div class="Round-Corners-Button">
+                  Eliminar
+               </div>
+            </div>
+         </div>
+<?php 
+      }
+?>
+      </div>
+      <script type="text/javascript">
+         DataGrid.format($('#DataGrid-Images-Home'),{width:"400px",
+                        columnsWidth: {0:"300px",1:"100px"}});
+      </script>
+      
+<?php 
+      $loggerCpF->trace("Exit");
+      
+   }
 ?>

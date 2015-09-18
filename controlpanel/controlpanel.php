@@ -47,6 +47,7 @@
          //Include the tables files
          require_once 'Database/TB_Configuration.php';
          require_once 'Database/TB_Menu.php';
+         require_once 'Database/TB_SlideImagesHome.php';
          //require_once 'Database/RequestFromWeb.php';
          
          //Declare the global variables
@@ -112,7 +113,9 @@
                   <?php getConfiguration(); ?>
                </div>
                <div class="Vertical-Tab" id="Tab-Home">
-                  Home
+                  <?php 
+                     getHome() 
+                  ?>
                </div>
                <?php
                   $tableMenu->rewind();
