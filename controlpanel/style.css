@@ -98,6 +98,13 @@ html {
    color: white;
    font-size: 18px;
 }
+#Button-Save-Configuration{
+ 
+   float: right;
+   margin-right: 100px;
+   padding: 1px 10px;
+   font-size: 22px;
+}
 
 #data{
   width: 960px;

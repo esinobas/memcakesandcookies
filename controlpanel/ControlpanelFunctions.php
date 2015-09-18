@@ -262,8 +262,25 @@
                   });
          });
       </script>
-
-
+<?php 
+      $loggerCpF->trace("Add button save configuration");
+   
+?>
+   <div style="clear: left"></div>
+   <div id="Button-Save-Configuration" class="Round-Corners-Button">
+      Guardar
+   </div>
+<?php 
+      $loggerCpF->trace("Declare function to save the configuration when its corresponding button is pressed");
+?>
+   <script type="text/javascript">
+      JSLogger.getInstance().trace("Define function save configuracion");
+      saveConfiguration = function (){
+         JSLogger.getInstance().traceEnter();
+         JSLogger.getInstance().traceExit();
+      }
+      $('#Button-Save-Configuration').click(saveConfiguration);
+   </script>
 <?php 
       $loggerCpF->trace("Exit");
    }
