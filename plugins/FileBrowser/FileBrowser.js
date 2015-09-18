@@ -514,8 +514,12 @@ var FileBrowser = FileBrowser || function (){
                         FileBrowser.prototype.getParameter(paramPathC, 
                               theParameters));
      
+     JSLogger.getInstance().debug("Root Directory [ " +
+           rootDirectory +" ]. Current path [ " + currentPathM + " ]. Directory [ " + 
+           theDirectoryName + " ]") ;
+     
      var newDirectory = (rootDirectory == currentPathM ? currentPathM + "/"+ theDirectoryName:
-        rootDirectory+"/"+ currentPathM + theDirectoryName);
+        rootDirectory+"/"+ currentPathM + "/"+ theDirectoryName);
      
      JSLogger.getInstance().debug("Create directory [ " +
                                           newDirectory +" ]") ;
