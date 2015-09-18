@@ -622,7 +622,7 @@ var FileBrowser = FileBrowser || function (){
            FileBrowser.prototype.getParameter(paramPathC, 
                                  localParamsM));
      var elmentToRemove = (rootDirectory == currentPathM ? currentPathM + "/" + elementSelectedM:
-        rootDirectory+"/"+ currentPathM + elementSelectedM);
+        rootDirectory+"/"+ currentPathM + "/" + elementSelectedM);
      JSLogger.getInstance().debug("Trying remove [ " + elmentToRemove +" ]");
      
      
