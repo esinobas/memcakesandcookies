@@ -42,10 +42,12 @@
          set_include_path(get_include_path().PATH_SEPARATOR . dirname(__FILE__) . '/../php/'); 
          
          include_once 'LoggerMgr/LoggerMgr.php';
+         
          require_once 'ControlpanelFunctions.php';
          //Include the tables files
-         require_once 'database/TB_Configuration.php';
-         require_once 'database/TB_Menu.php';
+         require_once 'Database/TB_Configuration.php';
+         require_once 'Database/TB_Menu.php';
+         //require_once 'Database/RequestFromWeb.php';
          
          //Declare the global variables
          $logger = LoggerMgr::Instance()->getLogger(basename(__FILE__));

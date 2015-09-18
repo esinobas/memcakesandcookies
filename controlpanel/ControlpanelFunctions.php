@@ -6,7 +6,6 @@
 /********* includes *****/
 
 /******** requires *****/
-  
 
 /********* Global Variables *****/
    $loggerCpF = LoggerMgr::Instance()->getLogger(basename(__FILE__));
@@ -14,9 +13,11 @@
  * Gets the configuration from the database and it showed
  */
    function getConfiguration(){
+      require_once 'Database/RequestFromWeb.php';
       global $loggerCpF;
       $loggerCpF->trace("Enter");
-      require_once 'database/TB_Configuration.php';
+      
+      
       //Define the constanst that allows access to the data configuration
       define(IMAGES_CAKES_DIRECTORY_C, 'cakesImagesPath');
       define(IMAGES_COOKIES_DIRECTORY_C, 'cookiesImagesPath');
@@ -27,7 +28,7 @@
       
       $tbConfiguration = new TB_Configuration();
       $tbConfiguration->open();
-      
+     
 ?>
       <div id="DataConfiguration" class="Data-Grid">
         
@@ -38,14 +39,15 @@
             <div class="Data-Grid-Column">
                  <?php printf ("%s: ", $tbConfiguration->getLabel());?>
             </div>
-            <div class="Data-Grid-Column" title=<?php printf("\"%s\"", $tbConfiguration->getDescription());?>>
+            <div class="Data-Grid-Column" title=<?php printf("\"%s\"", $tbConfiguration->getDescription());?>
+                id="<?php print($tbConfiguration->getProperty());?>">
                <?php 
                      $loggerCpF->trace("The [ ".$tbConfiguration->getProperty().
                             " ] type data is [ " . $tbConfiguration->getDataType() .
                            " ]");
                      
                ?>
-               <input type="text" 
+               <input type="text" id="Input-Url"
                       value="<?php print ($tbConfiguration->getValue());?>">
                
             </div>
@@ -60,7 +62,8 @@
             <div class="Data-Grid-Column">
                  <?php printf ("%s: ", $tbConfiguration->getLabel());?>
             </div>
-            <div class="Data-Grid-Column" title=<?php printf("\"%s\"", $tbConfiguration->getDescription());?> >
+            <div class="Data-Grid-Column" title=<?php printf("\"%s\"", $tbConfiguration->getDescription());?> 
+               id="<?php print($tbConfiguration->getProperty());?>">
                <?php 
                      $loggerCpF->trace("The [ ".$tbConfiguration->getProperty().
                             " ] type data is [ " . $tbConfiguration->getDataType() .
@@ -85,7 +88,8 @@
             <div class="Data-Grid-Column">
                  <?php printf ("%s: ", $tbConfiguration->getLabel());?>
             </div>
-            <div class="Data-Grid-Column" title=<?php printf("\"%s\"", $tbConfiguration->getDescription());?> >
+            <div class="Data-Grid-Column" title=<?php printf("\"%s\"", $tbConfiguration->getDescription());?> 
+               id="<?php print($tbConfiguration->getProperty());?>">
                <?php 
                      $loggerCpF->trace("The [ ".$tbConfiguration->getProperty().
                             " ] type data is [ " . $tbConfiguration->getDataType() .
@@ -110,7 +114,8 @@
             <div class="Data-Grid-Column">
                  <?php printf ("%s: ", $tbConfiguration->getLabel());?>
             </div>
-            <div class="Data-Grid-Column" title=<?php printf("\"%s\"", $tbConfiguration->getDescription());?>>
+            <div class="Data-Grid-Column" title=<?php printf("\"%s\"", $tbConfiguration->getDescription());?>
+               id="<?php print($tbConfiguration->getProperty());?>">
                <?php 
                      $loggerCpF->trace("The [ ".$tbConfiguration->getProperty().
                             " ] type data is [ " . $tbConfiguration->getDataType() .
@@ -136,7 +141,8 @@
             <div class="Data-Grid-Column">
                  <?php printf ("%s: ", $tbConfiguration->getLabel());?>
             </div>
-            <div class="Data-Grid-Column" title=<?php printf("\"%s\"", $tbConfiguration->getDescription());?>>
+            <div class="Data-Grid-Column" title=<?php printf("\"%s\"", $tbConfiguration->getDescription());?>
+                 id="<?php print($tbConfiguration->getProperty());?>">
                <?php 
                      $loggerCpF->trace("The [ ".$tbConfiguration->getProperty().
                             " ] type data is [ " . $tbConfiguration->getDataType() .
@@ -158,7 +164,8 @@
             <div class="Data-Grid-Column">
                  <?php printf ("%s: ", $tbConfiguration->getLabel());?>
             </div>
-            <div class="Data-Grid-Column" title=<?php printf("\"%s\"", $tbConfiguration->getDescription());?> >
+            <div class="Data-Grid-Column" title=<?php printf("\"%s\"", $tbConfiguration->getDescription());?> 
+                     id="<?php print($tbConfiguration->getProperty());?>">
                <?php 
                      $loggerCpF->trace("The [ ".$tbConfiguration->getProperty().
                             " ] type data is [ " . $tbConfiguration->getDataType() .
@@ -263,8 +270,8 @@
          });
       </script>
 <?php 
-      $loggerCpF->trace("Add button save configuration");
-   
+      $loggerCpF->trace("Add button save configuration-> $COMMAND <-");
+      echo $COMMAND;
 ?>
    <div style="clear: left"></div>
    <div id="Button-Save-Configuration" class="Round-Corners-Button">
@@ -277,6 +284,30 @@
       JSLogger.getInstance().trace("Define function save configuracion");
       saveConfiguration = function (){
          JSLogger.getInstance().traceEnter();
+         JSLogger.getInstance().trace("Trying save the configuration in the DDBB");
+         //Create the ajax object to send the step data to the server with the data base
+         var ajaxObject = new Ajax()
+         ajaxObject.setSyn();
+         ajaxObject.setPostMethod();
+         JSLogger.getInstance().trace("The url where the request is send is [ " 
+               +    $('#Input-Url').val() +"/php/Database/RequestFromWeb.php ]");
+         ajaxObject.setUrl($('#Input-Url').val() +"/php/Database/RequestFromWeb.php");
+         var requestParams = {};
+         requestParams.<?php print($COMMAND);?> = <?php print("\"".$COMMAND_UPDATE."\"");?>;
+         requestParams.<?php print($PARAMS);?> = {};
+         requestParams.<?php print($PARAMS);?>.<?php print($PARAM_TABLE);?> = <?php print("\""
+                                 .TB_Configuration::TB_ConfigurationTableC."\"");?>;
+         JSLogger.getInstance().trace("Get all data configuration");
+         var rows = {};
+         $('#DataConfiguration .Data-Grid-Row .Data-Grid-Column input').each(function(theIndex){
+            var property = $(this).parent().attr('id');
+            var value = $(this).val();
+            var row = {};
+            row.<?php print($PARAM_KEY);?> = property;
+            row.<?php print(TB_Configuration::ValueColumnC);?> = value;
+            JSLogger.getInstance().trace("Property [ " + property +" ] -> [ " + value +" ]");
+            rows[theIndex] = row;
+         });                      
          JSLogger.getInstance().traceExit();
       }
       $('#Button-Save-Configuration').click(saveConfiguration);
