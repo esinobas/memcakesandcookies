@@ -92,7 +92,7 @@
                            " ]");
                      
                ?>
-               <input type="text" 
+               <input type="text" id="Input-Cookies-Directory"
                       value="<?php print ($tbConfiguration->getValue());?>" readonly>
                
             </div>
@@ -117,7 +117,7 @@
                            " ]");
                      
                ?>
-               <input type="text" 
+               <input type="text" id="Input-Models-Directory"
                       value="<?php print ($tbConfiguration->getValue());?>" readonly>
                
             </div>
@@ -178,13 +178,17 @@
       <script type="text/javascript">
          DataGrid.format($('#DataConfiguration'),{width:"575px",
                                                columnsWidth: {0:"175px",1:"300px",2:"100px"}});
-
+      </script>
+      <?php 
+         $loggerCpF->trace("Define the callback for cakes directory");
+      ?>
+      <script type="text/javascript">
          JSLogger.getInstance().trace("Define function callback showDirectoryCakes");
          functionShowDirectoryCakes = function (theData){
 
             var message = "Data: " + theData.path + ". Type: "+ (theData.file?"File":"Directory");;
             JSLogger.getInstance().debug("Callback : " + message);
-            
+            $('#Input-Cakes-Directory').val(theData.path);
             //JSLogger.getInstance().debug("VALOR:" +$('#Data_Path_Cursos').val());
         }
          JSLogger.getInstance().trace("Add click event to the button #Button-Image-Cakes-Directory");
@@ -197,6 +201,56 @@
                         callback: functionShowDirectoryCakes,
                         Title_Params:{
                            Caption:"Selecciona el directorio donde se guardan las cakes",
+                           Background_Color:"orange"},});
+         });
+      </script>
+      <?php 
+         $loggerCpF->trace("Define the callback for cookies directory");
+      ?>
+      <script type="text/javascript">
+         JSLogger.getInstance().trace("Define function callback showDirectoryCookies");
+         functionShowDirectoryCookies = function (theData){
+
+            var message = "Data: " + theData.path + ". Type: "+ (theData.file?"File":"Directory");;
+            JSLogger.getInstance().debug("Callback : " + message);
+            $('#Input-Cookies-Directory').val(theData.path);
+            //JSLogger.getInstance().debug("VALOR:" +$('#Data_Path_Cursos').val());
+        }
+         JSLogger.getInstance().trace("Add click event to the button #Button-Image-Cakes-Directory");
+         $('#Button-Image-Cookies-Directory').click(function(){
+            fileBrowser = new FileBrowser(
+                  {path:{
+                        root_path:<?php printf("\"%s\"",$_SERVER['DOCUMENT_ROOT']);?>,
+                        current_path: $('#Input-Cookies-Directory').val()},
+                        type: "d", filter: "*.*", 
+                        callback: functionShowDirectoryCookies,
+                        Title_Params:{
+                           Caption:"Selecciona el directorio donde se guardan las cookies",
+                           Background_Color:"orange"},});
+         });
+      </script>
+      <?php 
+         $loggerCpF->trace("Define the callback for models directory");
+      ?>
+      <script type="text/javascript">
+         JSLogger.getInstance().trace("Define function callback showDirectoryModels");
+         functionShowDirectoryModels = function (theData){
+
+            var message = "Data: " + theData.path + ". Type: "+ (theData.file?"File":"Directory");;
+            JSLogger.getInstance().debug("Callback : " + message);
+            $('#Input-Models-Directory').val(theData.path);
+            //JSLogger.getInstance().debug("VALOR:" +$('#Data_Path_Cursos').val());
+        }
+         JSLogger.getInstance().trace("Add click event to the button #Button-Image-Models-Directory");
+         $('#Button-Image-Models-Directory').click(function(){
+            fileBrowser = new FileBrowser(
+                  {path:{
+                        root_path:<?php printf("\"%s\"",$_SERVER['DOCUMENT_ROOT']);?>,
+                        current_path: $('#Input-Models-Directory').val()},
+                        type: "d", filter: "*.*", 
+                        callback: functionShowDirectoryModels,
+                        Title_Params:{
+                           Caption:"Selecciona el directorio donde se guardan los modelados",
                            Background_Color:"orange"},});
          });
       </script>
