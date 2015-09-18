@@ -270,8 +270,8 @@
          });
       </script>
 <?php 
-      $loggerCpF->trace("Add button save configuration-> $COMMAND <-");
-      echo $COMMAND;
+      $loggerCpF->trace("Add button save configuration");
+      
 ?>
    <div style="clear: left"></div>
    <div id="Button-Save-Configuration" class="Round-Corners-Button">
@@ -307,7 +307,15 @@
             row.<?php print(TB_Configuration::ValueColumnC);?> = value;
             JSLogger.getInstance().trace("Property [ " + property +" ] -> [ " + value +" ]");
             rows[theIndex] = row;
-         });                      
+         });
+         requestParams.<?php print($PARAMS);?>.<?php print($PARAM_ROWS);?> = rows;
+         JSLogger.getInstance().debug("Command parameters [ " + JSON.stringify(requestParams) +" ]");
+
+         ajaxObject.setParameters(JSON.stringify(requestParams));
+         
+         ajaxObject.send();
+         JSLogger.getInstance().trace("Response [ " + ajaxObject.getResponse() + " ]");
+            
          JSLogger.getInstance().traceExit();
       }
       $('#Button-Save-Configuration').click(saveConfiguration);

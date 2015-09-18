@@ -6,7 +6,7 @@
 
    /****************** INCLUDES ******************************/
    set_include_path( get_include_path() . PATH_SEPARATOR . $_SERVER['DOCUMENT_ROOT'].
-                      '/controlpanel/Cursos/php');
+                      '/php');
 
    include_once 'LoggerMgr/LoggerMgr.php';
    include_once 'Database/TB_Configuration.php';

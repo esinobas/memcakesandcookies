@@ -2,7 +2,7 @@
 
 function Ajax(){
 
-   JSLogger.getInstance().registerLogger(arguments.callee.name, JSLogger.levelsE.ERROR);
+   JSLogger.getInstance().registerLogger(arguments.callee.name, JSLogger.levelsE.TRACE);
    JSLogger.getInstance().traceEnter();
    
    this.urlM = "";
@@ -69,7 +69,7 @@ Ajax.prototype.send = function(){
          JSLogger.getInstance().trace("Ajax::send()::It is a synchronous request");
          mode = false;
       }
-      JSLogger.getInstance().debug("Send request [ " + this.methodM + " ] to [ " +this.urlM + "] with these parameters [ " + this.parametersM + " ].");
+      JSLogger.getInstance().debug("Send request [ " + this.methodM + " ] to [ " +this.urlM + " ] with these parameters [ " + this.parametersM + " ].");
       
       //if (this.methodM == "POST"){
          
