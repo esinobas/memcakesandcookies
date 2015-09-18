@@ -13,7 +13,7 @@
  *                                                               a = all, default value)
  *                                     [filter]: Filter to the files. Default value *.*
  * @param theCallback: The function that is executed when the ok button is pushed
- * a
+ * 
  */
 var FileBrowser = FileBrowser || function (){
    

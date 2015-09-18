@@ -201,7 +201,8 @@
                         callback: functionShowDirectoryCakes,
                         Title_Params:{
                            Caption:"Selecciona el directorio donde se guardan las cakes",
-                           Background_Color:"orange"},});
+                           Background_Color:"orange"},
+                 toolbar:"create_folder|delete"});
          });
       </script>
       <?php 
@@ -221,12 +222,15 @@
             fileBrowser = new FileBrowser(
                   {path:{
                         root_path:<?php printf("\"%s\"",$_SERVER['DOCUMENT_ROOT']);?>,
-                        current_path: $('#Input-Cookies-Directory').val()},
+                        current_path: $('#Input-Cookies-Directory').val()
+                        },
                         type: "d", filter: "*.*", 
                         callback: functionShowDirectoryCookies,
                         Title_Params:{
                            Caption:"Selecciona el directorio donde se guardan las cookies",
-                           Background_Color:"orange"},});
+                           Background_Color:"orange"},
+                    toolbar:"create_folder|delete"
+                    });
          });
       </script>
       <?php 
@@ -245,13 +249,17 @@
          $('#Button-Image-Models-Directory').click(function(){
             fileBrowser = new FileBrowser(
                   {path:{
-                        root_path:<?php printf("\"%s\"",$_SERVER['DOCUMENT_ROOT']);?>,
-                        current_path: $('#Input-Models-Directory').val()},
-                        type: "d", filter: "*.*", 
-                        callback: functionShowDirectoryModels,
-                        Title_Params:{
-                           Caption:"Selecciona el directorio donde se guardan los modelados",
-                           Background_Color:"orange"},});
+                           root_path:<?php printf("\"%s\"",$_SERVER['DOCUMENT_ROOT']);?>,
+                           current_path: $('#Input-Models-Directory').val()
+                        },
+                    type: "d", filter: "*.*", 
+                    callback: functionShowDirectoryModels,
+                    Title_Params:{
+                         Caption:"Selecciona el directorio donde se guardan los modelados",
+                         Background_Color:"orange"
+                                  },
+                    toolbar:"create_folder|delete"
+                  });
          });
       </script>
 
