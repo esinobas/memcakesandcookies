@@ -108,7 +108,7 @@
                   </ul>
                </div>
                <div class="Vertical-Tab" id="Tab-Configuration">
-                  <div>Configuración</div>
+                  
                   <?php getConfiguration(); ?>
                </div>
                <div class="Vertical-Tab" id="Tab-Home">

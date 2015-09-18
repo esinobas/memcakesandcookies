@@ -80,6 +80,12 @@ html {
 
 }
 
+.Vertical-Tab{
+ 
+   padding: 30px 0px;
+   height: calc(100% - 60px);
+}
+
 #DataConfiguration{
  
    font-size:22px;
