@@ -315,7 +315,27 @@
          
          ajaxObject.send();
          JSLogger.getInstance().trace("Response [ " + ajaxObject.getResponse() + " ]");
-            
+
+         if (ajaxObject.getResponse().indexOf("404 Not Found") != -1){
+            JSLogger.getInstance().error("The script [ " + $('#Input-Url').val() +
+                  "/php/Database/RequestFromWeb.php ] has been found");
+            MessageBox("Error", 
+                  "La configuración no se ha guardado. No se ha podido acceder al script en el servidor",
+                  {Icon: MessageBox.IconsE.ERROR});
+         }else{
+            var objResponse = JSON.parse(ajaxObject.getResponse());
+            if (parseInt(objResponse['ResultCode']) != 200){
+                     MessageBox("Error", 
+                        "La configuración no se ha guardado. Error [ " +
+                        objResponse['ErrorMsg'] + " ]",
+                        {Icon: MessageBox.IconsE.ERROR});
+                   JSLogger.getInstance().error("La configuracion no se ha guardado. [ " +
+                         objResponse['ErrorMsg'] + " ]");
+            }else{
+              
+               JSLogger.getInstance().trace("La configuración se ha guardado correctamente");
+            }
+         }
          JSLogger.getInstance().traceExit();
       }
       $('#Button-Save-Configuration').click(saveConfiguration);
