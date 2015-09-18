@@ -627,7 +627,7 @@
 
   
    if (count($_POST) > 0){
-      $logger = LoggerMgr::Instance()->getLogger("RequestFromWeb.php");
+      $logger = LoggerMgr::Instance()->getLogger(basename(__FILE__));
    
 
       $logger->info("A request has been received from web");

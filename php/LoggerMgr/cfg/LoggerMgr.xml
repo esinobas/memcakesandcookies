@@ -140,6 +140,11 @@
       <level value="TRACE"></level>
       <appender_ref ref="ControlPanelFileAppender"></appender_ref>
    </logger>
+   <logger name="RequestFromWeb.php">
+      <level value="TRACE"></level>
+      <appender_ref ref="DatabaseFileAppender"></appender_ref>
+      <appender_ref ref="ControlPanelFileAppender"></appender_ref>
+   </logger>
    <!-- 
    <logger name="DatabaseDef">
       <level value="ERROR"></level>
