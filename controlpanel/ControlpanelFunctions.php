@@ -351,7 +351,11 @@
       global $loggerCpF;
       $loggerCpF->trace("Enter");
 ?>
-   <div>Imagenes que se muestran en la pagina principal</div>
+   <div id="Header-Home">
+      <div id="Tittle-Header-Home">Imagenes que se muestran en la pagina principal</div>
+      <div id="Button-AddImageInHome" class="Round-Corners-Button">Añadir Imagen</div>
+   </div>
+      
    
 <?php
       $tbSlidesImageHome = new TB_SlideImagesHome();
@@ -360,6 +364,7 @@
       $tbConfiguration->open();
       $tbConfiguration->searchByKey(URL_C);
 ?>
+      <div id="Images-Home-Container">
       <div id="DataGrid-Images-Home" class="Data-Grid">
 <?php 
       while ($tbSlidesImageHome->next()){
@@ -368,7 +373,7 @@
             <div class="Data-Grid-Column">
                <img alt="<?php print($tbConfiguration->getValue().$tbSlidesImageHome->getPath())?>" 
                      src="<?php print($tbConfiguration->getValue().$tbSlidesImageHome->getPath())?>"
-                     style="width: 300px">
+                     style="width: 100px">
             </div>
             <div class="Data-Grid-Column">
                <div class="Round-Corners-Button">
@@ -380,9 +385,10 @@
       }
 ?>
       </div>
+      </div>
       <script type="text/javascript">
-         DataGrid.format($('#DataGrid-Images-Home'),{width:"400px",
-                        columnsWidth: {0:"300px",1:"100px"}});
+         DataGrid.format($('#DataGrid-Images-Home'),{width:"250px",
+                        columnsWidth: {0:"150px",1:"100px"}});
       </script>
       
 <?php 
