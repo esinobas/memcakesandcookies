@@ -450,6 +450,32 @@ define(URL_C, 'URL');
                         columnsWidth: {0:"150px",1:"100px"}});
       </script>
 
+      <?php 
+      $loggerCpF->trace("Define function to remove image from image slide in home");
+?>
+   <script type="text/javascript">
+      var functionRemoveImageSlide = function(theId){
+         JSLogger.getInstance().trace("Enter");
+         JSLogger.getInstance().trace("Removing the slide image with Id [ " + theId +" ]");
+         
+         JSLogger.getInstance().trace("Exit");
+      }
+   </script>
+
+<?php 
+      $loggerCpF->trace("Add remove function to all remove image");
+?>
+   <script type="text/javascript">
+      $('#DataGrid-Images-Home .Data-Grid-Row').each(function(theIndex){
+
+            var id = $(this).attr('id');
+            
+            $(this).find('.Round-Corners-Button').click(function(){
+               functionRemoveImageSlide(id);
+            });
+      });
+   </script>
+
 <?php
       $loggerCpF->trace("Define function refrehs image slide");
 ?>
@@ -477,6 +503,9 @@ define(URL_C, 'URL');
                newRow.append('<div class="Data-Grid-Column" style="width:'+widthFirstCol+'"><img style="width:100px" src="'+
                      path + '"></img></div>');
                newRow.append('<div class="Data-Grid-Column" style="width:'+widthLastCol+'"><div class="Round-Corners-Button">Eliminar</div></div>');
+               newRow.find('.Round-Corners-Button').click(function(){
+                  functionRemoveImageSlide(id);
+               });
                $("#DataGrid-Images-Home").prepend(newRow);
             }else{
                JSLogger.getInstance().trace("The path is not present, removing");
