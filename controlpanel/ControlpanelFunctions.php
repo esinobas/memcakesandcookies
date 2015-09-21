@@ -7,6 +7,16 @@
 
 /******** requires *****/
 
+
+//Define the constanst that allows access to the data configuration
+define(IMAGES_CAKES_DIRECTORY_C, 'cakesImagesPath');
+define(IMAGES_COOKIES_DIRECTORY_C, 'cookiesImagesPath');
+define(IMAGES_MODELS_DIRECTORY_C, 'modelsImagesPath');
+define(SLIDE_IMAGE_DIRECTORY_C, 'SlideImagesPath');
+define(NUM_THUMBNAILS_C, 'numberThumbnails');
+define(THUMBNAILS_DIRECTORY_C, 'thumbnailsPath');
+define(URL_C, 'URL');
+
 /********* Global Variables *****/
    $loggerCpF = LoggerMgr::Instance()->getLogger(basename(__FILE__));
 /**
@@ -16,16 +26,6 @@
       require_once 'Database/RequestFromWeb.php';
       global $loggerCpF;
       $loggerCpF->trace("Enter");
-      
-      
-      //Define the constanst that allows access to the data configuration
-      define(IMAGES_CAKES_DIRECTORY_C, 'cakesImagesPath');
-      define(IMAGES_COOKIES_DIRECTORY_C, 'cookiesImagesPath');
-      define(IMAGES_MODELS_DIRECTORY_C, 'modelsImagesPath');
-      define(SLIDE_IMAGE_DIRECTORY_C, 'SlideImagesPath');
-      define(NUM_THUMBNAILS_C, 'numberThumbnails');
-      define(THUMBNAILS_DIRECTORY_C, 'thumbnailsPath');
-      define(URL_C, 'URL');
       
       $tbConfiguration = new TB_Configuration();
       $tbConfiguration->open();
@@ -317,7 +317,7 @@
                     type: "d", filter: "*.*", 
                     callback: functionShowDirectoryModels,
                     Title_Params:{
-                         Caption:"Selecciona el directorio desde donde buscaraas las imagnes del inicio",
+                         Caption:"Selecciona el directorio desde donde buscaras las imagenes del inicio",
                          Background_Color:"orange"
                                   },
                     toolbar:"create_folder|delete"
@@ -446,6 +446,37 @@
                         columnsWidth: {0:"150px",1:"100px"}});
       </script>
       
+<?php
+      $loggerCpF->trace("Add functionality to the Add Image slide button.");
+      $tbConfiguration->rewind();
+      $tbConfiguration->searchByKey(SLIDE_IMAGE_DIRECTORY_C);
+?>
+       <script type="text/javascript">
+         JSLogger.getInstance().trace("Define function callback to add image in slide home");
+         functionAddImageSlideHome = function (theData){
+
+            var message = "Data: " + theData.path + ". Type: "+ (theData.file?"File":"Directory");;
+            JSLogger.getInstance().debug("Callback : " + message);
+            //$('#Input-SlideImages-Directory').val(theData.path);
+            //JSLogger.getInstance().debug("VALOR:" +$('#Data_Path_Cursos').val());
+        }
+         JSLogger.getInstance().trace("Add click event to the button #Button-Image-Models-Directory");
+         $('#Button-AddImageInHome').click(function(){
+            fileBrowser = new FileBrowser(
+                  {path:{
+                           root_path:<?php printf("\"%s\"",$_SERVER['DOCUMENT_ROOT']);?>,
+                           current_path: <?php print("\"".$tbConfiguration->getValue()."\"");?>
+                        },
+                    type: "a", filter: "*.*", 
+                    callback: functionAddImageSlideHome,
+                    Title_Params:{
+                         Caption:"Selecciona una imagen...",
+                         Background_Color:"orange"
+                         },
+                    toolbar: "upload_file|create_folder|delete"
+                  });
+         });
+      </script>
 <?php 
       $loggerCpF->trace("Exit");
       
