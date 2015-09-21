@@ -454,10 +454,31 @@ define(URL_C, 'URL');
       $loggerCpF->trace("Define function to remove image from image slide in home");
 ?>
    <script type="text/javascript">
+      var idToRemove = 0;
+      var functionRemoveImageSlideInServer = function(){
+         JSLogger.getInstance().trace("Enter");
+         JSLogger.getInstance().debug("Trying remove image slide with id [ " + idToRemove + " ]");
+         JSLogger.getInstance().trace("Exit");
+      }
       var functionRemoveImageSlide = function(theId){
          JSLogger.getInstance().trace("Enter");
          JSLogger.getInstance().trace("Removing the slide image with Id [ " + theId +" ]");
-         
+         var pathFile = $('#DataGrid-Images-Home #'+theId+ ' .Data-Grid-Column img').attr('src');
+         idToRemove = theId;
+<?php 
+         $tbConfiguration->rewind();
+         $tbConfiguration->searchByKey(URL_C);
+?>
+         pathFile = pathFile.substr(<?php print(strlen($tbConfiguration->getValue()));?>);
+         JSLogger.getInstance().trace("src [ " + pathFile +  " ]");
+          
+         MessageBox("Eliminar imagen",
+                    "¿Quieres eliminar la image \""+pathFile+"\" de las imagenes del inicio?",
+                    {Icon: MessageBox.IconsE.QUESTION,
+                     Buttons: {Buttons: MessageBox.ButtonsE.YES_NO, 
+                        Callback_Yes: functionRemoveImageSlideInServer}
+                    }
+         );
          JSLogger.getInstance().trace("Exit");
       }
    </script>
