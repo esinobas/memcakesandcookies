@@ -20,7 +20,7 @@ $logger =  LoggerMgr::Instance()->getLogger("login.php");
 function checkLogin($theLogin, $thePassword){
    
    global $logger;
-   require_once 'database/TB_Users.php';
+   require_once 'Database/TB_Users.php';
    
    $logger->trace("Enter");
    $logger->trace("Login [ $theLogin ]. Password [ $thePassword ]");

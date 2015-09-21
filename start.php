@@ -7,7 +7,7 @@
       $loggerStart =  LoggerMgr::Instance()->getLogger("start.php");
       $loggerStart->trace("start.php. Enter");
  
-      require_once 'database/TB_SlideImagesHome.php';
+      require_once 'Database/TB_SlideImagesHome.php';
    
       $loggerStart->trace("Get the rotate images");
       $tableHomeImages = new TB_SlideImagesHome();

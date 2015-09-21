@@ -48,7 +48,7 @@
          $logger->debug("A request has been received from [ ". $_SERVER['REMOTE_ADDR'] . " ]"); 
          $logger->trace("Getting the configuration");
         
-         require_once dirname(__FILE__).'/php/database/TB_Configuration.php';
+         require_once dirname(__FILE__).'/php/Database/TB_Configuration.php';
          $tableConfiguration = new TB_Configuration();
          $tableConfiguration->open();
          $logger->trace("The configuration was get");

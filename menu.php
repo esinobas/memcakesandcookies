@@ -2,8 +2,8 @@
    $loggerMenu =  LoggerMgr::Instance()->getLogger("menu.php");
    $loggerMenu->trace("menu.php. Enter");
    
-   require_once 'database/TB_Menu.php';
-   require_once 'database/TB_MenuCollection.php';
+   require_once 'Database/TB_Menu.php';
+   require_once 'Database/TB_MenuCollection.php';
    
    $tableMenu = new TB_Menu();
    $tableMenu->open();

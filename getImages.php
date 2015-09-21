@@ -2,7 +2,7 @@
    $loggerGetImages =  LoggerMgr::Instance()->getLogger("getImages.php");
    $loggerGetImages->trace("getImages.php. Enter");
    
-   require_once 'database/TB_ImagesAndCollection.php';
+   require_once 'Database/TB_ImagesAndCollection.php';
    require_once 'php/image/ImageLibrary.php';
    
    $menu = $_GET["pageId"];
