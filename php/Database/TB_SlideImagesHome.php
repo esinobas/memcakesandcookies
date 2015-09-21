@@ -68,6 +68,9 @@
             self::PathColumnC,
             ColumnType::stringC);
       
+      $this->tableMappingM->addKey(self::phisicalTB_SLIDES_HOMEC,
+            self::phisicalTB_SLIDES_HOMEIdColumnC );
+      
       $this->loggerM->trace("Exit");
 	}
       

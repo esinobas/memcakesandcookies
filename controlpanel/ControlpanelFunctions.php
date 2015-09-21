@@ -1,4 +1,5 @@
 <?php
+ 
 /**
  * File with functions used by the control panel
  */
@@ -23,7 +24,7 @@ define(URL_C, 'URL');
  * Gets the configuration from the database and it showed
  */
    function getConfiguration(){
-      require_once 'Database/RequestFromWeb.php';
+      //require_once 'Database/RequestFromWeb.php';
       global $loggerCpF;
       $loggerCpF->trace("Enter");
       
@@ -348,9 +349,9 @@ define(URL_C, 'URL');
                +    $('#Input-Url').val() +"/php/Database/RequestFromWeb.php ]");
          ajaxObject.setUrl($('#Input-Url').val() +"/php/Database/RequestFromWeb.php");
          var requestParams = {};
-         requestParams.<?php print($COMMAND);?> = <?php print("\"".$COMMAND_UPDATE."\"");?>;
-         requestParams.<?php print($PARAMS);?> = {};
-         requestParams.<?php print($PARAMS);?>.<?php print($PARAM_TABLE);?> = <?php print("\""
+         requestParams.<?php print(COMMAND);?> = <?php print("\"".COMMAND_UPDATE."\"");?>;
+         requestParams.<?php print(PARAMS);?> = {};
+         requestParams.<?php print(PARAMS);?>.<?php print(PARAM_TABLE);?> = <?php print("\""
                                  .TB_Configuration::TB_ConfigurationTableC."\"");?>;
          JSLogger.getInstance().trace("Get all data configuration");
          var rows = {};
@@ -358,12 +359,12 @@ define(URL_C, 'URL');
             var property = $(this).parent().attr('id');
             var value = $(this).val();
             var row = {};
-            row.<?php print($PARAM_KEY);?> = property;
+            row.<?php print(PARAM_KEY);?> = property;
             row.<?php print(TB_Configuration::ValueColumnC);?> = value;
             JSLogger.getInstance().trace("Property [ " + property +" ] -> [ " + value +" ]");
             rows[theIndex] = row;
          });
-         requestParams.<?php print($PARAMS);?>.<?php print($PARAM_ROWS);?> = rows;
+         requestParams.<?php print(PARAMS);?>.<?php print(PARAM_ROWS);?> = rows;
          JSLogger.getInstance().debug("Command parameters [ " + JSON.stringify(requestParams) +" ]");
 
          ajaxObject.setParameters(JSON.stringify(requestParams));
@@ -403,7 +404,10 @@ define(URL_C, 'URL');
     * Show the home page
     */   
    function getHome(){
+
+      //require_once 'Database/RequestFromWeb.php';
       global $loggerCpF;
+
       $loggerCpF->trace("Enter");
 ?>
    <div id="Header-Home">
@@ -455,13 +459,71 @@ define(URL_C, 'URL');
          JSLogger.getInstance().trace("Define function callback to add image in slide home");
          functionAddImageSlideHome = function (theData){
 
+            
             var message = "Data: " + theData.path + ". Type: "+ (theData.file?"File":"Directory");;
             JSLogger.getInstance().debug("Callback : " + message);
+<?php 
+                  $tbConfiguration->rewind();
+                  $tbConfiguration->searchByKey(URL_C);
+?>
+            JSLogger.getInstance().trace("Trying save the image in slide images home");
+            //Create the ajax object to send the step data to the server with the data base
+            var ajaxObject = new Ajax()
+            ajaxObject.setSyn();
+            ajaxObject.setPostMethod();
+            JSLogger.getInstance().trace("The url where the request is send is [ " 
+                     + <?php print("\"".$tbConfiguration->getValue()."\"");?> 
+                     +"/php/Database/RequestFromWeb.php ]");
+            ajaxObject.setUrl(<?php print("\"".$tbConfiguration->getValue()."\"");?> 
+                        +"/php/Database/RequestFromWeb.php");
+            
+            var requestParams = {};
+            requestParams.<?php print(COMMAND);?> = <?php print("\"".COMMAND_INSERT."\"");?>;
+            requestParams.<?php print(PARAMS);?> = {};
+            requestParams.<?php print(PARAMS);?>.<?php print(PARAM_TABLE);?> = <?php print("\""
+                        .TB_SlideImagesHome::TB_SlideImagesHomeTableC."\"");?>;
+
+            requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?> = {};
+            requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(TB_SlideImagesHome::PathColumnC);?> = theData.path;
+
+            
+            JSLogger.getInstance().debug("Command parameters [ " + JSON.stringify(requestParams) +" ]");
+
+            ajaxObject.setParameters(JSON.stringify(requestParams));
+
+            ajaxObject.send();
+            JSLogger.getInstance().trace("Response [ " + ajaxObject.getResponse() + " ]");
+
+            if (ajaxObject.getResponse().indexOf("404 Not Found") != -1){
+               JSLogger.getInstance().error("The script [ " + <?php print("\"".$tbConfiguration->getValue()."\"");?> +
+                     "/php/Database/RequestFromWeb.php ] has been found");
+               MessageBox("Error", 
+                     "La imagen no ha podido ser añadida.",
+                     {Icon: MessageBox.IconsE.ERROR});
+            }else{
+               var objResponse = JSON.parse(ajaxObject.getResponse());
+               if (parseInt(objResponse['ResultCode']) != 200){
+                        MessageBox("Error", 
+                           "La imagen no ha podido ser añadida. Error [ " +
+                           objResponse['ErrorMsg'] + " ]",
+                           {Icon: MessageBox.IconsE.ERROR});
+                      JSLogger.getInstance().error("La imagen no ha podido ser añadida. [ " +
+                            objResponse['ErrorMsg'] + " ]");
+               }else{
+                 
+                  JSLogger.getInstance().trace("La imagen se añadio correctamente");
+               }
+            }
+           
             //$('#Input-SlideImages-Directory').val(theData.path);
             //JSLogger.getInstance().debug("VALOR:" +$('#Data_Path_Cursos').val());
         }
-         JSLogger.getInstance().trace("Add click event to the button #Button-Image-Models-Directory");
-         $('#Button-AddImageInHome').click(function(){
+<?php   
+         $tbConfiguration->rewind();
+         $tbConfiguration->searchByKey(SLIDE_IMAGE_DIRECTORY_C);
+?>
+        JSLogger.getInstance().trace("Add click event to the button #Button-Image-Models-Directory");
+        $('#Button-AddImageInHome').click(function(){
             fileBrowser = new FileBrowser(
                   {path:{
                            root_path:<?php printf("\"%s\"",$_SERVER['DOCUMENT_ROOT']);?>,

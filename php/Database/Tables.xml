@@ -133,8 +133,9 @@
                   <type>string</type>
                </column>
             </columns>
+            <key>Id</key>
          </table>
-         <key>Id</key>
+         
       </phisical_tables>
    </table_definition>
 

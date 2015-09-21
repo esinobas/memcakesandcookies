@@ -48,7 +48,7 @@
          require_once 'Database/TB_Configuration.php';
          require_once 'Database/TB_Menu.php';
          require_once 'Database/TB_SlideImagesHome.php';
-         //require_once 'Database/RequestFromWeb.php';
+         require_once 'Database/RequestFromWeb.php';
          
          //Declare the global variables
          $logger = LoggerMgr::Instance()->getLogger(basename(__FILE__));

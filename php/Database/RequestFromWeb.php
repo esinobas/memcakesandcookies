@@ -6,7 +6,7 @@
 
    /****************** INCLUDES ******************************/
    set_include_path( get_include_path() . PATH_SEPARATOR . $_SERVER['DOCUMENT_ROOT'].
-                      '/php');
+                      '/php/');
 
    include_once 'LoggerMgr/LoggerMgr.php';
    include_once 'Database/TB_Configuration.php';
@@ -27,21 +27,21 @@
 
    $logger = null;
 
-   $COMMAND = "command";
-   $PARAMS = "paramsCommand";
-   $PARAM_TABLE = "Table";
-   $PARAM_ROWS = "rows";
-   $PARAM_ROW = "row";
-   $PARAM_DATA = "data";
-   $COMMAND_INSERT = "I";
-   $COMMAND_UPDATE = "U";
-   $COMMAND_DELETE = "D";
-   $PARAM_KEY = "key";
-   $RESULT_CODE = "ResultCode";
-   $MSG_ERROR = "ErrorMsg";
-   $RESULT_CODE_SUCCESS = 200;
-   $RESULT_CODE_INTERNAL_ERROR = 500;
-   $RETURN_LAST_ID = "lastID";
+   define(COMMAND,"command");
+   define(PARAMS, "paramsCommand");
+   define(PARAM_TABLE, "Table");
+   define(PARAM_ROWS, "rows");
+   define(PARAM_ROW, "row");
+   define(PARAM_DATA, "data");
+   define(COMMAND_INSERT, "I");
+   define(COMMAND_UPDATE, "U");
+   define(COMMAND_DELETE, "D");
+   define(PARAM_KEY, "key");
+   define(RESULT_CODE, "ResultCode");
+   define(MSG_ERROR, "ErrorMsg");
+   define(RESULT_CODE_SUCCESS ,200);
+   define(RESULT_CODE_INTERNAL_ERROR ,500);
+   define(RETURN_LAST_ID, "lastID");
 
    /****************** Functions *****************************/
 
@@ -96,17 +96,17 @@
 
    function updateData($theTable, $theRows, &$theResult){
       global $logger;
-      global $PARAM_KEY;
+      /*global $PARAM_KEY;
 
       global $RESULT_CODE;
       global $MSG_ERROR;
       global $RESULT_CODE_SUCCESS;
-      global $RESULT_CODE_INTERNAL_ERROR;
+      global $RESULT_CODE_INTERNAL_ERROR;*/
       $logger->trace("Enter");
       $logger->trace("Rows: [ ".json_encode($theRows)." ]");
       $logger->trace("Update data of [ " . $theTable->getTableName() ." ]");
       foreach ( $theRows as $row){
-         $key = $row[$PARAM_KEY];
+         $key = $row[PARAM_KEY];
          $logger->trace("Search by [ $key ]");
          if ( $theTable->searchByKey($key)){
             $logger->trace("The Key has been found.");
@@ -345,28 +345,28 @@
             }
 
             }else{
-               $theResult[$RESULT_CODE] = $RESULT_CODE_INTERNAL_ERROR;
-               $theResult[$MSG_ERROR] = "The Key has not been found.";
-               $logger->warn($theResult[$MSG_ERROR]);
+               $theResult[RESULT_CODE] = $RESULT_CODE_INTERNAL_ERROR;
+               $theResult[MSG_ERROR] = "The Key has not been found.";
+               $logger->warn($theResult[MSG_ERROR]);
                break;
             }
          }
          $logger->trace("Update the data in the database");
          if ( ! $theTable->update()){
-            $theResult[$RESULT_CODE] = $RESULT_CODE_INTERNAL_ERROR;
-            $theResult[$MSG_ERROR] = $theTable->getStrError();
-            $logger->error("The update failed. Error [ " . $theResult[$MSG_ERROR] . " ]");
+            $theResult[RESULT_CODE] = RESULT_CODE_INTERNAL_ERROR;
+            $theResult[MSG_ERROR] = $theTable->getStrError();
+            $logger->error("The update failed. Error [ " . $theResult[MSG_ERROR] . " ]");
          }
       $logger->trace("Exit");
    }
 
    function insertData($theTable, $theData, &$theResult){
       global $logger;
-      global $RESULT_CODE;
+      /*global $RESULT_CODE;
       global $MSG_ERROR;
       global $RESULT_CODE_SUCCESS;
       global $RESULT_CODE_INTERNAL_ERROR;
-      global $RETURN_LAST_ID;
+      global $RETURN_LAST_ID;*/
       $logger->trace("Enter");
       $logger->trace("Insert data: [ ".json_encode($theData)." ]");
       $logger->trace("Into [ " . $theTable->getTableName() ." ]");
@@ -512,22 +512,22 @@
       if( $newId != -1){
            $logger->trace("The insertion was exectuted successfully. ".
                            "The new Id is [ $newId ]");
-           $theResult[$RETURN_LAST_ID]=$newId;
+           $theResult[RETURN_LAST_ID]=$newId;
         }else{
-           $theResult[$RESULT_CODE] = $RESULT_CODE_INTERNAL_ERROR;
-           $theResult[$MSG_ERROR] = $theTable->getStrError();
-           $logger->error("The insert failed. Error [ " . $theResult[$MSG_ERROR] . " ]");
+           $theResult[RESULT_CODE] = RESULT_CODE_INTERNAL_ERROR;
+           $theResult[MSG_ERROR] = $theTable->getStrError();
+           $logger->error("The insert failed. Error [ " . $theResult[MSG_ERROR] . " ]");
         }
       $logger->trace("Exit");
    }
 
    function delete($theTable, $theData, &$theResult){
       global $logger;
-      global $RESULT_CODE;
+      /*global $RESULT_CODE;
       global $MSG_ERROR;
       global $RESULT_CODE_SUCCESS;
       global $RESULT_CODE_INTERNAL_ERROR;
-      global $PARAM_KEY;
+      global $PARAM_KEY;*/
       $logger->trace("Enter");
       $jsonKey = $theData[$PARAM_KEY];
       $logger->trace("Delete from table ".$theTable->getTableName().
@@ -615,9 +615,9 @@
       }
       $logger->trace("Delete data in the database");
       if (! $theTable->delete()){
-         $theResult[$RESULT_CODE] = $RESULT_CODE_INTERNAL_ERROR;
-         $theResult[$MSG_ERROR] = $theTable->getStrError();
-         $logger->error("The delete failed. Error [ " . $theResult[$MSG_ERROR] . " ]");
+         $theResult[RESULT_CODE] = RESULT_CODE_INTERNAL_ERROR;
+         $theResult[MSG_ERROR] = $theTable->getStrError();
+         $logger->error("The delete failed. Error [ " . $theResult[MSG_ERROR] . " ]");
       }
       $logger->trace("Exit");
    }
@@ -632,35 +632,35 @@
 
       $logger->info("A request has been received from web");
       $resultArray = array();
-      if (!isset ($_POST[$COMMAND]) || ! isset ($_POST[$PARAMS])){
-         $resultArray[$RESULT_CODE] = $RESULT_CODE_INTERNAL_ERROR;
-         $resultArray[$MSG_ERROR] = "Unmatched format request. Absence of param $COMMAND or $PARAMS";
+      if (!isset ($_POST[COMMAND]) || ! isset ($_POST[PARAMS])){
+         $resultArray[RESULT_CODE] = RESULT_CODE_INTERNAL_ERROR;
+         $resultArray[MSG_ERROR] = "Unmatched format request. Absence of param ".COMMAND." or ".PARAMS;
          $logger->error(json_encode($resultArray));
          //$logger->error("Unmatched format request. Absence of param $COMMAND or $PARAMS");
             //print("ERROR 500. Unmatched format request. Absence of param $COMMAND or $PARAMS");
          
       }else{
-         $resultArray[$RESULT_CODE] = $RESULT_CODE_SUCCESS;
-         $strCommand = $_POST[$COMMAND];
-         $strParams = $_POST[$PARAMS];
+         $resultArray[RESULT_CODE] = RESULT_CODE_SUCCESS;
+         $strCommand = $_POST[COMMAND];
+         $strParams = $_POST[PARAMS];
          $logger->trace("The command is [ $strCommand ] and the params are [ $strParams ]");
          $params = json_decode($strParams, true);
-         $table = getTable($params[$PARAM_TABLE]);
+         $table = getTable($params[PARAM_TABLE]);
          $logger->trace("The command parameter is [ $strCommand ]");
-         $logger->trace("Open the table [ $params[$PARAM_TABLE] ]");
+         $logger->trace("Open the table [ ". $table->getTableName() ." ]");
          $table->open();
       
-         if (strcmp(strtoupper($strCommand), $COMMAND_UPDATE) == 0){
+         if (strcmp(strtoupper($strCommand), COMMAND_UPDATE) == 0){
             $logger->debug("It is a update command in table [ ". $table->getTableName() . " ]");
-            updateData($table, $params[$PARAM_ROWS],$resultArray);
+            updateData($table, $params[PARAM_ROWS],$resultArray);
          }
-         if (strcmp(strtoupper($strCommand), $COMMAND_INSERT) == 0){
+         if (strcmp(strtoupper($strCommand), COMMAND_INSERT) == 0){
             $logger->debug("It is a insert command in table [ ". $table->getTableName() . " ]");
-            insertData($table, $params[$PARAM_DATA], $resultArray);
+            insertData($table, $params[PARAM_DATA], $resultArray);
          }
-         if (strcmp(strtoupper($strCommand), $COMMAND_DELETE) == 0){
+         if (strcmp(strtoupper($strCommand), COMMAND_DELETE) == 0){
             $logger->debug("It is a delete command in table [ ". $table->getTableName() . " ]");
-            delete($table, $params[$PARAM_DATA], $resultArray);
+            delete($table, $params[PARAM_DATA], $resultArray);
          }
          $logger->trace("The request has been processed. Result [ " . json_encode($resultArray) ." ]");
         
