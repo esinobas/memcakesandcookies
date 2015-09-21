@@ -449,7 +449,43 @@ define(URL_C, 'URL');
          DataGrid.format($('#DataGrid-Images-Home'),{width:"250px",
                         columnsWidth: {0:"150px",1:"100px"}});
       </script>
-      
+
+<?php
+      $loggerCpF->trace("Define function refrehs image slide");
+?>
+      <script type="text/javascript">
+         /**
+          * Refreshes the list of imanges that compose the image slide in home
+          *
+          * theParams: [in]. Array (json) with the paremeters
+          *                      theId: The slide image id
+          *                      thePath: The path of the image. When this 
+          *                               When this paremeter is not present, then
+          *                               the object must be removed.
+          */
+         var functionRefreshImageSlide = function(theParams){
+            JSLogger.getInstance().trace("Enter");
+            var id = theParams['theId'];
+            var path = theParams['thePath'];
+            JSLogger.getInstance().trace("The Id is [ " + id + " ]");
+            if (typeof(path) == "string"){
+               JSLogger.getInstance().trace("The path is [ " + path + " ]");
+               var widthFirstCol = $('#DataGrid-Images-Home .Data-Grid-Row').first().find(".Data-Grid-Column").first().css("width");
+               var widthLastCol = $('#DataGrid-Images-Home .Data-Grid-Row').first().find(".Data-Grid-Column").last().css("width");
+               JSLogger.getInstance().trace("The witdh first column [ " + widthFirstCol +" ] and width last column [ " + widthLastCol +" ]");
+               var newRow = $('<div id="' + id +'" class="Data-Grid-Row"></div>');
+               newRow.append('<div class="Data-Grid-Column" style="width:'+widthFirstCol+'"><img style="width:100px" src="'+
+                     path + '"></img></div>');
+               newRow.append('<div class="Data-Grid-Column" style="width:'+widthLastCol+'"><div class="Round-Corners-Button">Eliminar</div></div>');
+               $("#DataGrid-Images-Home").prepend(newRow);
+            }else{
+               JSLogger.getInstance().trace("The path is not present, removing");
+            }
+
+            
+            JSLogger.getInstance().trace("Exit");
+         }
+      </script>
 <?php
       $loggerCpF->trace("Add functionality to the Add Image slide button.");
       $tbConfiguration->rewind();
@@ -510,7 +546,12 @@ define(URL_C, 'URL');
                       JSLogger.getInstance().error("La imagen no ha podido ser añadida. [ " +
                             objResponse['ErrorMsg'] + " ]");
                }else{
-                 
+                  var refreshParams = {};
+                  refreshParams.theId = objResponse['lastID'];
+                  refreshParams.thePath = <?php print("\"".$tbConfiguration->getValue()."\"");?> + "/" + theData.path;
+                  JSLogger.getInstance().trace("Calling refresh function with parameters [ " +
+                        JSON.stringify(refreshParams));
+                  functionRefreshImageSlide(refreshParams);
                   JSLogger.getInstance().trace("La imagen se añadio correctamente");
                }
             }
