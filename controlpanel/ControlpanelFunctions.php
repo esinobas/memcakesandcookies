@@ -22,6 +22,7 @@
       define(IMAGES_CAKES_DIRECTORY_C, 'cakesImagesPath');
       define(IMAGES_COOKIES_DIRECTORY_C, 'cookiesImagesPath');
       define(IMAGES_MODELS_DIRECTORY_C, 'modelsImagesPath');
+      define(SLIDE_IMAGE_DIRECTORY_C, 'SlideImagesPath');
       define(NUM_THUMBNAILS_C, 'numberThumbnails');
       define(THUMBNAILS_DIRECTORY_C, 'thumbnailsPath');
       define(URL_C, 'URL');
@@ -132,7 +133,32 @@
                </div>
             </div>
          </div>
-
+<?php
+      $tbConfiguration->rewind();
+      $tbConfiguration->searchByKey(SLIDE_IMAGE_DIRECTORY_C);
+?>
+         <div id="DataConfiguration-<?php print ($tbConfiguration->getProperty());?>" class="Data-Grid-Row">
+            <div class="Data-Grid-Column">
+                 <?php printf ("%s: ", $tbConfiguration->getLabel());?>
+            </div>
+            <div class="Data-Grid-Column" title=<?php printf("\"%s\"", $tbConfiguration->getDescription());?>
+               id="<?php print($tbConfiguration->getProperty());?>">
+               <?php 
+                     $loggerCpF->trace("The [ ".$tbConfiguration->getProperty().
+                            " ] type data is [ " . $tbConfiguration->getDataType() .
+                           " ]");
+                     
+               ?>
+               <input type="text" id="Input-SlideImages-Directory"
+                      value="<?php print ($tbConfiguration->getValue());?>" readonly>
+               
+            </div>
+            <div class="Data-Grid-Column">
+               <div class="Round-Corners-Button" id="Button-SlideImages-Directory">
+                  Seleccionar
+               </div>
+            </div>
+         </div>
 <?php
       $tbConfiguration->rewind();
       $tbConfiguration->searchByKey(THUMBNAILS_DIRECTORY_C);
@@ -183,8 +209,8 @@
          $loggerCpF->trace("Format the DataGrid");
       ?>
       <script type="text/javascript">
-         DataGrid.format($('#DataConfiguration'),{width:"575px",
-                                               columnsWidth: {0:"175px",1:"300px",2:"100px"}});
+         DataGrid.format($('#DataConfiguration'),{width:"600px",
+                                               columnsWidth: {0:"200px",1:"300px",2:"100px"}});
       </script>
       <?php 
          $loggerCpF->trace("Define the callback for cakes directory");
@@ -263,6 +289,35 @@
                     callback: functionShowDirectoryModels,
                     Title_Params:{
                          Caption:"Selecciona el directorio donde se guardan los modelados",
+                         Background_Color:"orange"
+                                  },
+                    toolbar:"create_folder|delete"
+                  });
+         });
+      </script>
+      <?php 
+         $loggerCpF->trace("Define the callback for slide images directory");
+      ?>
+      <script type="text/javascript">
+         JSLogger.getInstance().trace("Define function callback showDirectorySlideImages");
+         functionShowDirectoryModels = function (theData){
+
+            var message = "Data: " + theData.path + ". Type: "+ (theData.file?"File":"Directory");;
+            JSLogger.getInstance().debug("Callback : " + message);
+            $('#Input-SlideImages-Directory').val(theData.path);
+            //JSLogger.getInstance().debug("VALOR:" +$('#Data_Path_Cursos').val());
+        }
+         JSLogger.getInstance().trace("Add click event to the button #Button-Image-Models-Directory");
+         $('#Button-SlideImages-Directory').click(function(){
+            fileBrowser = new FileBrowser(
+                  {path:{
+                           root_path:<?php printf("\"%s\"",$_SERVER['DOCUMENT_ROOT']);?>,
+                           current_path: $('#Input-SlideImages-Directory').val()
+                        },
+                    type: "d", filter: "*.*", 
+                    callback: functionShowDirectoryModels,
+                    Title_Params:{
+                         Caption:"Selecciona el directorio desde donde buscaraas las imagnes del inicio",
                          Background_Color:"orange"
                                   },
                     toolbar:"create_folder|delete"
