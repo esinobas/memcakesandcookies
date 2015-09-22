@@ -27,9 +27,9 @@
 
    $logger = null;
 
-   define(COMMAND,"command");
+   define(COMMAND, "command");
    define(PARAMS, "paramsCommand");
-   define(PARAM_TABLE, "Table");
+   define(PARAM_TABL, "Table");
    define(PARAM_ROWS, "rows");
    define(PARAM_ROW, "row");
    define(PARAM_DATA, "data");
@@ -39,9 +39,10 @@
    define(PARAM_KEY, "key");
    define(RESULT_CODE, "ResultCode");
    define(MSG_ERROR, "ErrorMsg");
-   define(RESULT_CODE_SUCCESS ,200);
-   define(RESULT_CODE_INTERNAL_ERROR ,500);
+   define(RESULT_CODE_SUCCESS, 200);
+   define(RESULT_CODE_INTERNAL_ERROR, 500);
    define(RETURN_LAST_ID, "lastID");
+
 
    /****************** Functions *****************************/
 
@@ -96,12 +97,6 @@
 
    function updateData($theTable, $theRows, &$theResult){
       global $logger;
-      /*global $PARAM_KEY;
-
-      global $RESULT_CODE;
-      global $MSG_ERROR;
-      global $RESULT_CODE_SUCCESS;
-      global $RESULT_CODE_INTERNAL_ERROR;*/
       $logger->trace("Enter");
       $logger->trace("Rows: [ ".json_encode($theRows)." ]");
       $logger->trace("Update data of [ " . $theTable->getTableName() ." ]");
@@ -345,7 +340,7 @@
             }
 
             }else{
-               $theResult[RESULT_CODE] = $RESULT_CODE_INTERNAL_ERROR;
+               $theResult[RESULT_CODE] = RESULT_CODE_INTERNAL_ERROR;
                $theResult[MSG_ERROR] = "The Key has not been found.";
                $logger->warn($theResult[MSG_ERROR]);
                break;
@@ -362,11 +357,6 @@
 
    function insertData($theTable, $theData, &$theResult){
       global $logger;
-      /*global $RESULT_CODE;
-      global $MSG_ERROR;
-      global $RESULT_CODE_SUCCESS;
-      global $RESULT_CODE_INTERNAL_ERROR;
-      global $RETURN_LAST_ID;*/
       $logger->trace("Enter");
       $logger->trace("Insert data: [ ".json_encode($theData)." ]");
       $logger->trace("Into [ " . $theTable->getTableName() ." ]");
@@ -523,11 +513,6 @@
 
    function delete($theTable, $theData, &$theResult){
       global $logger;
-      /*global $RESULT_CODE;
-      global $MSG_ERROR;
-      global $RESULT_CODE_SUCCESS;
-      global $RESULT_CODE_INTERNAL_ERROR;
-      global $PARAM_KEY;*/
       $logger->trace("Enter");
       $jsonKey = $theData[PARAM_KEY];
       $logger->trace("Delete from table ".$theTable->getTableName().
@@ -627,14 +612,14 @@
 
   
    if (count($_POST) > 0){
-      $logger = LoggerMgr::Instance()->getLogger(basename(__FILE__));
+      $logger = LoggerMgr::Instance()->getLogger("RequestFromWeb.php");
    
 
       $logger->info("A request has been received from web");
       $resultArray = array();
       if (!isset ($_POST[COMMAND]) || ! isset ($_POST[PARAMS])){
          $resultArray[RESULT_CODE] = RESULT_CODE_INTERNAL_ERROR;
-         $resultArray[MSG_ERROR] = "Unmatched format request. Absence of param ".COMMAND." or ".PARAMS;
+         $resultArray[MSG_ERROR] = "Unmatched format request. Absence of param COMMAND or PARAMS";
          $logger->error(json_encode($resultArray));
          //$logger->error("Unmatched format request. Absence of param $COMMAND or $PARAMS");
             //print("ERROR 500. Unmatched format request. Absence of param $COMMAND or $PARAMS");
@@ -647,7 +632,7 @@
          $params = json_decode($strParams, true);
          $table = getTable($params[PARAM_TABLE]);
          $logger->trace("The command parameter is [ $strCommand ]");
-         $logger->trace("Open the table [ ". $table->getTableName() ." ]");
+         $logger->trace("Open the table [ $params[PARAM_TABLE] ]");
          $table->open();
       
          if (strcmp(strtoupper($strCommand), COMMAND_UPDATE) == 0){
