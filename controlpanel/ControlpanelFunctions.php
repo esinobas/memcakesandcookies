@@ -458,8 +458,55 @@ define(URL_C, 'URL');
       var functionRemoveImageSlideInServer = function(){
          JSLogger.getInstance().trace("Enter");
          JSLogger.getInstance().debug("Trying remove image slide with id [ " + idToRemove + " ]");
+         var ajaxObject = new Ajax();
+         ajaxObject.setSyn();
+         ajaxObject.setPostMethod();
+         <?php 
+            $tbConfiguration->rewind();
+            $tbConfiguration->searchByKey(URL);
+         ?>
+         JSLogger.getInstance().debug("Url where the request for remove a slide image will be sent [ <?php print($tbConfiguration->getValue())?>" 
+                +"php/Database/RequestFromWeb.php ]");
+         ajaxObject.setUrl("<?php print($tbConfiguration->getValue())?>php/Database/RequestFromWeb.php");
+         var requestParams = {};
+         requestParams.<?php print(COMMAND);?> = "<?php print(COMMAND_DELETE);?>";
+         requestParams.<?php print(PARAMS);?> = {};
+         requestParams.<?php print(PARAMS);?>.<?php print(PARAM_TABLE);?>="<?php print(TB_SlideImagesHome::TB_SlideImagesHomeTableC);?>";
+         requestParams.<?php print(PARAMS);?>.<?php print(PARAM_KEY);?>=idToRemove;
+
+         JSLogger.getInstance().debug("Request Parameters [ " + JSON.stringify(requestParams) + " ]");
+
+         ajaxObject.setParameters(JSON.stringify(requestParams));
+
+         ajaxObject.send();
+         JSLogger.getInstance().trace("Response [ " + ajaxObject.getResponse() + " ]");
+
+         if (ajaxObject.getResponse().indexOf("404 Not Found") != -1){
+            JSLogger.getInstance().error("The script [ <?php print($tbConfiguration->getValue())?>php/Database/RequestFromWeb.phpRequestFromWeb.php ] has been found");
+            MessageBox("Error", 
+                  "La imagen no se ha borrado del slide image."+
+                    ". No se ha podido acceder al script [ <?php print($tbConfiguration->getValue())?>php/Database/RequestFromWeb.php ]",
+                  {Icon: MessageBox.IconsE.ERROR});
+         }else{
+            var objResponse = JSON.parse(ajaxObject.getResponse());
+            if (parseInt(objResponse['ResultCode']) != 200){
+                     MessageBox("Error", 
+                        "La imagen no se ha borrado del slide image."+ 
+                        " Error [ " +
+                        objResponse['ErrorMsg'] + " ]",
+                        {Icon: MessageBox.IconsE.ERROR});
+                   JSLogger.getInstance().error("The slide image has been not removed. [ " +
+                         objResponse['ErrorMsg'] + " ]");
+            }else{
+              
+               JSLogger.getInstance().error("The slide image was removed successfully");
+               //Refresh the list
+            }
+         }
+        
          JSLogger.getInstance().trace("Exit");
       }
+      
       var functionRemoveImageSlide = function(theId){
          JSLogger.getInstance().trace("Enter");
          JSLogger.getInstance().trace("Removing the slide image with Id [ " + theId +" ]");

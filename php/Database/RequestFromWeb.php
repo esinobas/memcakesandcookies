@@ -529,7 +529,7 @@
       global $RESULT_CODE_INTERNAL_ERROR;
       global $PARAM_KEY;*/
       $logger->trace("Enter");
-      $jsonKey = $theData[$PARAM_KEY];
+      $jsonKey = $theData[PARAM_KEY];
       $logger->trace("Delete from table ".$theTable->getTableName().
                     " with key [ ".json_encode($jsonKey)." ]");
 
