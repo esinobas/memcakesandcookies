@@ -481,7 +481,8 @@ define(URL_C, 'URL');
                });
                $("#DataGrid-Images-Home").prepend(newRow);
             }else{
-               JSLogger.getInstance().trace("The path is not present, removing");
+               JSLogger.getInstance().trace("The path is not present, removing the slide image with id [ " + id + " ]");
+               $("#DataGrid-Images-Home #"+id).remove();
             }
 
             
@@ -537,9 +538,11 @@ define(URL_C, 'URL');
                          objResponse['ErrorMsg'] + " ]");
             }else{
               
-               JSLogger.getInstance().error("The slide image was removed successfully");
+               JSLogger.getInstance().debug("The slide image was removed successfully");
                var parameters = {};
                parameters.theId = idToRemove;
+               JSLogger.getInstance().debug("Refreshing list home slide images with paremeters [ " + JSON.stringify(parameters) +" ]");
+               functionRefreshImageSlide(parameters);
             }
          }
         
