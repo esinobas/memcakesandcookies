@@ -89,9 +89,10 @@
    
    
     <logger name="DatabaseMgr">
-      <level value="WARN"></level>
+      <level value="TRACE"></level>
       <appender_ref ref="DatabaseFileAppender"></appender_ref>
       <appender_ref ref="WebFileAppender"></appender_ref>
+      <appender_ref ref="ControlPanelFileAppender"></appender_ref>
    </logger>
    <logger name="MySqlDatabase">
       <level value="WARN"></level>
@@ -116,6 +117,14 @@
       <level value="WARN"></level>
       <appender_ref ref="DatabaseFileAppender"></appender_ref>
       <appender_ref ref="WebFileAppender"></appender_ref>
+      <appender_ref ref="ControlPanelFileAppender"></appender_ref>
+   </logger>
+   
+   <logger name="TB_TypeCollectionImage">
+      <level value="TRACE"></level>
+      <appender_ref ref="DatabaseFileAppender"></appender_ref>
+      <!--  <appender_ref ref="WebFileAppender"></appender_ref> -->
+      <appender_ref ref="ControlPanelFileAppender"></appender_ref>
    </logger>
    
    <logger name="TB_ImagesAndCollection">

@@ -685,4 +685,19 @@ define(URL_C, 'URL');
       $loggerCpF->trace("Exit");
       
    }
-?>
+
+/**
+ * Gets the kind imges by collection and shows the magement page
+ * 
+ * @param theType: [in] The image type
+ * @param thetable: [in] The table where are saved all the images with its
+ *       relation with the collections and types
+ */
+   function getImagesByType($theType, TB_TypeCollectionImage $theTable){
+      global $loggerCpF;
+      $loggerCpF->trace("Enter");
+      $loggerCpF->trace("The images type is $theType");
+      
+      $loggerCpF->trace("Exit");
+   }
+   ?>
