@@ -129,12 +129,14 @@
                            $tableMenu->getOption() . " ] in tab");
                   ?>
                <div class="Vertical-Tab" id=<?php printf("\"Tab-%s\"",$tableMenu->getOption());?>>
-                  <?php print($tableMenu->getOption());?>
-               </div>
                   <?php 
                         if ($tableMenu->getId() > 1 && $tableMenu->getId() < 5){
                            getImagesByType($tableMenu->getId() - 1,$TB_TypeCollectionImage);
                         }
+                  ?>
+               </div>
+                  <?php 
+                        
                      }
                   }
                ?>

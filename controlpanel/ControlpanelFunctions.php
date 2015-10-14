@@ -20,12 +20,14 @@ define(URL_C, 'URL');
 
 /********* Global Variables *****/
    $loggerCpF = LoggerMgr::Instance()->getLogger(basename(__FILE__));
+   $tbConfiguration = null;
 /**
  * Gets the configuration from the database and it showed
  */
    function getConfiguration(){
       //require_once 'Database/RequestFromWeb.php';
       global $loggerCpF;
+      global $tbConfiguration;
       $loggerCpF->trace("Enter");
       
       $tbConfiguration = new TB_Configuration();
@@ -407,6 +409,7 @@ define(URL_C, 'URL');
 
       //require_once 'Database/RequestFromWeb.php';
       global $loggerCpF;
+      global $tbConfiguration;
 
       $loggerCpF->trace("Enter");
 ?>
@@ -419,8 +422,7 @@ define(URL_C, 'URL');
 <?php
       $tbSlidesImageHome = new TB_SlideImagesHome();
       $tbSlidesImageHome->open();
-      $tbConfiguration = new TB_Configuration();
-      $tbConfiguration->open();
+      $tbConfiguration->rewind();
       $tbConfiguration->searchByKey(URL_C);
 ?>
       <div id="Images-Home-Container">
@@ -695,9 +697,47 @@ define(URL_C, 'URL');
  */
    function getImagesByType($theType, TB_TypeCollectionImage $theTable){
       global $loggerCpF;
+      global $tbConfiguration;
       $loggerCpF->trace("Enter");
-      $loggerCpF->trace("The images type is $theType");
+      $loggerCpF->trace("The images type is [ ". 
+            ($theType == 1 ? "Cakes": ($theType == 2 ? "Cookies" : "Models")) ." ]");
+      $theTable->rewind();
+      $theTable->searchByColumn(TB_TypeCollectionImage::TypeIdColumnC, $theType);
+?>
+      <div class="CollectionList">
+         <div class="Header-Middle">
+            Colecciones
+         </div>
+         <div class="Header-Middle">
+               <div id="btnAdd<?php printf("%s", ($theType == 1 ? "Cakes": ($theType == 2 ? "Cookies" : "Models")));?>" class="Round-Corners-Button">
+                  Añadir
+               </div>
+         </div>
+         <div id="<?php printf("%s", ($theType == 1 ? "Cakes": ($theType == 2 ? "Cookies" : "Models")));?>CollectionsList">
+         </div>
+      </div>
+      <div id="<?php printf("%s", ($theType == 1 ? "Cakes": ($theType == 2 ? "Cookies" : "Models")));?>Images" class="ImagesList">
       
+      </div>
+<?php 
+      $collectionName = "";
+      while ($theTable->next()){
+         if (strcmp($collectionName, $theTable->getCollectionName()) != 0){
+?>
+      
+      <script type="text/javascript">
+         var text = '<div id=\""<?php print($theTable->getCollectionId());?>"\"><?php print($theTable->getCollectionName());?></div>';
+         $('#<?php printf("%s", ($theType == 1 ? "Cakes": ($theType == 2 ? "Cookies" : "Models")));?>CollectionList').append(text);
+<?php    $loggerCpF->trace("Add option [ <div id=\"".
+               $theTable->getCollectionId()."\">".$theTable->getCollectionName()."</div> ] in ".
+               " div with id [ #". ($theType == 1 ? "Cakes": ($theType == 2 ? "Cookies" : "Models")).
+                     "CollectionList");
+?>
+         );
+      </script>
+<?php 
+         }
+      }
       $loggerCpF->trace("Exit");
    }
    ?>

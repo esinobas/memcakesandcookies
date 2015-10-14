@@ -147,7 +147,19 @@ html {
   
 }
 
-
+.CollectionList{
+ 
+   width: 250px;
+   height: 100%;
+   padding: 2px 5px;
+   
+}
+.Header-Middle{
+   float: left;
+   width: 50%;
+   text-align: center;
+ 
+}
 /*****************************************************/
 #div_menu{
    width: 960px;
