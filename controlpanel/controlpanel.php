@@ -33,6 +33,7 @@
       <link rel="stylesheet" type="text/css" href="../plugins/Common/HtmlWindow/HtmlWindow.css">
       <link rel="stylesheet" type="text/css" href="../plugins/MessageBox/style/MessageBox.css">
       <link rel="stylesheet" type="text/css" href="../plugins/FileBrowser/style/Filebrowser.css">
+      <link rel="stylesheet" type="text/css" href="../plugins/DataEntry/DataEntry.css">
       
       
       <link rel="stylesheet" type="text/css" href="style.css">

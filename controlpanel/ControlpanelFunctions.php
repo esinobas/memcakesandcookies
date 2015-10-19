@@ -733,11 +733,33 @@ define(URL_C, 'URL');
                " div with id [ #". ($theType == 1 ? "Cakes": ($theType == 2 ? "Cookies" : "Models")).
                      "CollectionList");
 ?>
-         );
+        
       </script>
 <?php 
          }
       }
+      $loggerCpF->trace("Add the window for add a new collections");
+?>
+      <div class="DataEntryWindow DataEntryWindow-Hide">
+         <div class="DataEntryWindow-Tittle">
+            Nueva Colección
+         </div>
+         <div class="DataEntryFrm">
+            <div class="DataEntryContainer">
+               <div class="DataEntryRow">
+                  <div class="DataEntryLabel">
+                     Nombre de la colección: 
+                  </div>
+                  <div class="DataEntryValue">
+                     <input type="text">
+                  </div>
+                  
+               </div>
+            </div>
+            
+         </div>
+      </div>
+<?php  
       $loggerCpF->trace("Exit");
    }
    ?>
