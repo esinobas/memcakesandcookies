@@ -24,6 +24,7 @@
       <script type="text/javascript" src="../plugins/Ajax/Ajax.js"></script>
       <script type="text/javascript" src="../plugins/MessageBox/MessageBox.js"></script>
       <script type="text/javascript" src="../plugins/FileBrowser/FileBrowser.js"></script>
+      <script type="text/javascript" src="../plugins/DataEntry/DataEntryWindow.js"></script>
       
       
       
@@ -57,6 +58,7 @@
       ?>
    </head>
    <body>
+   
       <script type="text/javascript">
          JSLogger.getInstance().registerLogger("ControlPanel", JSLogger.levelsE.TRACE);
       </script>
@@ -147,6 +149,32 @@
             </div>
          </div> <!-- data   -->
       </div> <!-- main -->
+      
+      <?php 
+      $loggerCpF->trace("Add the window for add a new collections");
+   ?>
+      <div class="DataEntryWindow DataEntryWindow-Hide">
+         <div class="DataEntryWindow-Tittle">
+            Nueva Colección
+         </div>
+         <div class="DataEntryFrm">
+            <div class="DataEntryContainer">
+               <div class="DataEntryRow">
+                  <div class="DataEntryLabel">
+                     Nombre de la colección: 
+                  </div>
+                  <div class="DataEntryValue">
+                     <input type="text">
+                  </div>
+                  
+               </div>
+            </div>
+            <div class="DataEntryButtonsContainer">
+              <!--  <div class="Round-Corners-Button DataEntryWindowButtonOk">Aceptar</div>
+               <div class="Round-Corners-Button DataEntryWindowButtonCancel">Cancelar</div> -->
+            </div>
+         </div>
+      </div>
    </body>
 
 </html>

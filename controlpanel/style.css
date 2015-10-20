@@ -136,11 +136,15 @@ html {
    overflow-y: scroll;
 }
 
-#data{
-  width: 960px;
-  font-family: Cookie;
+
+#data, .DataEntryWindow{
+   font-family: Cookie;
   font-size: 26px;
   color: #ff6600;
+}
+#data{
+  width: 960px;
+  
   height: calc(100% - 100px);
   /*height: -webkit-calc(100% - 100px);*/
   height: -moz-calc(100% - 100px);
@@ -160,6 +164,8 @@ html {
    text-align: center;
  
 }
+
+
 /*****************************************************/
 #div_menu{
    width: 960px;
