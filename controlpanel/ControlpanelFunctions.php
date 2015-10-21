@@ -691,62 +691,63 @@ define(URL_C, 'URL');
 /**
  * Gets the kind imges by collection and shows the magement page
  * 
- * @param theType: [in] The image type
- * @param thetable: [in] The table where are saved all the images with its
- *       relation with the collections and types
+ * @param theType: [in] The menu Id that it is corresponding with a collection
+ * @param theCollectionTable [in]: The table with the collections
  */
-   function getImagesByType($theType, TB_TypeCollectionImage $theTable){
+   function getImagesByType($theMenuId, TB_MenuCollection $theCollectionTable){
       global $loggerCpF;
       global $tbConfiguration;
       $loggerCpF->trace("Enter");
       $loggerCpF->trace("The images type is [ ". 
-            ($theType == 1 ? "Cakes": ($theType == 2 ? "Cookies" : "Models")) ." ]");
-      $theTable->rewind();
-      $theTable->searchByColumn(TB_TypeCollectionImage::TypeIdColumnC, $theType);
+            (($theMenuId - 1 ) == 1 ? "Cakes": (($theMenuId - 1 ) == 2 ? "Cookies" : "Models")) ." ]");
+      
+      $theCollectionTable->rewind();
+      $theCollectionTable->searchByColumn(TB_MenuCollection::MenuIdColumnC, $theMenuId);
 ?>
       <div class="CollectionList">
          <div class="Header-Middle">
             Colecciones
          </div>
          <div class="Header-Middle">
-               <div id="btnAdd<?php printf("%s", ($theType == 1 ? "Cakes": ($theType == 2 ? "Cookies" : "Models")));?>" class="Round-Corners-Button">
+               <div id="btnAdd<?php printf("%s", (($theMenuId - 1 ) == 1 ? "Cakes": (($theMenuId - 1 ) == 2 ? "Cookies" : "Models")));?>" class="Round-Corners-Button">
                   Añadir
                </div>
          </div>
-         <div id="<?php printf("%s", ($theType == 1 ? "Cakes": ($theType == 2 ? "Cookies" : "Models")));?>CollectionsList">
+         <div id="<?php printf("%s", (($theMenuId - 1 ) == 1 ? "Cakes": (($theMenuId - 1 ) == 2 ? "Cookies" : "Models")));?>CollectionsList">
          </div>
       </div>
-      <div id="<?php printf("%s", ($theType == 1 ? "Cakes": ($theType == 2 ? "Cookies" : "Models")));?>Images" class="ImagesList">
+      <div id="<?php printf("%s", (($theMenuId - 1 ) == 1 ? "Cakes": (($theMenuId - 1 ) == 2 ? "Cookies" : "Models")));?>Images" class="ImagesList">
       </div>
 <?php
       $loggerCpF->trace("Add the functionalty to open the new collection window in the button");
 ?>
    <script type="text/javascript">
       JSLogger.getInstance().trace("Add click event to open new collection window to [ " + 
-          "<?php printf("%s", ($theType == 1 ? "Cakes": ($theType == 2 ? "Cookies" : "Models")));?> ]");
-      $('#btnAdd<?php printf("%s", ($theType == 1 ? "Cakes": ($theType == 2 ? "Cookies" : "Models")));?>').click(
+          "<?php printf("%s", (($theMenuId - 1 ) == 1 ? "Cakes": (($theMenuId - 1 ) == 2 ? "Cookies" : "Models")));?> ]");
+      $('#btnAdd<?php printf("%s", (($theMenuId - 1 ) == 1 ? "Cakes": (($theMenuId - 1 ) == 2 ? "Cookies" : "Models")));?>').click(
             function(){
                   DataEntryWindow.show('.DataEntryWindow', null, {size:{width:'500px',height:'150px'}});
             });
    </script>
 <?php 
       $collectionName = "";
-      while ($theTable->next()){
-         if (strcmp($collectionName, $theTable->getCollectionName()) != 0){
+      while ($theCollectionTable->next()){
+         
 ?>
       
       <script type="text/javascript">
-         var text = '<div id=\""<?php print($theTable->getCollectionId());?>"\"><?php print($theTable->getCollectionName());?></div>';
-         $('#<?php printf("%s", ($theType == 1 ? "Cakes": ($theType == 2 ? "Cookies" : "Models")));?>CollectionList').append(text);
+         var text = '<div id="<?php print($theCollectionTable->getCollectionId());?>"><?php print($theCollectionTable->getCollectionName());?></div>';
+         JSLogger.getInstance().trace('Add collection [ ' + text + ' ] in [ # <?php printf("%s", (($theMenuId - 1 ) == 1 ? "Cakes": (($theMenuId - 1 ) == 2 ? "Cookies" : "Models")));?>CollectionList ]');
+         $('#<?php printf("%s", (($theMenuId - 1 ) == 1 ? "Cakes": (($theMenuId - 1 ) == 2 ? "Cookies" : "Models")));?>CollectionsList').append(text);
 <?php    $loggerCpF->trace("Add option [ <div id=\"".
-               $theTable->getCollectionId()."\">".$theTable->getCollectionName()."</div> ] in ".
-               " div with id [ #". ($theType == 1 ? "Cakes": ($theType == 2 ? "Cookies" : "Models")).
-                     "CollectionList");
+               $theCollectionTable->getCollectionId()."\">".$theCollectionTable->getCollectionName()."</div> ] in ".
+               " div with id [ #". (($theMenuId - 1 ) == 1 ? "Cakes": (($theMenuId - 1 ) == 2 ? "Cookies" : "Models")).
+                     "CollectionList ]");
 ?>
         
       </script>
 <?php 
-         }
+         
       }
       $loggerCpF->trace("Exit");
    }

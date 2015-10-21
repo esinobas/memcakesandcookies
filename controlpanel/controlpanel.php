@@ -52,6 +52,7 @@
          require_once 'Database/TB_SlideImagesHome.php';
          require_once 'Database/RequestFromWeb.php';
          require_once 'Database/TB_TypeCollectionImage.php';
+         require_once 'Database/TB_MenuCollection.php';
          
          //Declare the global variables
          $logger = LoggerMgr::Instance()->getLogger(basename(__FILE__));
@@ -123,9 +124,9 @@
                </div>
                <?php
                   $tableMenu->rewind();
+                  $tableMenuCollection = new TB_MenuCollection();
+                  $tableMenuCollection->open();
                   $logger->trace("Get the options menu for the tabs");
-                  $TB_TypeCollectionImage = new TB_TypeCollectionImage();
-                  $TB_TypeCollectionImage->open();
                   while ($tableMenu->next()){
                      if ($tableMenu->getId() > 1 && $tableMenu->getId() < 6){
                         $logger->trace("Write the menu option [ ".
@@ -134,7 +135,7 @@
                <div class="Vertical-Tab" id=<?php printf("\"Tab-%s\"",$tableMenu->getOption());?>>
                   <?php 
                         if ($tableMenu->getId() > 1 && $tableMenu->getId() < 5){
-                           getImagesByType($tableMenu->getId() - 1,$TB_TypeCollectionImage);
+                           getImagesByType($tableMenu->getId(), $tableMenuCollection);
                         }
                   ?>
                </div>
