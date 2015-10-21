@@ -1,0 +1,28 @@
+@CHARSET "UTF-8";
+
+.ListBox{
+ 
+   float: left;
+   /* width: calc(100% - 4px); This property must be defined in the project*/
+   /* height: calc(100% - 10px); This property must be defined in the project*/
+   overflow-y: scroll;
+   border-style: solid;
+   border-width: 1px;
+   padding: 0px 2px;
+}
+
+.ListBoxItem{
+ 
+   width: 100%;
+}
+
+.ListBoxItem:HOVER{
+   cursor: pointer;
+}
+
+.ListBoxItemSelected{ /*This class must be redefined in the project*/
+ 
+ background-color: blue;
+ color: white;
+
+}

@@ -35,7 +35,7 @@
       <link rel="stylesheet" type="text/css" href="../plugins/MessageBox/style/MessageBox.css">
       <link rel="stylesheet" type="text/css" href="../plugins/FileBrowser/style/Filebrowser.css">
       <link rel="stylesheet" type="text/css" href="../plugins/DataEntry/DataEntry.css">
-      
+      <link rel="stylesheet" type="text/css" href="../plugins/ListBox/ListBox.css">
       
       <link rel="stylesheet" type="text/css" href="style.css">
 

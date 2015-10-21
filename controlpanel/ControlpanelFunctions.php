@@ -713,7 +713,7 @@ define(URL_C, 'URL');
                   Añadir
                </div>
          </div>
-         <div id="<?php printf("%s", (($theMenuId - 1 ) == 1 ? "Cakes": (($theMenuId - 1 ) == 2 ? "Cookies" : "Models")));?>CollectionsList">
+         <div id="<?php printf("%s", (($theMenuId - 1 ) == 1 ? "Cakes": (($theMenuId - 1 ) == 2 ? "Cookies" : "Models")));?>CollectionsList" class="ListBox">
          </div>
       </div>
       <div id="<?php printf("%s", (($theMenuId - 1 ) == 1 ? "Cakes": (($theMenuId - 1 ) == 2 ? "Cookies" : "Models")));?>Images" class="ImagesList">
@@ -736,7 +736,7 @@ define(URL_C, 'URL');
 ?>
       
       <script type="text/javascript">
-         var text = '<div id="<?php print($theCollectionTable->getCollectionId());?>"><?php print($theCollectionTable->getCollectionName());?></div>';
+         var text = '<div class="ListBoxItem" id="<?php print($theCollectionTable->getCollectionId());?>"><?php print($theCollectionTable->getCollectionName());?></div>';
          JSLogger.getInstance().trace('Add collection [ ' + text + ' ] in [ # <?php printf("%s", (($theMenuId - 1 ) == 1 ? "Cakes": (($theMenuId - 1 ) == 2 ? "Cookies" : "Models")));?>CollectionList ]');
          $('#<?php printf("%s", (($theMenuId - 1 ) == 1 ? "Cakes": (($theMenuId - 1 ) == 2 ? "Cookies" : "Models")));?>CollectionsList').append(text);
 <?php    $loggerCpF->trace("Add option [ <div id=\"".
