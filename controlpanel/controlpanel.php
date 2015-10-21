@@ -25,6 +25,7 @@
       <script type="text/javascript" src="../plugins/MessageBox/MessageBox.js"></script>
       <script type="text/javascript" src="../plugins/FileBrowser/FileBrowser.js"></script>
       <script type="text/javascript" src="../plugins/DataEntry/DataEntryWindow.js"></script>
+      <script type="text/javascript" src="../plugins/ListBox/ListBoxInit.js"></script>
       
       
       
@@ -176,6 +177,9 @@
             </div>
          </div>
       </div>
+      <script type="text/javascript">
+         ListBoxInit.execute(true);
+      </script>
    </body>
 
 </html>

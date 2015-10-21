@@ -8,7 +8,7 @@
    overflow-y: scroll;
    border-style: solid;
    border-width: 1px;
-   padding: 0px 2px;
+   padding: 1px 2px;
 }
 
 .ListBoxItem{
@@ -22,6 +22,7 @@
 
 .ListBoxItemSelected{ /*This class must be redefined in the project*/
  
+ border-radius: 3px;
  background-color: blue;
  color: white;
 

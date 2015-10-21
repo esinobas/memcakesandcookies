@@ -165,7 +165,20 @@ html {
  
 }
 
+.ListBox{
+ 
+   
+   width: calc(100% - 4px);
+   height: calc(100% - 10px);
+   border-color: #ff6600;
+   
+}
+.ListBoxItemSelected{ 
+ 
+ background-color: #ff6600;
+ color: white;
 
+}
 /*****************************************************/
 #div_menu{
    width: 960px;
