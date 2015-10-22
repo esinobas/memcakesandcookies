@@ -156,6 +156,7 @@ html {
    width: 250px;
    height: 100%;
    padding: 2px 5px;
+   float: left;
    
 }
 .Header-Middle{
@@ -178,6 +179,15 @@ html {
  background-color: #ff6600;
  color: white;
 
+}
+
+.ImagesList{
+ 
+   background-color: yellow;
+   float: left;
+   width: calc(100% - 250px - 5px - 5px);
+   height: 100%;
+ 
 }
 /*****************************************************/
 #div_menu{
