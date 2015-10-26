@@ -183,11 +183,22 @@ html {
 
 .ImagesList{
  
-   background-color: yellow;
+   
    float: left;
    width: calc(100% - 250px - 5px - 5px);
    height: 100%;
  
+}
+
+.Grid{
+ 
+ 
+   overflow-y: scroll;
+}
+
+.Grid-Hidden{
+ 
+   display: none;
 }
 /*****************************************************/
 #div_menu{

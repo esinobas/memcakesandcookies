@@ -1,5 +1,4 @@
 <?php
- 
 /**
  * File with functions used by the control panel
  */
@@ -7,7 +6,6 @@
 /********* includes *****/
 
 /******** requires *****/
-
 
 //Define the constanst that allows access to the data configuration
 define(IMAGES_CAKES_DIRECTORY_C, 'cakesImagesPath');
@@ -693,8 +691,13 @@ define(URL_C, 'URL');
  * 
  * @param theType: [in] The menu Id that it is corresponding with a collection
  * @param theCollectionTable [in]: The table with the collections
+ * @param theTypeCollectionImage [in]: The table with the images
+ * 
  */
-   function getImagesByType($theMenuId, TB_MenuCollection $theCollectionTable){
+   function getImagesByType($theMenuId, 
+         TB_MenuCollection $theCollectionTable,
+         TB_TypeCollectionImage $theTypeCollectionImageTable){
+      
       global $loggerCpF;
       global $tbConfiguration;
       $loggerCpF->trace("Enter");
@@ -716,10 +719,11 @@ define(URL_C, 'URL');
          <div id="<?php printf("%s", (($theMenuId - 1 ) == 1 ? "Cakes": (($theMenuId - 1 ) == 2 ? "Cookies" : "Models")));?>CollectionsList" class="ListBox">
          </div>
       </div>
-      <div id="<?php printf("%s", (($theMenuId - 1 ) == 1 ? "Cakes": (($theMenuId - 1 ) == 2 ? "Cookies" : "Models")));?>Images" class="ImagesList">
-      </div>
+      
+      
 <?php
       $loggerCpF->trace("Add the functionalty to open the new collection window in the button");
+      
 ?>
    <script type="text/javascript">
       JSLogger.getInstance().trace("Add click event to open new collection window to [ " + 
@@ -729,8 +733,14 @@ define(URL_C, 'URL');
                   DataEntryWindow.show('.DataEntryWindow', null, {size:{width:'500px',height:'150px'}});
             });
    </script>
+   
+   <div id="<?php printf("%s", (($theMenuId - 1 ) == 1 ? "Cakes": (($theMenuId - 1 ) == 2 ? "Cookies" : "Models")));?>Images" class="ImagesList">
+   
 <?php 
       $collectionName = "";
+      $isFirtsGrid = true;
+      $elementsInRow = 0;
+      $elementsPerRow = $tbConfiguration->searchByColumn(TB_Configuration::PropertyColumnC, 'numberThumbnails');
       while ($theCollectionTable->next()){
          
 ?>
@@ -739,16 +749,93 @@ define(URL_C, 'URL');
          var text = '<div class="ListBoxItem" id="<?php print($theCollectionTable->getCollectionId());?>"><?php print($theCollectionTable->getCollectionName());?></div>';
          JSLogger.getInstance().trace('Add collection [ ' + text + ' ] in [ # <?php printf("%s", (($theMenuId - 1 ) == 1 ? "Cakes": (($theMenuId - 1 ) == 2 ? "Cookies" : "Models")));?>CollectionList ]');
          $('#<?php printf("%s", (($theMenuId - 1 ) == 1 ? "Cakes": (($theMenuId - 1 ) == 2 ? "Cookies" : "Models")));?>CollectionsList').append(text);
-<?php    $loggerCpF->trace("Add option [ <div id=\"".
+<?php    
+         $loggerCpF->trace("Add option [ <div id=\"".
                $theCollectionTable->getCollectionId()."\">".$theCollectionTable->getCollectionName()."</div> ] in ".
                " div with id [ #". (($theMenuId - 1 ) == 1 ? "Cakes": (($theMenuId - 1 ) == 2 ? "Cookies" : "Models")).
                      "CollectionList ]");
 ?>
-        
       </script>
 <?php 
-         
+         $theTypeCollectionImageTable->rewind();
+         $theTypeCollectionImageTable->searchByColumn(
+                         TB_TypeCollectionImage::CollectionIdColumnC,
+                         $theCollectionTable->getCollectionId());
+         //Hay que añadir en el grid, en la primera posicion, el añadir foto
+         if($isFirtsGrid){
+            $isFirtsGrid = false;
+?>
+      <div class="Grid" id="Grid_<?print($theCollectionTable->getCollectionName());?>">
+<?php 
+         }else{
+?>
+            <div class="Grid Grid-Hidden" id="Grid_<?print($theCollectionTable->getCollectionName());?>">
+<?php 
+         }
+?>
+         <div class="Grid-Row">
+            <div class="Grid-Element">
+               <div class="Round-Corners-Button" id="Add-Picture-Collection_<?php print($theCollectionTable->getCollectionId());?>">Añadir Foto</div>
+            </div>
+            
+         <script type="text/javascript">
+            JSLogger.getInstance().trace("Add funcionality to the add collection picture button");
+<?php 
+            $tbConfiguration->rewind();
+            if (($theMenuId -1) == 1){
+               ($tbConfiguration->searchByColumn(TB_Configuration::PropertyColumnC, IMAGE_CAKES_DIRECTORY_C));
+               
+            }else{
+               if (($theMenuId -1) == 2){
+                  ($tbConfiguration->searchByColumn(TB_Configuration::PropertyColumnC, IMAGES_COOKIES_DIRECTORY_C));
+                
+               }else{
+                  ($tbConfiguration->searchByColumn(TB_Configuration::PropertyColumnC, IMAGES_MODELS_DIRECTORY_C));
+               }
+            }
+?>
+            $('#Add-Picture-Collection_<?php print($theCollectionTable->getCollectionId());?>').click(function(){
+               fileBrowser = new FileBrowser(
+                     {path:{
+                           root_path:<?php printf("\"%s\"",$_SERVER['DOCUMENT_ROOT']);?>,
+                           current_path: "<?php print($tbConfiguration->getValue());?>"
+                           },
+                       type: "a", filter: "*.*", 
+                       callback: function(){alert('Siii')},
+                       Title_Params:{
+                            Caption:"Selecciona la foto que quieras añadir a ...",
+                            Background_Color:"orange"
+                                     },
+                       toolbar:"upload_file|create_folder|delete"
+                     });
+            });
+         </script>
+<?php 
+         $elementsInRow ++;
+         while ($theTypeCollectionImageTable->next()){
+            $loggerCpF->trace("Add the image [ $theTypeCollectionImageTable->getImagePath()/$theTypeCollectionImageTable->getImageName() ]");
+            if  ($elementsInRow == $elementsPerRow) {
+               $elementsInRow = 0;
+?> 
+        </div><!-- Grid-Row -->
+        <div class="Grid-Row">
+<?php
+            } 
+?>
+            <div class="Grid-Element">
+            </div>
+<?php 
+              $elementsPerRow ++;
+           }
+                     
+?>
+         </div><!-- Grid-Row -->
+      </div> <!-- Grid -->
+<?php 
       }
+?>
+   </div>
+<?php 
       $loggerCpF->trace("Exit");
    }
    ?>

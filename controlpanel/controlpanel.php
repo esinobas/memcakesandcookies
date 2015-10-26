@@ -37,6 +37,7 @@
       <link rel="stylesheet" type="text/css" href="../plugins/FileBrowser/style/Filebrowser.css">
       <link rel="stylesheet" type="text/css" href="../plugins/DataEntry/DataEntry.css">
       <link rel="stylesheet" type="text/css" href="../plugins/ListBox/ListBox.css">
+      <link rel="stylesheet" type="text/css" href="../plugins/Grid/Grid.css">
       
       <link rel="stylesheet" type="text/css" href="style.css">
 
@@ -126,6 +127,7 @@
                <?php
                   $tableMenu->rewind();
                   $tableMenuCollection = new TB_MenuCollection();
+                  $tableTypeCollectionImage = new TB_TypeCollectionImage();
                   $tableMenuCollection->open();
                   $logger->trace("Get the options menu for the tabs");
                   while ($tableMenu->next()){
@@ -136,7 +138,7 @@
                <div class="Vertical-Tab" id=<?php printf("\"Tab-%s\"",$tableMenu->getOption());?>>
                   <?php 
                         if ($tableMenu->getId() > 1 && $tableMenu->getId() < 5){
-                           getImagesByType($tableMenu->getId(), $tableMenuCollection);
+                           getImagesByType($tableMenu->getId(), $tableMenuCollection, $tableTypeCollectionImage);
                         }
                   ?>
                </div>
