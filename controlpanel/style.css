@@ -201,6 +201,11 @@ html {
    display: none;
 }
 
+#WindowAddImageDesc .DataEntryRow .DataEntryValue{
+   
+   width: calc(100% - 205px);
+   padding-left: 3px;
+}
 #WindowAddImageDesc .DataEntryRow .DataEntryValue>input{
  
    margin-top: 50px;
@@ -209,6 +214,13 @@ html {
  
    width: 100%;
 }
+#WindowAddImageDesc .DataEntryButtonsContainer{
+ 
+   width: 100%;
+   padding: 10px 2px;
+   padding-left: 245px;
+}
+
 /*****************************************************/
 #div_menu{
    width: 960px;

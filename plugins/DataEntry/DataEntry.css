@@ -93,3 +93,24 @@
 .DataEntryValue input{
    width: 100%;
 }
+
+.DataEntryContainer, .DataEntryButtonsContainer{
+ 
+   float: left
+}
+.DataEntryButtonsContainer{
+ 
+   width: 100%;
+   padding: 10px 2px;
+   padding-left: 245px;
+}
+.DataEntryContainer{
+ 
+   width: 100%;
+}
+
+.DataEntryWindowButtonOk, .DataEntryWindowButtonCancel{
+ 
+   float: left;
+   min-width: 100px;
+}

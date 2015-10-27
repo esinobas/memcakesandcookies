@@ -790,7 +790,7 @@ define(URL_C, 'URL');
                JSLogger.getInstance().trace("Show the window where the image description is written");
                $('#WindowAddImageDesc img').attr('src', '<?php print($tbConfiguration->getValue());?>/'+
                      theData.path);
-               DataEntryWindow.show('#WindowAddImageDesc', null, {size:{width:'500px',height:'350px'}});
+               DataEntryWindow.show('#WindowAddImageDesc', null, {size:{width:'500px',height:'300px'}});
                JSLogger.getInstance().traceExit();
             }
 <?php 
