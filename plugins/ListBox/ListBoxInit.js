@@ -12,7 +12,7 @@ ListBoxInit.execute = function(paramSelectedFirstItem){
    
    $('.ListBoxItem').click(function(){
       JSLogger.getInstance().traceEnter();
-      $('.ListBoxItem').removeClass('ListBoxItemSelected');
+      $(this).parent().find('.ListBoxItem').removeClass('ListBoxItemSelected');
       $(this).addClass('ListBoxItemSelected');
       JSLogger.getInstance().traceExit();
    });
