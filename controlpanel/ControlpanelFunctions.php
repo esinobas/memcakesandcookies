@@ -746,7 +746,7 @@ define(URL_C, 'URL');
 ?>
       
       <script type="text/javascript">
-         var text = '<div class="ListBoxItem" id="<?php print($theCollectionTable->getCollectionId());?>"><?php print($theCollectionTable->getCollectionName());?></div>';
+         var text = '<div class="ListBoxItem" id="Collection_<?php print($theCollectionTable->getCollectionId());?>"><?php print($theCollectionTable->getCollectionName());?></div>';
          JSLogger.getInstance().trace('Add collection [ ' + text + ' ] in [ # <?php printf("%s", (($theMenuId - 1 ) == 1 ? "Cakes": (($theMenuId - 1 ) == 2 ? "Cookies" : "Models")));?>CollectionList ]');
          $('#<?php printf("%s", (($theMenuId - 1 ) == 1 ? "Cakes": (($theMenuId - 1 ) == 2 ? "Cookies" : "Models")));?>CollectionsList').append(text);
 <?php    
@@ -765,11 +765,11 @@ define(URL_C, 'URL');
          if($isFirtsGrid){
             $isFirtsGrid = false;
 ?>
-      <div class="Grid" id="Grid_<?print($theCollectionTable->getCollectionName());?>">
+            <div class="Grid" id="Grid_Collection_<?print($theCollectionTable->getCollectionId());?>">
 <?php 
          }else{
 ?>
-            <div class="Grid Grid-Hidden" id="Grid_<?print($theCollectionTable->getCollectionName());?>">
+            <div class="Grid Grid-Hidden" id="Grid_Collection_<?print($theCollectionTable->getCollectionId());?>">
 <?php 
          }
 ?>
@@ -803,7 +803,7 @@ define(URL_C, 'URL');
                        type: "a", filter: "*.*", 
                        callback: function(){alert('Siii')},
                        Title_Params:{
-                            Caption:"Selecciona la foto que quieras añadir a ...",
+                            Caption:"Selecciona la foto que quieras añadir a \"<?print($theCollectionTable->getCollectionName());?>\"",
                             Background_Color:"orange"
                                      },
                        toolbar:"upload_file|create_folder|delete"
@@ -838,4 +838,45 @@ define(URL_C, 'URL');
 <?php 
       $loggerCpF->trace("Exit");
    }
+   
+/**
+ * Funtion that add funcionality to the buttons for open a filebrowser allows select a image
+ */
+function addAddPictureClickEvent(){
+   global $loggerCpF;
+   $loggerCpF->trace("Enter");
+?>
+      <script type="text/javascript">
+         JSLogger.getInstance().trace("AddAddPictureClickEvent Enter");
+         JSLogger.getInstance().trace("Numero: " +$('.CollectionList>.ListBox>.ListBoxItem').size());
+         $('.CollectionList>.ListBox>.ListBoxItem').each(function (theIndex){
+               
+               var id = $(this).attr('id');
+               var collectionName = $(this).html();
+               JSLogger.getInstance().trace("#"+theIndex+". Add commands in click event to ListBoxElement with id [ " + 
+                         id + " ] and collectionName [ "+
+                     collectionName +" ]");
+               
+               $('#'+id).click(function(){
+                  JSLogger.getInstance().trace("Click event added to ListBoxItem id [ " +
+                        $(this).attr('id')+" ] Enter");
+
+                 
+                  JSLogger.getInstance().trace("Hide all [ " + 
+                        $('.Vertical-Tab:visible>.ImagesList>.Grid').size() +" ] grid in images list");
+                  $('.Vertical-Tab:visible>.ImagesList>.Grid').addClass('Grid-Hidden');
+                  JSLogger.getInstance().trace("Show the grid Id [ Grid_" + id +" ]");
+                  $('#Grid_'+id).removeClass('Grid-Hidden');
+                  
+                  JSLogger.getInstance().trace("Click event added to ListBoxItem Exit");
+               });
+            }
+         );
+         JSLogger.getInstance().trace("AddAddPictureClickEvent Exit");
+      </script>
+<?php 
+   $loggerCpF->trace("Exit");
+}
    ?>
+   
+ 

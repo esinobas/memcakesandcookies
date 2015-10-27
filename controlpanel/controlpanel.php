@@ -182,6 +182,7 @@
       <script type="text/javascript">
          ListBoxInit.execute(true);
       </script>
+      <?php addAddPictureClickEvent();?>
    </body>
 
 </html>
