@@ -246,7 +246,7 @@ define(URL_C, 'URL');
          JSLogger.getInstance().trace("Define function callback showDirectoryCookies");
          functionShowDirectoryCookies = function (theData){
 
-            var message = "Data: " + theData.path + ". Type: "+ (theData.file?"File":"Directory");;
+            var message = "Data: " + theData.path + ". Type: "+ (theData.file?"File":"Directory");
             JSLogger.getInstance().debug("Callback : " + message);
             $('#Input-Cookies-Directory').val(theData.path);
             //JSLogger.getInstance().debug("VALOR:" +$('#Data_Path_Cursos').val());
@@ -757,6 +757,8 @@ define(URL_C, 'URL');
 ?>
       </script>
 <?php 
+         $tbConfiguration->rewind();
+         $tbConfiguration->searchByKey(URL_C);
          $theTypeCollectionImageTable->rewind();
          $theTypeCollectionImageTable->searchByColumn(
                          TB_TypeCollectionImage::CollectionIdColumnC,
@@ -779,7 +781,18 @@ define(URL_C, 'URL');
             </div>
             
          <script type="text/javascript">
+
+            JSLogger.getInstance().trace("Declare FileBrowser callback");
             JSLogger.getInstance().trace("Add funcionality to the add collection picture button");
+            var addImageCallback = function (theData){
+               JSLogger.getInstance().traceEnter();
+               JSLogger.getInstance().debug("The selected image is [ " + theData.path + " ]");
+               JSLogger.getInstance().trace("Show the window where the image description is written");
+               $('#WindowAddImageDesc img').attr('src', '<?php print($tbConfiguration->getValue());?>/'+
+                     theData.path);
+               DataEntryWindow.show('#WindowAddImageDesc', null, {size:{width:'500px',height:'350px'}});
+               JSLogger.getInstance().traceExit();
+            }
 <?php 
             $tbConfiguration->rewind();
             if (($theMenuId -1) == 1){
@@ -801,7 +814,7 @@ define(URL_C, 'URL');
                            current_path: "<?php print($tbConfiguration->getValue());?>"
                            },
                        type: "a", filter: "*.*", 
-                       callback: function(){alert('Siii')},
+                       callback: addImageCallback,
                        Title_Params:{
                             Caption:"Selecciona la foto que quieras añadir a \"<?print($theCollectionTable->getCollectionName());?>\"",
                             Background_Color:"orange"

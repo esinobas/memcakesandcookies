@@ -157,7 +157,7 @@
       <?php 
       $loggerCpF->trace("Add the window for add a new collections");
    ?>
-      <div class="DataEntryWindow DataEntryWindow-Hide">
+      <div id="WindowAddCollection" class="DataEntryWindow DataEntryWindow-Hide">
          <div class="DataEntryWindow-Tittle">
             Nueva Colección
          </div>
@@ -171,6 +171,27 @@
                      <input type="text">
                   </div>
                   
+               </div>
+            </div>
+            <div class="DataEntryButtonsContainer">
+              <!--  <div class="Round-Corners-Button DataEntryWindowButtonOk">Aceptar</div>
+               <div class="Round-Corners-Button DataEntryWindowButtonCancel">Cancelar</div> -->
+            </div>
+         </div>
+      </div>
+      <div id="WindowAddImageDesc" class="DataEntryWindow DataEntryWindow-Hide">
+         <div class="DataEntryWindow-Tittle">   
+            Añade una descripción a la imagen
+         </div>
+         <div class="DataEntryFrm">
+            <div class="DataEntryContainer">
+               <div class="DataEntryRow">
+                  <div class="DataEntryLabel">
+                     <img src="">
+                  </div>
+                  <div class="DataEntryValue">
+                     <input type="text" id="ImageDesc">
+                  </div>
                </div>
             </div>
             <div class="DataEntryButtonsContainer">

@@ -200,6 +200,15 @@ html {
  
    display: none;
 }
+
+#WindowAddImageDesc .DataEntryRow .DataEntryValue>input{
+ 
+   margin-top: 50px;
+}
+#WindowAddImageDesc .DataEntryRow .DataEntryLabel>img{
+ 
+   width: 100%;
+}
 /*****************************************************/
 #div_menu{
    width: 960px;
