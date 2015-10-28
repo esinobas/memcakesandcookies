@@ -213,6 +213,8 @@ html {
 #WindowAddImageDesc .DataEntryRow .DataEntryLabel>img{
  
    width: 100%;
+   max-width: 200px;
+   max-height: 200px;
 }
 #WindowAddImageDesc .DataEntryButtonsContainer{
  

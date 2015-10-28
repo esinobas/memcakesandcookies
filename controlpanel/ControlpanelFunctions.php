@@ -827,12 +827,20 @@ define(URL_C, 'URL');
                JSLogger.getInstance().traceEnter();
                JSLogger.getInstance().debug("The selected image is [ " + theData.path + " ]");
                JSLogger.getInstance().trace("Show the window where the image description is written");
-               $('#WindowAddImageDesc img').attr('src', '<?php print($tbConfiguration->getValue());?>/'+
+<?php
+               $imageSrc =$tbConfiguration->getValue()."/";
+               $tbConfiguration->rewind();
+               $tbConfiguration->searchByKey(($theMenuId -1) == 1 ? IMAGE_CAKES_DIRECTORY_C :
+                                                ($theMenuId -1) == 2 ? IMAGE_COOKIES_DIRECTORY_C :
+                                                IMAGE_MODELS_DIRECTORY_C);
+               $imageSrc .= $tbConfiguration->getValue();
+?>
+               $('#WindowAddImageDesc img').attr('src', '<?php print($imageSrc);?>/'+
                      theData.path);
                DataEntryWindow.show('#WindowAddImageDesc', 
                            addImageToCollection_<?print($theCollectionTable->getCollectionId());?>, 
                            {size:{width:'500px',height:'300px'},
-                            dataToAdd: {imagePath: theData.path}});
+                            dataToAdd: {imagePath: <?php printf("\"%s/\"", $tbConfiguration->getValue());?>+theData.path}});
                JSLogger.getInstance().traceExit();
             }
 <?php 
@@ -852,8 +860,9 @@ define(URL_C, 'URL');
             $('#Add-Picture-Collection_<?php print($theCollectionTable->getCollectionId());?>').click(function(){
                fileBrowser = new FileBrowser(
                      {path:{
-                           root_path:<?php printf("\"%s\"",$_SERVER['DOCUMENT_ROOT']);?>,
-                           current_path: "<?php print($tbConfiguration->getValue());?>"
+                           root_path:<?php printf("\"%s/%s\"",$_SERVER['DOCUMENT_ROOT'],
+                                                   $tbConfiguration->getValue());?>
+                           
                            },
                        type: "a", filter: "*.*", 
                        callback: addImageCallback_<?print($theCollectionTable->getCollectionId());?>,
