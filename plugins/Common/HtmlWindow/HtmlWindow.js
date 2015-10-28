@@ -15,7 +15,7 @@ var HtmlWindow = HtmlWindow || function(){
    var CAPTION_C = "Caption";
    
    /*** private properties ***/
-   JSLogger.getInstance().registerLogger("HtmlWindow", JSLogger.levelsE.TRACE);
+   JSLogger.getInstance().registerLogger("HtmlWindow", JSLogger.levelsE.WARN);
   
    /**
     * Constructor

@@ -20,7 +20,7 @@ var HtmlObject = HtmlObject || function (){
    var PARAM_BORDER_WIDTH_C = "Border_Width";
    
    /*** private properties ***/
-   JSLogger.getInstance().registerLogger("HtmlObject", JSLogger.levelsE.DEBUG);
+   JSLogger.getInstance().registerLogger("HtmlObject", JSLogger.levelsE.WARN);
    
    /*** private methods ***/
    

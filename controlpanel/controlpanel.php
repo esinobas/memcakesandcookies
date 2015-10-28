@@ -25,6 +25,7 @@
       <script type="text/javascript" src="../plugins/MessageBox/MessageBox.js"></script>
       <script type="text/javascript" src="../plugins/FileBrowser/FileBrowser.js"></script>
       <script type="text/javascript" src="../plugins/DataEntry/DataEntryWindow.js"></script>
+      <script type="text/javascript" src="../plugins/DataEntry/DataEntryFunctions.js"></script>
       <script type="text/javascript" src="../plugins/ListBox/ListBoxInit.js"></script>
       
       
@@ -63,7 +64,7 @@
    <body>
    
       <script type="text/javascript">
-         JSLogger.getInstance().registerLogger("ControlPanel", JSLogger.levelsE.TRACE);
+         JSLogger.getInstance().registerLogger("ControlPanel", JSLogger.levelsE.DEBUG);
       </script>
       
       <div id="main">
@@ -186,7 +187,7 @@
          <div class="DataEntryFrm">
             <div class="DataEntryContainer">
                <div class="DataEntryRow">
-                  <div class="DataEntryLabel">
+                  <div class="DataEntryLabel" id="Image">
                      <img src="">
                   </div>
                   <div class="DataEntryValue">

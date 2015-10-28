@@ -9,7 +9,7 @@ var HtmlForm = HtmlForm || function(){
    
    
    /*** private properties ***/
-   JSLogger.getInstance().registerLogger("HtmlForm", JSLogger.levelsE.TRACE);
+   JSLogger.getInstance().registerLogger("HtmlForm", JSLogger.levelsE.WARN);
   
    /**
     * Constructor

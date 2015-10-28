@@ -55,7 +55,7 @@ var FileBrowser = FileBrowser || function (){
    
 
    
-   JSLogger.getInstance().registerLogger("FileBrowser", JSLogger.levelsE.TRACE);
+   JSLogger.getInstance().registerLogger("FileBrowser", JSLogger.levelsE.WARN);
    
    /****** Private functions *******/
    
