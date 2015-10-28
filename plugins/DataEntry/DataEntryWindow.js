@@ -14,7 +14,7 @@ DataEntryWindow.PARAMETER_SIZE_HEIGHT_C = "height";
  */
 var closeWindow = function(theIdHtmlObject){
    
-   JSLogger.getInstance().registerLogger("DataEntryWindow", JSLogger.levelsE.TRACE);
+   //JSLogger.getInstance().registerLogger("DataEntryWindow", JSLogger.levelsE.WARN);
    JSLogger.getInstance().traceEnter();
    JSLogger.getInstance().trace("Close window [ " + theIdHtmlObject +" ]");
    $(theIdHtmlObject).addClass('DataEntryWindow-Hide');
@@ -24,7 +24,7 @@ var closeWindow = function(theIdHtmlObject){
 
 DataEntryWindow.show = function (theIdHtmlObject, theCallback, theOptionalParameters){
    
-   JSLogger.getInstance().registerLogger("DataEntryWindow", JSLogger.levelsE.TRACE);
+   JSLogger.getInstance().registerLogger("DataEntryWindow", JSLogger.levelsE.WARN);
    JSLogger.getInstance().traceEnter();
    
    JSLogger.getInstance().trace("Show the DataEntryWindow [ " + theIdHtmlObject +" ]");
@@ -49,9 +49,10 @@ DataEntryWindow.show = function (theIdHtmlObject, theCallback, theOptionalParame
    }
    JSLogger.getInstance().trace("Add the functionality to the ok button, it consists in close the window and execute the callback");
    $(theIdHtmlObject).find(".DataEntryWindowButtonOk").click(function(){
-         DataEntryFunctions.getValues(theIdHtmlObject);
+         var values = DataEntryFunctions.getValues(theIdHtmlObject);
+         JSLogger.getInstance().trace("Values returned [ " + values + " ]");
          closeWindow(theIdHtmlObject);
-         theCallback();
+         theCallback(values);
       }
    );
    JSLogger.getInstance().trace("Add the close functionality to the cancel button");

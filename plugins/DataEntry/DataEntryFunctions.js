@@ -19,7 +19,7 @@ const dataEntryValueClass_C =  '.DataEntryValue';
 /**
  * Object that allows trace the flow
  */
-JSLogger.getInstance().registerLogger("DataEntryFunctions", JSLogger.levelsE.TRACE);
+JSLogger.getInstance().registerLogger("DataEntryFunctions", JSLogger.levelsE.WARN);
 
 /**
  * Get all values of the html container and they are returned in a json object
@@ -36,13 +36,18 @@ DataEntryFunctions.getValues = function(theHtmlId){
    JSLogger.getInstance().trace("The object has [ " +
                      $(theHtmlId).find(dataEntryRowClass_C).size() +
                      " ] values");
+   var returnedValue = new Object();
+   
    $(theHtmlId).find(dataEntryRowClass_C).each(function(theIndex){
-         JSLogger.getInstance().trace("The Index each commnad [ " + theIndex + " ]");
+         JSLogger.getInstance().trace("The Index each command [ " + theIndex + " ]");
          var label = $(this).find(dataEntryLabelClass_C).attr('id');
          var value = $(this).find(dataEntryValueClass_C).find('input').val();
          JSLogger.getInstance().trace("Label [ " + label + " ]. Value [ " +
                                        value +" ]");
+         returnedValue[label] = value;
       }
    );
+   JSLogger.getInstance().trace("Return Values [ " + JSON.stringify(returnedValue)+ " ]");
    JSLogger.getInstance().traceExit();
+   return JSON.stringify(returnedValue);
 }

@@ -783,9 +783,11 @@ define(URL_C, 'URL');
          <script type="text/javascript">
 
             JSLogger.getInstance().trace("Declare callback function that will be executed when the add image ok button is pushed");
-            var addImageToCollection = function(){
+            /** The values is a string with json format **/
+            var addImageToCollection = function(theValues){
                JSLogger.getInstance().traceEnter();
-               
+               JSLogger.getInstance().debug("The values are [ " + theValues +
+                                           " ]");
                JSLogger.getInstance().traceExit();
             };
 
