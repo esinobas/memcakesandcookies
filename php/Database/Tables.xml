@@ -689,17 +689,12 @@
             <type>string</type>
          </column>
          <column> 
-            <name>ImageName</name>
-            <type>string</type>
-         </column>
-         <column> 
             <name>ImageDescription</name>
             <type>string</type>
          </column>
       </columns>
       <key>
          <column>ImagePath</column>
-         <column>ImageName</column>
          <column>CollectionId</column>
       </key>
       
@@ -745,11 +740,6 @@
                   <column>
                      <name>Path</name>
                      <logical>ImagePath</logical>
-                     <type>string</type>
-                  </column>
-                  <column>
-                     <name>Name</name>
-                     <logical>ImageName</logical>
                      <type>string</type>
                   </column>
                   <column>

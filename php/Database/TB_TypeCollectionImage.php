@@ -35,7 +35,6 @@
      const CollectionNameColumnC = "CollectionName";
      const CollectionMenuIdColumnC = "CollectionMenuId";
      const ImagePathColumnC = "ImagePath";
-     const ImageNameColumnC = "ImageName";
      const ImageDescriptionColumnC = "ImageDescription";
       
       /*** Phisical constants ***/
@@ -54,7 +53,6 @@
    
       const phisicalTB_IMAGES_COLLECTIONC = "TB_IMAGES_COLLECTION";
       const phisicalTB_IMAGES_COLLECTIONPathColumnC = "Path";
-      const phisicalTB_IMAGES_COLLECTIONNameColumnC = "Name";
       const phisicalTB_IMAGES_COLLECTIONDescriptionColumnC = "Description";
 
      /*
@@ -79,11 +77,8 @@
 		$this->tableDefinitionM->addColumn(new ColumnDef(
                               self::ImagePathColumnC,ColumnType::stringC));
 		$this->tableDefinitionM->addColumn(new ColumnDef(
-                              self::ImageNameColumnC,ColumnType::stringC));
-		$this->tableDefinitionM->addColumn(new ColumnDef(
                               self::ImageDescriptionColumnC,ColumnType::stringC));
 		$this->tableDefinitionM->addKey(self::ImagePathColumnC);
-		$this->tableDefinitionM->addKey(self::ImageNameColumnC);
 		$this->tableDefinitionM->addKey(self::CollectionIdColumnC);
    
       $this->tableMappingM = new TableMapping();
@@ -125,11 +120,6 @@
             ColumnType::stringC);
       $this->tableMappingM->addColumn(
             self::phisicalTB_IMAGES_COLLECTIONC ,
-            self::phisicalTB_IMAGES_COLLECTIONNameColumnC ,
-            self::ImageNameColumnC,
-            ColumnType::stringC);
-      $this->tableMappingM->addColumn(
-            self::phisicalTB_IMAGES_COLLECTIONC ,
             self::phisicalTB_IMAGES_COLLECTIONDescriptionColumnC ,
             self::ImageDescriptionColumnC,
             ColumnType::stringC);
@@ -146,7 +136,6 @@
                               ,$theCollectionId
                               ,$theCollectionName
                               ,$theCollectionMenuId
-                              ,$theImageName
                               ,$theImageDescription
                                 ){
          $this->loggerM->trace("Enter");
@@ -156,7 +145,6 @@
          $arrayData[self::CollectionIdColumnC] = $theCollectionId;
          $arrayData[self::CollectionNameColumnC] = $theCollectionName;
          $arrayData[self::CollectionMenuIdColumnC] = $theCollectionMenuId;
-         $arrayData[self::ImageNameColumnC] = $theImageName;
          $arrayData[self::ImageDescriptionColumnC] = $theImageDescription;
          $this->loggerM->trace("Exit");
 
@@ -218,16 +206,6 @@
          return $this->get(self::ImagePathColumnC);
       }
       
-      public function getImageName(){
-         $this->loggerM->trace("Enter/Exit");
-         return $this->get(self::ImageNameColumnC);
-      }
-      
-      public function setImageName($ImageName){
-         $this->loggerM->trace("Enter");
-         $this->set(self::ImageNameColumnC, $ImageName);
-         $this->loggerM->trace("Exit");
-      }
       public function getImageDescription(){
          $this->loggerM->trace("Enter/Exit");
          return $this->get(self::ImageDescriptionColumnC);
