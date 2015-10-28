@@ -47,6 +47,12 @@ DataEntryWindow.show = function (theIdHtmlObject, theCallback, theOptionalParame
           $(theIdHtmlObject).css('margin-top',
             (0-parseInt(theOptionalParameters[DataEntryWindow.PARAMETER_SIZE_C][DataEntryWindow.PARAMETER_SIZE_HEIGHT_C])/2)+"px");
    }
+   JSLogger.getInstance().trace("Add the functionality to the ok button, it consists in close the window and execute the callback");
+   $(theIdHtmlObject).find(".DataEntryWindowButtonOk").click(function(){
+         closeWindow(theIdHtmlObject);
+         theCallback();
+      }
+   );
    JSLogger.getInstance().trace("Add the close functionality to the cancel button");
    $(theIdHtmlObject).find(".DataEntryWindowButtonCancel").click(function(){
          closeWindow(theIdHtmlObject);

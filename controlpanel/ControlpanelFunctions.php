@@ -782,15 +782,25 @@ define(URL_C, 'URL');
             
          <script type="text/javascript">
 
+            JSLogger.getInstance().trace("Declare callback function that will be executed when the add image ok button is pushed");
+            var addImageToCollection = function(){
+               JSLogger.getInstance().traceEnter();
+               
+               JSLogger.getInstance().traceExit();
+            };
+
             JSLogger.getInstance().trace("Declare FileBrowser callback");
             JSLogger.getInstance().trace("Add funcionality to the add collection picture button");
+            
             var addImageCallback = function (theData){
                JSLogger.getInstance().traceEnter();
                JSLogger.getInstance().debug("The selected image is [ " + theData.path + " ]");
                JSLogger.getInstance().trace("Show the window where the image description is written");
                $('#WindowAddImageDesc img').attr('src', '<?php print($tbConfiguration->getValue());?>/'+
                      theData.path);
-               DataEntryWindow.show('#WindowAddImageDesc', null, {size:{width:'500px',height:'300px'}});
+               DataEntryWindow.show('#WindowAddImageDesc', 
+                           addImageToCollection, 
+                           {size:{width:'500px',height:'300px'}});
                JSLogger.getInstance().traceExit();
             }
 <?php 

@@ -72,7 +72,7 @@
 .DataEntryRow{
    /*width: calc(100% - 40px); /* The 40px ara the DataEntryFrm padding 2x 20px. 
                      If that value is modified, then it must be recalculated*/
-   background-color: red;
+   
 }
 
 .DataEntryLabel, .DataEntryValue{
