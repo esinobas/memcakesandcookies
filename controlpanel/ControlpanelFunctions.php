@@ -720,6 +720,28 @@ define(URL_C, 'URL');
          </div>
       </div>
       
+      <script type="text/javascript">
+         JSLogger.getInstance().trace("Declare function to send the image data to the server");
+         /**
+          * Function that sends the request to the server for add a image in a collection
+          * @param theCollectionId: The collection id the image belongs to.
+          * @param theType: The image type
+          * @param theImagePath: The Image path
+          * @param theImageDesc: The image description
+          */
+         var insertImageIntoCollection = function (theCollectionId, theImageType, 
+                                       theImagePath, theImageDesc){
+            JSLogger.getInstance().traceEnter();
+            JSLogger.getInstance().debug("Inserting the image [ " + 
+                                    theImagePath +
+                                    " ] with Description [ " +
+                                    theImageDesc + " ] into collection id [ " +
+                                    theCollectionId +" ] and type [ "+ 
+                                    theImageType +" ]"); 
+            JSLogger.getInstance().traceExit();
+         }
+      </script>
+      
       
 <?php
       $loggerCpF->trace("Add the functionalty to open the new collection window in the button");
@@ -788,6 +810,13 @@ define(URL_C, 'URL');
                JSLogger.getInstance().traceEnter();
                JSLogger.getInstance().debug("The values are [ " + theValues +
                                            " ]");
+               var jsonValues = JSON.parse(theValues);
+               
+               insertImageIntoCollection(<?print($theCollectionTable->getCollectionId());?>,
+                                          <?php print(($theMenuId-1));?>, //imagetype
+                                                jsonValues['imagePath'],
+                                                jsonValues['Image']);
+                                          
                JSLogger.getInstance().traceExit();
             };
 
@@ -802,7 +831,8 @@ define(URL_C, 'URL');
                      theData.path);
                DataEntryWindow.show('#WindowAddImageDesc', 
                            addImageToCollection, 
-                           {size:{width:'500px',height:'300px'}});
+                           {size:{width:'500px',height:'300px'},
+                            dataToAdd: {imagePath: theData.path}});
                JSLogger.getInstance().traceExit();
             }
 <?php 

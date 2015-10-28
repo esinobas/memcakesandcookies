@@ -19,17 +19,18 @@ const dataEntryValueClass_C =  '.DataEntryValue';
 /**
  * Object that allows trace the flow
  */
-JSLogger.getInstance().registerLogger("DataEntryFunctions", JSLogger.levelsE.WARN);
+JSLogger.getInstance().registerLogger("DataEntryFunctions", JSLogger.levelsE.DEBUG);
 
 /**
  * Get all values of the html container and they are returned in a json object
  * 
  * @param theHtmlId: The html object identificator for access to its input objects
  *                   and get their values.
+ * @param theDataToAdd: String with json format with data to be added in the values
  * @return: A JSON object with the values of all form or window inputs.
  */
  
-DataEntryFunctions.getValues = function(theHtmlId){
+DataEntryFunctions.getValues = function(theHtmlId, theDataToAdd){
    
    JSLogger.getInstance().traceEnter();
    JSLogger.getInstance().trace("The html object is [ " + theHtmlId +" ]");
@@ -47,6 +48,14 @@ DataEntryFunctions.getValues = function(theHtmlId){
          returnedValue[label] = value;
       }
    );
+   if (typeof (theDataToAdd) != 'undefined'){
+      JSLogger.getInstance().trace("Add data into values");
+      for (key in theDataToAdd){
+         JSLogger.getInstance().trace("Adding key [ " + key +" ] with value [ "
+               + theDataToAdd[key] +" ]"); 
+         returnedValue[key] = theDataToAdd[key];
+      }
+   }
    JSLogger.getInstance().trace("Return Values [ " + JSON.stringify(returnedValue)+ " ]");
    JSLogger.getInstance().traceExit();
    return JSON.stringify(returnedValue);
