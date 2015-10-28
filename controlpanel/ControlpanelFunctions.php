@@ -806,7 +806,7 @@ define(URL_C, 'URL');
 
             JSLogger.getInstance().trace("Declare callback function that will be executed when the add image ok button is pushed");
             /** The values is a string with json format **/
-            var addImageToCollection = function(theValues){
+            var addImageToCollection_<?print($theCollectionTable->getCollectionId());?> = function(theValues){
                JSLogger.getInstance().traceEnter();
                JSLogger.getInstance().debug("The values are [ " + theValues +
                                            " ]");
@@ -823,14 +823,14 @@ define(URL_C, 'URL');
             JSLogger.getInstance().trace("Declare FileBrowser callback");
             JSLogger.getInstance().trace("Add funcionality to the add collection picture button");
             
-            var addImageCallback = function (theData){
+            var addImageCallback_<?print($theCollectionTable->getCollectionId());?> = function (theData){
                JSLogger.getInstance().traceEnter();
                JSLogger.getInstance().debug("The selected image is [ " + theData.path + " ]");
                JSLogger.getInstance().trace("Show the window where the image description is written");
                $('#WindowAddImageDesc img').attr('src', '<?php print($tbConfiguration->getValue());?>/'+
                      theData.path);
                DataEntryWindow.show('#WindowAddImageDesc', 
-                           addImageToCollection, 
+                           addImageToCollection_<?print($theCollectionTable->getCollectionId());?>, 
                            {size:{width:'500px',height:'300px'},
                             dataToAdd: {imagePath: theData.path}});
                JSLogger.getInstance().traceExit();
@@ -856,7 +856,7 @@ define(URL_C, 'URL');
                            current_path: "<?php print($tbConfiguration->getValue());?>"
                            },
                        type: "a", filter: "*.*", 
-                       callback: addImageCallback,
+                       callback: addImageCallback_<?print($theCollectionTable->getCollectionId());?>,
                        Title_Params:{
                             Caption:"Selecciona la foto que quieras añadir a \"<?print($theCollectionTable->getCollectionName());?>\"",
                             Background_Color:"orange"
