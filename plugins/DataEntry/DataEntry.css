@@ -114,3 +114,7 @@
    float: left;
    min-width: 100px;
 }
+.No-scrollbarDataEntry{
+ 
+   overflow-y: hidden;
+}

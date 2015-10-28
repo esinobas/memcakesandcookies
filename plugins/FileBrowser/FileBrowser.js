@@ -362,6 +362,7 @@ var FileBrowser = FileBrowser || function (){
      
      JSLogger.getInstance().traceEnter();
      JSLogger.getInstance().debug("Add the div that filebrowser");
+     $('body').addClass('No-scrollbar-Filebrowser');
      $('body').append("<div id=\"FilebrowserBackground\"></div>");
      $('body').append("<div id=\"Filebrowser\"></div>");
      HtmlForm.call(this, $('#Filebrowser'), theParams);
@@ -420,6 +421,7 @@ var FileBrowser = FileBrowser || function (){
         
            $('#Filebrowser').remove();
            $('#FilebrowserBackground').remove();
+           $('body').removeClass('No-scrollbar-Filebrowser');
         }
      );
      var buttonSelect = $("<button type=\"button\" id=\"btnSelect\">Seleccionar</button>");

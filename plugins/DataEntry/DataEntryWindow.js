@@ -19,6 +19,7 @@ var closeWindow = function(theIdHtmlObject){
    JSLogger.getInstance().trace("Close window [ " + theIdHtmlObject +" ]");
    $(theIdHtmlObject).addClass('DataEntryWindow-Hide');
    $(".DataEntryBackground").remove();
+   $('body').removeClass('No-scrollbarDataEntry');
    JSLogger.getInstance().traceExit();
 }
 
@@ -71,6 +72,7 @@ DataEntryWindow.show = function (theIdHtmlObject, theCallback, theOptionalParame
    JSLogger.getInstance().trace("Add the window background-shadow");
    $(theIdHtmlObject).before('<div class="DataEntryBackground"></div>');
    $(theIdHtmlObject).removeClass('DataEntryWindow-Hide');
+   $('body').addClass('No-scrollbarDataEntry');
    
    JSLogger.getInstance().traceExit();
 }

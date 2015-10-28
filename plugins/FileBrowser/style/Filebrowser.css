@@ -214,3 +214,8 @@
    margin-top: 2px;
    cursor: pointer;
 }
+
+.No-scrollbar-Filebrowser{
+ 
+   overflow-y: hidden; 
+}
