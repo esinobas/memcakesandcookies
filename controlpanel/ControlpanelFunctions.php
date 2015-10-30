@@ -737,7 +737,63 @@ define(URL_C, 'URL');
                                     " ] with Description [ " +
                                     theImageDesc + " ] into collection id [ " +
                                     theCollectionId +" ] and type [ "+ 
-                                    theImageType +" ]"); 
+                                    theImageType +" ]");
+
+            JSLogger.getInstance().trace("Create Ajax object");
+            var ajaxObject = new Ajax();
+            ajaxObject.setSyn();
+            ajaxObject.setPostMethod();
+            <?php 
+               $tbConfiguration->rewind();
+               $tbConfiguration->searchByKey(URL);
+            ?>
+            JSLogger.getInstance().debug("Url whete the data will be send [ <?php print($tbConfiguration->getValue())?>" 
+                   +"php/Database/RequestFromWeb.php ]");
+            ajaxObject.setUrl("<?php print($tbConfiguration->getValue())?>php/Database/RequestFromWeb.php");
+            var requestParams = {};
+            requestParams.<?php print(COMMAND);?> = <?php print("\"".COMMAND_INSERT."\"");?>;
+            requestParams.<?php print(PARAMS);?> = {};
+            requestParams.<?php print(PARAMS);?>.<?php print(PARAM_TABLE);?> = <?php print("\""
+                        .TB_TypeCollectionImage::TB_TypeCollectionImageTableC ."\"");?>;
+
+            requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?> = {};
+            requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(TB_TypeCollectionImage::ImagePathColumnC);?> = theImagePath;
+            requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(TB_TypeCollectionImage::ImageDescriptionColumnC);?> = theImageDesc;
+            requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(TB_TypeCollectionImage::CollectionIdColumnC);?> = theCollectionId;
+            requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(TB_TypeCollectionImage::TypeIdColumnC);?> = theImageType;
+            JSLogger.getInstance().debug("Command parameters [ " + JSON.stringify(requestParams) +" ]");
+
+            ajaxObject.setParameters(JSON.stringify(requestParams));
+            ajaxObject.send();
+            JSLogger.getInstance().trace("Response [ " + ajaxObject.getResponse() + " ]");
+
+            if (ajaxObject.getResponse().indexOf("404 Not Found") != -1){
+               JSLogger.getInstance().error("The script [ " + <?php print("\"".$tbConfiguration->getValue()."\"");?> +
+                     "/php/Database/RequestFromWeb.php ] has been found");
+               MessageBox("Error", 
+                     "La imagen no ha podido ser añadida.",
+                     {Icon: MessageBox.IconsE.ERROR});
+            }else{
+               var objResponse = JSON.parse(ajaxObject.getResponse());
+               if (parseInt(objResponse['ResultCode']) != 200){
+                        MessageBox("Error", 
+                           "La imagen no ha podido ser añadida. Error [ " +
+                           objResponse['ErrorMsg'] + " ]",
+                           {Icon: MessageBox.IconsE.ERROR});
+                      JSLogger.getInstance().error("The image has not been added. [ " +
+                            objResponse['ErrorMsg'] + " ]");
+               }else{
+                  //var refreshParams = {};
+                  //refreshParams.theId = objResponse['lastID'];
+                  //refreshParams.thePath = <?php print("\"".$tbConfiguration->getValue()."\"");?> + "/" + theData.path;
+                  //JSLogger.getInstance().trace("Calling refresh function with parameters [ " +
+                  //      JSON.stringify(refreshParams));
+                  //functionRefreshImageSlide(refreshParams);
+                  JSLogger.getInstance().trace("The image has been added successfull");
+               }
+            }
+            
+
             JSLogger.getInstance().traceExit();
          }
       </script>

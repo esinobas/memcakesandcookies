@@ -375,6 +375,12 @@
                              $row[TB_TypeCollectionImage::CollectionMenuIdColumnC] ." ]");
                   $theTable->setCollectionMenuId($row[TB_TypeCollectionImage::CollectionMenuIdColumnC ]);
                 }
+               if (isset($row[TB_TypeCollectionImage::ImagePathColumnC])){
+                  $logger->trace("Set value to column [ ".
+                             TB_TypeCollectionImage::ImagePathColumnC ." ] -> [ ".
+                             $row[TB_TypeCollectionImage::ImagePathColumnC] ." ]");
+                  $theTable->setImagePath($row[TB_TypeCollectionImage::ImagePathColumnC ]);
+                }
                if (isset($row[TB_TypeCollectionImage::ImageDescriptionColumnC])){
                   $logger->trace("Set value to column [ ".
                              TB_TypeCollectionImage::ImageDescriptionColumnC ." ] -> [ ".
@@ -551,6 +557,7 @@
          $varCollectionId = $theData["CollectionId"];
          $varCollectionName = $theData["CollectionName"];
          $varCollectionMenuId = $theData["CollectionMenuId"];
+         $varImagePath = $theData["ImagePath"];
          $varImageDescription = $theData["ImageDescription"];
 
          $newId = $theTable->insert($varTypeId
@@ -558,6 +565,7 @@
                                 ,$varCollectionId
                                 ,$varCollectionName
                                 ,$varCollectionMenuId
+                                ,$varImagePath
                                 ,$varImageDescription
                                 );
       }
@@ -664,8 +672,7 @@
 
       if (strcmp($theTable->getTableName(),TB_TypeCollectionImage::TB_TypeCollectionImageTableC) == 0){
          $composedKey = array();
-         $composedKey["ImagePath"] = $jsonKey["ImagePath"];
-         $composedKey["CollectionId"] = $jsonKey["CollectionId"];
+         $composedKey["FakeKey"] = $jsonKey["FakeKey"];
          $logger->trace("Order table [ ".$theTable->getTableName().
                   " ] with key [ " . json_encode($composedKey). " ]");
           $theTable->searchByKey($composedKey);

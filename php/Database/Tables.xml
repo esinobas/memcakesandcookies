@@ -665,6 +665,10 @@
       <name>TB_TypeCollectionImage</name>
       <columns>
          <column> 
+            <name>FakeKey</name>
+            <type>integer</type>
+         </column>
+         <column> 
             <name>TypeId</name>
             <type>integer</type>
          </column>
@@ -694,8 +698,7 @@
          </column>
       </columns>
       <key>
-         <column>ImagePath</column>
-         <column>CollectionId</column>
+         <column>FakeKey</column>
       </key>
       
       <phisical_tables>
@@ -747,7 +750,23 @@
                      <logical>ImageDescription</logical>
                      <type>string</type>
                   </column>
+                  <column>
+                     <name>TypeId</name>
+                     <logical>TypeId</logical>
+                     <type>integer</type>
+                  </column>
+                  <column>
+                     <name>CollectionId</name>
+                     <logical>CollectionId</logical>
+                     <type>integer</type>
+                  </column>
+                  <column>
+                     <name>FakeKey</name>
+                     <logical>ImagePath</logical>
+                     <type>string</type>
+                  </column>
                </columns>
+               <key>FakeKey</key>
             </table>
             <conditions>
                <condition>TB_TYPES.Id = TB_IMAGES_COLLECTION.TypeId</condition>

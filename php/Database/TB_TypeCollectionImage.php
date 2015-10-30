@@ -29,6 +29,7 @@
      /*
       * Contants table columns
       */
+     const FakeKeyColumnC = "FakeKey";
      const TypeIdColumnC = "TypeId";
      const TypeNameColumnC = "TypeName";
      const CollectionIdColumnC = "CollectionId";
@@ -54,6 +55,9 @@
       const phisicalTB_IMAGES_COLLECTIONC = "TB_IMAGES_COLLECTION";
       const phisicalTB_IMAGES_COLLECTIONPathColumnC = "Path";
       const phisicalTB_IMAGES_COLLECTIONDescriptionColumnC = "Description";
+      const phisicalTB_IMAGES_COLLECTIONTypeIdColumnC = "TypeId";
+      const phisicalTB_IMAGES_COLLECTIONCollectionIdColumnC = "CollectionId";
+      const phisicalTB_IMAGES_COLLECTIONFakeKeyColumnC = "FakeKey";
 
      /*
       * Constructor. The table definition is done here
@@ -64,6 +68,8 @@
       $this->loggerM->trace("Enter");
         parent::__construct();
 		$this->tableDefinitionM = new TableDef(self::TB_TypeCollectionImageTableC);
+		$this->tableDefinitionM->addColumn(new ColumnDef(
+                              self::FakeKeyColumnC,ColumnType::integerC));
 		$this->tableDefinitionM->addColumn(new ColumnDef(
                               self::TypeIdColumnC,ColumnType::integerC));
 		$this->tableDefinitionM->addColumn(new ColumnDef(
@@ -78,8 +84,7 @@
                               self::ImagePathColumnC,ColumnType::stringC));
 		$this->tableDefinitionM->addColumn(new ColumnDef(
                               self::ImageDescriptionColumnC,ColumnType::stringC));
-		$this->tableDefinitionM->addKey(self::ImagePathColumnC);
-		$this->tableDefinitionM->addKey(self::CollectionIdColumnC);
+		$this->tableDefinitionM->addKey(self::FakeKeyColumnC);
    
       $this->tableMappingM = new TableMapping();
       
@@ -123,6 +128,24 @@
             self::phisicalTB_IMAGES_COLLECTIONDescriptionColumnC ,
             self::ImageDescriptionColumnC,
             ColumnType::stringC);
+      $this->tableMappingM->addColumn(
+            self::phisicalTB_IMAGES_COLLECTIONC ,
+            self::phisicalTB_IMAGES_COLLECTIONTypeIdColumnC ,
+            self::TypeIdColumnC,
+            ColumnType::integerC);
+      $this->tableMappingM->addColumn(
+            self::phisicalTB_IMAGES_COLLECTIONC ,
+            self::phisicalTB_IMAGES_COLLECTIONCollectionIdColumnC ,
+            self::CollectionIdColumnC,
+            ColumnType::integerC);
+      $this->tableMappingM->addColumn(
+            self::phisicalTB_IMAGES_COLLECTIONC ,
+            self::phisicalTB_IMAGES_COLLECTIONFakeKeyColumnC ,
+            self::ImagePathColumnC,
+            ColumnType::stringC);
+      
+      $this->tableMappingM->addKey(self::phisicalTB_IMAGES_COLLECTIONC,
+            self::phisicalTB_IMAGES_COLLECTIONFakeKeyColumnC );
 
       $this->tableMappingM->addCondition("TB_TYPES.Id = TB_IMAGES_COLLECTION.TypeId");
 
@@ -136,6 +159,7 @@
                               ,$theCollectionId
                               ,$theCollectionName
                               ,$theCollectionMenuId
+                              ,$theImagePath
                               ,$theImageDescription
                                 ){
          $this->loggerM->trace("Enter");
@@ -145,10 +169,16 @@
          $arrayData[self::CollectionIdColumnC] = $theCollectionId;
          $arrayData[self::CollectionNameColumnC] = $theCollectionName;
          $arrayData[self::CollectionMenuIdColumnC] = $theCollectionMenuId;
+         $arrayData[self::ImagePathColumnC] = $theImagePath;
          $arrayData[self::ImageDescriptionColumnC] = $theImageDescription;
          $this->loggerM->trace("Exit");
 
          return parent::insertData($arrayData);
+      }
+      
+      public function getFakeKey(){
+         $this->loggerM->trace("Enter/Exit");
+         return $this->get(self::FakeKeyColumnC);
       }
       
       public function getTypeId(){
@@ -206,6 +236,11 @@
          return $this->get(self::ImagePathColumnC);
       }
       
+      public function setImagePath($ImagePath){
+         $this->loggerM->trace("Enter");
+         $this->set(self::ImagePathColumnC, $ImagePath);
+         $this->loggerM->trace("Exit");
+      }
       public function getImageDescription(){
          $this->loggerM->trace("Enter/Exit");
          return $this->get(self::ImageDescriptionColumnC);
