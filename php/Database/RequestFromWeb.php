@@ -672,7 +672,7 @@
 
       if (strcmp($theTable->getTableName(),TB_TypeCollectionImage::TB_TypeCollectionImageTableC) == 0){
          $composedKey = array();
-         $composedKey["FakeKey"] = $jsonKey["FakeKey"];
+         $composedKey["TypeCollectionImageId"] = $jsonKey["TypeCollectionImageId"];
          $logger->trace("Order table [ ".$theTable->getTableName().
                   " ] with key [ " . json_encode($composedKey). " ]");
           $theTable->searchByKey($composedKey);

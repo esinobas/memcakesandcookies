@@ -29,7 +29,7 @@
      /*
       * Contants table columns
       */
-     const FakeKeyColumnC = "FakeKey";
+     const TypeCollectionImageIdColumnC = "TypeCollectionImageId";
      const TypeIdColumnC = "TypeId";
      const TypeNameColumnC = "TypeName";
      const CollectionIdColumnC = "CollectionId";
@@ -57,7 +57,7 @@
       const phisicalTB_IMAGES_COLLECTIONDescriptionColumnC = "Description";
       const phisicalTB_IMAGES_COLLECTIONTypeIdColumnC = "TypeId";
       const phisicalTB_IMAGES_COLLECTIONCollectionIdColumnC = "CollectionId";
-      const phisicalTB_IMAGES_COLLECTIONFakeKeyColumnC = "FakeKey";
+      const phisicalTB_IMAGES_COLLECTIONIdColumnC = "Id";
 
      /*
       * Constructor. The table definition is done here
@@ -69,7 +69,7 @@
         parent::__construct();
 		$this->tableDefinitionM = new TableDef(self::TB_TypeCollectionImageTableC);
 		$this->tableDefinitionM->addColumn(new ColumnDef(
-                              self::FakeKeyColumnC,ColumnType::integerC));
+                              self::TypeCollectionImageIdColumnC,ColumnType::integerC));
 		$this->tableDefinitionM->addColumn(new ColumnDef(
                               self::TypeIdColumnC,ColumnType::integerC));
 		$this->tableDefinitionM->addColumn(new ColumnDef(
@@ -84,7 +84,7 @@
                               self::ImagePathColumnC,ColumnType::stringC));
 		$this->tableDefinitionM->addColumn(new ColumnDef(
                               self::ImageDescriptionColumnC,ColumnType::stringC));
-		$this->tableDefinitionM->addKey(self::FakeKeyColumnC);
+		$this->tableDefinitionM->addKey(self::TypeCollectionImageIdColumnC);
    
       $this->tableMappingM = new TableMapping();
       
@@ -140,12 +140,12 @@
             ColumnType::integerC);
       $this->tableMappingM->addColumn(
             self::phisicalTB_IMAGES_COLLECTIONC ,
-            self::phisicalTB_IMAGES_COLLECTIONFakeKeyColumnC ,
-            self::ImagePathColumnC,
-            ColumnType::stringC);
+            self::phisicalTB_IMAGES_COLLECTIONIdColumnC ,
+            self::TypeCollectionImageIdColumnC,
+            ColumnType::integerC);
       
       $this->tableMappingM->addKey(self::phisicalTB_IMAGES_COLLECTIONC,
-            self::phisicalTB_IMAGES_COLLECTIONFakeKeyColumnC );
+            self::phisicalTB_IMAGES_COLLECTIONIdColumnC );
 
       $this->tableMappingM->addCondition("TB_TYPES.Id = TB_IMAGES_COLLECTION.TypeId");
 
@@ -176,9 +176,9 @@
          return parent::insertData($arrayData);
       }
       
-      public function getFakeKey(){
+      public function getTypeCollectionImageId(){
          $this->loggerM->trace("Enter/Exit");
-         return $this->get(self::FakeKeyColumnC);
+         return $this->get(self::TypeCollectionImageIdColumnC);
       }
       
       public function getTypeId(){
