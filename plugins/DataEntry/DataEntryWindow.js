@@ -55,6 +55,7 @@ DataEntryWindow.show = function (theIdHtmlObject, theCallback, theOptionalParame
       
    }
    JSLogger.getInstance().trace("Add the functionality to the ok button, it consists in close the window and execute the callback");
+   $(theIdHtmlObject).find(".DataEntryWindowButtonOk").off('click');
    $(theIdHtmlObject).find(".DataEntryWindowButtonOk").click(function(){
          var values = DataEntryFunctions.getValues(theIdHtmlObject, 
                 theOptionalParameters[DataEntryWindow.PARAMETER_DATA_TO_ADD_C]);
