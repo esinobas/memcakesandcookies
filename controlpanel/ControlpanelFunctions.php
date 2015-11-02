@@ -869,7 +869,7 @@ define(URL_C, 'URL');
       $('#btnAdd<?php printf("%s", (($theMenuId - 1 ) == 1 ? "Cakes": (($theMenuId - 1 ) == 2 ? "Cookies" : "Models")));?>').click(
             function(){
                   DataEntryWindow.show('#WindowAddCollection', insertNewCollection, 
-                  {size:{width:'500px',height:'130px'}});
+                  {size:{width:'500px',height:'130px'}, dataToAdd:{typeId: <?php print(($theMenuId - 1 ));?>}});
             });
    </script>
    
