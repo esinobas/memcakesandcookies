@@ -69,6 +69,12 @@ DataEntryWindow.show = function (theIdHtmlObject, theCallback, theOptionalParame
          closeWindow(theIdHtmlObject);
        }
    );
+   JSLogger.getInstance().trace("Add the  functionality to the key escape");
+   $(document).keypress(function(e) {        
+      if (e.keyCode == 27) {
+         closeWindow(theIdHtmlObject);
+      }
+   });
    
    JSLogger.getInstance().trace("Add the window background-shadow");
    $(theIdHtmlObject).before('<div class="DataEntryBackground"></div>');
