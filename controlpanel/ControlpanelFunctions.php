@@ -721,6 +721,9 @@ define(URL_C, 'URL');
       </div>
       
       <script type="text/javascript">
+
+         JSLogger.getInstance().trace("Declare function to add the new image in the grid");
+      
          JSLogger.getInstance().trace("Declare function to send the image data to the server");
          /**
           * Function that sends the request to the server for add a image in a collection
@@ -783,8 +786,9 @@ define(URL_C, 'URL');
                       JSLogger.getInstance().error("The image has not been added. [ " +
                             objResponse['ErrorMsg'] + " ]");
                }else{
-
-                  JSLogger.getInstance().trace("The image has been added successfull");
+                  var newId = objResponse['lastID'];
+                  JSLogger.getInstance().trace("The image has been added successfull with Id [ "+
+                                                newId + " ]");
                }
             }
             

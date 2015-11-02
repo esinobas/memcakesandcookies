@@ -203,24 +203,35 @@ html {
 .Grid-Element{
  
    width: 132px;
-   height: 156px;
+   height: 170px;
    padding: 2px 3px;
+   
+   
 }
 .ImageToolbar{
-   width: 100%;
-   padding: 3px 2px;
+   width: calc(100% - 16px);
+   height: 25px;
+   padding: 3px 7px;
    margin-left: auto;
    margin-right: auto;
+   float:left;
+   
 }
 
 .UpdateImage, .RemoveImage{
  
    float: left;
-   width: 60px;
+   width: 54px;
+}
+.Grid-Image{
+    width: 130px;
+    height: 130px;
+    text-align: center;
 }
 .Grid-Element div img{
  
-   width: calc(100% - 6px);
+   max-width: 130px;
+   max-height: 130px;
 }
 
 #WindowAddImageDesc .DataEntryRow .DataEntryValue{
