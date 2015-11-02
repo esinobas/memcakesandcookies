@@ -783,12 +783,7 @@ define(URL_C, 'URL');
                       JSLogger.getInstance().error("The image has not been added. [ " +
                             objResponse['ErrorMsg'] + " ]");
                }else{
-                  //var refreshParams = {};
-                  //refreshParams.theId = objResponse['lastID'];
-                  //refreshParams.thePath = <?php print("\"".$tbConfiguration->getValue()."\"");?> + "/" + theData.path;
-                  //JSLogger.getInstance().trace("Calling refresh function with parameters [ " +
-                  //      JSON.stringify(refreshParams));
-                  //functionRefreshImageSlide(refreshParams);
+
                   JSLogger.getInstance().trace("The image has been added successfull");
                }
             }
@@ -838,9 +833,18 @@ define(URL_C, 'URL');
          $tbConfiguration->rewind();
          $tbConfiguration->searchByKey(URL_C);
          $theTypeCollectionImageTable->rewind();
-         $theTypeCollectionImageTable->searchByColumn(
+         $loggerCpF->trace("Searching images for collection [ " . $theCollectionTable->getCollectionId() ." ]");
+         $thereAreImages = $theTypeCollectionImageTable->searchByColumn(
                          TB_TypeCollectionImage::CollectionIdColumnC,
                          $theCollectionTable->getCollectionId());
+         if ($thereAreImages){
+            $loggerCpF->trace("Get the images from the collection [ " . 
+                  $theTypeCollectionImageTable->getCollectionId() . " ].[ ". 
+                  $theTypeCollectionImageTable->getCollectionName() ." ] has [ " .
+                  $theTypeCollectionImageTable->getCardinality() ." ] images");
+         }else{
+            $loggerCpF->trace("The collection has not images");
+         }
          //Hay que añadir en el grid, en la primera posicion, el añadir foto
          if($isFirtsGrid){
             $isFirtsGrid = false;
@@ -853,10 +857,10 @@ define(URL_C, 'URL');
 <?php 
          }
 ?>
-         <div class="Grid-Row">
-            <div class="Grid-Element">
-               <div class="Round-Corners-Button" id="Add-Picture-Collection_<?php print($theCollectionTable->getCollectionId());?>">Añadir Foto</div>
-            </div>
+         
+         <div class="Grid-Element">
+            <div class="Round-Corners-Button" id="Add-Picture-Collection_<?php print($theCollectionTable->getCollectionId());?>">Añadir Foto</div>
+         </div>
             
          <script type="text/javascript">
 
@@ -886,9 +890,9 @@ define(URL_C, 'URL');
 <?php
                $imageSrc =$tbConfiguration->getValue()."/";
                $tbConfiguration->rewind();
-               $tbConfiguration->searchByKey(($theMenuId -1) == 1 ? IMAGE_CAKES_DIRECTORY_C :
-                                                ($theMenuId -1) == 2 ? IMAGE_COOKIES_DIRECTORY_C :
-                                                IMAGE_MODELS_DIRECTORY_C);
+               $tbConfiguration->searchByKey(($theMenuId -1) == 1 ? IMAGES_CAKES_DIRECTORY_C :
+                                                ($theMenuId -1) == 2 ? IMAGES_COOKIES_DIRECTORY_C :
+                                                IMAGES_MODELS_DIRECTORY_C);
                $imageSrc .= $tbConfiguration->getValue();
 ?>
                $('#WindowAddImageDesc img').attr('src', '<?php print($imageSrc);?>/'+
@@ -902,10 +906,11 @@ define(URL_C, 'URL');
 <?php 
             $tbConfiguration->rewind();
             if (($theMenuId -1) == 1){
-               ($tbConfiguration->searchByColumn(TB_Configuration::PropertyColumnC, IMAGE_CAKES_DIRECTORY_C));
+               ($tbConfiguration->searchByColumn(TB_Configuration::PropertyColumnC, IMAGES_COOKIES_DIRECTORY_C));
                
             }else{
                if (($theMenuId -1) == 2){
+                  
                   ($tbConfiguration->searchByColumn(TB_Configuration::PropertyColumnC, IMAGES_COOKIES_DIRECTORY_C));
                 
                }else{
@@ -931,25 +936,21 @@ define(URL_C, 'URL');
             });
          </script>
 <?php 
-         $elementsInRow ++;
-         while ($theTypeCollectionImageTable->next()){
-            $loggerCpF->trace("Add the image [ $theTypeCollectionImageTable->getImagePath()/$theTypeCollectionImageTable->getImageName() ]");
-            if  ($elementsInRow == $elementsPerRow) {
-               $elementsInRow = 0;
-?> 
-        </div><!-- Grid-Row -->
-        <div class="Grid-Row">
-<?php
-            } 
+         if ($thereAreImages){
+            while ($theTypeCollectionImageTable->next()){
+               $loggerCpF->trace("Add the image [ ".
+                  $theTypeCollectionImageTable->getImagePath() ." ]");
+         
 ?>
             <div class="Grid-Element">
+            <?php print($theTypeCollectionImageTable->getImagePath());?>
             </div>
 <?php 
-              $elementsPerRow ++;
+            
            }
-                     
+         }         
 ?>
-         </div><!-- Grid-Row -->
+         
       </div> <!-- Grid -->
 <?php 
       }

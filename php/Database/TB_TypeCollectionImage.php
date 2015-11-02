@@ -149,7 +149,7 @@
 
       $this->tableMappingM->addCondition("TB_TYPES.Id = TB_IMAGES_COLLECTION.TypeId");
 
-      $this->tableMappingM->addCondition("TB_COLLECTION.Id = TB_IMAGES_COLLECTION.Collection.Id");
+      $this->tableMappingM->addCondition("TB_COLLECTION.Id = TB_IMAGES_COLLECTION.CollectionId");
       
       $this->loggerM->trace("Exit");
 	}

@@ -130,6 +130,7 @@
                   $tableMenuCollection = new TB_MenuCollection();
                   $tableTypeCollectionImage = new TB_TypeCollectionImage();
                   $tableMenuCollection->open();
+                  $tableTypeCollectionImage->open();
                   $logger->trace("Get the options menu for the tabs");
                   while ($tableMenu->next()){
                      if ($tableMenu->getId() > 1 && $tableMenu->getId() < 6){
