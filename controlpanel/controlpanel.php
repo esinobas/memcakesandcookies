@@ -176,8 +176,8 @@
                </div>
             </div>
             <div class="DataEntryButtonsContainer">
-              <!--  <div class="Round-Corners-Button DataEntryWindowButtonOk">Aceptar</div>
-               <div class="Round-Corners-Button DataEntryWindowButtonCancel">Cancelar</div> -->
+               <div class="Round-Corners-Button DataEntryWindowButtonOk">Aceptar</div>
+               <div class="Round-Corners-Button DataEntryWindowButtonCancel">Cancelar</div>
             </div>
          </div>
       </div>

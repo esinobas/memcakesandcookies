@@ -857,7 +857,7 @@ define(URL_C, 'URL');
           "<?php printf("%s", (($theMenuId - 1 ) == 1 ? "Cakes": (($theMenuId - 1 ) == 2 ? "Cookies" : "Models")));?> ]");
       $('#btnAdd<?php printf("%s", (($theMenuId - 1 ) == 1 ? "Cakes": (($theMenuId - 1 ) == 2 ? "Cookies" : "Models")));?>').click(
             function(){
-                  DataEntryWindow.show('.DataEntryWindow', null, {size:{width:'500px',height:'150px'}});
+                  DataEntryWindow.show('#WindowAddCollection', null, {size:{width:'500px',height:'130px'}});
             });
    </script>
    
