@@ -723,7 +723,54 @@ define(URL_C, 'URL');
       <script type="text/javascript">
 
          JSLogger.getInstance().trace("Declare function to add the new image in the grid");
-      
+         /**
+          * Function that shows the new image added in a collection
+          *
+          * @param theHtmlObj: The object where the new image is add
+          * @param theId: The image identifier in the ddbb
+          * @param thePath: The image path in the server
+          * @param theDesc: The image description
+          */
+         var addNewImage = function(theHtmlObj,theID, thePath, theDesc){
+            JSLogger.getInstance().traceEnter();
+            JSLogger.getInstance().debug("Add a image with following parameters:\n"+
+                        "HtmlObject [ " + theHtmlObj.attr('id') + " ]\n"+
+                        "Image Id [ " + theID +" ]\n"+
+                        "Image Path [ " + thePath + " ]\n"+
+                        "Image Desc [ " + theDesc + " ]");
+            /**Add new element with this format**/
+            /******
+            <div class="Grid-Element">
+               <div class="Grid-Image" id="image_[image id]">
+                  <img src="[image path]" title="[image description]"/>
+               </div>
+               <div class="ImageToolbar" id="ImageToolBar_[image id]">
+                  <div class="UpdateImage Round-Corners-Button" id="UpdateImg_[image id]">
+                     Modificar
+                  </div>
+                  <div class="RemoveImage Round-Corners-Button" id="RemoveImg_[image id]">
+                     Eliminar
+                  </div>
+               </div>
+            
+            </div>
+            ********/
+            var text = '<div class="Grid-Element">';
+            text += '<div class="Grid-Image" id="image_' + theID+ '">';
+            text += '<img src="'+thePath+'" title="'+theDesc+'"/>';
+            text += '</div>';
+            text += '<div class="ImageToolbar" id="ImageToolBar_'+theID+'">';
+            text += '<div class="UpdateImage Round-Corners-Button" id="UpdateImg_'+theID+'">';
+            text += 'Modificar';
+            text += '</div>';
+            text += '<div class="RemoveImage Round-Corners-Button" id="RemoveImg_'+theID+'">';
+            text += 'Eliminar';
+            text += '</div>';
+            text += '</div>';
+            JSLogger.getInstance().trace("Object to inser [ " + text +" ]");
+            $(text).insertAfter(theHtmlObj.find('.Add-Picture-Collection').parent());
+            JSLogger.getInstance().traceExit();
+         }            
          JSLogger.getInstance().trace("Declare function to send the image data to the server");
          /**
           * Function that sends the request to the server for add a image in a collection
@@ -789,9 +836,12 @@ define(URL_C, 'URL');
                   var newId = objResponse['lastID'];
                   JSLogger.getInstance().trace("The image has been added successfull with Id [ "+
                                                 newId + " ]");
+                  addNewImage($('.Vertical-Tab:visible .Grid'),newId,
+                        "<?php print($tbConfiguration->getValue());?>"+theImagePath,
+                         theImageDesc);
                }
             }
-            
+           
 
             JSLogger.getInstance().traceExit();
          }
@@ -863,7 +913,7 @@ define(URL_C, 'URL');
 ?>
          
          <div class="Grid-Element">
-            <div class="Round-Corners-Button" id="Add-Picture-Collection_<?php print($theCollectionTable->getCollectionId());?>">Añadir Foto</div>
+            <div class="Round-Corners-Button Add-Picture-Collection" id="Add-Picture-Collection_<?php print($theCollectionTable->getCollectionId());?>">Añadir Foto</div>
          </div>
             
          <script type="text/javascript">
