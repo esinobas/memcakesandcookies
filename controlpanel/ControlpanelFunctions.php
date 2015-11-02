@@ -722,6 +722,17 @@ define(URL_C, 'URL');
       
       <script type="text/javascript">
 
+         JSLogger.getInstance().trace("Declare function to add a new collection");
+         /**
+          * Funtion that inserts a new collection 
+          * @param theData: String in JSON format with the data
+          */
+          var insertNewCollection = function(theValues){
+             JSLogger.getInstance().traceEnter();
+             JSLogger.getInstance().trace(theValues);
+             JSLogger.getInstance().traceExit();
+          }
+
          JSLogger.getInstance().trace("Declare function to add the new image in the grid");
          /**
           * Function that shows the new image added in a collection
@@ -857,7 +868,8 @@ define(URL_C, 'URL');
           "<?php printf("%s", (($theMenuId - 1 ) == 1 ? "Cakes": (($theMenuId - 1 ) == 2 ? "Cookies" : "Models")));?> ]");
       $('#btnAdd<?php printf("%s", (($theMenuId - 1 ) == 1 ? "Cakes": (($theMenuId - 1 ) == 2 ? "Cookies" : "Models")));?>').click(
             function(){
-                  DataEntryWindow.show('#WindowAddCollection', null, {size:{width:'500px',height:'130px'}});
+                  DataEntryWindow.show('#WindowAddCollection', insertNewCollection, 
+                  {size:{width:'500px',height:'130px'}});
             });
    </script>
    

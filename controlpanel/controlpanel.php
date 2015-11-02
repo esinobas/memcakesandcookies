@@ -166,10 +166,10 @@
          <div class="DataEntryFrm">
             <div class="DataEntryContainer">
                <div class="DataEntryRow">
-                  <div class="DataEntryLabel">
+                  <div class="DataEntryLabel" id="NewCollectionLabel">
                      Nombre de la colección: 
                   </div>
-                  <div class="DataEntryValue">
+                  <div class="DataEntryValue" id="NewCollectionValue">
                      <input type="text">
                   </div>
                   
