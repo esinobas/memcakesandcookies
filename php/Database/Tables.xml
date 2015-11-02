@@ -770,7 +770,7 @@
             </table>
             <conditions>
                <condition>TB_TYPES.Id = TB_IMAGES_COLLECTION.TypeId</condition>
-               <condition>TB_COLLECTION.Id = TB_IMAGES_COLLECTION.Collection.Id</condition>
+               <condition>TB_COLLECTION.Id = TB_IMAGES_COLLECTION.CollectionId</condition>
             </conditions>
       </phisical_tables>
    </table_definition>

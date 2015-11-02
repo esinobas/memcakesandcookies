@@ -888,13 +888,22 @@ define(URL_C, 'URL');
                JSLogger.getInstance().debug("The selected image is [ " + theData.path + " ]");
                JSLogger.getInstance().trace("Show the window where the image description is written");
 <?php
-               $imageSrc =$tbConfiguration->getValue()."/";
+               $imageSrc =$tbConfiguration->getValue();
                $tbConfiguration->rewind();
-               $tbConfiguration->searchByKey(($theMenuId -1) == 1 ? IMAGES_CAKES_DIRECTORY_C :
-                                                ($theMenuId -1) == 2 ? IMAGES_COOKIES_DIRECTORY_C :
-                                                IMAGES_MODELS_DIRECTORY_C);
+               if (($theMenuId -1) == 1){
+                  $tbConfiguration->searchByKey(IMAGES_CAKES_DIRECTORY_C);
+               }else{
+                  if (($theMenuId -1) == 2){
+                     $tbConfiguration->searchByKey(IMAGES_COOKIES_DIRECTORY_C);
+                  }else{                  
+                     $tbConfiguration->searchByKey(IMAGES_MODELS_DIRECTORY_C);
+                  }
+               }
                $imageSrc .= $tbConfiguration->getValue();
+               
 ?>
+               JSLogger.getInstance().trace("The Menu id [ <?php print($theMenuId);?> ]");
+               JSLogger.getInstance().trace("src[ <?php printf($imageSrc);?> ]");
                $('#WindowAddImageDesc img').attr('src', '<?php print($imageSrc);?>/'+
                      theData.path);
                DataEntryWindow.show('#WindowAddImageDesc', 
@@ -906,7 +915,7 @@ define(URL_C, 'URL');
 <?php 
             $tbConfiguration->rewind();
             if (($theMenuId -1) == 1){
-               ($tbConfiguration->searchByColumn(TB_Configuration::PropertyColumnC, IMAGES_COOKIES_DIRECTORY_C));
+               ($tbConfiguration->searchByColumn(TB_Configuration::PropertyColumnC, IMAGES_CAKES_DIRECTORY_C));
                
             }else{
                if (($theMenuId -1) == 2){
@@ -937,13 +946,27 @@ define(URL_C, 'URL');
          </script>
 <?php 
          if ($thereAreImages){
+            $tbConfiguration->rewind();
+            $tbConfiguration->searchByKey(URL_C);
             while ($theTypeCollectionImageTable->next()){
                $loggerCpF->trace("Add the image [ ".
                   $theTypeCollectionImageTable->getImagePath() ." ]");
          
 ?>
+            
             <div class="Grid-Element">
-            <?php print($theTypeCollectionImageTable->getImagePath());?>
+               <div class="Grid-Image" id="image_<?php print($theTypeCollectionImageTable->getTypeCollectionImageId());?>">
+                  <img src="<?php print($tbConfiguration->getValue().$theTypeCollectionImageTable->getImagePath());?>" title="<?php print($theTypeCollectionImageTable->getImageDescription());?>"/>
+               </div>
+               <div class="ImageToolbar" id="ImageToolBar_<?php print($theTypeCollectionImageTable->getTypeCollectionImageId());?>">
+                  <div class="UpdateImage Round-Corners-Button" id="UpdateImg_<?php print($theTypeCollectionImageTable->getTypeCollectionImageId());?>">
+                     Modificar
+                  </div>
+                  <div class="RemoveImage Round-Corners-Button" id="RemoveImg_<?php print($theTypeCollectionImageTable->getTypeCollectionImageId());?>">
+                     Eliminar
+                  </div>
+               </div>
+               
             </div>
 <?php 
             
