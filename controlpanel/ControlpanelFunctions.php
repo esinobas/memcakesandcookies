@@ -16,64 +16,87 @@ define(NUM_THUMBNAILS_C, 'numberThumbnails');
 define(THUMBNAILS_DIRECTORY_C, 'thumbnailsPath');
 define(URL_C, 'URL');
 
-/********* Global Variables *****/
-   $loggerCpF = LoggerMgr::Instance()->getLogger(basename(__FILE__));
-   $tbConfiguration = null;
+class ControlpanelFunctions{
+   
+   /** Private properties or variabels */
+   /**
+    * Object that saves the configuration
+    * @var TB_Configuration
+    */
+   static private $tbConfigurationM = null;
+   
+   /**
+    * Object that allows write the log in a file
+    * @var Logger
+    */
+   static private $loggerM = null;
+   
+   /****** private functions *****/
+   
+   /**
+    * Function that creates the logger
+    */
+   static private function createLogger(){
+      if (self::$loggerM == null){
+         self::$loggerM = LoggerMgr::Instance()->getLogger(basename(__FILE__));
+      }
+   }
+
+/********* Public functions ******/
 /**
  * Gets the configuration from the database and it showed
+ * 
  */
-   function getConfiguration(){
+   static public function getConfiguration(){
       //require_once 'Database/RequestFromWeb.php';
-      global $loggerCpF;
-      global $tbConfiguration;
-      $loggerCpF->trace("Enter");
-      
-      $tbConfiguration = new TB_Configuration();
-      $tbConfiguration->open();
+      self::createLogger();
+      self::$loggerM->trace("Enter");
+      self::$tbConfigurationM = new TB_Configuration();
+      self::$tbConfigurationM->open();
      
 ?>
       <div id="DataConfiguration" class="Data-Grid">
         
 <?php 
-      $tbConfiguration->searchByKey(URL_C);
+      self::$tbConfigurationM->searchByKey(URL_C);
 ?>
-         <div id="DataConfiguration-<?php print ($tbConfiguration->getProperty());?>" class="Data-Grid-Row">
+         <div id="DataConfiguration-<?php print (self::$tbConfigurationM->getProperty());?>" class="Data-Grid-Row">
             <div class="Data-Grid-Column">
-                 <?php printf ("%s: ", $tbConfiguration->getLabel());?>
+                 <?php printf ("%s: ", self::$tbConfigurationM->getLabel());?>
             </div>
-            <div class="Data-Grid-Column" title=<?php printf("\"%s\"", $tbConfiguration->getDescription());?>
-                id="<?php print($tbConfiguration->getProperty());?>">
+            <div class="Data-Grid-Column" title=<?php printf("\"%s\"", self::$tbConfigurationM->getDescription());?>
+                id="<?php print(self::$tbConfigurationM->getProperty());?>">
                <?php 
-                     $loggerCpF->trace("The [ ".$tbConfiguration->getProperty().
-                            " ] type data is [ " . $tbConfiguration->getDataType() .
+                     self::$loggerM->trace("The [ ".self::$tbConfigurationM->getProperty().
+                            " ] type data is [ " . self::$tbConfigurationM->getDataType() .
                            " ]");
                      
                ?>
                <input type="text" id="Input-Url"
-                      value="<?php print ($tbConfiguration->getValue());?>">
+                      value="<?php print (self::$tbConfigurationM->getValue());?>">
                
             </div>
             <div class="Data-Grid-Column">
             </div>
          </div>
 <?php
-      $tbConfiguration->rewind();
-      $tbConfiguration->searchByKey(IMAGES_CAKES_DIRECTORY_C);
+      self::$tbConfigurationM->rewind();
+      self::$tbConfigurationM->searchByKey(IMAGES_CAKES_DIRECTORY_C);
 ?>
-         <div id="DataConfiguration-<?php print ($tbConfiguration->getProperty());?>" class="Data-Grid-Row">
+         <div id="DataConfiguration-<?php print (self::$tbConfigurationM->getProperty());?>" class="Data-Grid-Row">
             <div class="Data-Grid-Column">
-                 <?php printf ("%s: ", $tbConfiguration->getLabel());?>
+                 <?php printf ("%s: ", self::$tbConfigurationM->getLabel());?>
             </div>
-            <div class="Data-Grid-Column" title=<?php printf("\"%s\"", $tbConfiguration->getDescription());?> 
-               id="<?php print($tbConfiguration->getProperty());?>">
+            <div class="Data-Grid-Column" title=<?php printf("\"%s\"", self::$tbConfigurationM->getDescription());?> 
+               id="<?php print(self::$tbConfigurationM->getProperty());?>">
                <?php 
-                     $loggerCpF->trace("The [ ".$tbConfiguration->getProperty().
-                            " ] type data is [ " . $tbConfiguration->getDataType() .
+                     self::$loggerM->trace("The [ ".self::$tbConfigurationM->getProperty().
+                            " ] type data is [ " . self::$tbConfigurationM->getDataType() .
                            " ]");
                      
                ?>
                <input type="text" id="Input-Cakes-Directory"
-                      value="<?php print ($tbConfiguration->getValue());?>" readonly>
+                      value="<?php print (self::$tbConfigurationM->getValue());?>" readonly>
                
             </div>
             <div class="Data-Grid-Column">
@@ -83,23 +106,23 @@ define(URL_C, 'URL');
             </div>
          </div>
 <?php
-      $tbConfiguration->rewind();
-      $tbConfiguration->searchByKey(IMAGES_COOKIES_DIRECTORY_C);
+      self::$tbConfigurationM->rewind();
+      self::$tbConfigurationM->searchByKey(IMAGES_COOKIES_DIRECTORY_C);
 ?>
-         <div id="DataConfiguration-<?php print ($tbConfiguration->getProperty());?>" class="Data-Grid-Row">
+         <div id="DataConfiguration-<?php print (self::$tbConfigurationM->getProperty());?>" class="Data-Grid-Row">
             <div class="Data-Grid-Column">
-                 <?php printf ("%s: ", $tbConfiguration->getLabel());?>
+                 <?php printf ("%s: ", self::$tbConfigurationM->getLabel());?>
             </div>
-            <div class="Data-Grid-Column" title=<?php printf("\"%s\"", $tbConfiguration->getDescription());?> 
-               id="<?php print($tbConfiguration->getProperty());?>">
+            <div class="Data-Grid-Column" title=<?php printf("\"%s\"", self::$tbConfigurationM->getDescription());?> 
+               id="<?php print(self::$tbConfigurationM->getProperty());?>">
                <?php 
-                     $loggerCpF->trace("The [ ".$tbConfiguration->getProperty().
-                            " ] type data is [ " . $tbConfiguration->getDataType() .
+                     self::$loggerM->trace("The [ ".self::$tbConfigurationM->getProperty().
+                            " ] type data is [ " . self::$tbConfigurationM->getDataType() .
                            " ]");
                      
                ?>
                <input type="text" id="Input-Cookies-Directory"
-                      value="<?php print ($tbConfiguration->getValue());?>" readonly>
+                      value="<?php print (self::$tbConfigurationM->getValue());?>" readonly>
                
             </div>
             <div class="Data-Grid-Column">
@@ -109,23 +132,23 @@ define(URL_C, 'URL');
             </div>
          </div>
 <?php
-      $tbConfiguration->rewind();
-      $tbConfiguration->searchByKey(IMAGES_MODELS_DIRECTORY_C);
+      self::$tbConfigurationM->rewind();
+      self::$tbConfigurationM->searchByKey(IMAGES_MODELS_DIRECTORY_C);
 ?>
-         <div id="DataConfiguration-<?php print ($tbConfiguration->getProperty());?>" class="Data-Grid-Row">
+         <div id="DataConfiguration-<?php print (self::$tbConfigurationM->getProperty());?>" class="Data-Grid-Row">
             <div class="Data-Grid-Column">
-                 <?php printf ("%s: ", $tbConfiguration->getLabel());?>
+                 <?php printf ("%s: ", self::$tbConfigurationM->getLabel());?>
             </div>
-            <div class="Data-Grid-Column" title=<?php printf("\"%s\"", $tbConfiguration->getDescription());?>
-               id="<?php print($tbConfiguration->getProperty());?>">
+            <div class="Data-Grid-Column" title=<?php printf("\"%s\"", self::$tbConfigurationM->getDescription());?>
+               id="<?php print(self::$tbConfigurationM->getProperty());?>">
                <?php 
-                     $loggerCpF->trace("The [ ".$tbConfiguration->getProperty().
-                            " ] type data is [ " . $tbConfiguration->getDataType() .
+                     self::$loggerM->trace("The [ ".self::$tbConfigurationM->getProperty().
+                            " ] type data is [ " . self::$tbConfigurationM->getDataType() .
                            " ]");
                      
                ?>
                <input type="text" id="Input-Models-Directory"
-                      value="<?php print ($tbConfiguration->getValue());?>" readonly>
+                      value="<?php print (self::$tbConfigurationM->getValue());?>" readonly>
                
             </div>
             <div class="Data-Grid-Column">
@@ -135,23 +158,23 @@ define(URL_C, 'URL');
             </div>
          </div>
 <?php
-      $tbConfiguration->rewind();
-      $tbConfiguration->searchByKey(SLIDE_IMAGE_DIRECTORY_C);
+      self::$tbConfigurationM->rewind();
+      self::$tbConfigurationM->searchByKey(SLIDE_IMAGE_DIRECTORY_C);
 ?>
-         <div id="DataConfiguration-<?php print ($tbConfiguration->getProperty());?>" class="Data-Grid-Row">
+         <div id="DataConfiguration-<?php print (self::$tbConfigurationM->getProperty());?>" class="Data-Grid-Row">
             <div class="Data-Grid-Column">
-                 <?php printf ("%s: ", $tbConfiguration->getLabel());?>
+                 <?php printf ("%s: ", self::$tbConfigurationM->getLabel());?>
             </div>
-            <div class="Data-Grid-Column" title=<?php printf("\"%s\"", $tbConfiguration->getDescription());?>
-               id="<?php print($tbConfiguration->getProperty());?>">
+            <div class="Data-Grid-Column" title=<?php printf("\"%s\"", self::$tbConfigurationM->getDescription());?>
+               id="<?php print(self::$tbConfigurationM->getProperty());?>">
                <?php 
-                     $loggerCpF->trace("The [ ".$tbConfiguration->getProperty().
-                            " ] type data is [ " . $tbConfiguration->getDataType() .
+                     self::$loggerM->trace("The [ ".self::$tbConfigurationM->getProperty().
+                            " ] type data is [ " . self::$tbConfigurationM->getDataType() .
                            " ]");
                      
                ?>
                <input type="text" id="Input-SlideImages-Directory"
-                      value="<?php print ($tbConfiguration->getValue());?>" readonly>
+                      value="<?php print (self::$tbConfigurationM->getValue());?>" readonly>
                
             </div>
             <div class="Data-Grid-Column">
@@ -161,60 +184,60 @@ define(URL_C, 'URL');
             </div>
          </div>
 <?php
-      $tbConfiguration->rewind();
-      $tbConfiguration->searchByKey(THUMBNAILS_DIRECTORY_C);
+      self::$tbConfigurationM->rewind();
+      self::$tbConfigurationM->searchByKey(THUMBNAILS_DIRECTORY_C);
 ?>
-         <div id="DataConfiguration-<?php print ($tbConfiguration->getProperty());?>" class="Data-Grid-Row">
+         <div id="DataConfiguration-<?php print (self::$tbConfigurationM->getProperty());?>" class="Data-Grid-Row">
             <div class="Data-Grid-Column">
-                 <?php printf ("%s: ", $tbConfiguration->getLabel());?>
+                 <?php printf ("%s: ", self::$tbConfigurationM->getLabel());?>
             </div>
-            <div class="Data-Grid-Column" title=<?php printf("\"%s\"", $tbConfiguration->getDescription());?>
-                 id="<?php print($tbConfiguration->getProperty());?>">
+            <div class="Data-Grid-Column" title=<?php printf("\"%s\"", self::$tbConfigurationM->getDescription());?>
+                 id="<?php print(self::$tbConfigurationM->getProperty());?>">
                <?php 
-                     $loggerCpF->trace("The [ ".$tbConfiguration->getProperty().
-                            " ] type data is [ " . $tbConfiguration->getDataType() .
+                     self::$loggerM->trace("The [ ".self::$tbConfigurationM->getProperty().
+                            " ] type data is [ " . self::$tbConfigurationM->getDataType() .
                            " ]");
                      
                ?>
                <input type="text" 
-                      value="<?php print ($tbConfiguration->getValue());?>">
+                      value="<?php print (self::$tbConfigurationM->getValue());?>">
                
             </div>
 
          </div>
          
 <?php
-      $tbConfiguration->rewind();
-      $tbConfiguration->searchByKey(NUM_THUMBNAILS_C);
+      self::$tbConfigurationM->rewind();
+      self::$tbConfigurationM->searchByKey(NUM_THUMBNAILS_C);
 ?>
-         <div id="DataConfiguration-<?php print ($tbConfiguration->getProperty());?>" class="Data-Grid-Row">
+         <div id="DataConfiguration-<?php print (self::$tbConfigurationM->getProperty());?>" class="Data-Grid-Row">
             <div class="Data-Grid-Column">
-                 <?php printf ("%s: ", $tbConfiguration->getLabel());?>
+                 <?php printf ("%s: ", self::$tbConfigurationM->getLabel());?>
             </div>
-            <div class="Data-Grid-Column" title=<?php printf("\"%s\"", $tbConfiguration->getDescription());?> 
-                     id="<?php print($tbConfiguration->getProperty());?>">
+            <div class="Data-Grid-Column" title=<?php printf("\"%s\"", self::$tbConfigurationM->getDescription());?> 
+                     id="<?php print(self::$tbConfigurationM->getProperty());?>">
                <?php 
-                     $loggerCpF->trace("The [ ".$tbConfiguration->getProperty().
-                            " ] type data is [ " . $tbConfiguration->getDataType() .
+                     self::$loggerM->trace("The [ ".self::$tbConfigurationM->getProperty().
+                            " ] type data is [ " . self::$tbConfigurationM->getDataType() .
                            " ]");
                      
                ?>
                <input type="number" 
-                      value="<?php print ($tbConfiguration->getValue());?>" style="width: 50px">
+                      value="<?php print (self::$tbConfigurationM->getValue());?>" style="width: 50px">
                
             </div>
            
          </div>
       </div>
       <?php 
-         $loggerCpF->trace("Format the DataGrid");
+         self::$loggerM->trace("Format the DataGrid");
       ?>
       <script type="text/javascript">
          DataGrid.format($('#DataConfiguration'),{width:"600px",
                                                columnsWidth: {0:"200px",1:"300px",2:"100px"}});
       </script>
       <?php 
-         $loggerCpF->trace("Define the callback for cakes directory");
+         self::$loggerM->trace("Define the callback for cakes directory");
       ?>
       <script type="text/javascript">
          JSLogger.getInstance().trace("Define function callback showDirectoryCakes");
@@ -240,7 +263,7 @@ define(URL_C, 'URL');
          });
       </script>
       <?php 
-         $loggerCpF->trace("Define the callback for cookies directory");
+         self::$loggerM->trace("Define the callback for cookies directory");
       ?>
       <script type="text/javascript">
          JSLogger.getInstance().trace("Define function callback showDirectoryCookies");
@@ -268,7 +291,7 @@ define(URL_C, 'URL');
          });
       </script>
       <?php 
-         $loggerCpF->trace("Define the callback for models directory");
+         self::$loggerM->trace("Define the callback for models directory");
       ?>
       <script type="text/javascript">
          JSLogger.getInstance().trace("Define function callback showDirectoryModels");
@@ -297,7 +320,7 @@ define(URL_C, 'URL');
          });
       </script>
       <?php 
-         $loggerCpF->trace("Define the callback for slide images directory");
+         self::$loggerM->trace("Define the callback for slide images directory");
       ?>
       <script type="text/javascript">
          JSLogger.getInstance().trace("Define function callback showDirectorySlideImages");
@@ -326,7 +349,7 @@ define(URL_C, 'URL');
          });
       </script>
 <?php 
-      $loggerCpF->trace("Add button save configuration");
+      self::$loggerM->trace("Add button save configuration");
       
 ?>
    <div style="clear: left"></div>
@@ -334,7 +357,7 @@ define(URL_C, 'URL');
       Guardar
    </div>
 <?php 
-      $loggerCpF->trace("Declare function to save the configuration when its corresponding button is pressed");
+      self::$loggerM->trace("Declare function to save the configuration when its corresponding button is pressed");
 ?>
    <script type="text/javascript">
       JSLogger.getInstance().trace("Define function save configuracion");
@@ -397,19 +420,17 @@ define(URL_C, 'URL');
       $('#Button-Save-Configuration').click(saveConfiguration);
    </script>
 <?php 
-      $loggerCpF->trace("Exit");
+      self::$loggerM->trace("Exit");
    }
 
    /**
     * Show the home page
+    * 
     */   
-   function getHome(){
+   public static function getHome(){
 
-      //require_once 'Database/RequestFromWeb.php';
-      global $loggerCpF;
-      global $tbConfiguration;
-
-      $loggerCpF->trace("Enter");
+      self::createLogger();
+      self::$loggerM->trace("Enter");
 ?>
    <div id="Header-Home">
       <div id="Tittle-Header-Home">Imagenes que se muestran en la pagina principal</div>
@@ -420,8 +441,8 @@ define(URL_C, 'URL');
 <?php
       $tbSlidesImageHome = new TB_SlideImagesHome();
       $tbSlidesImageHome->open();
-      $tbConfiguration->rewind();
-      $tbConfiguration->searchByKey(URL_C);
+      self::$tbConfigurationM->rewind();
+      self::$tbConfigurationM->searchByKey(URL_C);
 ?>
       <div id="Images-Home-Container">
       <div id="DataGrid-Images-Home" class="Data-Grid">
@@ -430,8 +451,8 @@ define(URL_C, 'URL');
 ?>
          <div id="<?php print($tbSlidesImageHome->getId());?>" class="Data-Grid-Row">
             <div class="Data-Grid-Column">
-               <img alt="<?php print($tbConfiguration->getValue().$tbSlidesImageHome->getPath())?>" 
-                     src="<?php print($tbConfiguration->getValue().$tbSlidesImageHome->getPath())?>"
+               <img alt="<?php print(self::$tbConfigurationM->getValue().$tbSlidesImageHome->getPath())?>" 
+                     src="<?php print(self::$tbConfigurationM->getValue().$tbSlidesImageHome->getPath())?>"
                      style="width: 100px">
             </div>
             <div class="Data-Grid-Column">
@@ -450,7 +471,7 @@ define(URL_C, 'URL');
                         columnsWidth: {0:"150px",1:"100px"}});
       </script>
 <?php
-      $loggerCpF->trace("Define function refrehs image slide");
+      self::$loggerM->trace("Define function refrehs image slide");
 ?>
       <script type="text/javascript">
          /**
@@ -490,7 +511,7 @@ define(URL_C, 'URL');
          }
       </script>
 <?php 
-      $loggerCpF->trace("Define function to remove image from image slide in home");
+      self::$loggerM->trace("Define function to remove image from image slide in home");
 ?>
    <script type="text/javascript">
       var idToRemove = 0;
@@ -501,12 +522,12 @@ define(URL_C, 'URL');
          ajaxObject.setSyn();
          ajaxObject.setPostMethod();
          <?php 
-            $tbConfiguration->rewind();
-            $tbConfiguration->searchByKey(URL);
+            self::$tbConfigurationM->rewind();
+            self::$tbConfigurationM->searchByKey(URL);
          ?>
-         JSLogger.getInstance().debug("Url where the request for remove a slide image will be sent [ <?php print($tbConfiguration->getValue())?>" 
+         JSLogger.getInstance().debug("Url where the request for remove a slide image will be sent [ <?php print(self::$tbConfigurationM->getValue())?>" 
                 +"php/Database/RequestFromWeb.php ]");
-         ajaxObject.setUrl("<?php print($tbConfiguration->getValue())?>php/Database/RequestFromWeb.php");
+         ajaxObject.setUrl("<?php print(self::$tbConfigurationM->getValue())?>php/Database/RequestFromWeb.php");
          var requestParams = {};
          requestParams.<?php print(COMMAND);?> = "<?php print(COMMAND_DELETE);?>";
          requestParams.<?php print(PARAMS);?> = {};
@@ -521,10 +542,10 @@ define(URL_C, 'URL');
          JSLogger.getInstance().trace("Response [ " + ajaxObject.getResponse() + " ]");
 
          if (ajaxObject.getResponse().indexOf("404 Not Found") != -1){
-            JSLogger.getInstance().error("The script [ <?php print($tbConfiguration->getValue())?>php/Database/RequestFromWeb.phpRequestFromWeb.php ] has been found");
+            JSLogger.getInstance().error("The script [ <?php print(self::$tbConfigurationM->getValue())?>php/Database/RequestFromWeb.phpRequestFromWeb.php ] has been found");
             MessageBox("Error", 
                   "La imagen no se ha borrado del slide image."+
-                    ". No se ha podido acceder al script [ <?php print($tbConfiguration->getValue())?>php/Database/RequestFromWeb.php ]",
+                    ". No se ha podido acceder al script [ <?php print(self::$tbConfigurationM->getValue())?>php/Database/RequestFromWeb.php ]",
                   {Icon: MessageBox.IconsE.ERROR});
          }else{
             var objResponse = JSON.parse(ajaxObject.getResponse());
@@ -555,10 +576,10 @@ define(URL_C, 'URL');
          var pathFile = $('#DataGrid-Images-Home #'+theId+ ' .Data-Grid-Column img').attr('src');
          idToRemove = theId;
 <?php 
-         $tbConfiguration->rewind();
-         $tbConfiguration->searchByKey(URL_C);
+         self::$tbConfigurationM->rewind();
+         self::$tbConfigurationM->searchByKey(URL_C);
 ?>
-         pathFile = pathFile.substr(<?php print(strlen($tbConfiguration->getValue()));?>);
+         pathFile = pathFile.substr(<?php print(strlen(self::$tbConfigurationM->getValue()));?>);
          JSLogger.getInstance().trace("src [ " + pathFile +  " ]");
           
          MessageBox("Eliminar imagen",
@@ -573,7 +594,7 @@ define(URL_C, 'URL');
    </script>
 
 <?php 
-      $loggerCpF->trace("Add remove function to all remove image");
+      self::$loggerM->trace("Add remove function to all remove image");
 ?>
    <script type="text/javascript">
       $('#DataGrid-Images-Home .Data-Grid-Row').each(function(theIndex){
@@ -588,9 +609,9 @@ define(URL_C, 'URL');
 
 
 <?php
-      $loggerCpF->trace("Add functionality to the Add Image slide button.");
-      $tbConfiguration->rewind();
-      $tbConfiguration->searchByKey(SLIDE_IMAGE_DIRECTORY_C);
+      self::$loggerM->trace("Add functionality to the Add Image slide button.");
+      self::$tbConfigurationM->rewind();
+      self::$tbConfigurationM->searchByKey(SLIDE_IMAGE_DIRECTORY_C);
 ?>
        <script type="text/javascript">
          JSLogger.getInstance().trace("Define function callback to add image in slide home");
@@ -600,8 +621,8 @@ define(URL_C, 'URL');
             var message = "Data: " + theData.path + ". Type: "+ (theData.file?"File":"Directory");;
             JSLogger.getInstance().debug("Callback : " + message);
 <?php 
-                  $tbConfiguration->rewind();
-                  $tbConfiguration->searchByKey(URL_C);
+                  self::$tbConfigurationM->rewind();
+                  self::$tbConfigurationM->searchByKey(URL_C);
 ?>
             JSLogger.getInstance().trace("Trying save the image in slide images home");
             //Create the ajax object to send the step data to the server with the data base
@@ -609,9 +630,9 @@ define(URL_C, 'URL');
             ajaxObject.setSyn();
             ajaxObject.setPostMethod();
             JSLogger.getInstance().trace("The url where the request is send is [ " 
-                     + <?php print("\"".$tbConfiguration->getValue()."\"");?> 
+                     + <?php print("\"".self::$tbConfigurationM->getValue()."\"");?> 
                      +"/php/Database/RequestFromWeb.php ]");
-            ajaxObject.setUrl(<?php print("\"".$tbConfiguration->getValue()."\"");?> 
+            ajaxObject.setUrl(<?php print("\"".self::$tbConfigurationM->getValue()."\"");?> 
                         +"/php/Database/RequestFromWeb.php");
             
             var requestParams = {};
@@ -632,7 +653,7 @@ define(URL_C, 'URL');
             JSLogger.getInstance().trace("Response [ " + ajaxObject.getResponse() + " ]");
 
             if (ajaxObject.getResponse().indexOf("404 Not Found") != -1){
-               JSLogger.getInstance().error("The script [ " + <?php print("\"".$tbConfiguration->getValue()."\"");?> +
+               JSLogger.getInstance().error("The script [ " + <?php print("\"".self::$tbConfigurationM->getValue()."\"");?> +
                      "/php/Database/RequestFromWeb.php ] has been found");
                MessageBox("Error", 
                      "La imagen no ha podido ser añadida.",
@@ -649,7 +670,7 @@ define(URL_C, 'URL');
                }else{
                   var refreshParams = {};
                   refreshParams.theId = objResponse['lastID'];
-                  refreshParams.thePath = <?php print("\"".$tbConfiguration->getValue()."\"");?> + "/" + theData.path;
+                  refreshParams.thePath = <?php print("\"".self::$tbConfigurationM->getValue()."\"");?> + "/" + theData.path;
                   JSLogger.getInstance().trace("Calling refresh function with parameters [ " +
                         JSON.stringify(refreshParams));
                   functionRefreshImageSlide(refreshParams);
@@ -661,15 +682,15 @@ define(URL_C, 'URL');
             //JSLogger.getInstance().debug("VALOR:" +$('#Data_Path_Cursos').val());
         }
 <?php   
-         $tbConfiguration->rewind();
-         $tbConfiguration->searchByKey(SLIDE_IMAGE_DIRECTORY_C);
+         self::$tbConfigurationM->rewind();
+         self::$tbConfigurationM->searchByKey(SLIDE_IMAGE_DIRECTORY_C);
 ?>
         JSLogger.getInstance().trace("Add click event to the button #Button-Image-Models-Directory");
         $('#Button-AddImageInHome').click(function(){
             fileBrowser = new FileBrowser(
                   {path:{
                            root_path:<?php printf("\"%s\"",$_SERVER['DOCUMENT_ROOT']);?>,
-                           current_path: <?php print("\"".$tbConfiguration->getValue()."\"");?>
+                           current_path: <?php print("\"".self::$tbConfigurationM->getValue()."\"");?>
                         },
                     type: "a", filter: "*.*", 
                     callback: functionAddImageSlideHome,
@@ -682,7 +703,7 @@ define(URL_C, 'URL');
          });
       </script>
 <?php 
-      $loggerCpF->trace("Exit");
+      self::$loggerM->trace("Exit");
       
    }
 
@@ -694,14 +715,13 @@ define(URL_C, 'URL');
  * @param theTypeCollectionImage [in]: The table with the images
  * 
  */
-   function getImagesByType($theMenuId, 
+   static public function getImagesByType($theMenuId, 
          TB_MenuCollection $theCollectionTable,
          TB_TypeCollectionImage $theTypeCollectionImageTable){
       
-      global $loggerCpF;
-      global $tbConfiguration;
-      $loggerCpF->trace("Enter");
-      $loggerCpF->trace("The images type is [ ". 
+      self::createLogger();
+      self::$loggerM->trace("Enter");
+      self::$loggerM->trace("The images type is [ ". 
             (($theMenuId - 1 ) == 1 ? "Cakes": (($theMenuId - 1 ) == 2 ? "Cookies" : "Models")) ." ]");
       
       $theCollectionTable->rewind();
@@ -805,12 +825,12 @@ define(URL_C, 'URL');
             ajaxObject.setSyn();
             ajaxObject.setPostMethod();
             <?php 
-               $tbConfiguration->rewind();
-               $tbConfiguration->searchByKey(URL);
+               self::$tbConfigurationM->rewind();
+               self::$tbConfigurationM->searchByKey(URL);
             ?>
-            JSLogger.getInstance().debug("Url whete the data will be send [ <?php print($tbConfiguration->getValue())?>" 
+            JSLogger.getInstance().debug("Url whete the data will be send [ <?php print(self::$tbConfigurationM->getValue())?>" 
                    +"php/Database/RequestFromWeb.php ]");
-            ajaxObject.setUrl("<?php print($tbConfiguration->getValue())?>php/Database/RequestFromWeb.php");
+            ajaxObject.setUrl("<?php print(self::$tbConfigurationM->getValue())?>php/Database/RequestFromWeb.php");
             var requestParams = {};
             requestParams.<?php print(COMMAND);?> = <?php print("\"".COMMAND_INSERT."\"");?>;
             requestParams.<?php print(PARAMS);?> = {};
@@ -829,7 +849,7 @@ define(URL_C, 'URL');
             JSLogger.getInstance().trace("Response [ " + ajaxObject.getResponse() + " ]");
 
             if (ajaxObject.getResponse().indexOf("404 Not Found") != -1){
-               JSLogger.getInstance().error("The script [ " + <?php print("\"".$tbConfiguration->getValue()."\"");?> +
+               JSLogger.getInstance().error("The script [ " + <?php print("\"".self::$tbConfigurationM->getValue()."\"");?> +
                      "/php/Database/RequestFromWeb.php ] has been found");
                MessageBox("Error", 
                      "La imagen no ha podido ser añadida.",
@@ -848,7 +868,7 @@ define(URL_C, 'URL');
                   JSLogger.getInstance().trace("The image has been added successfull with Id [ "+
                                                 newId + " ]");
                   addNewImage($('.Vertical-Tab:visible .Grid'),newId,
-                        "<?php print($tbConfiguration->getValue());?>"+theImagePath,
+                        "<?php print(self::$tbConfigurationM->getValue());?>"+theImagePath,
                          theImageDesc);
                }
             }
@@ -860,7 +880,7 @@ define(URL_C, 'URL');
       
       
 <?php
-      $loggerCpF->trace("Add the functionalty to open the new collection window in the button");
+      self::$loggerM->trace("Add the functionalty to open the new collection window in the button");
       
 ?>
    <script type="text/javascript">
@@ -879,7 +899,7 @@ define(URL_C, 'URL');
       $collectionName = "";
       $isFirtsGrid = true;
       $elementsInRow = 0;
-      $elementsPerRow = $tbConfiguration->searchByColumn(TB_Configuration::PropertyColumnC, 'numberThumbnails');
+      $elementsPerRow = self::$tbConfigurationM->searchByColumn(TB_Configuration::PropertyColumnC, 'numberThumbnails');
       while ($theCollectionTable->next()){
          
 ?>
@@ -889,27 +909,27 @@ define(URL_C, 'URL');
          JSLogger.getInstance().trace('Add collection [ ' + text + ' ] in [ # <?php printf("%s", (($theMenuId - 1 ) == 1 ? "Cakes": (($theMenuId - 1 ) == 2 ? "Cookies" : "Models")));?>CollectionList ]');
          $('#<?php printf("%s", (($theMenuId - 1 ) == 1 ? "Cakes": (($theMenuId - 1 ) == 2 ? "Cookies" : "Models")));?>CollectionsList').append(text);
 <?php    
-         $loggerCpF->trace("Add option [ <div id=\"".
+         self::$loggerM->trace("Add option [ <div id=\"".
                $theCollectionTable->getCollectionId()."\">".$theCollectionTable->getCollectionName()."</div> ] in ".
                " div with id [ #". (($theMenuId - 1 ) == 1 ? "Cakes": (($theMenuId - 1 ) == 2 ? "Cookies" : "Models")).
                      "CollectionList ]");
 ?>
       </script>
 <?php 
-         $tbConfiguration->rewind();
-         $tbConfiguration->searchByKey(URL_C);
+         self::$tbConfigurationM->rewind();
+         self::$tbConfigurationM->searchByKey(URL_C);
          $theTypeCollectionImageTable->rewind();
-         $loggerCpF->trace("Searching images for collection [ " . $theCollectionTable->getCollectionId() ." ]");
+         self::$loggerM->trace("Searching images for collection [ " . $theCollectionTable->getCollectionId() ." ]");
          $thereAreImages = $theTypeCollectionImageTable->searchByColumn(
                          TB_TypeCollectionImage::CollectionIdColumnC,
                          $theCollectionTable->getCollectionId());
          if ($thereAreImages){
-            $loggerCpF->trace("Get the images from the collection [ " . 
+            self::$loggerM->trace("Get the images from the collection [ " . 
                   $theTypeCollectionImageTable->getCollectionId() . " ].[ ". 
                   $theTypeCollectionImageTable->getCollectionName() ." ] has [ " .
                   $theTypeCollectionImageTable->getCardinality() ." ] images");
          }else{
-            $loggerCpF->trace("The collection has not images");
+            self::$loggerM->trace("The collection has not images");
          }
          //Hay que añadir en el grid, en la primera posicion, el añadir foto
          if($isFirtsGrid){
@@ -954,18 +974,18 @@ define(URL_C, 'URL');
                JSLogger.getInstance().debug("The selected image is [ " + theData.path + " ]");
                JSLogger.getInstance().trace("Show the window where the image description is written");
 <?php
-               $imageSrc =$tbConfiguration->getValue();
-               $tbConfiguration->rewind();
+               $imageSrc =self::$tbConfigurationM->getValue();
+               self::$tbConfigurationM->rewind();
                if (($theMenuId -1) == 1){
-                  $tbConfiguration->searchByKey(IMAGES_CAKES_DIRECTORY_C);
+                  self::$tbConfigurationM->searchByKey(IMAGES_CAKES_DIRECTORY_C);
                }else{
                   if (($theMenuId -1) == 2){
-                     $tbConfiguration->searchByKey(IMAGES_COOKIES_DIRECTORY_C);
+                     self::$tbConfigurationM->searchByKey(IMAGES_COOKIES_DIRECTORY_C);
                   }else{                  
-                     $tbConfiguration->searchByKey(IMAGES_MODELS_DIRECTORY_C);
+                     self::$tbConfigurationM->searchByKey(IMAGES_MODELS_DIRECTORY_C);
                   }
                }
-               $imageSrc .= $tbConfiguration->getValue();
+               $imageSrc .= self::$tbConfigurationM->getValue();
                
 ?>
                JSLogger.getInstance().trace("The Menu id [ <?php print($theMenuId);?> ]");
@@ -975,21 +995,21 @@ define(URL_C, 'URL');
                DataEntryWindow.show('#WindowAddImageDesc', 
                            addImageToCollection_<?print($theCollectionTable->getCollectionId());?>, 
                            {size:{width:'500px',height:'300px'},
-                            dataToAdd: {imagePath: <?php printf("\"%s/\"", $tbConfiguration->getValue());?>+theData.path}});
+                            dataToAdd: {imagePath: <?php printf("\"%s/\"", self::$tbConfigurationM->getValue());?>+theData.path}});
                JSLogger.getInstance().traceExit();
             }
 <?php 
-            $tbConfiguration->rewind();
+            self::$tbConfigurationM->rewind();
             if (($theMenuId -1) == 1){
-               ($tbConfiguration->searchByColumn(TB_Configuration::PropertyColumnC, IMAGES_CAKES_DIRECTORY_C));
+               (self::$tbConfigurationM->searchByColumn(TB_Configuration::PropertyColumnC, IMAGES_CAKES_DIRECTORY_C));
                
             }else{
                if (($theMenuId -1) == 2){
                   
-                  ($tbConfiguration->searchByColumn(TB_Configuration::PropertyColumnC, IMAGES_COOKIES_DIRECTORY_C));
+                  (self::$tbConfigurationM->searchByColumn(TB_Configuration::PropertyColumnC, IMAGES_COOKIES_DIRECTORY_C));
                 
                }else{
-                  ($tbConfiguration->searchByColumn(TB_Configuration::PropertyColumnC, IMAGES_MODELS_DIRECTORY_C));
+                  (self::$tbConfigurationM->searchByColumn(TB_Configuration::PropertyColumnC, IMAGES_MODELS_DIRECTORY_C));
                }
             }
 ?>
@@ -997,7 +1017,7 @@ define(URL_C, 'URL');
                fileBrowser = new FileBrowser(
                      {path:{
                            root_path:<?php printf("\"%s/%s\"",$_SERVER['DOCUMENT_ROOT'],
-                                                   $tbConfiguration->getValue());?>
+                                                   self::$tbConfigurationM->getValue());?>
                            
                            },
                        type: "a", filter: "*.*", 
@@ -1012,17 +1032,17 @@ define(URL_C, 'URL');
          </script>
 <?php 
          if ($thereAreImages){
-            $tbConfiguration->rewind();
-            $tbConfiguration->searchByKey(URL_C);
+            self::$tbConfigurationM->rewind();
+            self::$tbConfigurationM->searchByKey(URL_C);
             while ($theTypeCollectionImageTable->next()){
-               $loggerCpF->trace("Add the image [ ".
+               self::$loggerM->trace("Add the image [ ".
                   $theTypeCollectionImageTable->getImagePath() ." ]");
          
 ?>
             
             <div class="Grid-Element">
                <div class="Grid-Image" id="image_<?php print($theTypeCollectionImageTable->getTypeCollectionImageId());?>">
-                  <img src="<?php print($tbConfiguration->getValue().$theTypeCollectionImageTable->getImagePath());?>" title="<?php print($theTypeCollectionImageTable->getImageDescription());?>"/>
+                  <img src="<?php print(self::$tbConfigurationM->getValue().$theTypeCollectionImageTable->getImagePath());?>" title="<?php print($theTypeCollectionImageTable->getImageDescription());?>"/>
                </div>
                <div class="ImageToolbar" id="ImageToolBar_<?php print($theTypeCollectionImageTable->getTypeCollectionImageId());?>">
                   <div class="UpdateImage Round-Corners-Button" id="UpdateImg_<?php print($theTypeCollectionImageTable->getTypeCollectionImageId());?>">
@@ -1046,15 +1066,15 @@ define(URL_C, 'URL');
 ?>
    </div>
 <?php 
-      $loggerCpF->trace("Exit");
+      self::$loggerM->trace("Exit");
    }
    
 /**
  * Funtion that add funcionality to the buttons for open a filebrowser allows select a image
  */
-function addAddPictureClickEvent(){
-   global $loggerCpF;
-   $loggerCpF->trace("Enter");
+public static function addAddPictureClickEvent(){
+   self::createLogger();
+   self::$loggerM->trace("Enter");
 ?>
       <script type="text/javascript">
          JSLogger.getInstance().trace("AddAddPictureClickEvent Enter");
@@ -1085,8 +1105,9 @@ function addAddPictureClickEvent(){
          JSLogger.getInstance().trace("AddAddPictureClickEvent Exit");
       </script>
 <?php 
-   $loggerCpF->trace("Exit");
+   self::$loggerM->trace("Exit");
 }
+} //class
    ?>
    
  

@@ -118,11 +118,11 @@
                </div>
                <div class="Vertical-Tab" id="Tab-Configuration">
                   
-                  <?php getConfiguration(); ?>
+                  <?php ControlpanelFunctions::getConfiguration(); ?>
                </div>
                <div class="Vertical-Tab" id="Tab-Home">
                   <?php 
-                     getHome() 
+                     ControlpanelFunctions::getHome();
                   ?>
                </div>
                <?php
@@ -140,7 +140,7 @@
                <div class="Vertical-Tab" id=<?php printf("\"Tab-%s\"",$tableMenu->getOption());?>>
                   <?php 
                         if ($tableMenu->getId() > 1 && $tableMenu->getId() < 5){
-                           getImagesByType($tableMenu->getId(), $tableMenuCollection, $tableTypeCollectionImage);
+                           ControlpanelFunctions::getImagesByType($tableMenu->getId(), $tableMenuCollection, $tableTypeCollectionImage);
                         }
                   ?>
                </div>
@@ -157,7 +157,7 @@
       </div> <!-- main -->
       
       <?php 
-      $loggerCpF->trace("Add the window for add a new collections");
+      $logger->trace("Add the window for add a new collections");
    ?>
       <div id="WindowAddCollection" class="DataEntryWindow DataEntryWindow-Hide">
          <div class="DataEntryWindow-Tittle">
@@ -205,7 +205,7 @@
       <script type="text/javascript">
          ListBoxInit.execute(true);
       </script>
-      <?php addAddPictureClickEvent();?>
+      <?php ControlpanelFunctions::addAddPictureClickEvent();?>
    </body>
 
 </html>
