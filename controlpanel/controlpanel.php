@@ -205,7 +205,10 @@
       <script type="text/javascript">
          ListBoxInit.execute(true);
       </script>
-      <?php ControlpanelFunctions::addAddPictureClickEvent();?>
+      <?php 
+         ControlpanelFunctions::addAddPictureClickEvent();
+         ControlpanelFunctions::writeJSFuncionAddNewCollection();
+      ?>
    </body>
 
 </html>

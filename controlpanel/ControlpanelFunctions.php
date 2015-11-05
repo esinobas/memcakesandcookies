@@ -41,7 +41,42 @@ class ControlpanelFunctions{
          self::$loggerM = LoggerMgr::Instance()->getLogger(basename(__FILE__));
       }
    }
-
+/********* Private functions ******/
+   
+   /**
+    * Writes the javascript funtion to add a new collection in the page
+    */
+   static public function writeJSFuncionAddNewCollection(){
+      self::createLogger();
+      self::$loggerM->trace("Enter");
+?>
+      <script type="text/javascript">
+      
+      //   Funcion definition to add a new collection in the page, inserting its
+      //   name in the listbox and creating the necessary controls for management it.
+         var addNewCollection = function(theCollectionId, theCollectionName){
+            JSLogger.getInstance().traceEnter();
+            JSLogger.getInstance().debug("Add new collection with id [ " +
+                                    theCollectionId + " ] and name [ " +
+                                    theCollectionName +" ]"+$('.Vertical-Tab:visible .ListBox').size());
+            $('.Vertical-Tab:visible .ListBox').append('<div id="Collection_'+
+                  theCollectionId + '" class="ListBoxItem">'+theCollectionName+
+                  '</div>');
+            JSLogger.getInstance().trace("Diselect all list box element of the listbox");
+            $('.Vertical-Tab:visible .ListBox .ListBoxItem').removeClass('ListBoxItemSelected');
+            JSLogger.getInstance().trace("Select the new item added in the listbox");
+            $('#Collection_'+theCollectionId).addClass('ListBoxItemSelected');
+            JSLogger.getInstance().trace("Add click event to the ListBoxItem added");
+            $('#Collection_'+theCollectionId).click(function(){
+               $(this).parent().find('.ListBoxItem').removeClass('ListBoxItemSelected');
+               $(this).addClass('ListBoxItemSelected');
+            });
+            JSLogger.getInstance().traceExit();
+         }
+   </script>
+<?php 
+      self::$loggerM->trace("Exit");
+   }
 /********* Public functions ******/
 /**
  * Gets the configuration from the database and it showed
@@ -750,6 +785,11 @@ class ControlpanelFunctions{
           var insertNewCollection = function(theValues){
              JSLogger.getInstance().traceEnter();
              JSLogger.getInstance().trace(theValues);
+             var collectionId = 99;
+             var collectionName = JSON.parse(theValues)['NewCollectionLabel'];
+             JSLogger.getInstance().trace("Collection Name [ " + collectionName +" ]");
+
+             addNewCollection(collectionId, collectionName);
              JSLogger.getInstance().traceExit();
           }
 
@@ -1066,6 +1106,7 @@ class ControlpanelFunctions{
 ?>
    </div>
 <?php 
+     
       self::$loggerM->trace("Exit");
    }
    
