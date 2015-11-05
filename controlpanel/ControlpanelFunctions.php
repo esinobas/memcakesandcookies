@@ -64,13 +64,35 @@ class ControlpanelFunctions{
                   '</div>');
             JSLogger.getInstance().trace("Diselect all list box element of the listbox");
             $('.Vertical-Tab:visible .ListBox .ListBoxItem').removeClass('ListBoxItemSelected');
+
             JSLogger.getInstance().trace("Select the new item added in the listbox");
             $('#Collection_'+theCollectionId).addClass('ListBoxItemSelected');
+            
+            JSLogger.getInstance().trace("Add a new grid that belongs to the new collection added");
+            $('.Vertical-Tab:visible .ImagesList').append('<div id="Grid_Collection_'+
+                  theCollectionId + '" class="Grid"><div class="Grid-Element">'+
+                  '<div id="Add-Picture-Collection_'+theCollectionId+'" class="'+
+                  'Round-Corners-Button Add-Picture-Collection">Añadir Foto</div></div></div>');
+
             JSLogger.getInstance().trace("Add click event to the ListBoxItem added");
             $('#Collection_'+theCollectionId).click(function(){
                $(this).parent().find('.ListBoxItem').removeClass('ListBoxItemSelected');
                $(this).addClass('ListBoxItemSelected');
+
+               JSLogger.getInstance().trace("Hide all [ " +
+                     $('.Vertical-Tab:visible>.ImagesList>.Grid').size() + " ] grid in images list");
+                   $('.Vertical-Tab:visible>.ImagesList>.Grid').addClass('Grid-Hidden');
+                   JSLogger.getInstance().trace("Show the grid Id [ Grid_Collection_" + 
+                         theCollectionId + " ]");
+                   $('#Grid_Collection_' + theCollectionId).removeClass('Grid-Hidden');
             });
+
+            JSLogger.getInstance().trace("Hide all the grids and show only the new grid");
+            $('.Vertical-Tab:visible>.ImagesList>.Grid').addClass('Grid-Hidden');
+            $('#Grid_Collection_' + theCollectionId).removeClass('Grid-Hidden');
+
+
+            JSLogger.getInstance().trace("Add the functionality to the new add picture button");
             JSLogger.getInstance().traceExit();
          }
    </script>
