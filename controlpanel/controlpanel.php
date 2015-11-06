@@ -56,6 +56,7 @@
          require_once 'Database/RequestFromWeb.php';
          require_once 'Database/TB_TypeCollectionImage.php';
          require_once 'Database/TB_MenuCollection.php';
+         require_once 'Database/TB_ImageType.php';
          
          //Declare the global variables
          $logger = LoggerMgr::Instance()->getLogger(basename(__FILE__));
@@ -207,6 +208,7 @@
       </script>
       <?php 
          ControlpanelFunctions::addAddPictureClickEvent();
+         ControlpanelFunctions::writeJSFunctionAddImageToCollection();
          ControlpanelFunctions::writeJSFuncionAddNewCollection();
       ?>
    </body>

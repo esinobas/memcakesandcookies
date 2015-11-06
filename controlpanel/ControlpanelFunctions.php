@@ -42,7 +42,87 @@ class ControlpanelFunctions{
       }
    }
 /********* Private functions ******/
-   
+   /***
+    * Writes the javascript function to add a new image in a collection
+    */
+   static public function writeJSFunctionAddImageToCollection(){
+      self::createLogger();
+      self::$loggerM->trace("Enter");
+?>
+      <script type="text/javascript">
+      
+      //   Funcion definition to add a new image in a collection
+         const IMAGES_CAKES_PATH_C = "Cakes";
+         const IMAGES_COOKIES_PATH_C = "Cookies";
+         const IMAGES_MODELS_PATH_C = "Models";
+         
+         var imagesPaths = new Object();
+         
+
+         JSLogger.getInstance().trace("Saving the images path in an object from php");
+         <?php
+               self::$tbConfigurationM->rewind(); 
+               self::$tbConfigurationM->searchByKey(IMAGES_CAKES_DIRECTORY_C);
+         ?>
+         imagesPaths[IMAGES_CAKES_PATH_C] = "<?php print(self::$tbConfigurationM->getValue());?>";
+         <?php 
+            self::$tbConfigurationM->rewind();
+            self::$tbConfigurationM->searchByKey(IMAGES_COOKES_DIRECTORY_C);
+         ?>
+         imagesPaths[IMAGES_COOKIES_PATH_C] = "<?php print(self::$tbConfigurationM->getValue());?>";
+         <?php 
+            self::$tbConfigurationM->rewind();
+            self::$tbConfigurationM->searchByKey(IMAGES_MODELS_DIRECTORY_C);
+         ?>
+         imagesPaths[IMAGES_MODELS_PATH_C] = "<?php print(self::$tbConfigurationM->getValue());?>";
+
+         /** the Values is JSON string where the image information is saved **/
+         var addImageToCollection = function(theValues){
+            JSLogger.getInstance().traceEnter();
+            var imagesType = new Object();
+
+<?php
+            $tbImageType = new TB_ImageType();
+            $tbImageType->open();
+            $tbImageType->searchByColumn(TB_ImageType::TypeColumnC, 'Cakes');
+?>
+            imagesType['Cakes'] = <?php print($tbImageType->getId());?>;
+<?php
+
+            $tbImageType->open();
+            $tbImageType->searchByColumn(TB_ImageType::TypeColumnC, 'Modelados');
+?>
+            imagesType['Modelados'] = <?php print($tbImageType->getId());?>;
+<?php
+
+            $tbImageType->open();
+            $tbImageType->searchByColumn(TB_ImageType::TypeColumnC, 'Cookies');
+?>
+            imagesType['Cookies'] = <?php print($tbImageType->getId());?>;
+            
+            JSLogger.getInstance().debug("The values are [ " + theValues +
+                                        " ]");
+            var jsonValues = JSON.parse(theValues);
+            JSLogger.getInstance().trace("Getting collection id");
+            var collectionId = $('.Vertical-Tab:visible .ListBox .ListBoxItemSelected').attr('id');
+            collectionId = collectionId.substring(11);
+            JSLogger.getInstance().trace("Collection Id [ " + collectionId + " ]");
+            JSLogger.getInstance().trace("Getting the type selected");
+            var strTypeSelected = $('.Vertical-Tab:visible').attr('id');
+            strTypeSelected = strTypeSelected.substring(4);
+            var typeSelected = imagesType[strTypeSelected];
+            JSLogger.getInstance().trace("[ " + strTypeSelected + " ]-> [ " + typeSelected +" ]");
+            insertImageIntoCollection(collectionId,
+                                       typeSelected, //imagetype
+                                             jsonValues['imagePath'],
+                                             jsonValues['Image']);
+            
+            JSLogger.getInstance().traceExit();
+         };
+      </script>
+<?php 
+      self::$loggerM->trace("Exit");
+   }
    /**
     * Writes the javascript funtion to add a new collection in the page
     */
@@ -54,7 +134,8 @@ class ControlpanelFunctions{
       
       //   Funcion definition to add a new collection in the page, inserting its
       //   name in the listbox and creating the necessary controls for management it.
-         var addNewCollection = function(theCollectionId, theCollectionName){
+
+            var addNewCollection = function(theCollectionId, theCollectionName){
             JSLogger.getInstance().traceEnter();
             JSLogger.getInstance().debug("Add new collection with id [ " +
                                     theCollectionId + " ] and name [ " +
@@ -62,7 +143,7 @@ class ControlpanelFunctions{
             $('.Vertical-Tab:visible .ListBox').append('<div id="Collection_'+
                   theCollectionId + '" class="ListBoxItem">'+theCollectionName+
                   '</div>');
-            JSLogger.getInstance().trace("Diselect all list box element of the listbox");
+            JSLogger.getInstance().trace("Dis-select all list box element of the listbox");
             $('.Vertical-Tab:visible .ListBox .ListBoxItem').removeClass('ListBoxItemSelected');
 
             JSLogger.getInstance().trace("Select the new item added in the listbox");
@@ -93,6 +174,28 @@ class ControlpanelFunctions{
 
 
             JSLogger.getInstance().trace("Add the functionality to the new add picture button");
+            var selectedType = $('.Vertical-Tab:visible').attr('id').substring(4);
+            JSLogger.getInstance().trace("Type [ " +selectedType+" ]");
+            
+            
+            var imagesPath = "<?php print($_SERVER['DOCUMENT_ROOT']); ?>/" + imagesPaths[selectedType];
+            JSLogger.getInstance().trace("The images directory is [ "+ 
+                           imagesPath +" ]");
+            fileBrowser = new FileBrowser({
+               path: {
+                     root_path: imagesPath,
+               },
+               type: "a",
+               filter: "*.*",
+               callback: null,
+               Title_Params: {
+                 Caption: "Selecciona la foto que quieras añadir a \""+
+                                       theCollectionName+"\"",
+                 Background_Color: "orange"
+               },
+               toolbar: "upload_file|create_folder|delete"
+             });
+            
             JSLogger.getInstance().traceExit();
          }
    </script>
@@ -1012,21 +1115,7 @@ class ControlpanelFunctions{
             
          <script type="text/javascript">
 
-            JSLogger.getInstance().trace("Declare callback function that will be executed when the add image ok button is pushed");
-            /** The values is a string with json format **/
-            var addImageToCollection_<?print($theCollectionTable->getCollectionId());?> = function(theValues){
-               JSLogger.getInstance().traceEnter();
-               JSLogger.getInstance().debug("The values are [ " + theValues +
-                                           " ]");
-               var jsonValues = JSON.parse(theValues);
-               
-               insertImageIntoCollection(<?print($theCollectionTable->getCollectionId());?>,
-                                          <?php print(($theMenuId-1));?>, //imagetype
-                                                jsonValues['imagePath'],
-                                                jsonValues['Image']);
-                                          
-               JSLogger.getInstance().traceExit();
-            };
+            
 
             JSLogger.getInstance().trace("Declare FileBrowser callback");
             JSLogger.getInstance().trace("Add funcionality to the add collection picture button");
@@ -1055,7 +1144,7 @@ class ControlpanelFunctions{
                $('#WindowAddImageDesc img').attr('src', '<?php print($imageSrc);?>/'+
                      theData.path);
                DataEntryWindow.show('#WindowAddImageDesc', 
-                           addImageToCollection_<?print($theCollectionTable->getCollectionId());?>, 
+                           addImageToCollection, 
                            {size:{width:'500px',height:'300px'},
                             dataToAdd: {imagePath: <?php printf("\"%s/\"", self::$tbConfigurationM->getValue());?>+theData.path}});
                JSLogger.getInstance().traceExit();
