@@ -44,11 +44,78 @@ class ControlpanelFunctions{
 /********* Private functions ******/
    
    /**
+    * Writes the javascript function used like callback after confirm the 
+    * remove of the an image, and the image will be deleted.
+    */
+   static private function writeJSFunctionDeleteImageCallback(){
+      self::createLogger();
+      self::$loggerM->trace("Enter");
+      ?>
+       <script type="text/javascript">
+         var idToRemoveM = 0;
+         var gridElementToRemoveM = null;
+         JSLogger.getInstance().trace("Declare function used like callback for remove a image");
+         var delteImageCallback = function(){
+            JSLogger.getInstance().traceEnter();
+            JSLogger.getInstance().trace("Id to remove [ " + idToRemoveM +" ]");
+
+            var ajaxObject = new Ajax();
+            ajaxObject.setSyn();
+            ajaxObject.setPostMethod();
+            
+            JSLogger.getInstance().debug("Url whete the data will be send [ " + imagesPaths[URL_C] 
+                +"php/Database/RequestFromWeb.php ]");
+            ajaxObject.setUrl(imagesPaths[URL_C]+"php/Database/RequestFromWeb.php");
+            var requestParams = {};
+            requestParams.<?php print(COMMAND);?> = <?php print("\"".COMMAND_DELETE."\"");?>;
+            requestParams.<?php print(PARAMS);?> = {};
+            requestParams.<?php print(PARAMS);?>.<?php print(PARAM_TABLE);?> = <?php print("\""
+                     .TB_TypeCollectionImage::TB_TypeCollectionImageTableC."\"");?>;
+            requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?> = {};
+            requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(PARAM_KEY);?> = idToRemoveM;
+
+            JSLogger.getInstance().debug("Command parameters [ " + JSON.stringify(requestParams) +" ]");
+
+            ajaxObject.setParameters(JSON.stringify(requestParams));
+
+            ajaxObject.send();
+            JSLogger.getInstance().trace("Response [ " + ajaxObject.getResponse() + " ]");
+
+            if (ajaxObject.getResponse().indexOf("404 Not Found") != -1){
+               JSLogger.getInstance().error("The script [ " +imagesPaths[URL_C] +
+                  "/php/Database/RequestFromWeb.php ] has been found");
+               MessageBox("Error", 
+                  "La imagen no se ha borrado. No se ha accedido al servidor",
+                  {Icon: MessageBox.IconsE.ERROR});
+            }else{
+               var objResponse = JSON.parse(ajaxObject.getResponse());
+               if (parseInt(objResponse['ResultCode']) != 200){
+                     MessageBox("Error", 
+                        "La imagen no se ha borrado. Error [ " +
+                        objResponse['ErrorMsg'] + " ]",
+                        {Icon: MessageBox.IconsE.ERROR});
+                     JSLogger.getInstance().error("The image has not been removed. [ " +
+                         objResponse['ErrorMsg'] + " ]");
+               }else{
+                  
+                  JSLogger.getInstance().trace("The image has been removed");
+                  gridElementToRemoveM.remove();
+               }
+            }
+            JSLogger.getInstance().traceExit();
+         }
+       </script>
+      <?php 
+      self::$loggerM->trace("Exit");
+   }
+   
+   /**
     * Writes the javascript function to remove a image from a collecction
     */
    static private function writeJSFunctionDeleteImage(){
       self::createLogger();
       self::$loggerM->trace("Enter");
+      self::writeJSFunctionDeleteImageCallback();
 ?>
       <script type="text/javascript">
          JSLogger.getInstance().trace("Declare function to remove a image");
@@ -60,10 +127,17 @@ class ControlpanelFunctions{
          var removeImageFromColection = function(theDeleteButton){
             JSLogger.getInstance().traceEnter();
             JSLogger.getInstance().trace("Delete button id [ " + theDeleteButton.attr('id') + " ]");
-            var gridElement = theDeleteButton.parent().parent();
-            JSLogger.getInstance().debug("Delete image [ " + gridElement.find('img').attr('src') + " ]");
-            var imageId = theDeleteButton.attr('id').substr(10);
-            JSLogger.getInstance().trace("Image Id[ " + imageId + " ]");
+            gridElementToRemoveM = theDeleteButton.parent().parent();
+            JSLogger.getInstance().debug("Delete image [ " + gridElementToRemoveM.find('img').attr('src') + " ]");
+            idToRemoveM = parseInt(theDeleteButton.attr('id').substr(10));
+            JSLogger.getInstance().trace("Image Id[ " + idToRemoveM + " ]");
+            
+            MessageBox("Borrar", "¿Borrar imagen \"" + 
+                   gridElementToRemoveM.find('img').attr('src') + "\" de la coleccción?",
+                  {Buttons:{Buttons: MessageBox.ButtonsE.YES_NO,
+                            Callback_Yes: delteImageCallback},
+                   Icon: MessageBox.IconsE.QUESTION});
+            
             JSLogger.getInstance().traceExit();
          }
       </script>

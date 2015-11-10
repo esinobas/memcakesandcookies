@@ -591,7 +591,7 @@
 
       if (strcmp($theTable->getTableName(),TB_Configuration::TB_ConfigurationTableC) == 0){
          $composedKey = array();
-         $composedKey["Property"] = $jsonKey["Property"];
+         $composedKey["Property"] = json_encode($jsonKey);
          $logger->trace("Order table [ ".$theTable->getTableName().
                   " ] with key [ " . json_encode($composedKey). " ]");
           $theTable->searchByKey($composedKey);
@@ -599,7 +599,7 @@
 
       if (strcmp($theTable->getTableName(),TB_Menu::TB_MenuTableC) == 0){
          $composedKey = array();
-         $composedKey["Id"] = $jsonKey["Id"];
+         $composedKey["Id"] = json_encode($jsonKey);
          $logger->trace("Order table [ ".$theTable->getTableName().
                   " ] with key [ " . json_encode($composedKey). " ]");
           $theTable->searchByKey($composedKey);
@@ -607,7 +607,7 @@
 
       if (strcmp($theTable->getTableName(),TB_SlideImagesHome::TB_SlideImagesHomeTableC) == 0){
          $composedKey = array();
-         $composedKey["Id"] = $jsonKey["Id"];
+         $composedKey["Id"] = json_encode($jsonKey);
          $logger->trace("Order table [ ".$theTable->getTableName().
                   " ] with key [ " . json_encode($composedKey). " ]");
           $theTable->searchByKey($composedKey);
@@ -615,7 +615,7 @@
 
       if (strcmp($theTable->getTableName(),TB_ImageType::TB_ImageTypeTableC) == 0){
          $composedKey = array();
-         $composedKey["Id"] = $jsonKey["Id"];
+         $composedKey["Id"] = json_encode($jsonKey);
          $logger->trace("Order table [ ".$theTable->getTableName().
                   " ] with key [ " . json_encode($composedKey). " ]");
           $theTable->searchByKey($composedKey);
@@ -623,7 +623,7 @@
 
       if (strcmp($theTable->getTableName(),TB_Users::TB_UsersTableC) == 0){
          $composedKey = array();
-         $composedKey["Id"] = $jsonKey["Id"];
+         $composedKey["Id"] = json_encode($jsonKey);
          $logger->trace("Order table [ ".$theTable->getTableName().
                   " ] with key [ " . json_encode($composedKey). " ]");
           $theTable->searchByKey($composedKey);
@@ -631,7 +631,7 @@
 
       if (strcmp($theTable->getTableName(),TB_CookiesByCollection::TB_CookiesByCollectionTableC) == 0){
          $composedKey = array();
-         $composedKey["ImageId"] = $jsonKey["ImageId"];
+         $composedKey["ImageId"] = json_encode($jsonKey);
          $logger->trace("Order table [ ".$theTable->getTableName().
                   " ] with key [ " . json_encode($composedKey). " ]");
           $theTable->searchByKey($composedKey);
@@ -639,7 +639,7 @@
 
       if (strcmp($theTable->getTableName(),TB_CakesByCollection::TB_CakesByCollectionTableC) == 0){
          $composedKey = array();
-         $composedKey["ImageId"] = $jsonKey["ImageId"];
+         $composedKey["ImageId"] = json_encode($jsonKey);
          $logger->trace("Order table [ ".$theTable->getTableName().
                   " ] with key [ " . json_encode($composedKey). " ]");
           $theTable->searchByKey($composedKey);
@@ -647,7 +647,7 @@
 
       if (strcmp($theTable->getTableName(),TB_ModelsByCollection::TB_ModelsByCollectionTableC) == 0){
          $composedKey = array();
-         $composedKey["ImageId"] = $jsonKey["ImageId"];
+         $composedKey["ImageId"] = json_encode($jsonKey);
          $logger->trace("Order table [ ".$theTable->getTableName().
                   " ] with key [ " . json_encode($composedKey). " ]");
           $theTable->searchByKey($composedKey);
@@ -655,7 +655,7 @@
 
       if (strcmp($theTable->getTableName(),TB_MenuCollection::TB_MenuCollectionTableC) == 0){
          $composedKey = array();
-         $composedKey["CollectionId"] = $jsonKey["CollectionId"];
+         $composedKey["CollectionId"] = json_encode($jsonKey);
          $logger->trace("Order table [ ".$theTable->getTableName().
                   " ] with key [ " . json_encode($composedKey). " ]");
           $theTable->searchByKey($composedKey);
@@ -663,8 +663,8 @@
 
       if (strcmp($theTable->getTableName(),TB_ImagesAndCollection::TB_ImagesAndCollectionTableC) == 0){
          $composedKey = array();
-         $composedKey["ImageId"] = $jsonKey["ImageId"];
-         $composedKey["CollectionId"] = $jsonKey["CollectionId"];
+         $composedKey["ImageId"] = json_encode($jsonKey);
+         $composedKey["CollectionId"] = json_encode($jsonKey);
          $logger->trace("Order table [ ".$theTable->getTableName().
                   " ] with key [ " . json_encode($composedKey). " ]");
           $theTable->searchByKey($composedKey);
@@ -672,7 +672,7 @@
 
       if (strcmp($theTable->getTableName(),TB_TypeCollectionImage::TB_TypeCollectionImageTableC) == 0){
          $composedKey = array();
-         $composedKey["TypeCollectionImageId"] = $jsonKey["TypeCollectionImageId"];
+         $composedKey["TypeCollectionImageId"] = json_encode($jsonKey);
          $logger->trace("Order table [ ".$theTable->getTableName().
                   " ] with key [ " . json_encode($composedKey). " ]");
           $theTable->searchByKey($composedKey);
