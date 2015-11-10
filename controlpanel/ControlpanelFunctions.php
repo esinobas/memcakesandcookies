@@ -160,7 +160,7 @@ class ControlpanelFunctions{
       //Funcion definition to add a new image in a collection
          const IMAGES_CAKES_PATH_C = "Cakes";
          const IMAGES_COOKIES_PATH_C = "Cookies";
-         const IMAGES_MODELS_PATH_C = "Models";
+         const IMAGES_MODELS_PATH_C = "Modelados";
          const URL_C = "url";
          
          var imagesPaths = new Object();
