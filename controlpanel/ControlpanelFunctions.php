@@ -96,7 +96,7 @@ class ControlpanelFunctions{
             text += 'Eliminar';
             text += '</div>';
             text += '</div>';
-            JSLogger.getInstance().trace("Object to inser [ " + text +" ]");
+            JSLogger.getInstance().trace("Object to insert [ " + text +" ]");
             $(text).insertAfter(theHtmlObj.find('.Add-Picture-Collection').parent());
             JSLogger.getInstance().traceExit();
          }
@@ -105,6 +105,47 @@ class ControlpanelFunctions{
 <?php 
       self::$loggerM->trace("Exit");
    }
+   
+   /**
+    * Writes the javascript function to open a filebrowser that allows select a image
+    */
+   static public function writeJSFunctionOpenFileBrowser(){
+      self::createLogger();
+      self::$loggerM->trace("Enter");
+?>
+      <script type="text/javascript">
+         /**
+          * Open a filebrowser where the user can select a image for be added
+          * to one collection
+          *
+          * @param theRootPath: The filebrowser root path
+          * @param theCollectionName: The collection name showed in the filebrowser
+          */
+         var openFilebrowserSelectImage = function(theRootPath, 
+                                          theCollectionName){
+            JSLogger.getInstance().traceEnter();
+            JSLogger.getInstance().trace("Open filebrowser with root path [ " +
+                  theRootPath +" ] and the collection name [ " +
+                  theCollectionName +" ]");
+            fileBrowser = new FileBrowser(
+               {path:{
+                  root_path:theRootPath
+                  },
+               type: "a", filter: "*.*", 
+               callback: addImageCallback,
+               Title_Params:{
+                   Caption:"Selecciona la foto que quieras añadir a \""+theCollectionName +"\"",
+                   Background_Color:"orange"
+                            },
+               toolbar:"upload_file|create_folder|delete"
+            });
+            JSLogger.getInstance().traceExit();
+         }
+      </script>
+<?php 
+      self::$loggerM->trace("Exit");
+   }
+   
    /***
     * Writes the javascript function to add a new image in a collection
     */
@@ -114,7 +155,7 @@ class ControlpanelFunctions{
 ?>
       <script type="text/javascript">
       
-      //   Funcion definition to add a new image in a collection
+      //Funcion definition to add a new image in a collection
          const IMAGES_CAKES_PATH_C = "Cakes";
          const IMAGES_COOKIES_PATH_C = "Cookies";
          const IMAGES_MODELS_PATH_C = "Models";
@@ -1198,20 +1239,10 @@ class ControlpanelFunctions{
 ?>
         <script type="text/javascript">
             $('#Add-Picture-Collection_<?php print($theCollectionTable->getCollectionId());?>').click(function(){
-               fileBrowser = new FileBrowser(
-                     {path:{
-                           root_path:<?php printf("\"%s/%s\"",$_SERVER['DOCUMENT_ROOT'],
-                                                   self::$tbConfigurationM->getValue());?>
-                           
-                           },
-                       type: "a", filter: "*.*", 
-                       callback: addImageCallback,
-                       Title_Params:{
-                            Caption:"Selecciona la foto que quieras añadir a \"<?print($theCollectionTable->getCollectionName());?>\"",
-                            Background_Color:"orange"
-                                     },
-                       toolbar:"upload_file|create_folder|delete"
-                     });
+               openFilebrowserSelectImage(<?php printf("\"%s/%s\"",$_SERVER['DOCUMENT_ROOT'],
+                     self::$tbConfigurationM->getValue());?>,
+                     "<?print($theCollectionTable->getCollectionName());?>");
+              
             });
          </script>
 <?php 
