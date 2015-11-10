@@ -194,6 +194,90 @@ class ControlpanelFunctions{
    }
    
    /**
+    * Writes the java script function to send the image data to the server
+    */
+   static public function writeJSFuncionInsertImageIntoCollection(){
+      self::createLogger();
+      self::$loggerM->trace("Enter");
+?>
+   <script type="text/javascript">
+      JSLogger.getInstance().trace("Declare function to send the image data to the server");
+      /**
+       * Function that sends the request to the server for add a image in a collection
+       * @param theCollectionId: The collection id the image belongs to.
+       * @param theType: The image type
+       * @param theImagePath: The Image path
+       * @param theImageDesc: The image description
+       */
+      var insertImageIntoCollection = function (theCollectionId, theImageType, 
+                                 theImagePath, theImageDesc){
+         JSLogger.getInstance().traceEnter();
+         JSLogger.getInstance().debug("Inserting the image [ " + 
+                              theImagePath +
+                              " ] with Description [ " +
+                              theImageDesc + " ] into collection id [ " +
+                              theCollectionId +" ] and type [ "+ 
+                              theImageType +" ]");
+
+         JSLogger.getInstance().trace("Create Ajax object");
+         var ajaxObject = new Ajax();
+         ajaxObject.setSyn();
+         ajaxObject.setPostMethod();
+         
+         JSLogger.getInstance().debug("Url whete the data will be send [ " + imagesPaths[URL_C] 
+             +"php/Database/RequestFromWeb.php ]");
+         ajaxObject.setUrl(imagesPaths[URL_C]+"php/Database/RequestFromWeb.php");
+         var requestParams = {};
+         requestParams.<?php print(COMMAND);?> = <?php print("\"".COMMAND_INSERT."\"");?>;
+         requestParams.<?php print(PARAMS);?> = {};
+         requestParams.<?php print(PARAMS);?>.<?php print(PARAM_TABLE);?> = <?php print("\""
+                  .TB_TypeCollectionImage::TB_TypeCollectionImageTableC ."\"");?>;
+
+         requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?> = {};
+         requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(TB_TypeCollectionImage::ImagePathColumnC);?> = theImagePath;
+         requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(TB_TypeCollectionImage::ImageDescriptionColumnC);?> = theImageDesc;
+         requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(TB_TypeCollectionImage::CollectionIdColumnC);?> = theCollectionId;
+         requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(TB_TypeCollectionImage::TypeIdColumnC);?> = theImageType;
+         JSLogger.getInstance().debug("Command parameters [ " + JSON.stringify(requestParams) +" ]");
+
+         ajaxObject.setParameters(JSON.stringify(requestParams));
+         ajaxObject.send();
+         JSLogger.getInstance().trace("Response [ " + ajaxObject.getResponse() + " ]");
+
+         if (ajaxObject.getResponse().indexOf("404 Not Found") != -1){
+            JSLogger.getInstance().error("The script [ " +imagesPaths[URL_C] +
+               "/php/Database/RequestFromWeb.php ] has been found");
+            MessageBox("Error", 
+               "La imagen no ha podido ser añadida.",
+               {Icon: MessageBox.IconsE.ERROR});
+         }else{
+            var objResponse = JSON.parse(ajaxObject.getResponse());
+            if (parseInt(objResponse['ResultCode']) != 200){
+                  MessageBox("Error", 
+                     "La imagen no ha podido ser añadida. Error [ " +
+                     objResponse['ErrorMsg'] + " ]",
+                     {Icon: MessageBox.IconsE.ERROR});
+                  JSLogger.getInstance().error("The image has not been added. [ " +
+                      objResponse['ErrorMsg'] + " ]");
+            }else{
+               var newId = objResponse['lastID'];
+               JSLogger.getInstance().trace("The image has been added successfull with Id [ "+
+                                          newId + " ]");
+               addNewImage($('.Vertical-Tab:visible .Grid'),newId,
+                                      imagesPaths[URL_C]+theImagePath,
+                        theImageDesc);
+            }
+         }
+
+         JSLogger.getInstance().traceExit();
+      }
+
+   </script>
+<?php
+      self::$loggerM->trace("Exit");
+   }
+   
+   /**
     * Writes the java script function used like callback when an image
     * is added to collection
     *  
@@ -1025,80 +1109,6 @@ class ControlpanelFunctions{
           }
 
          
-         JSLogger.getInstance().trace("Declare function to send the image data to the server");
-         /**
-          * Function that sends the request to the server for add a image in a collection
-          * @param theCollectionId: The collection id the image belongs to.
-          * @param theType: The image type
-          * @param theImagePath: The Image path
-          * @param theImageDesc: The image description
-          */
-         var insertImageIntoCollection = function (theCollectionId, theImageType, 
-                                       theImagePath, theImageDesc){
-            JSLogger.getInstance().traceEnter();
-            JSLogger.getInstance().debug("Inserting the image [ " + 
-                                    theImagePath +
-                                    " ] with Description [ " +
-                                    theImageDesc + " ] into collection id [ " +
-                                    theCollectionId +" ] and type [ "+ 
-                                    theImageType +" ]");
-
-            JSLogger.getInstance().trace("Create Ajax object");
-            var ajaxObject = new Ajax();
-            ajaxObject.setSyn();
-            ajaxObject.setPostMethod();
-            <?php 
-               self::$tbConfigurationM->rewind();
-               self::$tbConfigurationM->searchByKey(URL);
-            ?>
-            JSLogger.getInstance().debug("Url whete the data will be send [ <?php print(self::$tbConfigurationM->getValue())?>" 
-                   +"php/Database/RequestFromWeb.php ]");
-            ajaxObject.setUrl("<?php print(self::$tbConfigurationM->getValue())?>php/Database/RequestFromWeb.php");
-            var requestParams = {};
-            requestParams.<?php print(COMMAND);?> = <?php print("\"".COMMAND_INSERT."\"");?>;
-            requestParams.<?php print(PARAMS);?> = {};
-            requestParams.<?php print(PARAMS);?>.<?php print(PARAM_TABLE);?> = <?php print("\""
-                        .TB_TypeCollectionImage::TB_TypeCollectionImageTableC ."\"");?>;
-
-            requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?> = {};
-            requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(TB_TypeCollectionImage::ImagePathColumnC);?> = theImagePath;
-            requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(TB_TypeCollectionImage::ImageDescriptionColumnC);?> = theImageDesc;
-            requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(TB_TypeCollectionImage::CollectionIdColumnC);?> = theCollectionId;
-            requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(TB_TypeCollectionImage::TypeIdColumnC);?> = theImageType;
-            JSLogger.getInstance().debug("Command parameters [ " + JSON.stringify(requestParams) +" ]");
-
-            ajaxObject.setParameters(JSON.stringify(requestParams));
-            ajaxObject.send();
-            JSLogger.getInstance().trace("Response [ " + ajaxObject.getResponse() + " ]");
-
-            if (ajaxObject.getResponse().indexOf("404 Not Found") != -1){
-               JSLogger.getInstance().error("The script [ " + <?php print("\"".self::$tbConfigurationM->getValue()."\"");?> +
-                     "/php/Database/RequestFromWeb.php ] has been found");
-               MessageBox("Error", 
-                     "La imagen no ha podido ser añadida.",
-                     {Icon: MessageBox.IconsE.ERROR});
-            }else{
-               var objResponse = JSON.parse(ajaxObject.getResponse());
-               if (parseInt(objResponse['ResultCode']) != 200){
-                        MessageBox("Error", 
-                           "La imagen no ha podido ser añadida. Error [ " +
-                           objResponse['ErrorMsg'] + " ]",
-                           {Icon: MessageBox.IconsE.ERROR});
-                      JSLogger.getInstance().error("The image has not been added. [ " +
-                            objResponse['ErrorMsg'] + " ]");
-               }else{
-                  var newId = objResponse['lastID'];
-                  JSLogger.getInstance().trace("The image has been added successfull with Id [ "+
-                                                newId + " ]");
-                  addNewImage($('.Vertical-Tab:visible .Grid'),newId,
-                        "<?php print(self::$tbConfigurationM->getValue());?>"+theImagePath,
-                         theImageDesc);
-               }
-            }
-           
-
-            JSLogger.getInstance().traceExit();
-         }
       </script>
       
       

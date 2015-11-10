@@ -212,6 +212,7 @@
          ControlpanelFunctions::writeJSFuncionAddNewCollection();
          ControlpanelFunctions::writeJSFunctionAddNewImage();
          ControlpanelFunctions::writeJSFunctionAddImageCallback();
+         ControlpanelFunctions::writeJSFuncionInsertImageIntoCollection();
       ?>
    </body>
 
