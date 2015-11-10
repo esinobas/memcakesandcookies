@@ -214,6 +214,7 @@
          ControlpanelFunctions::writeJSFunctionAddImageCallback();
          ControlpanelFunctions::writeJSFuncionInsertImageIntoCollection();
          ControlpanelFunctions::writeJSFunctionOpenFileBrowser();
+         ControlpanelFunctions::writeJSFunctionInsertNewCollection();
       ?>
    </body>
 

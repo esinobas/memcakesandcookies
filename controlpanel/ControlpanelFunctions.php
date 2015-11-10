@@ -43,6 +43,36 @@ class ControlpanelFunctions{
    }
 /********* Private functions ******/
    
+   
+   /**
+    * Writes the java script function that inserts a new collection 
+    */
+   static public function writeJSFunctionInsertNewCollection(){
+      self::createLogger();
+      self::$loggerM->trace("Enter");
+?>
+      <script type="text/javascript">
+      
+         JSLogger.getInstance().trace("Declare function to add a new collection");
+         /**
+         * Funtion that inserts a new collection
+         * @param theData: String in JSON format with the data
+         */
+         var insertNewCollection = function(theValues){
+            JSLogger.getInstance().traceEnter();
+            JSLogger.getInstance().trace(theValues);
+            var collectionId = 99;
+            var collectionName = JSON.parse(theValues)['NewCollectionLabel'];
+            JSLogger.getInstance().trace("Collection Name [ " + collectionName +" ]");
+      
+            /*** Si la coleccion se inserto bien en la base de datos */
+            addNewCollection(collectionId, collectionName);
+            JSLogger.getInstance().traceExit();
+         }
+      </script>
+<?php 
+      self::$loggerM->trace("Exit");
+   }
    /**
     * Writes the java script function that add a new image in the grid
     * 
@@ -413,20 +443,10 @@ class ControlpanelFunctions{
             var imagesPath = "<?php print($_SERVER['DOCUMENT_ROOT']); ?>/" + imagesPaths[selectedType];
             JSLogger.getInstance().trace("The images directory is [ "+ 
                            imagesPath +" ]");
-            fileBrowser = new FileBrowser({
-               path: {
-                     root_path: imagesPath,
-               },
-               type: "a",
-               filter: "*.*",
-               callback: null,
-               Title_Params: {
-                 Caption: "Selecciona la foto que quieras añadir a \""+
-                                       theCollectionName+"\"",
-                 Background_Color: "orange"
-               },
-               toolbar: "upload_file|create_folder|delete"
-             });
+            $('#Add-Picture-Collection_'+theCollectionId).click(function(){
+               openFilebrowserSelectImage(imagesPath, theCollectionName);
+            });
+            
             
             JSLogger.getInstance().traceExit();
          }
@@ -1131,29 +1151,6 @@ class ControlpanelFunctions{
          <div id="<?php printf("%s", (($theMenuId - 1 ) == 1 ? "Cakes": (($theMenuId - 1 ) == 2 ? "Cookies" : "Models")));?>CollectionsList" class="ListBox">
          </div>
       </div>
-      
-      <script type="text/javascript">
-
-         JSLogger.getInstance().trace("Declare function to add a new collection");
-         /**
-          * Funtion that inserts a new collection 
-          * @param theData: String in JSON format with the data
-          */
-          var insertNewCollection = function(theValues){
-             JSLogger.getInstance().traceEnter();
-             JSLogger.getInstance().trace(theValues);
-             var collectionId = 99;
-             var collectionName = JSON.parse(theValues)['NewCollectionLabel'];
-             JSLogger.getInstance().trace("Collection Name [ " + collectionName +" ]");
-
-                   /*** Si la colecion se inserto bien en la base de datos */
-             addNewCollection(collectionId, collectionName);
-             JSLogger.getInstance().traceExit();
-          }
-
-         
-      </script>
-      
       
 <?php
       self::$loggerM->trace("Add the functionalty to open the new collection window in the button");
