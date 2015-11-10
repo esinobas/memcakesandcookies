@@ -43,36 +43,6 @@ class ControlpanelFunctions{
    }
 /********* Private functions ******/
    
-   
-   /**
-    * Writes the java script function that inserts a new collection 
-    */
-   static public function writeJSFunctionInsertNewCollection(){
-      self::createLogger();
-      self::$loggerM->trace("Enter");
-?>
-      <script type="text/javascript">
-      
-         JSLogger.getInstance().trace("Declare function to add a new collection");
-         /**
-         * Funtion that inserts a new collection
-         * @param theData: String in JSON format with the data
-         */
-         var insertNewCollection = function(theValues){
-            JSLogger.getInstance().traceEnter();
-            JSLogger.getInstance().trace(theValues);
-            var collectionId = 99;
-            var collectionName = JSON.parse(theValues)['NewCollectionLabel'];
-            JSLogger.getInstance().trace("Collection Name [ " + collectionName +" ]");
-      
-            /*** Si la coleccion se inserto bien en la base de datos */
-            addNewCollection(collectionId, collectionName);
-            JSLogger.getInstance().traceExit();
-         }
-      </script>
-<?php 
-      self::$loggerM->trace("Exit");
-   }
    /**
     * Writes the java script function that add a new image in the grid
     * 
@@ -265,6 +235,98 @@ class ControlpanelFunctions{
 <?php 
       self::$loggerM->trace("Exit");
    }
+   
+   /**
+    * Writes the java script function that inserts a new collection
+    */
+   static public function writeJSFunctionInsertNewCollection(){
+      self::createLogger();
+      self::$loggerM->trace("Enter");
+      ?>
+         <script type="text/javascript">
+         
+            JSLogger.getInstance().trace("Declare function to add a new collection");
+            /**
+            * Funtion that inserts a new collection
+            * @param theData: String in JSON format with the data
+            */
+            var insertNewCollection = function(theValues){
+               JSLogger.getInstance().traceEnter();
+               JSLogger.getInstance().trace(theValues);
+               var collectionName = JSON.parse(theValues)['NewCollectionLabel'];
+               JSLogger.getInstance().trace("Collection Name [ " + collectionName +" ]");
+               JSLogger.getInstance().trace("Get menu ids");
+               var menuIds = new Object();
+
+<?php
+               $tbMenu = new TB_Menu();
+               $tbMenu->open();
+               while($tbMenu->next()){
+?>
+                  menuIds['<?php print($tbMenu->getOption());?>'] = <?php print($tbMenu->getId());?>;
+<?php 
+               } 
+?>
+
+               JSLogger.getInstance().trace("Get the active tab");
+               var selectedTab = $('.Vertical-Tab:visible').attr('id').substr(4);
+               JSLogger.getInstance().trace("Active tab [ " + selectedTab +" ]");
+               JSLogger.getInstance().trace("Create Ajax object");
+               var ajaxObject = new Ajax();
+               ajaxObject.setSyn();
+               ajaxObject.setPostMethod();
+               
+               JSLogger.getInstance().debug("Url whete the data will be send [ " + imagesPaths[URL_C] 
+                   +"php/Database/RequestFromWeb.php ]");
+               ajaxObject.setUrl(imagesPaths[URL_C]+"php/Database/RequestFromWeb.php");
+               var requestParams = {};
+               requestParams.<?php print(COMMAND);?> = <?php print("\"".COMMAND_INSERT."\"");?>;
+               requestParams.<?php print(PARAMS);?> = {};
+               requestParams.<?php print(PARAMS);?>.<?php print(PARAM_TABLE);?> = <?php print("\""
+                        .TB_MenuCollection::TB_MenuCollectionTableC."\"");?>;
+               requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?> = {};
+               requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(TB_MenuCollection::MenuIdColumnC);?> = menuIds[selectedTab];
+               requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(TB_MenuCollection::MenuOptionColumnC);?> = selectedTab;
+               requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(TB_MenuCollection::CollectionNameColumnC);?> = collectionName;
+
+               JSLogger.getInstance().debug("Command parameters [ " + JSON.stringify(requestParams) +" ]");
+
+               ajaxObject.setParameters(JSON.stringify(requestParams));
+
+               ajaxObject.send();
+               JSLogger.getInstance().trace("Response [ " + ajaxObject.getResponse() + " ]");
+
+               if (ajaxObject.getResponse().indexOf("404 Not Found") != -1){
+                  JSLogger.getInstance().error("The script [ " +imagesPaths[URL_C] +
+                     "/php/Database/RequestFromWeb.php ] has been found");
+                  MessageBox("Error", 
+                     "La coleccción no se ha creado.",
+                     {Icon: MessageBox.IconsE.ERROR});
+               }else{
+                  var objResponse = JSON.parse(ajaxObject.getResponse());
+                  if (parseInt(objResponse['ResultCode']) != 200){
+                        MessageBox("Error", 
+                           "La colección no se ha creado. Error [ " +
+                           objResponse['ErrorMsg'] + " ]",
+                           {Icon: MessageBox.IconsE.ERROR});
+                        JSLogger.getInstance().error("The collection has not been created. [ " +
+                            objResponse['ErrorMsg'] + " ]");
+                  }else{
+                     var newId = objResponse['lastID'];
+                     JSLogger.getInstance().trace("The collecction has been created with Id [ "+
+                                                newId + " ]");
+
+                     addNewCollection(newId, collectionName);
+                  }
+               }
+               
+               
+               JSLogger.getInstance().traceExit();
+            }
+         </script>
+   <?php 
+         self::$loggerM->trace("Exit");
+      }
    
    /**
     * Writes the java script function to send the image data to the server

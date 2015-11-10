@@ -529,11 +529,6 @@
             <name>TB_MENU</name>
             <columns>
                <column>
-                  <name>ID</name>
-                  <logical>MenuId</logical>
-                  <type>integer</type>
-               </column>
-               <column>
                   <name>option_menu</name>
                   <logical>MenuOption</logical>
                   <type>string</type>
@@ -552,6 +547,11 @@
                   <name>Name</name>
                   <logical>CollectionName</logical>
                   <type>string</type>
+               </column>
+               <column>
+                  <name>Id_Menu</name>
+                  <logical>MenuId</logical>
+                  <type>integer</type>
                </column>
            </columns>
            <key>Id</key>

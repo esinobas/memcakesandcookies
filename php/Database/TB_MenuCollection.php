@@ -38,13 +38,13 @@
 
    
       const phisicalTB_MENUC = "TB_MENU";
-      const phisicalTB_MENUIDColumnC = "ID";
       const phisicalTB_MENUoption_menuColumnC = "option_menu";
 
    
       const phisicalTB_COLLECTIONC = "TB_COLLECTION";
       const phisicalTB_COLLECTIONIdColumnC = "Id";
       const phisicalTB_COLLECTIONNameColumnC = "Name";
+      const phisicalTB_COLLECTIONId_MenuColumnC = "Id_Menu";
 
      /*
       * Constructor. The table definition is done here
@@ -70,11 +70,6 @@
       $this->tableMappingM->addTable(self::phisicalTB_MENUC);
       $this->tableMappingM->addColumn(
             self::phisicalTB_MENUC ,
-            self::phisicalTB_MENUIDColumnC ,
-            self::MenuIdColumnC,
-            ColumnType::integerC);
-      $this->tableMappingM->addColumn(
-            self::phisicalTB_MENUC ,
             self::phisicalTB_MENUoption_menuColumnC ,
             self::MenuOptionColumnC,
             ColumnType::stringC);
@@ -90,6 +85,11 @@
             self::phisicalTB_COLLECTIONNameColumnC ,
             self::CollectionNameColumnC,
             ColumnType::stringC);
+      $this->tableMappingM->addColumn(
+            self::phisicalTB_COLLECTIONC ,
+            self::phisicalTB_COLLECTIONId_MenuColumnC ,
+            self::MenuIdColumnC,
+            ColumnType::integerC);
       
       $this->tableMappingM->addKey(self::phisicalTB_COLLECTIONC,
             self::phisicalTB_COLLECTIONIdColumnC );
