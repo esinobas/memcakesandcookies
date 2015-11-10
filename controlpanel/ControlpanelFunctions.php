@@ -44,6 +44,56 @@ class ControlpanelFunctions{
 /********* Private functions ******/
    
    /**
+    * Writes the javascript function used like callback to update the image
+    */
+   static private function writeJSFunctionUpdateImageCallback(){
+      self::createLogger();
+      self::$loggerM->trace("Enter");
+?>
+      <script type="text/javascript">
+         JSLogger.getInstance().trace("Declare function updateImageCallback");
+         var updateImageCallback = function(){
+            JSLogger.getInstance().traceEnter();
+            JSLogger.getInstance().traceExit();
+         }
+      </script>
+<?php 
+      self::$loggerM->trace("Exit");
+   }
+   
+   /**
+    * Writes the javascript function for show the image update form
+    */
+   static private function writeJSFunctionUpdateImage(){
+      self::createLogger();
+      self::$loggerM->trace("Enter");
+      self::writeJSFunctionUpdateImageCallback();
+ ?>
+      <script type="text/javascript">
+         JSLogger.getInstance().trace("Declare function updateImage");
+         /**
+          * Function that shows the image data to be modified
+          * 
+          * @param theImageId: The image id
+          * @param theImageSrc: The image source
+          * @param theImageDesc: The image description
+          */
+         var updateImage = function(theImageId, theImageSrc, theImageDesc){
+            JSLogger.getInstance().traceEnter();
+            $('#WindowAddImageDesc img').attr('src', theImageSrc);
+            $('#WindowAddImageDesc #ImageDesc').val(theImageDesc);
+            
+            DataEntryWindow.show('#WindowAddImageDesc', 
+                        updateImageCallback, 
+                        {size:{width:'500px',height:'300px'},
+                         dataToAdd: {imageId: theImageId}});
+            JSLogger.getInstance().traceExit();
+         }
+      </script>
+ <?php 
+      self::$loggerM->trace("Exit");
+   }
+   /**
     * Writes the javascript function used like callback after confirm the 
     * remove of the an image, and the image will be deleted.
     */
@@ -1307,6 +1357,7 @@ class ControlpanelFunctions{
             (($theMenuId - 1 ) == 1 ? "Cakes": (($theMenuId - 1 ) == 2 ? "Cookies" : "Models")) ." ]");
       
       self::writeJSFunctionDeleteImage();
+      self::writeJSFunctionUpdateImage();
       
       $theCollectionTable->rewind();
       $theCollectionTable->searchByColumn(TB_MenuCollection::MenuIdColumnC, $theMenuId);
@@ -1442,6 +1493,12 @@ class ControlpanelFunctions{
             </div>
             <script type="text/javascript">
                /*** Add the functionality to the new buttons ***/
+               /** Updae button **/
+               $('#UpdateImg_<?php print($theTypeCollectionImageTable->getTypeCollectionImageId());?>').click(function(){
+                  updateImage(<?php print($theTypeCollectionImageTable->getTypeCollectionImageId());?>,
+                              "<?php print(self::$tbConfigurationM->getValue().$theTypeCollectionImageTable->getImagePath());?>",
+                              "<?php print($theTypeCollectionImageTable->getImageDescription());?>");
+               });
                /** Delete button **/
                $('#RemoveImg_<?php print($theTypeCollectionImageTable->getTypeCollectionImageId());?>').click(function(){
                   removeImageFromColection($(this));
