@@ -179,7 +179,7 @@ class ControlpanelFunctions{
          imagesPaths[IMAGES_CAKES_PATH_C] = "<?php print(self::$tbConfigurationM->getValue());?>";
          <?php 
             self::$tbConfigurationM->rewind();
-            self::$tbConfigurationM->searchByKey(IMAGES_COOKES_DIRECTORY_C);
+            self::$tbConfigurationM->searchByKey(IMAGES_COOKIES_DIRECTORY_C);
          ?>
          imagesPaths[IMAGES_COOKIES_PATH_C] = "<?php print(self::$tbConfigurationM->getValue());?>";
          <?php 
