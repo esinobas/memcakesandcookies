@@ -398,7 +398,7 @@ class ControlpanelFunctions{
                var newId = objResponse['lastID'];
                JSLogger.getInstance().trace("The image has been added successfull with Id [ "+
                                           newId + " ]");
-               addNewImage($('.Vertical-Tab:visible .Grid'),newId,
+               addNewImage($('.Vertical-Tab:visible .Grid:visible'),newId,
                                       imagesPaths[URL_C]+theImagePath,
                         theImageDesc);
             }
