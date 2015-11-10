@@ -96,8 +96,10 @@ class ControlpanelFunctions{
             text += 'Eliminar';
             text += '</div>';
             text += '</div>';
+            text += '</div>';
             JSLogger.getInstance().trace("Object to insert [ " + text +" ]");
-            $(text).insertAfter(theHtmlObj.find('.Add-Picture-Collection').parent());
+            //$('#'+theHtmlObj.attr('id')).append(text);
+            $(text).insertAfter($('#'+theHtmlObj.attr('id')).find('.Add-Picture-Collection').parent());
             JSLogger.getInstance().traceExit();
          }
       </script>
