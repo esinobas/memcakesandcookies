@@ -17,6 +17,7 @@ var closeWindow = function(theIdHtmlObject){
    //JSLogger.getInstance().registerLogger("DataEntryWindow", JSLogger.levelsE.WARN);
    JSLogger.getInstance().traceEnter();
    JSLogger.getInstance().trace("Close window [ " + theIdHtmlObject +" ]");
+   DataEntryFunctions.clearValues(theIdHtmlObject);
    $(theIdHtmlObject).addClass('DataEntryWindow-Hide');
    $(".DataEntryBackground").remove();
    $('body').removeClass('No-scrollbarDataEntry');
@@ -62,6 +63,7 @@ DataEntryWindow.show = function (theIdHtmlObject, theCallback, theOptionalParame
          JSLogger.getInstance().trace("Values returned [ " + values + " ]");
          closeWindow(theIdHtmlObject);
          theCallback(values);
+        
       }
    );
    JSLogger.getInstance().trace("Add the close functionality to the cancel button");

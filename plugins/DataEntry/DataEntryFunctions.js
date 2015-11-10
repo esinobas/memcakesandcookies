@@ -60,3 +60,13 @@ DataEntryFunctions.getValues = function(theHtmlId, theDataToAdd){
    JSLogger.getInstance().traceExit();
    return JSON.stringify(returnedValue);
 }
+
+/**
+ * Clear all values of the form
+ */
+DataEntryFunctions.clearValues = function(theHtmlId){
+   
+   JSLogger.getInstance().traceEnter();
+   $(theHtmlId).find(dataEntryValueClass_C).find('input').val('');
+   JSLogger.getInstance().traceExit();
+}
