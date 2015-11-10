@@ -210,6 +210,8 @@
          ControlpanelFunctions::addAddPictureClickEvent();
          ControlpanelFunctions::writeJSFunctionAddImageToCollection();
          ControlpanelFunctions::writeJSFuncionAddNewCollection();
+         ControlpanelFunctions::writeJSFunctionAddNewImage();
+         ControlpanelFunctions::writeJSFunctionAddImageCallback();
       ?>
    </body>
 

@@ -42,6 +42,69 @@ class ControlpanelFunctions{
       }
    }
 /********* Private functions ******/
+   
+   /**
+    * Writes the java script function that add a new image in the grid
+    * 
+    */
+   static public function writeJSFunctionAddNewImage(){
+   
+      self::createLogger();
+      self::$loggerM->trace("Enter");
+?>
+      <script type="text/javascript">
+         /**
+          * Function that shows the new image added in a collection
+          *
+          * @param theHtmlObj: The object where the new image is add
+          * @param theId: The image identifier in the ddbb
+          * @param thePath: The image path in the server
+          * @param theDesc: The image description
+          */
+         var addNewImage = function(theHtmlObj,theID, thePath, theDesc){
+            JSLogger.getInstance().traceEnter();
+            JSLogger.getInstance().debug("Add a image with following parameters:\n"+
+               "HtmlObject [ " + theHtmlObj.attr('id') + " ]\n"+
+               "Image Id [ " + theID +" ]\n"+
+               "Image Path [ " + thePath + " ]\n"+
+               "Image Desc [ " + theDesc + " ]");
+            /**Add new element with this format**/
+            /******
+               <div class="Grid-Element">
+                  <div class="Grid-Image" id="image_[image id]">
+                     <img src="[image path]" title="[image description]"/>
+                  </div>
+                  <div class="ImageToolbar" id="ImageToolBar_[image id]">
+                     <div class="UpdateImage Round-Corners-Button" id="UpdateImg_[image id]">
+                        Modificar
+                     </div>
+                     <div class="RemoveImage Round-Corners-Button" id="RemoveImg_[image id]">
+                        Eliminar
+                     </div>
+                  </div>
+               </div>
+            ********/
+            var text = '<div class="Grid-Element">';
+            text += '<div class="Grid-Image" id="image_' + theID+ '">';
+            text += '<img src="'+thePath+'" title="'+theDesc+'"/>';
+            text += '</div>';
+            text += '<div class="ImageToolbar" id="ImageToolBar_'+theID+'">';
+            text += '<div class="UpdateImage Round-Corners-Button" id="UpdateImg_'+theID+'">';
+            text += 'Modificar';
+            text += '</div>';
+            text += '<div class="RemoveImage Round-Corners-Button" id="RemoveImg_'+theID+'">';
+            text += 'Eliminar';
+            text += '</div>';
+            text += '</div>';
+            JSLogger.getInstance().trace("Object to inser [ " + text +" ]");
+            $(text).insertAfter(theHtmlObj.find('.Add-Picture-Collection').parent());
+            JSLogger.getInstance().traceExit();
+         }
+      </script>
+      
+<?php 
+      self::$loggerM->trace("Exit");
+   }
    /***
     * Writes the javascript function to add a new image in a collection
     */
@@ -55,11 +118,17 @@ class ControlpanelFunctions{
          const IMAGES_CAKES_PATH_C = "Cakes";
          const IMAGES_COOKIES_PATH_C = "Cookies";
          const IMAGES_MODELS_PATH_C = "Models";
+         const URL_C = "url";
          
          var imagesPaths = new Object();
          
 
          JSLogger.getInstance().trace("Saving the images path in an object from php");
+         <?php
+               self::$tbConfigurationM->rewind(); 
+               self::$tbConfigurationM->searchByKey(URL_C);
+         ?>
+         imagesPaths[URL_C] = "<?php print(self::$tbConfigurationM->getValue());?>";
          <?php
                self::$tbConfigurationM->rewind(); 
                self::$tbConfigurationM->searchByKey(IMAGES_CAKES_DIRECTORY_C);
@@ -123,8 +192,44 @@ class ControlpanelFunctions{
 <?php 
       self::$loggerM->trace("Exit");
    }
+   
    /**
-    * Writes the javascript funtion to add a new collection in the page
+    * Writes the java script function used like callback when an image
+    * is added to collection
+    *  
+    */
+   
+   static public function writeJSFunctionAddImageCallback(){
+      self::createLogger();
+      self::$loggerM->trace("Enter");
+?>
+      <script type="text/javascript">
+         var addImageCallback = function (theData){
+            JSLogger.getInstance().traceEnter();
+            JSLogger.getInstance().debug("The selected image is [ " + theData.path + " ]");
+            JSLogger.getInstance().trace("Show the window where the image description is written");
+            JSLogger.getInstance().trace("Getting the type selected");
+
+            var strTypeSelected = $('.Vertical-Tab:visible').attr('id');
+            strTypeSelected = strTypeSelected.substring(4);
+            JSLogger.getInstance().trace("[ " + strTypeSelected + " ]");
+            var imageSrc = imagesPaths[URL_C] + imagesPaths[strTypeSelected] +"/";
+            JSLogger.getInstance().trace("src[ "+ imageSrc + theData.path + " ]");
+            $('#WindowAddImageDesc img').attr('src', imageSrc+
+                  theData.path);
+            DataEntryWindow.show('#WindowAddImageDesc', 
+                        addImageToCollection, 
+                        {size:{width:'500px',height:'300px'},
+                         dataToAdd: {imagePath: imagesPaths[strTypeSelected] +"/"+theData.path}});
+            JSLogger.getInstance().traceExit();
+         }
+      </script>
+<?php 
+      self::$loggerM->trace("Exit");
+   }
+   
+   /**
+    * Writes the javascript funcction to add a new collection in the page
     */
    static public function writeJSFuncionAddNewCollection(){
       self::createLogger();
@@ -914,59 +1019,12 @@ class ControlpanelFunctions{
              var collectionName = JSON.parse(theValues)['NewCollectionLabel'];
              JSLogger.getInstance().trace("Collection Name [ " + collectionName +" ]");
 
+                   /*** Si la colecion se inserto bien en la base de datos */
              addNewCollection(collectionId, collectionName);
              JSLogger.getInstance().traceExit();
           }
 
-         JSLogger.getInstance().trace("Declare function to add the new image in the grid");
-         /**
-          * Function that shows the new image added in a collection
-          *
-          * @param theHtmlObj: The object where the new image is add
-          * @param theId: The image identifier in the ddbb
-          * @param thePath: The image path in the server
-          * @param theDesc: The image description
-          */
-         var addNewImage = function(theHtmlObj,theID, thePath, theDesc){
-            JSLogger.getInstance().traceEnter();
-            JSLogger.getInstance().debug("Add a image with following parameters:\n"+
-                        "HtmlObject [ " + theHtmlObj.attr('id') + " ]\n"+
-                        "Image Id [ " + theID +" ]\n"+
-                        "Image Path [ " + thePath + " ]\n"+
-                        "Image Desc [ " + theDesc + " ]");
-            /**Add new element with this format**/
-            /******
-            <div class="Grid-Element">
-               <div class="Grid-Image" id="image_[image id]">
-                  <img src="[image path]" title="[image description]"/>
-               </div>
-               <div class="ImageToolbar" id="ImageToolBar_[image id]">
-                  <div class="UpdateImage Round-Corners-Button" id="UpdateImg_[image id]">
-                     Modificar
-                  </div>
-                  <div class="RemoveImage Round-Corners-Button" id="RemoveImg_[image id]">
-                     Eliminar
-                  </div>
-               </div>
-            
-            </div>
-            ********/
-            var text = '<div class="Grid-Element">';
-            text += '<div class="Grid-Image" id="image_' + theID+ '">';
-            text += '<img src="'+thePath+'" title="'+theDesc+'"/>';
-            text += '</div>';
-            text += '<div class="ImageToolbar" id="ImageToolBar_'+theID+'">';
-            text += '<div class="UpdateImage Round-Corners-Button" id="UpdateImg_'+theID+'">';
-            text += 'Modificar';
-            text += '</div>';
-            text += '<div class="RemoveImage Round-Corners-Button" id="RemoveImg_'+theID+'">';
-            text += 'Eliminar';
-            text += '</div>';
-            text += '</div>';
-            JSLogger.getInstance().trace("Object to inser [ " + text +" ]");
-            $(text).insertAfter(theHtmlObj.find('.Add-Picture-Collection').parent());
-            JSLogger.getInstance().traceExit();
-         }            
+         
          JSLogger.getInstance().trace("Declare function to send the image data to the server");
          /**
           * Function that sends the request to the server for add a image in a collection
@@ -1113,42 +1171,6 @@ class ControlpanelFunctions{
             <div class="Round-Corners-Button Add-Picture-Collection" id="Add-Picture-Collection_<?php print($theCollectionTable->getCollectionId());?>">Añadir Foto</div>
          </div>
             
-         <script type="text/javascript">
-
-            
-
-            JSLogger.getInstance().trace("Declare FileBrowser callback");
-            JSLogger.getInstance().trace("Add funcionality to the add collection picture button");
-            
-            var addImageCallback_<?print($theCollectionTable->getCollectionId());?> = function (theData){
-               JSLogger.getInstance().traceEnter();
-               JSLogger.getInstance().debug("The selected image is [ " + theData.path + " ]");
-               JSLogger.getInstance().trace("Show the window where the image description is written");
-<?php
-               $imageSrc =self::$tbConfigurationM->getValue();
-               self::$tbConfigurationM->rewind();
-               if (($theMenuId -1) == 1){
-                  self::$tbConfigurationM->searchByKey(IMAGES_CAKES_DIRECTORY_C);
-               }else{
-                  if (($theMenuId -1) == 2){
-                     self::$tbConfigurationM->searchByKey(IMAGES_COOKIES_DIRECTORY_C);
-                  }else{                  
-                     self::$tbConfigurationM->searchByKey(IMAGES_MODELS_DIRECTORY_C);
-                  }
-               }
-               $imageSrc .= self::$tbConfigurationM->getValue();
-               
-?>
-               JSLogger.getInstance().trace("The Menu id [ <?php print($theMenuId);?> ]");
-               JSLogger.getInstance().trace("src[ <?php printf($imageSrc);?> ]");
-               $('#WindowAddImageDesc img').attr('src', '<?php print($imageSrc);?>/'+
-                     theData.path);
-               DataEntryWindow.show('#WindowAddImageDesc', 
-                           addImageToCollection, 
-                           {size:{width:'500px',height:'300px'},
-                            dataToAdd: {imagePath: <?php printf("\"%s/\"", self::$tbConfigurationM->getValue());?>+theData.path}});
-               JSLogger.getInstance().traceExit();
-            }
 <?php 
             self::$tbConfigurationM->rewind();
             if (($theMenuId -1) == 1){
@@ -1164,6 +1186,7 @@ class ControlpanelFunctions{
                }
             }
 ?>
+        <script type="text/javascript">
             $('#Add-Picture-Collection_<?php print($theCollectionTable->getCollectionId());?>').click(function(){
                fileBrowser = new FileBrowser(
                      {path:{
@@ -1172,7 +1195,7 @@ class ControlpanelFunctions{
                            
                            },
                        type: "a", filter: "*.*", 
-                       callback: addImageCallback_<?print($theCollectionTable->getCollectionId());?>,
+                       callback: addImageCallback,
                        Title_Params:{
                             Caption:"Selecciona la foto que quieras añadir a \"<?print($theCollectionTable->getCollectionName());?>\"",
                             Background_Color:"orange"
@@ -1255,6 +1278,7 @@ public static function addAddPictureClickEvent(){
             }
          );
          JSLogger.getInstance().trace("AddAddPictureClickEvent Exit");
+      
       </script>
 <?php 
    self::$loggerM->trace("Exit");
