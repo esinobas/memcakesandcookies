@@ -44,6 +44,34 @@ class ControlpanelFunctions{
 /********* Private functions ******/
    
    /**
+    * Writes the javascript function to remove a image from a collecction
+    */
+   static private function writeJSFunctionDeleteImage(){
+      self::createLogger();
+      self::$loggerM->trace("Enter");
+?>
+      <script type="text/javascript">
+         JSLogger.getInstance().trace("Declare function to remove a image");
+         /**
+          * Removes a image from the a colection
+          *
+          * @param theDeleteButton. Delete button in JQuery format
+          */
+         var removeImageFromColection = function(theDeleteButton){
+            JSLogger.getInstance().traceEnter();
+            JSLogger.getInstance().trace("Delete button id [ " + theDeleteButton.attr('id') + " ]");
+            var gridElement = theDeleteButton.parent().parent();
+            JSLogger.getInstance().debug("Delete image [ " + gridElement.find('img').attr('src') + " ]");
+            var imageId = theDeleteButton.attr('id').substr(10);
+            JSLogger.getInstance().trace("Image Id[ " + imageId + " ]");
+            JSLogger.getInstance().traceExit();
+         }
+      </script>
+<?php 
+      self::$loggerM->trace("Exit");
+   }
+   
+   /**
     * Writes the java script function that add a new image in the grid
     * 
     */
@@ -100,6 +128,12 @@ class ControlpanelFunctions{
             JSLogger.getInstance().trace("Object to insert [ " + text +" ]");
             //$('#'+theHtmlObj.attr('id')).append(text);
             $(text).insertAfter($('#'+theHtmlObj.attr('id')).find('.Add-Picture-Collection').parent());
+            /*** Add functionality to the buttons ***/
+            $('#RemoveImg_'+theID).click(function(){
+
+               removeImageFromColection($(this));
+                  
+            });
             JSLogger.getInstance().traceExit();
          }
       </script>
@@ -1198,6 +1232,8 @@ class ControlpanelFunctions{
       self::$loggerM->trace("The images type is [ ". 
             (($theMenuId - 1 ) == 1 ? "Cakes": (($theMenuId - 1 ) == 2 ? "Cookies" : "Models")) ." ]");
       
+      self::writeJSFunctionDeleteImage();
+      
       $theCollectionTable->rewind();
       $theCollectionTable->searchByColumn(TB_MenuCollection::MenuIdColumnC, $theMenuId);
 ?>
@@ -1330,6 +1366,14 @@ class ControlpanelFunctions{
                </div>
                
             </div>
+            <script type="text/javascript">
+               /*** Add the functionality to the new buttons ***/
+               /** Delete button **/
+               $('#RemoveImg_<?php print($theTypeCollectionImageTable->getTypeCollectionImageId());?>').click(function(){
+                  removeImageFromColection($(this));
+               });
+               
+            </script>
 <?php 
             
            }
