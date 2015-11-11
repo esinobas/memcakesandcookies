@@ -279,9 +279,21 @@ html {
 }
 #Container-News{
  
-   width: calc(100% - 250px - 5px - 2px);
+   width: calc(100% - 250px - 5px - 7px);
    height: calc(100% - 2px);
    float: left;
+   
+}
+.News-Title, .News-New{
+ 
+   width: calc(100% - 6px);
+   padding: 0px 3px;
+   float: left;
+   
+}
+.News-New{
+   height: calc(100% - 30px);
+   overflow-y:scroll; 
 }
 /*****************************************************/
 #div_menu{

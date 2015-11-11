@@ -30,6 +30,26 @@ class ControlPanelNews{
       return self::$loggerM;
    }
    
+   static private function writeNewNewsButtonClickEvent(){
+      self::getLogger()->trace("Enter");
+?>
+      <script type="text/javascript">
+         /** 
+          * Function that add in the window the controls to create a new news
+          */
+         var addNewNewsControl = function(){
+            JSLogger.getInstance().traceEnter();
+            $('#Container-News').empty();
+            $('#Container-News').append('<div class="News-Title">Pulsa para escribir el titulo</div>');
+            $('#Container-News').append('<div class="News-New">Pulsa para escribir</div>');
+            JSLogger.getInstance().traceExit()
+         }
+
+         $('#New-News').click(addNewNewsControl);
+      </script>
+<?php 
+      self::getLogger()->trace("Exit");
+   }
    /** Public functions **/
    
    /**
@@ -58,7 +78,9 @@ class ControlPanelNews{
       
       <div id="Container-News">
       </div>
+      
 <?php 
+      self::writeNewNewsButtonClickEvent();
       self::getLogger()->trace("Exit");
    }
 }
