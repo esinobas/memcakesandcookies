@@ -78,9 +78,7 @@
             ColumnType::stringC);
       
       $this->tableMappingM->addKey(self::phisicalTB_NewsC,
-            self::phisicalTB_News
-               DateTime
-            ColumnC );
+            self::phisicalTB_NewsDateTimeColumnC );
       
       $this->tableMappingM->addOrderBy(array("column"=>"DateTime", "type"=>"DESC"));
       

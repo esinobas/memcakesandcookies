@@ -818,9 +818,7 @@
                   <type>string</type>
                </column>
             </columns>
-            <key>
-               DateTime
-            </key>
+            <key>DateTime</key>
          </table>
          <orderBy>
             <column>DateTime</column>

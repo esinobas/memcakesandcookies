@@ -57,6 +57,7 @@
          require_once 'Database/TB_TypeCollectionImage.php';
          require_once 'Database/TB_MenuCollection.php';
          require_once 'Database/TB_ImageType.php';
+         require_once 'Database/TB_News.php';
          
          //Declare the global variables
          $logger = LoggerMgr::Instance()->getLogger(basename(__FILE__));
@@ -105,7 +106,7 @@
                         $tableMenu->open();
                         $logger->trace("Get the options menu for the tabs tittle");
                         while ($tableMenu->next()){
-                           if ($tableMenu->getId() > 1 && $tableMenu->getId() < 6){
+                           if ($tableMenu->getId() > 1 && $tableMenu->getId() < 4){
                               $logger->trace("Write the menu option [ ". 
                                    $tableMenu->getOption() . " ] in tab title");
                      ?>
@@ -134,13 +135,13 @@
                   $tableTypeCollectionImage->open();
                   $logger->trace("Get the options menu for the tabs");
                   while ($tableMenu->next()){
-                     if ($tableMenu->getId() > 1 && $tableMenu->getId() < 6){
+                     if ($tableMenu->getId() > 1 && $tableMenu->getId() < 4){
                         $logger->trace("Write the menu option [ ".
                            $tableMenu->getOption() . " ] in tab");
                   ?>
                <div class="Vertical-Tab" id=<?php printf("\"Tab-%s\"",$tableMenu->getOption());?>>
                   <?php 
-                        if ($tableMenu->getId() > 1 && $tableMenu->getId() < 5){
+                        if ($tableMenu->getId() > 1 && $tableMenu->getId() < 4){
                            ControlpanelFunctions::getImagesByType($tableMenu->getId(), $tableMenuCollection, $tableTypeCollectionImage);
                         }
                   ?>
