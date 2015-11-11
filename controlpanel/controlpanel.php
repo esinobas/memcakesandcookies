@@ -49,6 +49,7 @@
          include_once 'LoggerMgr/LoggerMgr.php';
          
          require_once 'ControlpanelFunctions.php';
+         require_once 'ControlPanelNews.php';
          //Include the tables files
          require_once 'Database/TB_Configuration.php';
          require_once 'Database/TB_Menu.php';
@@ -154,6 +155,7 @@
                ?>
                <div class="Vertical-Tab" id="Tab-News">
                   News
+                  <?php ControlPanelNews::showControlPanelNews();?>
                </div>
                <div class="Vertical-Tab" id="Tab-Subcription">
                   Subscriptores

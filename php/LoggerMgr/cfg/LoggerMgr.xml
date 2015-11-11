@@ -85,11 +85,12 @@
       <level value="WARN"></level>
       <appender_ref ref="DatabaseFileAppender"></appender_ref>
       <appender_ref ref="WebFileAppender"></appender_ref>
+      <appender_ref ref="ControlPanelFileAppender"></appender_ref>
    </logger>
    
    
     <logger name="DatabaseMgr">
-      <level value="TRACE"></level>
+      <level value="WARN"></level>
       <appender_ref ref="DatabaseFileAppender"></appender_ref>
       <appender_ref ref="WebFileAppender"></appender_ref>
       <appender_ref ref="ControlPanelFileAppender"></appender_ref>
@@ -121,9 +122,16 @@
    </logger>
    
    <logger name="TB_TypeCollectionImage">
-      <level value="TRACE"></level>
+      <level value="WARN"></level>
       <appender_ref ref="DatabaseFileAppender"></appender_ref>
       <!--  <appender_ref ref="WebFileAppender"></appender_ref> -->
+      <appender_ref ref="ControlPanelFileAppender"></appender_ref>
+   </logger>
+   
+   <logger name="TB_News">
+      <level value="WARN"></level>
+      <appender_ref ref="DatabaseFileAppender"></appender_ref>
+      <appender_ref ref="WebFileAppender"></appender_ref>
       <appender_ref ref="ControlPanelFileAppender"></appender_ref>
    </logger>
    
@@ -141,18 +149,28 @@
    
    
    <!--  Loggers for the control panel  -->
-   <logger name="controlpanel.php">
+   <logger name="ControlPanelNews">
       <level value="TRACE"></level>
       <appender_ref ref="ControlPanelFileAppender"></appender_ref>
    </logger>
+   
+   <logger name="controlpanel.php">
+      <level value="DEBUG"></level>
+      <appender_ref ref="ControlPanelFileAppender"></appender_ref>
+   </logger>
    <logger name="ControlpanelFunctions.php">
-      <level value="TRACE"></level>
+      <level value="DEBUG"></level>
       <appender_ref ref="ControlPanelFileAppender"></appender_ref>
    </logger>
    <logger name="RequestFromWeb.php">
       <level value="TRACE"></level>
       <appender_ref ref="DatabaseFileAppender"></appender_ref>
       <appender_ref ref="ControlPanelFileAppender"></appender_ref>
+   </logger>
+   
+   <logger name="TableMapping">
+      <level value="WARN"/>
+      <appender_ref ref = "DatabaseFileAppender"></appender_ref>
    </logger>
    <!-- 
    <logger name="DatabaseDef">
