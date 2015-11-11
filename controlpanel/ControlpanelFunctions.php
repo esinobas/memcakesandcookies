@@ -52,8 +52,58 @@ class ControlpanelFunctions{
 ?>
       <script type="text/javascript">
          JSLogger.getInstance().trace("Declare function updateImageCallback");
-         var updateImageCallback = function(){
+         var updateImageCallback = function(theValues){
             JSLogger.getInstance().traceEnter();
+            JSLogger.getInstance().trace("theValues [ " + theValues + " ]");
+            var jsonValues = JSON.parse(theValues);
+            JSLogger.getInstance().debug("Update image description [ " +
+                  jsonValues['Image'] +" ] with id [ " + jsonValues['imageId'] +" ]");
+            var ajaxObject = new Ajax();
+            ajaxObject.setSyn();
+            ajaxObject.setPostMethod();
+            
+            JSLogger.getInstance().debug("Url whete the data will be send [ " + imagesPaths[URL_C] 
+                +"php/Database/RequestFromWeb.php ]");
+            ajaxObject.setUrl(imagesPaths[URL_C]+"php/Database/RequestFromWeb.php");
+            var requestParams = {};
+            requestParams.<?php print(COMMAND);?> = <?php print("\"".COMMAND_UPDATE."\"");?>;
+            requestParams.<?php print(PARAMS);?> = {};
+            requestParams.<?php print(PARAMS);?>.<?php print(PARAM_TABLE);?> = "<?php print(TB_TypeCollectionImage::TB_TypeCollectionImageTableC);?>";
+            requestParams.<?php print(PARAMS);?>.<?php print(PARAM_ROWS);?> = {};
+            requestParams.<?php print(PARAMS);?>.<?php print(PARAM_ROWS);?>.<?php print(PARAM_ROW);?> = {};
+            requestParams.<?php print(PARAMS);?>.<?php print(PARAM_ROWS);?>.<?php print(PARAM_ROW);?>.<?php print(PARAM_KEY);?> = jsonValues['imageId'];
+            requestParams.<?php print(PARAMS);?>.<?php print(PARAM_ROWS);?>.<?php print(PARAM_ROW);?>.<?php print(TB_TypeCollectionImage::ImageDescriptionColumnC);?> = jsonValues['Image'];
+                  
+            JSLogger.getInstance().debug("Command parameters [ " + JSON.stringify(requestParams) +" ]");
+
+            ajaxObject.setParameters(JSON.stringify(requestParams));
+            ajaxObject.send();
+            JSLogger.getInstance().trace("Response [ " + ajaxObject.getResponse() + " ]");
+
+            if (ajaxObject.getResponse().indexOf("404 Not Found") != -1){
+               JSLogger.getInstance().error("The script [ " +imagesPaths[URL_C] +
+                  "/php/Database/RequestFromWeb.php ] has been found");
+               MessageBox("Error", 
+                  "La imagen no ha sido modificada. No se ha accedido al servidor",
+                  {Icon: MessageBox.IconsE.ERROR});
+            }else{
+               var objResponse = JSON.parse(ajaxObject.getResponse());
+               if (parseInt(objResponse['ResultCode']) != 200){
+                     MessageBox("Error", 
+                        "La imagen no se ha modificado. Error [ " +
+                        objResponse['ErrorMsg'] + " ]",
+                        {Icon: MessageBox.IconsE.ERROR});
+                     JSLogger.getInstance().error("The image has not been update. [ " +
+                         objResponse['ErrorMsg'] + " ]");
+               }else{
+                  
+                  JSLogger.getInstance().trace("The image has been updated");
+                  
+                  $('#image_'+ jsonValues['imageId']+ ' img').attr('title',
+                        jsonValues['Image']);
+               }
+            }
+            
             JSLogger.getInstance().traceExit();
          }
       </script>
@@ -1497,7 +1547,7 @@ class ControlpanelFunctions{
                $('#UpdateImg_<?php print($theTypeCollectionImageTable->getTypeCollectionImageId());?>').click(function(){
                   updateImage(<?php print($theTypeCollectionImageTable->getTypeCollectionImageId());?>,
                               "<?php print(self::$tbConfigurationM->getValue().$theTypeCollectionImageTable->getImagePath());?>",
-                              "<?php print($theTypeCollectionImageTable->getImageDescription());?>");
+                              $('#image_<?php print($theTypeCollectionImageTable->getTypeCollectionImageId());?> img').attr('title'));
                });
                /** Delete button **/
                $('#RemoveImg_<?php print($theTypeCollectionImageTable->getTypeCollectionImageId());?>').click(function(){

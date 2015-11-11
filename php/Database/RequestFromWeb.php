@@ -30,7 +30,7 @@
 
    define(COMMAND, "command");
    define(PARAMS, "paramsCommand");
-   define(PARAM_TABL, "Table");
+   define(PARAM_TABLE, "Table");
    define(PARAM_ROWS, "rows");
    define(PARAM_ROW, "row");
    define(PARAM_DATA, "data");
