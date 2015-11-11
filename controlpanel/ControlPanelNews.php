@@ -30,19 +30,75 @@ class ControlPanelNews{
       return self::$loggerM;
    }
    
-   static private function writeNewNewsButtonClickEvent(){
+   /**
+    * Writes the javascript function apply the tinymce to the news title and 
+    * news text
+    */
+   static private function writeJSFunctionApplyTinyMce(){
+      self::getLogger()->trace("Enter");
+?>
+   <script type="text/javascript">
+      /**
+       * Add the Tinymce to the title and the html step
+       *
+       * @param theTitleSelector: The title selector
+       * @param theTextSelector: The text selector
+       */
+      function applyTinymce (theTitleSelector, theTextSelector){
+         JSLogger.getInstance().traceEnter();
+         tinymce.init({
+            selector: theTitleSelector,
+            theme: "modern",
+            inline: true,
+            statusbar: false,
+            //add_unload_trigger: false,
+            schema: "html5",
+            language: "es",
+            //plugins: "textcolor",
+            menubar: false,
+            toolbar: false
+            //toolbar: "bold italic underline | fontselect fontsizeselect | forecolor backcolor | alignleft aligncenter alignright alignjustify "
+         });
+         tinymce.init({
+            selector: theTextSelector,
+            theme: "modern",
+            inline: true,
+            statusbar: false,
+            add_unload_trigger: false,
+            schema: "html5",
+            language: "es",
+            plugins: "textcolor advlist image link lists",
+            menubar: false,
+            //toolbar1: "formatselect | undo redo | bold italic underline | fontselect fontsizeselect | forecolor backcolor",
+            toolbar1: "undo redo | bold italic underline | fontsizeselect | forecolor backcolor",
+            toolbar2: "alignleft aligncenter alignright alignjustify | outdent indent | bullist numlist | cut copy paste | image link"
+         });
+         JSLogger.getInstance().traceExit();
+      }
+   </script>
+<?php 
+      self::getLogger()->trace("Exit");
+   }
+   
+   /**
+    * Writes the javascript function to add a click event to the new news button
+    */
+   static private function writeJSFunctionNewNewsButtonClickEvent(){
       self::getLogger()->trace("Enter");
 ?>
       <script type="text/javascript">
          /** 
           * Function that add in the window the controls to create a new news
           */
-         var addNewNewsControl = function(){
+         function addNewNewsControl(){
             JSLogger.getInstance().traceEnter();
-            $('#Container-News').empty();
-            $('#Container-News').append('<div class="News-Title">Pulsa para escribir el titulo</div>');
-            $('#Container-News').append('<div class="News-New">Pulsa para escribir</div>');
-            JSLogger.getInstance().traceExit()
+            //Ocultar el resto de los container news
+            var newContainerNews = $('<div class="News" id="New-News"></div>');
+            newContainerNews.append('<div class="News-Title" id="New-Title">Pulsa para escribir el titulo</div>');
+            newContainerNews.append('<div class="News-Text" id="New-Text">Pulsa para escribir</div>');
+            $('#Container-News').append(newContainerNews);
+            applyTinymce('#New-Title', '#New-Text');
+            JSLogger.getInstance().traceExit();
          }
 
          $('#New-News').click(addNewNewsControl);
@@ -75,12 +131,12 @@ class ControlPanelNews{
          
          </div>
       </div>
-      
       <div id="Container-News">
       </div>
       
 <?php 
-      self::writeNewNewsButtonClickEvent();
+      self::writeJSFunctionApplyTinyMce();
+      self::writeJSFunctionNewNewsButtonClickEvent();
       self::getLogger()->trace("Exit");
    }
 }

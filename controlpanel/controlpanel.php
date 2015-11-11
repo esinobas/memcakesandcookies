@@ -27,8 +27,7 @@
       <script type="text/javascript" src="../plugins/DataEntry/DataEntryWindow.js"></script>
       <script type="text/javascript" src="../plugins/DataEntry/DataEntryFunctions.js"></script>
       <script type="text/javascript" src="../plugins/ListBox/ListBoxInit.js"></script>
-      
-      
+      <script type="text/javascript" src="../plugins/TinyMCE/js/tinymce/tinymce.min.js"></script>
       
       <link rel="stylesheet" type="text/css" href="../plugins/VerticalTabs/style.css">
       <link rel="stylesheet" type="text/css" href="../plugins/DataGrid/DataGrid.css">
