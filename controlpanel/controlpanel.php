@@ -154,7 +154,6 @@
                   }
                ?>
                <div class="Vertical-Tab" id="Tab-News">
-                  News
                   <?php ControlPanelNews::showControlPanelNews();?>
                </div>
                <div class="Vertical-Tab" id="Tab-Subcription">

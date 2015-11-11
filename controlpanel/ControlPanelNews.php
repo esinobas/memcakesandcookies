@@ -37,6 +37,20 @@ class ControlPanelNews{
     */
    static public function showControlPanelNews(){
       self::getLogger()->trace("Enter");
+?>
+      <div id="News-Toolbar">
+         <div id="New-News" class="Round-Corners-Button">
+            Nueva
+         </div>
+         <div id="Delete-News" class="Round-Corners-Button">
+            Eliminar
+         </div>
+         <div id="Save-News" class="Round-Corners-Button">
+            Guardar
+         </div>
+         
+      </div>
+<?php 
       self::getLogger()->trace("Exit");
    }
 }
