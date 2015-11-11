@@ -71,6 +71,7 @@
       $this->tableMappingM->addKey(self::phisicalTB_TYPESC,
             self::phisicalTB_TYPESIDColumnC );
       
+      
       $this->loggerM->trace("Exit");
 	}
       

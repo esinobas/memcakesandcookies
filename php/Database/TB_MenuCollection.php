@@ -96,6 +96,7 @@
 
       $this->tableMappingM->addCondition("TB_MENU.ID = TB_COLLECTION.Id_Menu");
       
+      
       $this->loggerM->trace("Exit");
 	}
       

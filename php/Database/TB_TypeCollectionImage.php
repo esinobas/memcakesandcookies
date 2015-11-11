@@ -151,6 +151,8 @@
 
       $this->tableMappingM->addCondition("TB_COLLECTION.Id = TB_IMAGES_COLLECTION.CollectionId");
       
+     $this->tableMappingM->addOrderBy(array("column"=>"TB_IMAGES_COLLECTION.Id", "type"=>"DESC"));
+      
       $this->loggerM->trace("Exit");
 	}
       

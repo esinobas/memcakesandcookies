@@ -98,6 +98,7 @@
       $this->tableMappingM->addKey(self::phisicalTB_CONFIGURATIONC,
             self::phisicalTB_CONFIGURATIONPropertyColumnC );
       
+      
       $this->loggerM->trace("Exit");
 	}
       

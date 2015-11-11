@@ -79,6 +79,7 @@
 		$this->tableDefinitionM->addColumn(new ColumnDef(
                               self::ImageNameColumnC,ColumnType::stringC));
 		$this->tableDefinitionM->addKey(self::ImageIdColumnC);
+		$this->tableDefinitionM->addKey(self::CollectionIdColumnC);
    
       $this->tableMappingM = new TableMapping();
       
@@ -129,6 +130,7 @@
       $this->tableMappingM->addCondition("TB_COLLECTION.Id = TB_COLLECTION_IMAGES.Id_Collection");
 
       $this->tableMappingM->addCondition("TB_IMAGES.Id = TB_COLLECTION_IMAGES.Id_Image");
+      
       
       $this->loggerM->trace("Exit");
 	}

@@ -772,6 +772,10 @@
                <condition>TB_TYPES.Id = TB_IMAGES_COLLECTION.TypeId</condition>
                <condition>TB_COLLECTION.Id = TB_IMAGES_COLLECTION.CollectionId</condition>
             </conditions>
+            <orderBy>
+               <column>TB_IMAGES_COLLECTION.Id</column>
+               <type>DESC</type>
+            </orderBy>
       </phisical_tables>
    </table_definition>
 </Database>

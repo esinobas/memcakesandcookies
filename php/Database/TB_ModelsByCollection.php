@@ -123,6 +123,7 @@
 
       $this->tableMappingM->addCondition("TB_IMAGES.Type = 3");
       
+      
       $this->loggerM->trace("Exit");
 	}
       
