@@ -778,4 +778,54 @@
             </orderBy>
       </phisical_tables>
    </table_definition>
+   
+   <table_definition>
+      <name>TB_News</name>
+      <columns>
+         <column>
+            <name>DateTime</name>
+            <type>timestamp</type>
+         </column>
+         <column>
+            <name>Title</name>
+            <type>string</type>
+         </column>
+         <column>
+            <name>New</name>
+            <type>string</type>
+         </column>
+      </columns>
+      <key>
+         <column>DateTime</column>
+      </key>
+      <phisical_tables>
+         <table>
+            <name>TB_News</name>
+            <columns>
+               <column>
+                  <name>DateTime</name>
+                  <logical>DateTime</logical>
+                  <type>timestamp</type>
+               </column>
+               <column>
+                  <name>Title</name>
+                  <logical>Title</logical>
+                  <type>string</type>
+               </column>
+               <column>
+                  <name>New</name>
+                  <logical>New</logical>
+                  <type>string</type>
+               </column>
+            </columns>
+            <key>
+               DateTime
+            </key>
+         </table>
+         <orderBy>
+            <column>DateTime</column>
+            <type>DESC</type>
+         </orderBy>
+      </phisical_tables>
+   </table_definition>
 </Database>
