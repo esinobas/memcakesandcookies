@@ -115,6 +115,7 @@
                            }
                         }
                      ?>
+                     <li><a href="#Tab-News">News</a></li>
                      <li><a href="#Tab-Subcription">Subcripciones</a></li>
                   </ul>
                </div>
@@ -151,6 +152,9 @@
                      }
                   }
                ?>
+               <div class="Vertical-Tab" id="Tab-News">
+                  News
+               </div>
                <div class="Vertical-Tab" id="Tab-Subcription">
                   Subscriptores
                </div>
