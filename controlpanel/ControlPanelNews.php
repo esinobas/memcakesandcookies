@@ -48,7 +48,15 @@ class ControlPanelNews{
          <div id="Save-News" class="Round-Corners-Button">
             Guardar
          </div>
+         </div>
+      
+      <div id="Container-Listbox-News">
+         <div id="Listbox-News" class="Listbox">
          
+         </div>
+      </div>
+      
+      <div id="Container-News">
       </div>
 <?php 
       self::getLogger()->trace("Exit");
