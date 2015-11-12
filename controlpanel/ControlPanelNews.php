@@ -247,6 +247,16 @@ class ControlPanelNews{
       </div>
       
 <?php 
+      self::getLogger()->trace("Open the TB_News and add the news in the controls");
+      $tbNews = new TB_News();
+      $tbNews->open();
+      while ($tbNews->next()){
+?>
+         <script type="text/javascript">
+            $('#Listbox-News').append('<div id="Listbox-News-<?php print($tbNews->getId());?>" class="ListboxItem"><?php print($tbNews->getTitle());?></div>');
+         </script>
+<?php 
+      }
       self::writeJSFunctionApplyTinyMce();
       self::writeJSFunctionNewNewsButtonClickEvent();
       self::writeJSFunctionAddClickEventSaveButton();
