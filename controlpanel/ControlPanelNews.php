@@ -113,7 +113,13 @@ class ControlPanelNews{
                   }else{
                      
                      JSLogger.getInstance().trace("The news has been updated");
-                     //Ahora toca añadir en el listbox y actualizar su di
+                     if(isNew){
+                        var id = objResponse['lastID'];
+                        $('#Listbox-News').prepend('<div id="ListboxItem-News-'+
+                              id+'" class="ListboxItem ListboxItemSelected">'+title+'</div>');
+                        $('#New-News').attr('id', 'News-'+id);
+                     }
+                     //Ahora toca añadir en el listbox y actualizar su id
                      //Si es una insercion, se añade al principio, si es una a
                      //actualizacion, borrar de listbox y añadir al principio
                   }
