@@ -203,13 +203,13 @@ class ControlPanelNews{
           */
          function addNewNewsControl(){
             JSLogger.getInstance().traceEnter();
-            //Ocultar el resto de los container news
             $('.News').addClass('News-Hidden');
             var newContainerNews = $('<div class="News" id="New-News"></div>');
             newContainerNews.append('<div class="News-Title">Pulsa para escribir el titulo</div>');
             newContainerNews.append('<div class="News-Text">Pulsa para escribir</div>');
             $('#Container-News').append(newContainerNews);
             applyTinymce('#New-News .News-Title', '#New-News .News-Text');
+            $('#Listbox-News .ListboxItem').removeClass('ListBoxItemSelected');
             JSLogger.getInstance().traceExit();
          }
 
