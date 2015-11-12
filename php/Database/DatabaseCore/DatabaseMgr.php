@@ -3,7 +3,9 @@
     * Class with static methods that allows manipulate the database data
     */
 
-   set_include_path( get_include_path() . PATH_SEPARATOR . dirname(__FILE__));
+   if ( ! strpos(get_include_path(), dirname(__FILE__))){ 
+      set_include_path( get_include_path() . PATH_SEPARATOR . dirname(__FILE__));
+   }
    
    include_once 'DatabaseType/MySqlDatabase.php';
    include_once 'LoggerMgr/LoggerMgr.php';
@@ -23,6 +25,8 @@
       
       static private $databaseM = null;
       
+      static private $dataBaseErrorM = "";
+      
       /**
        * Create a database object with the parameters saved in the config file
        * @return MySqlDatabase
@@ -40,8 +44,10 @@
             if (self::$databaseM->connect($theAutoCommit)){
                $logger->debug("The connection with the database was established successfull");
             }else{
-               $error = self::$databaseM->getConnectError();
-               $logger->error("An error has been produced in connect with database. Error [ $error ]");
+               self::$dataBaseErrorM = self::$databaseM->getConnectError();
+               $logger->error("An error has been produced in connect with database. Error [ ".
+                                self::$dataBaseErrorM . "] ");
+               
                self::$databaseM = null;
             }
             
@@ -84,10 +90,10 @@
             for ($x = 0; $x < count($columns); $x++){
                $logger->trace("Column Name [ $x ] -> [ " . $columnsKey[$x] . " ]");
                if ($isFirstColum){
-                  $sqlColumns .= $tablesName[$i].".".$columnsKey[$x];
+                  $sqlColumns .= $tablesName[$i].".".$columnsKey[$x]." as ".$tablesName[$i]."_".$columnsKey[$x];
                   $isFirstColum = false;
                }else{
-                  $sqlColumns .= ", ".$tablesName[$i].".".$columnsKey[$x];
+                  $sqlColumns .= ", ".$tablesName[$i].".".$columnsKey[$x]." as ".$tablesName[$i]."_".$columnsKey[$x];
                }
             }
          }
@@ -107,7 +113,7 @@
             }
          }
          $logger->trace("Get clausule order by from the table mapping. There is " .
-               (count($theTableMapping->getOrderBy()) == 0 ? "not":"") . 
+               (count($theTableMapping->getOrderBy()) == 0 ? "not":"") .
                " clausule order by");
          if (count($theTableMapping->getOrderBy()) > 0){
             $sqlSelect .= " order by " . $theTableMapping->getOrderBy()[self::ORDER_BY_COLUMN_C];
@@ -151,12 +157,12 @@
                   $keys = array_keys($theTableMapping->getColumns($tableNames[$i]));
                   $logger->trace("Get columns from table [ " . $tableNames[$i] ." ]");
                   for ($idxKeys = 0; $idxKeys < count($keys); $idxKeys++){
-                     $logger->trace("Get value for row [ $idx ] key [ $keys[$idxKeys] ]".
-                           " -> [ " . $resultQuery[$idx][$keys[$idxKeys]]. " ]");
+                     $logger->trace("Get value for row [ $idx ] key [ $tableNames[$i]_$keys[$idxKeys] ]".
+                           " -> [ " . $resultQuery[$idx][$tableNames[$i].'_'.$keys[$idxKeys]]. " ]");
                   
                   
                      $theReturnData[$idx][$theTableMapping->getColumns($tableNames[$i])[$keys[$idxKeys]]] =
-                                     $resultQuery[$idx][$keys[$idxKeys]];
+                                     $resultQuery[$idx][$tableNames[$i].'_'.$keys[$idxKeys]];
                   }
                 }
              $theReturnData[$idx][self::modifiedRowC] = false;
@@ -267,6 +273,7 @@
                              $database->getSqlError() . " ]");
                   $error = true;
                   $result = false;
+                  self::$dataBaseErrorM = $database->getSqlError();
                }
             }
             if (! $error ){
@@ -320,23 +327,45 @@
          
          $logger = LoggerMgr::Instance()->getLogger(__CLASS__);
          $logger->trace("Enter");
+         $result = true;
          $database = self::getDatabase();
          if ( $database->connect(false)){
             $error = false;
-            //Go to the last table in the array. It is the last table in the 
-            //database configuration xml file.
-            //In a relationship, always are removed the last rows of the it.
-            $table = end($theTableMapping->getTables());
-               
-               $sqlDelete = self::createSqlDelete(
-                                                  $table,
-                                                  $theRow);
-            //Todavia no esta hecho el borrado, falta implementar.
-            //Cuando este terminado el insert, borramos
+            foreach($theTableMapping->getTables() as $table){
+               if ($table->getKey() != null){
+                  $logger->trace("The table [ " .$table->getName().
+                        " ] has key.");
+                  $sqlDelete = self::createSqlDelete(
+                        $table,
+                        $theRow);
+                  $logger->debug("Execute command [ $sqlDelete ]");
+                  if ($database->sqlCommand($sqlDelete) == 0){
+                     $logger->trace("The operation was executed successfully");
+                  }else{
+                     $logger->error("The command [ $sqlInsert] fails. Error [ " .
+                           $database->getSqlError() ." ]");
+                     $result = false;
+                     self::$dataBaseErrorM = $database->getSqlError();
+                     break;
+                  }
+                  
+               }else{
+                  $logger->trace("The table [ " .$table->getName(). 
+                        " ] has not key. Skip the table");
+               }
+            }
+            if ($result){
+               $database->commit();
+            }else{
+               $database->rollback();
+            }   
             
-            $database->closeConnection();
+         }else{
+            $logger->warn("The row has not could be deleted");
+            $result = false;
          }
-         $logger->trace("Exit");
+         $logger->trace("Exit ");
+         return $result;
       }
       
       static protected function createSqlInsert(PhisicalTableDef $theTableDef,
@@ -418,9 +447,10 @@
                         $theReturnData[$idx][$key] = $theNewData[$key];
                      }
                   }else{
-                     $logger->error("The command [ $sqlInsert] fails. Error [" .
+                     $logger->error("The command [ $sqlInsert] fails. Error [ " .
                            $database->getSqlError() ." ]");
                      $result = false;
+                     self::$dataBaseErrorM = $database->getSqlError();
                      break;
                   }
                }else{
@@ -471,6 +501,7 @@
          $strError = "";
          if (self::$databaseM != null){
             $strError = self::$databaseM->getSqlError();
+            $strError = self::$dataBaseErrorM;
          }
          $logger->debug("Error returned [ $strError ]");
          $logger->trace("Exit");

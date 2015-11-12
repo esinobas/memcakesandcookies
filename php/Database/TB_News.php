@@ -29,6 +29,7 @@
      /*
       * Contants table columns
       */
+     const IdColumnC = "Id";
      const DateTimeColumnC = "DateTime";
      const TitleColumnC = "Title";
      const NewColumnC = "New";
@@ -37,6 +38,7 @@
 
    
       const phisicalTB_NewsC = "TB_News";
+      const phisicalTB_NewsIdColumnC = "Id";
       const phisicalTB_NewsDateTimeColumnC = "DateTime";
       const phisicalTB_NewsTitleColumnC = "Title";
       const phisicalTB_NewsNewColumnC = "New";
@@ -51,16 +53,23 @@
         parent::__construct();
 		$this->tableDefinitionM = new TableDef(self::TB_NewsTableC);
 		$this->tableDefinitionM->addColumn(new ColumnDef(
+                              self::IdColumnC,ColumnType::integerC));
+		$this->tableDefinitionM->addColumn(new ColumnDef(
                               self::DateTimeColumnC,ColumnType::timestampC));
 		$this->tableDefinitionM->addColumn(new ColumnDef(
                               self::TitleColumnC,ColumnType::stringC));
 		$this->tableDefinitionM->addColumn(new ColumnDef(
                               self::NewColumnC,ColumnType::stringC));
-		$this->tableDefinitionM->addKey(self::DateTimeColumnC);
+		$this->tableDefinitionM->addKey(self::IdColumnC);
    
       $this->tableMappingM = new TableMapping();
       
       $this->tableMappingM->addTable(self::phisicalTB_NewsC);
+      $this->tableMappingM->addColumn(
+            self::phisicalTB_NewsC ,
+            self::phisicalTB_NewsIdColumnC ,
+            self::IdColumnC,
+            ColumnType::integerC);
       $this->tableMappingM->addColumn(
             self::phisicalTB_NewsC ,
             self::phisicalTB_NewsDateTimeColumnC ,
@@ -78,18 +87,20 @@
             ColumnType::stringC);
       
       $this->tableMappingM->addKey(self::phisicalTB_NewsC,
-            self::phisicalTB_NewsDateTimeColumnC );
+            self::phisicalTB_NewsIdColumnC );
       
       $this->tableMappingM->addOrderBy(array("column"=>"DateTime", "type"=>"DESC"));
       
       $this->loggerM->trace("Exit");
 	}
       
-      public function insert( $theTitle
+      public function insert( $theDateTime
+                              ,$theTitle
                               ,$theNew
                                 ){
          $this->loggerM->trace("Enter");
          $arrayData = array();
+         $arrayData[self::DateTimeColumnC] = $theDateTime;
          $arrayData[self::TitleColumnC] = $theTitle;
          $arrayData[self::NewColumnC] = $theNew;
          $this->loggerM->trace("Exit");
@@ -97,11 +108,21 @@
          return parent::insertData($arrayData);
       }
       
+      public function getId(){
+         $this->loggerM->trace("Enter/Exit");
+         return $this->get(self::IdColumnC);
+      }
+      
       public function getDateTime(){
          $this->loggerM->trace("Enter/Exit");
          return $this->get(self::DateTimeColumnC);
       }
       
+      public function setDateTime($DateTime){
+         $this->loggerM->trace("Enter");
+         $this->set(self::DateTimeColumnC, $DateTime);
+         $this->loggerM->trace("Exit");
+      }
       public function getTitle(){
          $this->loggerM->trace("Enter/Exit");
          return $this->get(self::TitleColumnC);

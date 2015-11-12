@@ -395,6 +395,12 @@
             }
 
             if (strcmp($theTable->getTableName(),TB_News::TB_NewsTableC) == 0){
+               if (isset($row[TB_News::DateTimeColumnC])){
+                  $logger->trace("Set value to column [ ".
+                             TB_News::DateTimeColumnC ." ] -> [ ".
+                             $row[TB_News::DateTimeColumnC] ." ]");
+                  $theTable->setDateTime($row[TB_News::DateTimeColumnC ]);
+                }
                if (isset($row[TB_News::TitleColumnC])){
                   $logger->trace("Set value to column [ ".
                              TB_News::TitleColumnC ." ] -> [ ".
@@ -593,10 +599,12 @@
       if (strcmp($theTable->getTableName(),TB_News::TB_NewsTableC) == 0){
 
          //Declare variables
+         $varDateTime = $theData["DateTime"];
          $varTitle = $theData["Title"];
          $varNew = $theData["New"];
 
-         $newId = $theTable->insert($varTitle
+         $newId = $theTable->insert($varDateTime
+                                ,$varTitle
                                 ,$varNew
                                 );
       }
@@ -711,7 +719,7 @@
 
       if (strcmp($theTable->getTableName(),TB_News::TB_NewsTableC) == 0){
          $composedKey = array();
-         $composedKey["DateTime"] = json_encode($jsonKey);
+         $composedKey["Id"] = json_encode($jsonKey);
          $logger->trace("Order table [ ".$theTable->getTableName().
                   " ] with key [ " . json_encode($composedKey). " ]");
           $theTable->searchByKey($composedKey);

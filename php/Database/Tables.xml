@@ -782,6 +782,10 @@
    <table_definition>
       <name>TB_News</name>
       <columns>
+         <column> 
+            <name>Id</name>
+            <type>integer</type>
+         </column>
          <column>
             <name>DateTime</name>
             <type>timestamp</type>
@@ -796,12 +800,17 @@
          </column>
       </columns>
       <key>
-         <column>DateTime</column>
+         <column>Id</column>
       </key>
       <phisical_tables>
          <table>
             <name>TB_News</name>
             <columns>
+               <column>
+                  <name>Id</name>
+                  <logical>Id</logical>
+                  <type>integer</type>
+               </column>
                <column>
                   <name>DateTime</name>
                   <logical>DateTime</logical>
@@ -818,7 +827,7 @@
                   <type>string</type>
                </column>
             </columns>
-            <key>DateTime</key>
+            <key>Id</key>
          </table>
          <orderBy>
             <column>DateTime</column>
