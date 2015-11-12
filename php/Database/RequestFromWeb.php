@@ -20,6 +20,7 @@
    include_once 'Database/TB_MenuCollection.php';
    include_once 'Database/TB_ImagesAndCollection.php';
    include_once 'Database/TB_TypeCollectionImage.php';
+   include_once 'Database/TB_News.php';
 
    /*** Definition of the global variables and constants ***/
    /**
@@ -95,6 +96,10 @@
 
       if (strcmp($theTableName, TB_TypeCollectionImage::TB_TypeCollectionImageTableC) == 0){
          $returnedTable = new TB_TypeCollectionImage();
+      }
+
+      if (strcmp($theTableName, TB_News::TB_NewsTableC) == 0){
+         $returnedTable = new TB_News();
       }
       $logger->trace("Exit");
       return  $returnedTable;
@@ -389,6 +394,21 @@
                 }
             }
 
+            if (strcmp($theTable->getTableName(),TB_News::TB_NewsTableC) == 0){
+               if (isset($row[TB_News::TitleColumnC])){
+                  $logger->trace("Set value to column [ ".
+                             TB_News::TitleColumnC ." ] -> [ ".
+                             $row[TB_News::TitleColumnC] ." ]");
+                  $theTable->setTitle($row[TB_News::TitleColumnC ]);
+                }
+               if (isset($row[TB_News::NewColumnC])){
+                  $logger->trace("Set value to column [ ".
+                             TB_News::NewColumnC ." ] -> [ ".
+                             $row[TB_News::NewColumnC] ." ]");
+                  $theTable->setNew($row[TB_News::NewColumnC ]);
+                }
+            }
+
             }else{
                $theResult[RESULT_CODE] = RESULT_CODE_INTERNAL_ERROR;
                $theResult[MSG_ERROR] = "The Key has not been found.";
@@ -570,6 +590,17 @@
                                 );
       }
 
+      if (strcmp($theTable->getTableName(),TB_News::TB_NewsTableC) == 0){
+
+         //Declare variables
+         $varTitle = $theData["Title"];
+         $varNew = $theData["New"];
+
+         $newId = $theTable->insert($varTitle
+                                ,$varNew
+                                );
+      }
+
       if( $newId != -1){
            $logger->trace("The insertion was exectuted successfully. ".
                            "The new Id is [ $newId ]");
@@ -673,6 +704,14 @@
       if (strcmp($theTable->getTableName(),TB_TypeCollectionImage::TB_TypeCollectionImageTableC) == 0){
          $composedKey = array();
          $composedKey["TypeCollectionImageId"] = json_encode($jsonKey);
+         $logger->trace("Order table [ ".$theTable->getTableName().
+                  " ] with key [ " . json_encode($composedKey). " ]");
+          $theTable->searchByKey($composedKey);
+      }
+
+      if (strcmp($theTable->getTableName(),TB_News::TB_NewsTableC) == 0){
+         $composedKey = array();
+         $composedKey["DateTime"] = json_encode($jsonKey);
          $logger->trace("Order table [ ".$theTable->getTableName().
                   " ] with key [ " . json_encode($composedKey). " ]");
           $theTable->searchByKey($composedKey);

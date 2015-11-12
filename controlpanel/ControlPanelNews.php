@@ -31,6 +31,117 @@ class ControlPanelNews{
    }
    
    /**
+    * Writes the javascript function to write (insert or update) the news in 
+    * the database, sending the data throught a server
+    */
+   static private function writeJSFuncionSendNewsToServer(){
+      self::getLogger()->trace("Enter");
+?>
+      <script type="text/javascript">
+         /**
+          * Sends the news data to the server for write the news in the database
+          */
+         function sendNewsToServer(){
+               JSLogger.getInstance().traceEnter();
+               var newsId = $('.News:visible').attr('id');
+               var isNew = (newsId.localeCompare('New-News') == 0);
+               JSLogger.getInstance().trace("The news is" +
+                     (isNew == false ? " not":"") +" new.");
+
+               if (isNew){
+                  JSLogger.getInstance().trace("Add new news");
+               }else{
+                  JSLogger.getInstance().trace("Update news with id [ " + 
+                           newsId +" ]");
+               }
+               var title = $('.News:visible .News-Title').html();
+               var text = $('.News:visible .News-Text').html();
+               JSLogger.getInstance().trace("News Title [ " +
+                     title +" ] with text [ " + text + " ]");
+               var ajaxObject = new Ajax();
+               ajaxObject.setSyn();
+               ajaxObject.setPostMethod();
+               
+               JSLogger.getInstance().debug("Url whete the data will be send [ " + imagesPaths[URL_C] 
+                   +"php/Database/RequestFromWeb.php ]");
+               ajaxObject.setUrl(imagesPaths[URL_C]+"php/Database/RequestFromWeb.php");
+               var requestParams = {};
+               if (isNew){
+                  requestParams.<?php print(COMMAND);?> = <?php print("\"".COMMAND_INSERT."\"");?>;
+               }else{
+                  requestParams.<?php print(COMMAND);?> = "<?php print(COMMAND_UPDATE);?>";
+               }
+               requestParams.<?php print(PARAMS);?> = {};
+               requestParams.<?php print(PARAMS);?>.<?php print(PARAM_TABLE);?> = 
+                              "<?php print(TB_News::TB_NewsTableC);?>";
+
+               if (isNew){
+                  requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?> = {};
+                  requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(TB_News::TitleColumnC);?> = title; 
+                  requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(TB_News::NewColumnC);?> = text;
+               }else{
+                  requestParams.<?php print(PARAMS);?>.<?php print(PARAM_ROWS);?> = {};
+                  requestParams.<?php print(PARAMS);?>.<?php print(PARAM_ROWS);?>.<?php print(PARAM_ROW)?> = {};
+                  requestParams.<?php print(PARAMS);?>.<?php print(PARAM_ROWS);?>.<?php print(PARAM_ROW)?>.<?php print(TB_News::TitleColumnC);?> = title;
+                  requestParams.<?php print(PARAMS);?>.<?php print(PARAM_ROWS);?>.<?php print(PARAM_ROW)?>.<?php print(TB_News::NewColumnC);?> = text;
+               }
+
+               JSLogger.getInstance().debug("Command parameters [ " + JSON.stringify(requestParams) +" ]");
+
+               ajaxObject.setParameters(JSON.stringify(requestParams));
+
+               ajaxObject.send();
+               JSLogger.getInstance().trace("Response [ " + ajaxObject.getResponse() + " ]");
+
+               if (ajaxObject.getResponse().indexOf("404 Not Found") != -1){
+                  JSLogger.getInstance().error("The script [ " +imagesPaths[URL_C] +
+                     "/php/Database/RequestFromWeb.php ] has been found");
+                  MessageBox("Error", 
+                      (isNew ? "No se ha podido crear. ":
+                         "No se ha podido modificar. ")+"No se ha accedido al servidor",
+                     {Icon: MessageBox.IconsE.ERROR});
+               }else{
+                  var objResponse = JSON.parse(ajaxObject.getResponse());
+                  if (parseInt(objResponse['ResultCode']) != 200){
+                        MessageBox("Error", 
+                              (isNew ? "No se ha podido crear. ":
+                              "No se ha podido modificar. ")+" Error [ " +
+                           objResponse['ErrorMsg'] + " ]",
+                           {Icon: MessageBox.IconsE.ERROR});
+                        JSLogger.getInstance().error("The news has not been updated. [ " +
+                            objResponse['ErrorMsg'] + " ]");
+                  }else{
+                     
+                     JSLogger.getInstance().trace("The news has been updated");
+                     //Ahora toca añadir en el listbox y actualizar su di
+                     //Si es una insercion, se añade al principio, si es una a
+                     //actualizacion, borrar de listbox y añadir al principio
+                  }
+               }
+                              
+               JSLogger.getInstance().traceExit();
+         }
+      </script>
+<?php 
+      self::getLogger()->trace("Exit");
+   }
+   
+   /**
+    * Writes the Javascript fuction to add click event to the save button
+    */
+   static private function writeJSFunctionAddClickEventSaveButton(){
+      self::getLogger()->trace("Enter");
+      self::writeJSFuncionSendNewsToServer();
+      
+?>
+      <script type="text/javascript">
+         $('#Save-News').click(sendNewsToServer);
+      </script>
+<?php 
+      self::getLogger()->trace("Exit");
+   }
+   
+   /**
     * Writes the javascript function apply the tinymce to the news title and 
     * news text
     */
@@ -93,11 +204,12 @@ class ControlPanelNews{
          function addNewNewsControl(){
             JSLogger.getInstance().traceEnter();
             //Ocultar el resto de los container news
+            $('.News').addClass('News-Hidden');
             var newContainerNews = $('<div class="News" id="New-News"></div>');
-            newContainerNews.append('<div class="News-Title" id="New-Title">Pulsa para escribir el titulo</div>');
-            newContainerNews.append('<div class="News-Text" id="New-Text">Pulsa para escribir</div>');
+            newContainerNews.append('<div class="News-Title">Pulsa para escribir el titulo</div>');
+            newContainerNews.append('<div class="News-Text">Pulsa para escribir</div>');
             $('#Container-News').append(newContainerNews);
-            applyTinymce('#New-Title', '#New-Text');
+            applyTinymce('#New-News .News-Title', '#New-News .News-Text');
             JSLogger.getInstance().traceExit();
          }
 
@@ -137,6 +249,7 @@ class ControlPanelNews{
 <?php 
       self::writeJSFunctionApplyTinyMce();
       self::writeJSFunctionNewNewsButtonClickEvent();
+      self::writeJSFunctionAddClickEventSaveButton();
       self::getLogger()->trace("Exit");
    }
 }
