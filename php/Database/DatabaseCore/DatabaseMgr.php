@@ -380,20 +380,22 @@
             if (strcmp($phisicalColumn,$theTableDef->getKey()) != 0){
                $logicalColumn = $theTableDef->getLogicalColumn($phisicalColumn);
                $dataType = $theTableDef->getDataType($phisicalColumn);
-               if ($isFirst){
-                  $sqlInsert .= $phisicalColumn;
-                  if (strcmp($dataType, ColumnType::stringC) == 0){
-                     $values .= "'".$theData[$logicalColumn]."'";
+               if (isset($theData[$logicalColumn])){
+                  if ($isFirst){
+                     $sqlInsert .= $phisicalColumn;
+                     if (strcmp($dataType, ColumnType::stringC) == 0){
+                        $values .= "'".$theData[$logicalColumn]."'";
+                     }else{
+                        $values .= $theData[$logicalColumn];
+                     }
+                     $isFirst = false;
                   }else{
-                     $values .= $theData[$logicalColumn];
-                  }
-                  $isFirst = false;
-               }else{
-                  $sqlInsert .= ", ".$phisicalColumn;
-                  if (strcmp($dataType, ColumnType::stringC) == 0){
-                     $values .= ", '".$theData[$logicalColumn]."'";
-                  }else{
-                     $values .= ", ".$theData[$logicalColumn];
+                     $sqlInsert .= ", ".$phisicalColumn;
+                     if (strcmp($dataType, ColumnType::stringC) == 0){
+                        $values .= ", '".$theData[$logicalColumn]."'";
+                     }else{
+                        $values .= ", ".$theData[$logicalColumn];
+                     }
                   }
                }
             }
