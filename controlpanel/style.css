@@ -302,6 +302,10 @@ html {
    float: left;
    
 }
+.News-Title p, .News-Text p{
+   margin: 0px;
+}
+
 .News-Title{
    text-decoration: underline;
    font-size: 35px;
@@ -313,6 +317,10 @@ html {
    overflow-y:scroll; 
 }
 .mce-content-body, .mce-content-body p{
+   margin: 0px;
+}
+
+#Listbox-News p{
    margin: 0px;
 }
 /*****************************************************/

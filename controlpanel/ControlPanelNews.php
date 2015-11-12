@@ -225,6 +225,7 @@ class ControlPanelNews{
     */
    static public function showControlPanelNews(){
       self::getLogger()->trace("Enter");
+      self::writeJSFunctionApplyTinyMce();
 ?>
       <div id="News-Toolbar">
          <div id="New-News" class="Round-Corners-Button">
@@ -250,14 +251,21 @@ class ControlPanelNews{
       self::getLogger()->trace("Open the TB_News and add the news in the controls");
       $tbNews = new TB_News();
       $tbNews->open();
+      $isFirst = true;
       while ($tbNews->next()){
 ?>
          <script type="text/javascript">
-            $('#Listbox-News').append('<div id="Listbox-News-<?php print($tbNews->getId());?>" class="ListboxItem"><?php print($tbNews->getTitle());?></div>');
+            $('#Listbox-News').append('<div id="ListboxItem-News-<?php print($tbNews->getId());?>" class="ListboxItem"><?php print($tbNews->getTitle());?></div>');
+            $('#Container-News').append('<div class="News <?php if (! $isFirst){print("News-Hidden");}?>" id="News-<?php print($tbNews->getId());?>"><div class="News-Title"><?php print($tbNews->getTitle());?></div><div class="News-Text"><?php print($tbNews->getNew());?></div></div>');
+            applyTinymce('#News-<?php print($tbNews->getId());?> .News-Title', 
+                          '#News-<?php print($tbNews->getId());?> .News-Text');
          </script>
-<?php 
+<?php    
+         if ($isFirst){
+            $isFirst = false;
+         }
       }
-      self::writeJSFunctionApplyTinyMce();
+      
       self::writeJSFunctionNewNewsButtonClickEvent();
       self::writeJSFunctionAddClickEventSaveButton();
       self::getLogger()->trace("Exit");
