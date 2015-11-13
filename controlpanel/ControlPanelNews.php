@@ -44,7 +44,7 @@ class ControlPanelNews{
          function sendNewsToServer(){
                JSLogger.getInstance().traceEnter();
                var newsId = $('.News:visible').attr('id');
-               var isNew = (newsId.localeCompare('New-News') == 0);
+               var isNew = (newsId.localeCompare('New-News-Container') == 0);
                JSLogger.getInstance().trace("The news is" +
                      (isNew == false ? " not":"") +" new.");
 
@@ -90,7 +90,7 @@ class ControlPanelNews{
 
                ajaxObject.setParameters(JSON.stringify(requestParams));
 
-               ajaxObject.send();
+               //ajaxObject.send();
                JSLogger.getInstance().trace("Response [ " + ajaxObject.getResponse() + " ]");
 
                if (ajaxObject.getResponse().indexOf("404 Not Found") != -1){
@@ -112,18 +112,37 @@ class ControlPanelNews{
                             objResponse['ErrorMsg'] + " ]");
                   }else{
                      
-                     JSLogger.getInstance().trace("The news has been updated");
+                  JSLogger.getInstance().trace("The news has been updated");
                      if(isNew){
-                        var id = objResponse['lastID'];
+                        //var id = objResponse['lastID'];
+                        id = 99;
+                        JSLogger.getInstance().trace("The new news has the id [ " + id +" ]");
                         $('#Listbox-News').prepend('<div id="ListboxItem-News-'+
-                              id+'" class="ListboxItem ListboxItemSelected">'+title+'</div>');
-                        $('#New-News').attr('id', 'News-'+id);
+                              id+'" class="ListboxItem">'+title+'</div>');
+                        $('#ListboxItem-News-'+id).addClass('ListBoxItemSelected');
+                        var newsContainer = $('#New-News-Container').clone();
+                        
+                        newsContainer.attr('id', 'News-'+id);
+                        $('#Container-News').append(newsContainer);
+                        JSLogger.getInstance().trace("The newsContainer Id [ " + 
+                              newsContainer.attr('id'));
+                        $('#New-News-Container').remove();
+                        $('#ListboxItem-News-'+id).click(function(){
+                           JSLogger.getInstance().traceEnter();
+                           
+                           $(this).parent().find('.ListBoxItem').removeClass('ListBoxItemSelected');
+                           //$(this).addClass('ListboxItemSelected');
+                           $('#ListboxItem-News-'+id).addClass('ListBoxItemSelected');
+                           $('.News').addClass("News-Hidden");
+                           $('#News-'+id).removeClass("News-Hidden");
+                           JSLogger.getInstance().traceExit();
+                        });
+                        
+
                      }
-                     //Ahora toca añadir en el listbox y actualizar su id
-                     //Si es una insercion, se añade al principio, si es una a
-                     //actualizacion, borrar de listbox y añadir al principio
-                  }
-               }
+                     
+                  //}
+               //}
                               
                JSLogger.getInstance().traceExit();
          }
@@ -210,11 +229,11 @@ class ControlPanelNews{
          function addNewNewsControl(){
             JSLogger.getInstance().traceEnter();
             $('.News').addClass('News-Hidden');
-            var newContainerNews = $('<div class="News" id="New-News"></div>');
+            var newContainerNews = $('<div class="News" id="New-News-Container"></div>');
             newContainerNews.append('<div class="News-Title">Pulsa para escribir el titulo</div>');
             newContainerNews.append('<div class="News-Text">Pulsa para escribir</div>');
             $('#Container-News').append(newContainerNews);
-            applyTinymce('#New-News .News-Title', '#New-News .News-Text');
+            applyTinymce('#New-News-Container .News-Title', '#New-News-Container .News-Text');
             $('#Listbox-News .ListboxItem').removeClass('ListBoxItemSelected');
             JSLogger.getInstance().traceExit();
          }
@@ -271,7 +290,23 @@ class ControlPanelNews{
             $isFirst = false;
          }
       }
-      
+?>
+      <script type="text/javascript">
+         $('#Listbox-News .ListboxItem').each(function(){
+            JSLogger.getInstance().traceEnter();
+            $(this).click(function(){
+               JSLogger.getInstance().traceEnter();
+               JSLogger.getInstance().trace("News ListboxItem [ " + $(this).attr('id') +" ]");
+               $('.News').addClass("News-Hidden");
+               var newsId = $(this).attr('id').substring(17);
+               JSLogger.getInstance().trace("News Id [ " + newsId + " ]");
+               $('#News-'+newsId).removeClass("News-Hidden");
+               JSLogger.getInstance().traceEnter();
+            });
+            JSLogger.getInstance().traceExit();
+         });
+      </script>
+<?php 
       self::writeJSFunctionNewNewsButtonClickEvent();
       self::writeJSFunctionAddClickEventSaveButton();
       self::getLogger()->trace("Exit");
