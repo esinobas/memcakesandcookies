@@ -200,14 +200,16 @@
                if ($isFirst){
                   $isFirst = false;
                   $sqlUpdate .= $phisicalColumn . " = ";
-                  if ($theTableDef->getDataType($phisicalColumn) == ColumnType::stringC){
+                  if ($theTableDef->getDataType($phisicalColumn) == ColumnType::stringC ||
+                        $theTableDef->getDataType($phisicalColumn) == ColumnType::timestampC){
                      $sqlUpdate .= "'" . $value ."'";
                   }else{
                      $sqlUpdate .= $value;
                   }
                }else{
                   $sqlUpdate .= ", ".$phisicalColumn . " = ";
-                  if ($theTableDef->getDataType($phisicalColumn) == ColumnType::stringC){
+                  if ($theTableDef->getDataType($phisicalColumn) == ColumnType::stringC ||
+                        $theTableDef->getDataType($phisicalColumn) == ColumnType::timestampC){
                      $sqlUpdate .= "'" . $value ."'";
                   }else{
                      $sqlUpdate .= $value;

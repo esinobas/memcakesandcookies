@@ -38,6 +38,20 @@ class ControlPanelNews{
       self::getLogger()->trace("Enter");
 ?>
       <script type="text/javascript">
+
+         function getTimeStampStr(){
+            JSLogger.getInstance().traceEnter();
+            var now = new Date();
+            var timeStampStr = now.getFullYear()+ "-" +
+                               now.getMonth() + "-" +
+                               now.getDay() + " " +
+                               now.getHours() + ":"+
+                               now.getMinutes() + ":"+
+                               now.getSeconds();
+            JSLogger.getInstance().trace("TimeStamp [ " + timeStampStr + " ]"); 
+            JSLogger.getInstance().traceExit();
+            return timeStampStr;
+         }
          /**
           * Sends the news data to the server for write the news in the database
           */
@@ -82,15 +96,17 @@ class ControlPanelNews{
                }else{
                   requestParams.<?php print(PARAMS);?>.<?php print(PARAM_ROWS);?> = {};
                   requestParams.<?php print(PARAMS);?>.<?php print(PARAM_ROWS);?>.<?php print(PARAM_ROW)?> = {};
+                  requestParams.<?php print(PARAMS);?>.<?php print(PARAM_ROWS);?>.<?php print(PARAM_ROW)?>.<?php print(PARAM_KEY);?> = parseInt(newsId.substring(5));
                   requestParams.<?php print(PARAMS);?>.<?php print(PARAM_ROWS);?>.<?php print(PARAM_ROW)?>.<?php print(TB_News::TitleColumnC);?> = title;
                   requestParams.<?php print(PARAMS);?>.<?php print(PARAM_ROWS);?>.<?php print(PARAM_ROW)?>.<?php print(TB_News::NewColumnC);?> = text;
+                  requestParams.<?php print(PARAMS);?>.<?php print(PARAM_ROWS);?>.<?php print(PARAM_ROW)?>.<?php print(TB_News::phisicalTB_NewsDateTimeColumnC);?> = getTimeStampStr();
                }
 
                JSLogger.getInstance().debug("Command parameters [ " + JSON.stringify(requestParams) +" ]");
 
                ajaxObject.setParameters(JSON.stringify(requestParams));
 
-               //ajaxObject.send();
+               ajaxObject.send();
                JSLogger.getInstance().trace("Response [ " + ajaxObject.getResponse() + " ]");
 
                if (ajaxObject.getResponse().indexOf("404 Not Found") != -1){
@@ -112,10 +128,10 @@ class ControlPanelNews{
                             objResponse['ErrorMsg'] + " ]");
                   }else{
                      
-                  JSLogger.getInstance().trace("The news has been updated");
+                     JSLogger.getInstance().trace("The news has been updated");
                      if(isNew){
-                        //var id = objResponse['lastID'];
-                        id = 99;
+                        var id = objResponse['lastID'];
+                        
                         JSLogger.getInstance().trace("The new news has the id [ " + id +" ]");
                         $('#Listbox-News').prepend('<div id="ListboxItem-News-'+
                               id+'" class="ListboxItem">'+title+'</div>');
@@ -137,12 +153,13 @@ class ControlPanelNews{
                            $('#News-'+id).removeClass("News-Hidden");
                            JSLogger.getInstance().traceExit();
                         });
-                        
-
+                     }else{
+                        var newsCloned =$('#Listbox-News').find('ListBoxItemSelected').clone();
+                        JSLogger.getInstance().trace("Cloning selected item in a update [ " +
+                              newsCloned.attr('id') +" ]"); 
                      }
-                     
-                  //}
-               //}
+                  }
+               }
                               
                JSLogger.getInstance().traceExit();
          }
