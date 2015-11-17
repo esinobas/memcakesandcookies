@@ -43,11 +43,11 @@ class ControlPanelNews{
             JSLogger.getInstance().traceEnter();
             var now = new Date();
             var timeStampStr = now.getFullYear()+ "-" +
-                               now.getMonth() + "-" +
-                               now.getDay() + " " +
-                               now.getHours() + ":"+
-                               now.getMinutes() + ":"+
-                               now.getSeconds();
+                               ((now.getMonth()+1)<10?"0":"")+ parseInt(now.getMonth()+1) + "-" +
+                               (now.getDate()<10?"0":"")+ now.getDate() + " " +
+                               (now.getHours()<10?"0":"") + now.getHours() + ":"+
+                               (now.getMinutes()<10?"0":"")+now.getMinutes() + ":"+
+                               (now.getSeconds()<10?"0":"")+now.getSeconds();
             JSLogger.getInstance().trace("TimeStamp [ " + timeStampStr + " ]"); 
             JSLogger.getInstance().traceExit();
             return timeStampStr;
@@ -91,14 +91,15 @@ class ControlPanelNews{
 
                if (isNew){
                   requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?> = {};
-                  requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(TB_News::TitleColumnC);?> = title; 
-                  requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(TB_News::NewColumnC);?> = text;
+                  requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(TB_News::TitleColumnC);?> = encodeURIComponent(title.replace(/\"/g,"\\\"")); 
+                  requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(TB_News::NewColumnC);?> = encodeURIComponent(text.replace(/\"/g,"\\\"")); 
                }else{
                   requestParams.<?php print(PARAMS);?>.<?php print(PARAM_ROWS);?> = {};
                   requestParams.<?php print(PARAMS);?>.<?php print(PARAM_ROWS);?>.<?php print(PARAM_ROW)?> = {};
                   requestParams.<?php print(PARAMS);?>.<?php print(PARAM_ROWS);?>.<?php print(PARAM_ROW)?>.<?php print(PARAM_KEY);?> = parseInt(newsId.substring(5));
-                  requestParams.<?php print(PARAMS);?>.<?php print(PARAM_ROWS);?>.<?php print(PARAM_ROW)?>.<?php print(TB_News::TitleColumnC);?> = title;
-                  requestParams.<?php print(PARAMS);?>.<?php print(PARAM_ROWS);?>.<?php print(PARAM_ROW)?>.<?php print(TB_News::NewColumnC);?> = text;
+                
+                  requestParams.<?php print(PARAMS);?>.<?php print(PARAM_ROWS);?>.<?php print(PARAM_ROW)?>.<?php print(TB_News::TitleColumnC);?> = encodeURIComponent(title.replace(/\"/g,"\\\"")); 
+                  requestParams.<?php print(PARAMS);?>.<?php print(PARAM_ROWS);?>.<?php print(PARAM_ROW)?>.<?php print(TB_News::NewColumnC);?> = encodeURIComponent(text.replace(/\"/g,"\\\"")); 
                   requestParams.<?php print(PARAMS);?>.<?php print(PARAM_ROWS);?>.<?php print(PARAM_ROW)?>.<?php print(TB_News::phisicalTB_NewsDateTimeColumnC);?> = getTimeStampStr();
                }
 
@@ -141,7 +142,7 @@ class ControlPanelNews{
                         newsContainer.attr('id', 'News-'+id);
                         $('#Container-News').append(newsContainer);
                         JSLogger.getInstance().trace("The newsContainer Id [ " + 
-                              newsContainer.attr('id'));
+                              newsContainer.attr('id') + " ]");
                         $('#New-News-Container').remove();
                         $('#ListboxItem-News-'+id).click(function(){
                            JSLogger.getInstance().traceEnter();
@@ -154,9 +155,9 @@ class ControlPanelNews{
                            JSLogger.getInstance().traceExit();
                         });
                      }else{
-                        var newsCloned =$('#Listbox-News').find('ListBoxItemSelected').clone();
+                        var newsCloned = $('#Listbox-News').find('ListBoxItemSelected').size();
                         JSLogger.getInstance().trace("Cloning selected item in a update [ " +
-                              newsCloned.attr('id') +" ]"); 
+                              newsCloned +" ]"); 
                      }
                   }
                }
@@ -204,6 +205,7 @@ class ControlPanelNews{
             theme: "modern",
             inline: true,
             statusbar: false,
+            //entity_encoding : "raw",
             //add_unload_trigger: false,
             schema: "html5",
             language: "es",
@@ -217,6 +219,7 @@ class ControlPanelNews{
             theme: "modern",
             inline: true,
             statusbar: false,
+            //entity_encoding : "raw",
             add_unload_trigger: false,
             schema: "html5",
             language: "es",
@@ -301,6 +304,7 @@ class ControlPanelNews{
             $('#Container-News').append('<div class="News <?php if (! $isFirst){print("News-Hidden");}?>" id="News-<?php print($tbNews->getId());?>"><div class="News-Title"><?php print($tbNews->getTitle());?></div><div class="News-Text"><?php print($tbNews->getNew());?></div></div>');
             applyTinymce('#News-<?php print($tbNews->getId());?> .News-Title', 
                           '#News-<?php print($tbNews->getId());?> .News-Text');
+            //JSLogger.getIntance().trace("Time stamp [ <?php print ($tbNews->getDateTime());?> ]"); 
          </script>
 <?php    
          if ($isFirst){
