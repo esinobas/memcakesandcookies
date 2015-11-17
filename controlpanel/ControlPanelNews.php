@@ -266,6 +266,94 @@ class ControlPanelNews{
 <?php 
       self::getLogger()->trace("Exit");
    }
+   /**
+    * Writes the java script functions to remove a news 
+    */
+   static private function writeJSFunctionToRemoveAnNews(){
+      
+      self::getLogger()->trace("Enter");
+?>
+      <script type="text/javascript">
+         /**
+          * Callback function used when news want to be removed
+         */
+         function removeCallback(){
+            JSLogger.getInstance().traceEnter();
+            var newsId= $('#Listbox-News .ListBoxItemSelected').attr('id').substring(17);
+            JSLogger.getInstance().trace("The news with id [ " + newsId + 
+                           " ] will be removed");
+
+            JSLogger.getInstance().trace("Create ajax object");
+            var ajaxObject = new Ajax();
+            ajaxObject.setSyn();
+            ajaxObject.setPostMethod();
+            
+            JSLogger.getInstance().debug("Url whete the data will be send [ " + imagesPaths[URL_C] 
+                +"php/Database/RequestFromWeb.php ]");
+            ajaxObject.setUrl(imagesPaths[URL_C]+"php/Database/RequestFromWeb.php");
+            var requestParams = {};
+            requestParams.<?php print(COMMAND);?> = <?php print("\"".COMMAND_DELETE."\"");?>;
+            requestParams.<?php print(PARAMS);?> = {};
+            requestParams.<?php print(PARAMS);?>.<?php print(PARAM_TABLE);?> = "<?php print(TB_News::TB_NewsTableC);?>";
+            requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?> = {};
+            requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(PARAM_KEY);?> = newsId;
+
+            JSLogger.getInstance().debug("Command parameters [ " + JSON.stringify(requestParams) +" ]");
+
+            ajaxObject.setParameters(JSON.stringify(requestParams));
+
+            ajaxObject.send();
+           
+            JSLogger.getInstance().trace("Response [ " + ajaxObject.getResponse() + " ]");
+            if (ajaxObject.getResponse().indexOf("404 Not Found") != -1){
+               JSLogger.getInstance().error("The script [ " +imagesPaths[URL_C] +
+                  "/php/Database/RequestFromWeb.php ] has been found");
+               MessageBox("Error", 
+                  "La noticia-entrada-blog no se ha podido borrar. No se ha accedido al servidor",
+                  {Icon: MessageBox.IconsE.ERROR});
+            }else{
+               var objResponse = JSON.parse(ajaxObject.getResponse());
+               if (parseInt(objResponse['ResultCode']) != 200){
+                     MessageBox("Error", 
+                        "La noticia-entrada-blog no se ha podido borrar. Error [ " +
+                        objResponse['ErrorMsg'] + " ]",
+                        {Icon: MessageBox.IconsE.ERROR});
+                     JSLogger.getInstance().error("The news has not been removed. [ " +
+                         objResponse['ErrorMsg'] + " ]");
+               }else{
+                  
+                  JSLogger.getInstance().trace("The news has been removed");
+                  $('#Listbox-News .ListBoxItemSelected').remove();
+                  $('#Listbox-News').first().addClass('ListBoxItemSelected');
+                  $('#News-' + newsId).remove();
+                  $('#Container-News').first().removeClass('News-Hidden');
+               }
+            }
+            JSLogger.getInstance().traceExit();
+         }
+
+         /**
+          * Shows a message box asking confirm for remove a news or not
+          */
+         function removeNews(){
+            JSLogger.getInstance().traceEnter();
+            var newsName = $('.News:visible .News-Title').html();
+            MessageBox("Borrar", "¿Borrar noticia-entrada-blog \"" + 
+                  newsName + "\" ?",
+                 {Buttons:{Buttons: MessageBox.ButtonsE.YES_NO,
+                           Callback_Yes: removeCallback},
+                  Icon: MessageBox.IconsE.QUESTION});
+            JSLogger.getInstance().traceExit();
+         }
+         $('#Delete-News').click(removeNews);
+      </script>
+      
+<?php 
+      
+      self::getLogger()->trace("Exit");
+   }
+   
+   
    /** Public functions **/
    
    /**
@@ -333,6 +421,7 @@ class ControlPanelNews{
 <?php 
       self::writeJSFunctionNewNewsButtonClickEvent();
       self::writeJSFunctionAddClickEventSaveButton();
+      self::writeJSFunctionToRemoveAnNews();
       self::getLogger()->trace("Exit");
    }
 }
