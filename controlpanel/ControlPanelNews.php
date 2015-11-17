@@ -92,7 +92,7 @@ class ControlPanelNews{
                if (isNew){
                   requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?> = {};
                   requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(TB_News::TitleColumnC);?> = encodeURIComponent(title.replace(/\"/g,"\\\"")); 
-                  requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(TB_News::NewColumnC);?> = encodeURIComponent(text.replace(/\"/g,"\\\"")); 
+                  requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(TB_News::NewColumnC);?> = encodeURIComponent(text.replace(/\"/g,"\\\""));  
                }else{
                   requestParams.<?php print(PARAMS);?>.<?php print(PARAM_ROWS);?> = {};
                   requestParams.<?php print(PARAMS);?>.<?php print(PARAM_ROWS);?>.<?php print(PARAM_ROW)?> = {};
@@ -155,9 +155,12 @@ class ControlPanelNews{
                            JSLogger.getInstance().traceExit();
                         });
                      }else{
-                        var newsCloned = $('#Listbox-News').find('ListBoxItemSelected').size();
-                        JSLogger.getInstance().trace("Cloning selected item in a update [ " +
-                              newsCloned +" ]"); 
+                        var newsCloned = $('#Listbox-News').find('.ListBoxItemSelected').clone(true);
+                        JSLogger.getInstance().trace("Cloned Id [ " + newsCloned.attr('id') + " ]");
+                        JSLogger.getInstance().trace("Remove [ ListboxItem-" + newsId + " ]");
+                        $('#Listbox-News').find('#ListboxItem-' + newsId).remove();
+                        $('#Listbox-News').prepend(newsCloned);
+                        
                      }
                   }
                }
