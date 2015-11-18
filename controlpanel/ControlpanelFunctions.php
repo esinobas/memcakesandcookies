@@ -15,6 +15,9 @@ define(SLIDE_IMAGE_DIRECTORY_C, 'SlideImagesPath');
 define(NUM_THUMBNAILS_C, 'numberThumbnails');
 define(THUMBNAILS_DIRECTORY_C, 'thumbnailsPath');
 define(URL_C, 'URL');
+define(URL_FACEBOOK_C, 'Facebook');
+define(URL_INSTAGRAM_C, 'Instagram');
+define(URL_TWITERC_C, 'Twiter');
 
 class ControlpanelFunctions{
    
@@ -865,6 +868,76 @@ class ControlpanelFunctions{
                </div>
             </div>
          </div>
+         
+<?php
+      self::$tbConfigurationM->rewind();
+      self::$tbConfigurationM->searchByKey(URL_FACEBOOK_C);
+?>         
+         <div id="DataConfiguration-<?php print (self::$tbConfigurationM->getProperty());?>" class="Data-Grid-Row">
+            <div class="Data-Grid-Column">
+                 <?php printf ("%s: ", self::$tbConfigurationM->getLabel());?>
+            </div>
+            <div class="Data-Grid-Column" title=<?php printf("\"%s\"", self::$tbConfigurationM->getDescription());?>
+                 id="<?php print(self::$tbConfigurationM->getProperty());?>">
+               <?php 
+                     self::$loggerM->trace("The [ ".self::$tbConfigurationM->getProperty().
+                            " ] type data is [ " . self::$tbConfigurationM->getDataType() .
+                           " ]");
+                     
+               ?>
+               <input type="text" 
+                      value="<?php print (self::$tbConfigurationM->getValue());?>">
+               
+            </div>
+
+         </div>
+<?php
+      self::$tbConfigurationM->rewind();
+      self::$tbConfigurationM->searchByKey(URL_TWITERC_C);
+?>         
+         <div id="DataConfiguration-<?php print (self::$tbConfigurationM->getProperty());?>" class="Data-Grid-Row">
+            <div class="Data-Grid-Column">
+                 <?php printf ("%s: ", self::$tbConfigurationM->getLabel());?>
+            </div>
+            <div class="Data-Grid-Column" title=<?php printf("\"%s\"", self::$tbConfigurationM->getDescription());?>
+                 id="<?php print(self::$tbConfigurationM->getProperty());?>">
+               <?php 
+                     self::$loggerM->trace("The [ ".self::$tbConfigurationM->getProperty().
+                            " ] type data is [ " . self::$tbConfigurationM->getDataType() .
+                           " ]");
+                     
+               ?>
+               <input type="text" 
+                      value="<?php print (self::$tbConfigurationM->getValue());?>">
+               
+            </div>
+
+         </div>
+         
+<?php
+      self::$tbConfigurationM->rewind();
+      self::$tbConfigurationM->searchByKey(URL_INSTAGRAM_C);
+?>         
+         <div id="DataConfiguration-<?php print (self::$tbConfigurationM->getProperty());?>" class="Data-Grid-Row">
+            <div class="Data-Grid-Column">
+                 <?php printf ("%s: ", self::$tbConfigurationM->getLabel());?>
+            </div>
+            <div class="Data-Grid-Column" title=<?php printf("\"%s\"", self::$tbConfigurationM->getDescription());?>
+                 id="<?php print(self::$tbConfigurationM->getProperty());?>">
+               <?php 
+                     self::$loggerM->trace("The [ ".self::$tbConfigurationM->getProperty().
+                            " ] type data is [ " . self::$tbConfigurationM->getDataType() .
+                           " ]");
+                     
+               ?>
+               <input type="text" 
+                      value="<?php print (self::$tbConfigurationM->getValue());?>">
+               
+            </div>
+
+         </div>
+         
+         
 <?php
       self::$tbConfigurationM->rewind();
       self::$tbConfigurationM->searchByKey(THUMBNAILS_DIRECTORY_C);
@@ -911,6 +984,7 @@ class ControlpanelFunctions{
            
          </div>
       </div>
+  
       <?php 
          self::$loggerM->trace("Format the DataGrid");
       ?>
