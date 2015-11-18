@@ -324,9 +324,11 @@ class ControlPanelNews{
                   
                   JSLogger.getInstance().trace("The news has been removed");
                   $('#Listbox-News .ListBoxItemSelected').remove();
-                  $('#Listbox-News').first().addClass('ListBoxItemSelected');
+                  $('#Listbox-News .ListboxItem').first().addClass('ListBoxItemSelected');
                   $('#News-' + newsId).remove();
-                  $('#Container-News').first().removeClass('News-Hidden');
+                  var id = $('#Listbox-News .ListBoxItemSelected').attr('id');
+                   JSLogger.getInstance().trace("Id [ " + id + " ]");
+                  $('#News-' + id.substring(17)).removeClass('News-Hidden');
                }
             }
             JSLogger.getInstance().traceExit();
