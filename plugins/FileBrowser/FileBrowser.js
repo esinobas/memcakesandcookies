@@ -326,7 +326,7 @@ var FileBrowser = FileBrowser || function (){
          objCandidate.dblclick(onDoubleClickFileOrDirectory);
          $('#FilesContainer').append(objCandidate);
       }
-      var imageUrl = FileBrowser.prototype.getParameter(PAGE_URL_C, localParamsM);
+      var imageUrl = FileBrowser.prototype.getParameter(PAGE_URL_C, localParamsM)+"/"+ fullPathToString();
       
       for (var candidate in filesAndDirectories){
          var data = filesAndDirectories[candidate];
@@ -342,10 +342,11 @@ var FileBrowser = FileBrowser || function (){
                objCandidate.append("<img src=\""+FileBrowser.prototype.getCurrentPath("FileBrowser.js")+
                         "/icons/page_white.png\">");
             }else{
-               JSLogger.getInstance().warn("<img src=\""+imageUrl+"/"+candidate+
+               JSLogger.getInstance().warn("<img src=\""+imageUrl+candidate+
                "\">");
-               objCandidate.append("<img src=\""+imageUrl+"/"+candidate+
+               objCandidate.append("<img src=\""+imageUrl+candidate+
                "\">");
+               objCandidate.css('height', '50px');
             }
          }else{
             JSLogger.getInstance().warn("Candidate [ " + candidate +" ] is a directory");
