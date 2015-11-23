@@ -97,6 +97,8 @@
    float: left;
    padding-right: 5px;
    padding-top: 1px;
+   max-width: 50px;
+   
 }
 .DataElement div{
    

@@ -32,6 +32,7 @@ var FileBrowser = FileBrowser || function (){
    var TOOLBAR_BUTTON_UPLOAD_FILE_C = "upload_file";
    var TOOLBAR_CREATE_FOLDER_C = "create_folder";
    var TOOLBAR_DELETE_C = "delete";
+   var PAGE_URL_C = "page_url";
    
    var INCREASE_HEIGHT_C = 75;
    /*** Private variables ***/
@@ -52,6 +53,8 @@ var FileBrowser = FileBrowser || function (){
    
    var localGetCurrentPathM;
    var localParamsM = null;
+   
+   var imageFileBrowserM = false;
    
 
    
@@ -323,6 +326,7 @@ var FileBrowser = FileBrowser || function (){
          objCandidate.dblclick(onDoubleClickFileOrDirectory);
          $('#FilesContainer').append(objCandidate);
       }
+      var imageUrl = FileBrowser.prototype.getParameter(PAGE_URL_C, localParamsM);
       
       for (var candidate in filesAndDirectories){
          var data = filesAndDirectories[candidate];
@@ -332,11 +336,19 @@ var FileBrowser = FileBrowser || function (){
          $('#FilesContainer').append(objCandidate);
          
          if (data == null){
+
             JSLogger.getInstance().trace("Candidate [ " + candidate +" ] is a file");
-            objCandidate.append("<img src=\""+FileBrowser.prototype.getCurrentPath("FileBrowser.js")+
+            if ( ! imageFileBrowserM){
+               objCandidate.append("<img src=\""+FileBrowser.prototype.getCurrentPath("FileBrowser.js")+
                         "/icons/page_white.png\">");
+            }else{
+               JSLogger.getInstance().warn("<img src=\""+imageUrl+"/"+candidate+
+               "\">");
+               objCandidate.append("<img src=\""+imageUrl+"/"+candidate+
+               "\">");
+            }
          }else{
-            JSLogger.getInstance().trace("Candidate [ " + candidate +" ] is a directory");
+            JSLogger.getInstance().warn("Candidate [ " + candidate +" ] is a directory");
             objCandidate.append("<img src=\""+ FileBrowser.prototype.getCurrentPath("FileBrowser.js") +
                              "/icons/folder.png\">");
          }
@@ -366,7 +378,7 @@ var FileBrowser = FileBrowser || function (){
      $('body').append("<div id=\"FilebrowserBackground\"></div>");
      $('body').append("<div id=\"Filebrowser\"></div>");
      HtmlForm.call(this, $('#Filebrowser'), theParams);
-     
+     JSLogger.getInstance().warn("The params [ " + JSON.stringify(theParams) + " ]");
      JSLogger.getInstance().debug("Add the label that contains the current path");
      $('#Filebrowser').append("<div id=\"PathContainer\"></div>");
      $('#PathContainer').append("<div id=\"LabelPath\">Directorio</div>");
@@ -391,6 +403,10 @@ var FileBrowser = FileBrowser || function (){
         typeM = "a";
      }
      
+     imageFileBrowserM = (this.getParameter(PAGE_URL_C, this.parametersM) != null);
+     JSLogger.getInstance().warn("Is a Image Filebrowser ? [ " + 
+                           (imageFileBrowserM?"YES":"NO")+ " ]");
+     localParamsM = this.parametersM;
      this.getDirectoriesAndFiles();
      var rootPath = this.getParameter(paramRootPathC, 
            this.getParameter(paramPathC, this.parametersM));
@@ -402,7 +418,7 @@ var FileBrowser = FileBrowser || function (){
      goToCurrentPath(rootPath, currentPathM);
      
      showFilesAndDirectories(fullPathToString());
-     localParamsM = this.parametersM;
+     //localParamsM = this.parametersM;
      this.hideLoading();
      
      
@@ -961,7 +977,7 @@ var FileBrowser = FileBrowser || function (){
      ajaxObject.setCallback(null);
      JSLogger.getInstance().debug("Sending sync request ...");
      ajaxObject.send();
-     JSLogger.getInstance().debug("Response [ " + ajaxObject.getResponse() +" ]");
+     JSLogger.getInstance().warn("Response [ " + ajaxObject.getResponse() +" ]");
      
      pushFilesAndDirectories(JSON.parse(ajaxObject.getResponse()));
      JSLogger.getInstance().traceExit();

@@ -333,9 +333,11 @@ class ControlpanelFunctions{
           *
           * @param theRootPath: The filebrowser root path
           * @param theCollectionName: The collection name showed in the filebrowser
+          * @param theUrl: The Url from the images are taken in the image filebrowser
           */
          var openFilebrowserSelectImage = function(theRootPath, 
-                                          theCollectionName){
+                                          theCollectionName,
+                                          theUrl){
             JSLogger.getInstance().traceEnter();
             JSLogger.getInstance().trace("Open filebrowser with root path [ " +
                   theRootPath +" ] and the collection name [ " +
@@ -344,7 +346,7 @@ class ControlpanelFunctions{
                {path:{
                   root_path:theRootPath
                   },
-               type: "a", filter: "*.*", 
+               page_url: theUrl,
                callback: addImageCallback,
                Title_Params:{
                    Caption:"Selecciona la foto que quieras añadir a \""+theCollectionName +"\"",
@@ -717,7 +719,8 @@ class ControlpanelFunctions{
             JSLogger.getInstance().trace("The images directory is [ "+ 
                            imagesPath +" ]");
             $('#Add-Picture-Collection_'+theCollectionId).click(function(){
-               openFilebrowserSelectImage(imagesPath, theCollectionName);
+               openFilebrowserSelectImage(imagesPath, theCollectionName,
+                     "<?php self::$tbConfigurationM->rewind();self::$tbConfigurationM->searchByKey(URL_C);print(self::$tbConfigurationM->getValue());?>"+ imagesPaths[selectedType]);
             });
             
             
@@ -816,32 +819,7 @@ class ControlpanelFunctions{
                </div>
             </div>
          </div>
-<?php
-      self::$tbConfigurationM->rewind();
-      self::$tbConfigurationM->searchByKey(IMAGES_MODELS_DIRECTORY_C);
-?>
-         <div id="DataConfiguration-<?php print (self::$tbConfigurationM->getProperty());?>" class="Data-Grid-Row">
-            <div class="Data-Grid-Column">
-                 <?php printf ("%s: ", self::$tbConfigurationM->getLabel());?>
-            </div>
-            <div class="Data-Grid-Column" title=<?php printf("\"%s\"", self::$tbConfigurationM->getDescription());?>
-               id="<?php print(self::$tbConfigurationM->getProperty());?>">
-               <?php 
-                     self::$loggerM->trace("The [ ".self::$tbConfigurationM->getProperty().
-                            " ] type data is [ " . self::$tbConfigurationM->getDataType() .
-                           " ]");
-                     
-               ?>
-               <input type="text" id="Input-Models-Directory"
-                      value="<?php print (self::$tbConfigurationM->getValue());?>" readonly>
-               
-            </div>
-            <div class="Data-Grid-Column">
-               <div class="Round-Corners-Button" id="Button-Image-Models-Directory">
-                  Seleccionar
-               </div>
-            </div>
-         </div>
+
 <?php
       self::$tbConfigurationM->rewind();
       self::$tbConfigurationM->searchByKey(SLIDE_IMAGE_DIRECTORY_C);
@@ -1046,35 +1024,7 @@ class ControlpanelFunctions{
                     });
          });
       </script>
-      <?php 
-         self::$loggerM->trace("Define the callback for models directory");
-      ?>
-      <script type="text/javascript">
-         JSLogger.getInstance().trace("Define function callback showDirectoryModels");
-         functionShowDirectoryModels = function (theData){
-
-            var message = "Data: " + theData.path + ". Type: "+ (theData.file?"File":"Directory");;
-            JSLogger.getInstance().debug("Callback : " + message);
-            $('#Input-Models-Directory').val(theData.path);
-            //JSLogger.getInstance().debug("VALOR:" +$('#Data_Path_Cursos').val());
-        }
-         JSLogger.getInstance().trace("Add click event to the button #Button-Image-Models-Directory");
-         $('#Button-Image-Models-Directory').click(function(){
-            fileBrowser = new FileBrowser(
-                  {path:{
-                           root_path:<?php printf("\"%s\"",$_SERVER['DOCUMENT_ROOT']);?>,
-                           current_path: $('#Input-Models-Directory').val()
-                        },
-                    type: "d", filter: "*.*", 
-                    callback: functionShowDirectoryModels,
-                    Title_Params:{
-                         Caption:"Selecciona el directorio donde se guardan los modelados",
-                         Background_Color:"orange"
-                                  },
-                    toolbar:"create_folder|delete"
-                  });
-         });
-      </script>
+      
       <?php 
          self::$loggerM->trace("Define the callback for slide images directory");
       ?>
@@ -1585,9 +1535,10 @@ class ControlpanelFunctions{
 ?>
         <script type="text/javascript">
             $('#Add-Picture-Collection_<?php print($theCollectionTable->getCollectionId());?>').click(function(){
-               openFilebrowserSelectImage(<?php printf("\"%s/%s\"",$_SERVER['DOCUMENT_ROOT'],
-                     self::$tbConfigurationM->getValue());?>,
-                     "<?print($theCollectionTable->getCollectionName());?>");
+               openFilebrowserSelectImage(<?php $partialUrl = self::$tbConfigurationM->getValue();printf("\"%s/%s\"",$_SERVER['DOCUMENT_ROOT'],
+                     $partialUrl);?>,
+                     "<?print($theCollectionTable->getCollectionName());?>",
+                     "<?php self::$tbConfigurationM->rewind();self::$tbConfigurationM->searchByKey(URL_C);print(self::$tbConfigurationM->getValue().$partialUrl);?>");
               
             });
          </script>
