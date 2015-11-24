@@ -15,6 +15,10 @@ class ControlPanelNews{
     */
    static private $loggerM = null;
    
+   /**
+    * Variable whereis save the page url
+    */
+   static private $pageUrlM = "";
    
    /** Private static funcions **/
    
@@ -29,6 +33,8 @@ class ControlPanelNews{
       }
       return self::$loggerM;
    }
+   
+   
    
    /**
     * Writes the javascript function to write (insert or update) the news in 
@@ -195,6 +201,47 @@ class ControlPanelNews{
       self::getLogger()->trace("Enter");
 ?>
    <script type="text/javascript">
+   
+      /**
+       * Declaration of the TinyMce image filebrowser callback
+       *
+       * @param theField: The field name where the image name must be added
+       */
+      function tinyMceImageCallback(theField){
+         JSLogger.getInstance().traceEnter();
+         
+         /**
+          * Declaration for the image filebrowser callback used in the plugin 
+          * insert/update image of the TinyMCE
+          *
+          * @param theDataCallback:(Object type) It is the data returned in the callback
+          */
+         function tinyMceFilebrowserCallback(theDataCallback){
+            JSLogger.getInstance().traceEnter();
+            JSLogger.getInstance().trace("The image url is [ <?php print(self::getPageUrl());?>" +
+                  theDataCallback.path + " ]");
+            $('#'+theField).val("<?php print(self::getPageUrl());?>"+theDataCallback.path);
+            JSLogger.getInstance().traceExit();
+         }
+
+         imageFileBrowser = new FileBrowser(
+               {
+                  path:{
+                        root_path: "<?php print($_SERVER['DOCUMENT_ROOT']);?>"
+                       },
+                  type: "a",
+                  filter: "*.*",
+                  page_url: "<?php print(self::getPageUrl());?>",
+                  Title_Params:{
+                        Caption:"Selecciona una imagen ...",
+                        Background_Color:"orange"
+                        },
+                  toolbar:"upload_file|create_folder|delete",
+                  callback: tinyMceFilebrowserCallback
+               } 
+         );
+         JSLogger.getInstance().traceExit();
+      }
       /**
        * Add the Tinymce to the title and the html step
        *
@@ -208,8 +255,8 @@ class ControlPanelNews{
             theme: "modern",
             inline: true,
             statusbar: false,
-            //entity_encoding : "raw",
-            //add_unload_trigger: false,
+            entity_encoding : "raw",
+            add_unload_trigger: false,
             schema: "html5",
             language: "es",
             //plugins: "textcolor",
@@ -222,7 +269,7 @@ class ControlPanelNews{
             theme: "modern",
             inline: true,
             statusbar: false,
-            //entity_encoding : "raw",
+            entity_encoding : "raw",
             add_unload_trigger: false,
             schema: "html5",
             language: "es",
@@ -230,7 +277,12 @@ class ControlPanelNews{
             menubar: false,
             //toolbar1: "formatselect | undo redo | bold italic underline | fontselect fontsizeselect | forecolor backcolor",
             toolbar1: "undo redo | bold italic underline | fontsizeselect | forecolor backcolor",
-            toolbar2: "alignleft aligncenter alignright alignjustify | outdent indent | bullist numlist | cut copy paste | image link"
+            toolbar2: "alignleft aligncenter alignright alignjustify | outdent indent | bullist numlist | cut copy paste | image link",
+            file_browser_callback: function (field_name, url, type, win) {
+               JSLogger.getInstance().traceEnter();
+               tinyMceImageCallback(field_name);
+               JSLogger.getInstance().traceExit();
+            }
          });
          JSLogger.getInstance().traceExit();
       }
@@ -355,6 +407,14 @@ class ControlPanelNews{
       self::getLogger()->trace("Exit");
    }
    
+   /**
+    * Returns the page url
+    * @return string
+    */
+   static public function getPageUrl(){
+      self::getLogger()->trace("Enter/Exit");
+      return self::$pageUrlM;
+   }
    
    /** Public functions **/
    
@@ -426,5 +486,17 @@ class ControlPanelNews{
       self::writeJSFunctionToRemoveAnNews();
       self::getLogger()->trace("Exit");
    }
+   
+   /**
+    * Sets the page url to be used in the class functions
+    * @param string $thePageURL
+    */
+   static public function setPageURL($thePageURL){
+      self::getLogger()->trace("Enter");
+      self::$pageUrlM = $thePageURL;
+      self::getLogger()->trace("Exit");
+   }
+   
+    
 }
 ?>

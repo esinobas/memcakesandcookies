@@ -153,7 +153,15 @@
                   }
                ?>
                <div class="Vertical-Tab" id="Tab-News">
-                  <?php ControlPanelNews::showControlPanelNews();?>
+                  <?php 
+                        $tbConfiguration = new TB_Configuration();
+                        $tbConfiguration->open();
+                        $tbConfiguration->searchByKey('URL');
+                        
+                        ControlPanelNews::setPageURL($tbConfiguration->getValue());
+                        ControlPanelNews::showControlPanelNews();
+                   ?>
+                   
                </div>
                <div class="Vertical-Tab" id="Tab-Subcription">
                   Subscriptores
