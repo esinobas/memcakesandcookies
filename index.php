@@ -46,5 +46,8 @@
    <body>
       <?php PageFunctions::getHeader();?>
       <?php PageFunctions::getImagesSlide();?>
+      <?php PageFunctions::getMainSection();?>
+      <?php PageFunctions::getAside();?>
+      <?php PageFunctions::getFooter();?>
    </body>
 </html>

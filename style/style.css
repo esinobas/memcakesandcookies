@@ -83,4 +83,24 @@ nav ul li:hover{
    height: 100%
 }
 
+/*** Page style ***/
+.Main-Section, .Lateral-Side{
+ 
+   display: block;
+   float: left;
+   padding-top: 10px;
+}
+.Main-Section{
+   
+   background-color: yellow;
+   width: 55%;
+   margin-left: 10%;
+}
+
+.Lateral-Side{
+   background-color: green;
+   width: 26%;
+   
+   
+}
 

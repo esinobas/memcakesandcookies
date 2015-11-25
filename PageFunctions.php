@@ -57,5 +57,34 @@
          </section>
 <?php 
       }
+      
+      /**
+       * Writes the Main section
+       */
+      static public function getMainSection(){
+?>
+         <section id="Main-Section" class="Main-Section">
+            Main
+         </section>
+<?php 
+      }
+      
+      /**
+       * Writes the page web aside 
+       */
+      static public function getAside(){
+?>
+         <aside id="Lateral-Side" class="Lateral-Side">
+            aside
+         </aside>
+<?php 
+      }
+      
+      /**
+       * Writes the page web footer
+       */
+      static public function getFooter(){
+      }
+      
    }
 ?>
