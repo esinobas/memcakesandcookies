@@ -273,7 +273,7 @@ class ControlPanelNews{
             add_unload_trigger: false,
             schema: "html5",
             language: "es",
-            plugins: "textcolor advlist image link lists",
+            plugins: "textcolor advlist image imagetools link lists",
             menubar: false,
             //toolbar1: "formatselect | undo redo | bold italic underline | fontselect fontsizeselect | forecolor backcolor",
             toolbar1: "undo redo | bold italic underline | fontsizeselect | forecolor backcolor",

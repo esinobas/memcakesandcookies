@@ -1,0 +1,22 @@
+@CHARSET "UTF-8";
+
+.Images-Slide-Container{
+ 
+   position: relative;
+}
+
+.Images-Slide-Item{
+   width: 100%;
+   height: inherit;
+   background-color: inherit;
+   text-align: center;
+   display: none;
+   position: absolute;
+   top: 0px;
+   left: 0px;
+}
+.Images-Slide-Item img{
+   height: inherit;
+   width: auto;
+   
+}
