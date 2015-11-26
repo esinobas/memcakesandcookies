@@ -23,10 +23,12 @@
       <!-- Include the php dir in php path -->
       <?php
          set_include_path(get_include_path().PATH_SEPARATOR . dirname(__FILE__) . '/php/'); 
+         set_include_path(get_include_path().PATH_SEPARATOR . dirname(__FILE__) . '/plugins/');
          
          require_once 'LoggerMgr/LoggerMgr.php';
          require_once 'tools/SingletonHolder/SingletonHolder.php';
          require_once './PageFunctions.php';
+         require_once 'Instagram/Instagram.php';
          
          //Include the tables files
          require_once 'Database/TB_Configuration.php';

@@ -70,12 +70,28 @@
       }
       
       /**
+       * Writes the Instagram photos (media)
+       */
+      static private function getInstagram(){
+         SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->rewind();
+         SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->searchByKey('Instagram');
+         $instagramUser = SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->getValue();
+         SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->rewind();
+         SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->searchByKey('numberThumbnails');
+         $numThumbnails = intval(SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->getValue());
+         
+         Instagram::getLastImages($instagramUser, $numThumbnails);
+      }
+      
+      /**
        * Writes the page web aside 
        */
       static public function getAside(){
 ?>
          <aside id="Lateral-Side" class="Lateral-Side">
-            aside
+<?php
+            self::getInstagram() 
+?>
          </aside>
 <?php 
       }
