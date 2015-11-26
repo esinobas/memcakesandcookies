@@ -35,9 +35,10 @@
          require_once 'Database/TB_SlideImagesHome.php';
          
          //Declare the global variables
-         $logger = LoggerMgr::Instance()->getLogger(basename(__FILE__));
+         
          
          //Create objects and add in the singleton holder
+         SingletonHolder::getInstance()->setObject('Logger', LoggerMgr::Instance()->getLogger(basename(__FILE__)));
          SingletonHolder::getInstance()->setObject(
                        TB_Configuration::TB_ConfigurationTableC, new TB_Configuration());
          
