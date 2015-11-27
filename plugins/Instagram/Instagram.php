@@ -72,16 +72,22 @@
             
             self::getLogger()->trace(" [ $idx ] link [ " . $medialink . " ]");
             
-            $urlApiInstagram = "http://api.instagram.com/oembed?url=$medialink";
+            $mediaCaption = $jsonMediaData->caption->text;
+            
+            self::getLogger()->trace(" [ $idx ] text [ " . $mediaCaption . " ]");
+            
+            /*$urlApiInstagram = "http://api.instagram.com/oembed?url=$medialink";
             self::getLogger()->trace("Get embed media from Instagram URL [ $urlApiInstagram ]");
             $response = file_get_contents($urlApiInstagram);
             self::getLogger()->trace("Media response[ $response ]");
             $mediaEmbed = json_decode($response)->html;
             self::getLogger()->trace("Media Embed [ $mediaEmbed ]");
-            
+            */
             $mediaInfo = array();
             $mediaInfo['Thumbnail'] = $mediaThumbnail;
-            $mediaInfo['Embed'] = $mediaEmbed;
+            //$mediaInfo['Embed'] = $mediaEmbed;
+            $mediaInfo['Link'] = $medialink;
+            $mediaInfo['Text'] = $mediaCaption;
             
             self::getLogger()->trace("\nAdding media info [$idx] => [ " . json_encode($mediaInfo) ." ]\n");
             $strIdx = strval($idx);
