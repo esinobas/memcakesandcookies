@@ -118,6 +118,33 @@
       }
       
       /**
+       * Writes the facebook post
+       */
+      static public function getFacebookPost(){
+      
+?>
+      <div id="fb-root"></div>
+      <script>
+         (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) 
+               return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/es_ES/sdk.js#xfbml=1&version=v2.5";
+            fjs.parentNode.insertBefore(js, fjs);
+            }
+         (document, 'script', 'facebook-jssdk')
+         );
+      </script>
+<?php
+         SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->rewind(); 
+         SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->searchByKey('Facebook');
+?>
+      <div class="fb-page" data-href="<?php print(SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->getValue());?>" data-width="300" data-small-header="true" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="false" data-show-posts="true"></div>
+<?php 
+      }
+      
+      /**
        * Writes the page web aside 
        */
       static public function getAside(){
@@ -125,6 +152,7 @@
          <aside id="Lateral-Side" class="Lateral-Side">
 <?php
             self::getInstagram();
+            self::getFacebookPost();
 ?>
          </aside>
 <?php 
