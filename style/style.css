@@ -90,6 +90,14 @@ nav ul li:hover{
    float: left;
    padding-top: 10px;
 }
+.Anchor{
+ 
+   display: block;
+   visibility: hidden;
+   height: 125px; /*same header*/
+   margin-top: -125px; /*same header*/
+}
+
 .Main-Section{
    
    
@@ -98,6 +106,13 @@ nav ul li:hover{
    padding-right: 20px;
 }
 
+.Detail-Section{
+   padding: 20px;
+   width: calc(100% - 40px);
+   display: block;
+   float: left;
+ 
+}
 .Lateral-Side{
    
    width: 300px;
@@ -108,4 +123,29 @@ nav ul li:hover{
 .fb-page, .Twiter-Widget{
  
    padding-top: 40px;
+}
+
+.Grid{
+ 
+   list-style-type: none;
+   width: 100%;
+   padding-left: 0px;
+   display: block;
+   float: left;
+}
+
+.Grid-Element{
+   /*padding: 5px 5px;
+   width: calc((100% - 10px - 40px) / 3);*/
+   padding-top: 5px;
+   padding-left: 65px;
+   width: 150px;
+   height: auto;
+   float: left;
+}
+
+.Grid-Element img{
+ 
+   width: 100%;
+   height: auto;
 }

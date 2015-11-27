@@ -34,6 +34,8 @@
          //Include the tables files
          require_once 'Database/TB_Configuration.php';
          require_once 'Database/TB_SlideImagesHome.php';
+         require_once 'Database/TB_MenuCollection.php';
+         require_once 'Database/TB_TypeCollectionImage.php';
          
          //Declare the global variables
          

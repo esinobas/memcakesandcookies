@@ -59,14 +59,77 @@
       }
       
       /**
+       * Writes the cakes section
+       */
+      static private function getCakesSection(){
+         SingletonHolder::getInstance()->getObject('Logger')->trace("Enter");
+?>
+         <spam class="Anchor" id="Cakes"></spam>
+         <section id="Cakes-Section" class="Detail-Section">
+            Cakes
+            <ul id="Cakes-Grid" class="Grid">
+<?php
+         $tbMenuCollection = new TB_MenuCollection();
+         $tbMenuCollection->open();
+         $tbCollectionImages = new TB_TypeCollectionImage();
+         $tbCollectionImages->open();
+         
+         SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->rewind();
+         SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->searchByKey('URL');
+         
+         $tbMenuCollection->searchByColumn(TB_MenuCollection::MenuIdColumnC, "2");
+         while ($tbMenuCollection->next()){
+            SingletonHolder::getInstance()->getObject('Logger')->trace("Get the first Collection Image [ " . 
+                  $tbMenuCollection->getCollectionName() ." ]");
+            $tbCollectionImages->rewind();
+            if ($tbCollectionImages->searchByColumn(TB_TypeCollectionImage::CollectionIdColumnC,
+                                                $tbMenuCollection->getCollectionId())){
+            
+               SingletonHolder::getInstance()->getObject('Logger')->trace(
+                     "The image [ " . $tbCollectionImages->getImagePath() . 
+                     " ] has been getted");
+?>
+               <li id="Grid-Element-<?php print($tbMenuCollection->getCollectionId());?>" class="Grid-Element">
+                  <?php print($tbMenuCollection->getCollectionName());?>
+                  <img src="<?php print(
+                        SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->getValue().
+                        $tbCollectionImages->getImagePath());?>">
+               </li>
+
+<?php 
+            }
+         } 
+?> 
+            </ul>
+         </section>
+<?php 
+         SingletonHolder::getInstance()->getObject('Logger')->trace("Exit");
+      }
+      
+      /**
+       * Writes the cookies section
+       */
+      
+      /**
+       * Writes the contact section
+       */
+      
+      /**
+       * Writes the newsletter section
+       */
+      /**
        * Writes the Main section
        */
       static public function getMainSection(){
 ?>
          <section id="Main-Section" class="Main-Section">
             Main
+<?php
+            self::getCakesSection(); 
+?>
          </section>
 <?php 
+
       }
       
       /**

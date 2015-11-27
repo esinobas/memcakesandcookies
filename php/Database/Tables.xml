@@ -559,6 +559,10 @@
          <conditions>
             <condition>TB_MENU.ID = TB_COLLECTION.Id_Menu</condition>
          </conditions>
+         <orderBy>
+            <column>TB_COLLECTION.Id</column>
+            <type>DESC</type>
+         </orderBy>
       </phisical_tables>
    </table_definition>
    

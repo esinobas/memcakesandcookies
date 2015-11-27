@@ -96,6 +96,7 @@
 
       $this->tableMappingM->addCondition("TB_MENU.ID = TB_COLLECTION.Id_Menu");
       
+      $this->tableMappingM->addOrderBy(array("column"=>"TB_COLLECTION.Id", "type"=>"DESC"));
       
       $this->loggerM->trace("Exit");
 	}
