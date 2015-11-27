@@ -152,7 +152,7 @@
          SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->rewind();
          SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->searchByKey('Twiter');
 ?>
-         <div>
+         <div class="Twiter-Widget">
             <a class="twitter-timeline" href="<?php print(SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->getValue());?>" data-widget-id="670182839384678400">Tweets por el @MEMCyC.</a>
             <script>
                !function(d,s,id){
@@ -163,6 +163,7 @@
                   }
                }(document,"script","twitter-wjs");</script>
           </div>
+          
 <?php 
       }
       /**
