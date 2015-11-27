@@ -73,6 +73,7 @@
        * Writes the Instagram photos (media)
        */
       static private function getInstagram(){
+         
          SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->rewind();
          SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->searchByKey('Instagram');
          $instagramUser = SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->getValue();
@@ -84,22 +85,34 @@
          
          SingletonHolder::getInstance()->getObject('Logger')->trace("\nMost Last Images [ " .
                        json_encode($lastImages) ." ]\n");
+
+?> 
+         <div class="Instagram-Plugin">
+            <div class="View-On-Instagram">
+               <style>.ig-b- { display: inline-block; }
+                  .ig-b- img { visibility: hidden; }
+                  .ig-b-:hover { background-position: 0 -60px; } .ig-b-:active { background-position: 0 -120px; }
+                  .ig-b-v-24 { width: 137px; height: 24px; background: url(//badges.instagram.com/static/images/ig-badge-view-sprite-24.png) no-repeat 0 0; }
+                  @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
+                  .ig-b-v-24 { background-image: url(//badges.instagram.com/static/images/ig-badge-view-sprite-24@2x.png); background-size: 160px 178px; } }
+               </style>
+               <a href="http://instagram.com/<?php print($instagramUser);?>?ref=badge" class="ig-b- ig-b-v-24"><img src="//badges.instagram.com/static/images/ig-badge-view-24.png" alt="Instagram" /></a>
+            </div>
+         
+<?php 
          
          foreach (array_keys($lastImages) as $idx){
             SingletonHolder::getInstance()->getObject('Logger')->trace("Media Thumbmail [$idx] => ".
                   $lastImages[$idx]->Thumbnail);
 ?>
-            <style>.ig-b- { display: inline-block; }
-.ig-b- img { visibility: hidden; }
-.ig-b-:hover { background-position: 0 -60px; } .ig-b-:active { background-position: 0 -120px; }
-.ig-b-v-24 { width: 137px; height: 24px; background: url(//badges.instagram.com/static/images/ig-badge-view-sprite-24.png) no-repeat 0 0; }
-@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
-.ig-b-v-24 { background-image: url(//badges.instagram.com/static/images/ig-badge-view-sprite-24@2x.png); background-size: 160px 178px; } }</style>
-<a href="http://instagram.com/esinobas?ref=badge" class="ig-b- ig-b-v-24"><img src="//badges.instagram.com/static/images/ig-badge-view-24.png" alt="Instagram" /></a>
-            <img src="<?php print($lastImages[$idx]->Thumbnail);?>">
+            <div class="Instagram-Thumbnail">
+               <img src="<?php print($lastImages[$idx]->Thumbnail);?>">
+            </div>
 <?php 
          }
-         
+?>
+         </div>
+<?php 
       }
       
       /**

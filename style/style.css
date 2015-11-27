@@ -16,9 +16,9 @@ header, #Logo, nav{
 
 header{
    background-color: inherit;
-   width: 80%;
-   padding-left: 10%;
-   padding-right: 10%;
+   width: 1130px;
+   padding-left: 150px;
+   padding-right: 150px;
    height: 125px;
    position: fixed;
    opacity: .95;
@@ -28,7 +28,7 @@ header{
    height: 125px;
    width: 203px;
    /*margin-left: 10%;*/
-   left: 10%;
+   left: 150px;
    background-position: center;
    background-repeat: no-repeat;
    background-size: 100%;
@@ -38,7 +38,7 @@ header{
 nav{
    
    position: fixed;
-   margin-left: 69%;
+   margin-left: 980px;
    margin-top: 30px;
 }
 
@@ -69,7 +69,7 @@ nav ul li:hover{
    /*background-color: cyan;*/
    background-color: inherit;
    position: relative;
-   width: 75%;
+   width: 1060px;
    height: 300px;
    margin-left: auto;
    margin-right: auto;
@@ -92,15 +92,16 @@ nav ul li:hover{
 }
 .Main-Section{
    
-   background-color: yellow;
-   width: 55%;
-   margin-left: 10%;
+   
+   width: 735px;
+   padding-left: 180px;
+   padding-right: 20px;
 }
 
 .Lateral-Side{
-   background-color: green;
-   width: 26%;
    
+   width: 300px;
+   padding: 3px 5px;
    
 }
 

@@ -18,6 +18,7 @@
       
       <!--  Plugins styles -->
       <link rel="stylesheet" href="./plugins/ImagesSlide/style.css">
+      <link rel="stylesheet" href="./plugins/Instagram/style.css">
       
       <!--  Style  -->
       <!-- Include the php dir in php path -->
