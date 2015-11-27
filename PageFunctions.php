@@ -70,8 +70,8 @@
 ?>
          <spam class="Anchor" id="Cakes"></spam>
          <section id="Cakes-Section" class="Detail-Section">
-            Cakes
-            <ul id="Cakes-Grid" class="Grid">
+            <h2>Cakes</h2>
+            <div id="Cakes-Grid" class="Grid">
 <?php
          $tbMenuCollection = new TB_MenuCollection();
          $tbMenuCollection->open();
@@ -80,6 +80,9 @@
          
          SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->rewind();
          SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->searchByKey('URL');
+         
+         $numCols = 3;
+         $closePrevious = false;
          
          $tbMenuCollection->searchByColumn(TB_MenuCollection::MenuIdColumnC, "2");
          while ($tbMenuCollection->next()){
@@ -92,19 +95,42 @@
                SingletonHolder::getInstance()->getObject('Logger')->trace(
                      "The image [ " . $tbCollectionImages->getImagePath() . 
                      " ] has been getted");
+               if ($numCols == 3){
+                  if($closePrevious){
+                  ?>
+                     </ul>
+                  <?php 
+                    $closePrevious = false;
+                  }
 ?>
-               <li id="Grid-Element-<?php print($tbMenuCollection->getCollectionId());?>" class="Grid-Element">
-                  <?php print($tbMenuCollection->getCollectionName());?>
-                  <img src="<?php print(
-                        SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->getValue().
-                        $tbCollectionImages->getImagePath());?>">
+                  <ul class="Grid-Row">
+<?php
+                  $numCols = 0;
+                  $closePrevious = true;
+               }
+?>
+               <li class="Grid-Col">
+               <h3>
+<?php 
+               print($tbMenuCollection->getCollectionName());
+?>
+               </h3>
+               <img src="<?php print(
+                       SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->getValue().
+                       $tbCollectionImages->getImagePath());?>">
                </li>
 
 <?php 
+               $numCols++;
             }
          } 
-?> 
+         if ($closePrevious){
+?>
             </ul>
+<?php 
+         }
+?> 
+            </div>
          </section>
 <?php 
          SingletonHolder::getInstance()->getObject('Logger')->trace("Exit");

@@ -6,6 +6,7 @@ html{
 
 body{
    background-color:white;
+   color: #f58f00;
    
 }
 /* Header style */
@@ -149,25 +150,32 @@ nav ul li:hover{
 
 .Grid{
  
-   list-style-type: none;
    width: 100%;
-   padding-left: 0px;
    display: block;
    float: left;
 }
 
-.Grid-Element{
-   /*padding: 5px 5px;
-   width: calc((100% - 10px - 40px) / 3);*/
-   padding-top: 5px;
-   padding-left: 65px;
+.Grid-Col{
+   text-align: center;
+   display: inherit;
+   float: inherit;
+   width: calc(100% / 3);
+}
+.Grid-Row{
+ 
+   list-style-type: none;
+   width: 100%;
+   padding-left: 0px;
+   display: inherit;
+   float: inherit;
+   margin-bottom: 5px;
+}
+.Grid-Col img{
+ 
    width: 150px;
    height: auto;
-   float: left;
 }
-
-.Grid-Element img{
+.Grid-Col h3{
  
-   width: 100%;
-   height: auto;
+   margin: 0px;
 }
