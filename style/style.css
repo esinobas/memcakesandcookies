@@ -10,36 +10,54 @@ body{
 }
 /* Header style */
 
-header, #Logo, nav{
+header, #Logo, nav, #Solid-Header{
    z-index: 10;
+   
 }
 
 header{
    background-color: inherit;
-   width: 1130px;
-   padding-left: 150px;
-   padding-right: 150px;
+   width: 100%;
    height: 125px;
    position: fixed;
+   top: 0px;
+   left: 0px;
    opacity: .85;
+}
+#Solid-Header{
+ 
+   width: 100%;
+   height: 125px;
+   top: 0px;
+   left: 0px;
+   position: fixed;
+}
+
+#Solid-Header-Center{
+   width: 1200px;
+   position: static;
+   margin-left: auto;
+   margin-right: auto;
 }
 
 #Logo{
    height: 125px;
    width: 203px;
    /*margin-left: 10%;*/
-   left: 150px;
+   /*left: 150px;*/
    background-position: center;
    background-repeat: no-repeat;
    background-size: 100%;
-   position:fixed;
+   /*position:fixed;*/
+   float: left;
 }
 
 nav{
    
-   position: fixed;
-   margin-left: 980px;
+   /*position: fixed;
+   margin-left: 980px;*/
    margin-top: 30px;
+   float: right;
 }
 
 nav ul{
@@ -69,7 +87,7 @@ nav ul li:hover{
    /*background-color: cyan;*/
    background-color: inherit;
    position: relative;
-   width: 1060px;
+   width: 1200px;
    height: 300px;
    margin-left: auto;
    margin-right: auto;
@@ -98,12 +116,16 @@ nav ul li:hover{
    margin-top: -125px; /*same header*/
 }
 
+#Main-Div{
+ 
+   width: 1100px;
+   margin-left: auto;
+   margin-right: auto;
+}
 .Main-Section{
    
-   
-   width: 735px;
-   padding-left: 180px;
-   padding-right: 20px;
+   width: 780px;
+   padding: 3px 5px;
 }
 
 .Detail-Section{

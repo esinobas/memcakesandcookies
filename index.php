@@ -52,8 +52,10 @@
    <body>
       <?php PageFunctions::getHeader();?>
       <?php PageFunctions::getImagesSlide();?>
-      <?php PageFunctions::getMainSection();?>
-      <?php PageFunctions::getAside();?>
+      <div id="Main-Div">
+         <?php PageFunctions::getMainSection();?>
+         <?php PageFunctions::getAside();?>
+      </div>
       <?php PageFunctions::getFooter();?>
    </body>
 </html>
