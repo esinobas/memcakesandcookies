@@ -30,6 +30,7 @@
          require_once 'tools/SingletonHolder/SingletonHolder.php';
          require_once './PageFunctions.php';
          require_once 'Instagram/Instagram.php';
+         require_once 'image/ImageLibrary.php';
          
          //Include the tables files
          require_once 'Database/TB_Configuration.php';

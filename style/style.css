@@ -172,7 +172,7 @@ nav ul li:hover{
 }
 .Grid-Col img{
  
-   width: 150px;
+   max-width: 150px;
    height: auto;
 }
 .Grid-Col h3{

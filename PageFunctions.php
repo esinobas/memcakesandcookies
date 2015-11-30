@@ -80,6 +80,10 @@
          
          SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->rewind();
          SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->searchByKey('URL');
+         $url = SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->getValue();
+         SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->rewind();
+         SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->searchByKey('thumbnailsPath');
+         $thumbnailPath = SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->getValue();
          
          $numCols = 3;
          $closePrevious = false;
@@ -95,6 +99,15 @@
                SingletonHolder::getInstance()->getObject('Logger')->trace(
                      "The image [ " . $tbCollectionImages->getImagePath() . 
                      " ] has been getted");
+               $arrayPathFilename = explode("/",$tbCollectionImages->getImagePath());
+               $filePath = "";
+               for ($idx = 0; $idx < count($arrayPathFilename); $idx++){
+                 if ($idx != count($arrayPathFilename) -1 ){
+                     $filePath .= $arrayPathFilename[$idx] . "/";
+                  }
+               }
+               $fileName = $arrayPathFilename[count($arrayPathFilename) -1 ];
+               SingletonHolder::getInstance()->getObject('Logger')->trace("File Path [ $filePath ]. File Name [ $fileName ]");
                if ($numCols == 3){
                   if($closePrevious){
                   ?>
@@ -115,9 +128,11 @@
                print($tbMenuCollection->getCollectionName());
 ?>
                </h3>
-               <img src="<?php print(
-                       SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->getValue().
-                       $tbCollectionImages->getImagePath());?>">
+               <img src="<?php print(createThumbnail($filePath, 
+                                 $fileName, 150, 150,
+                                 $filePath.$thumbnailPath 
+                                 ,"Thumb_",
+                                  SingletonHolder::getInstance()->getObject('Logger')));?>">
                </li>
 
 <?php 
