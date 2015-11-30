@@ -87,11 +87,14 @@
          
          $numCols = 3;
          $closePrevious = false;
+         $maxNumElements = 3 * 2;
+         $numElements = 0;
          
          $tbMenuCollection->searchByColumn(TB_MenuCollection::MenuIdColumnC, "2");
-         while ($tbMenuCollection->next()){
+         while ($tbMenuCollection->next() && $numElements < $maxNumElements){
             SingletonHolder::getInstance()->getObject('Logger')->trace("Get the first Collection Image [ " . 
                   $tbMenuCollection->getCollectionName() ." ]");
+           
             $tbCollectionImages->rewind();
             if ($tbCollectionImages->searchByColumn(TB_TypeCollectionImage::CollectionIdColumnC,
                                                 $tbMenuCollection->getCollectionId())){
@@ -114,11 +117,13 @@
                      </ul>
                   <?php 
                     $closePrevious = false;
+                    
                   }
 ?>
                   <ul class="Grid-Row">
 <?php
                   $numCols = 0;
+                 
                   $closePrevious = true;
                }
 ?>
@@ -137,7 +142,9 @@
 
 <?php 
                $numCols++;
+               $numElements ++;
             }
+           
          } 
          if ($closePrevious){
 ?>
@@ -145,6 +152,9 @@
 <?php 
          }
 ?> 
+            </div>
+            <div id="View-Most-Cakes" class="View-More">
+               <span class="Text-View-More">Ver mas</span>
             </div>
          </section>
 <?php 
