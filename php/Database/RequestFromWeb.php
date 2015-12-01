@@ -756,18 +756,20 @@
             return;
          }
       }
+      $logger->trace("The result has [ " .$theTable->getCardinality(). " ] rows");
       $numRows = 0;
       
       $skipRows = 0;
       if (isset($theData[PARAM_SKIP_ROWS])){
          $skipRows = $theData[PARAM_SKIP_ROWS];
       }
-      if (isset($theData[PARAM_SKIP_ROWS])){
+      if (isset($theData[PARAM_NUM_ROWS])){
          $numRows = $theData[PARAM_NUM_ROWS];
       }
       if ($numRows == 0){
          $numRows = $theTable->getCardinality() - $skipRows;
       }
+      $logger->trace("Skip rows [ $skipRows ]");
       $theTable->skip($skipRows);
 
       $idx = 0;
@@ -878,7 +880,7 @@
              $rowData['Title'] = $theTable->getTitle();
              $rowData['New'] = $theTable->getNew();
          }
-         $logger->trace("Add row [ $idx] [json_encode($rowData) ]");
+         $logger->trace("Add row [ $idx ] [ ". json_encode($rowData) . " ]");
          $theResult[PARAM_DATA][strval($idx)] = $rowData;
          $idx++;
       }

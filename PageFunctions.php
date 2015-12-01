@@ -158,11 +158,54 @@
             </div>
             
             <script type="text/javascript">
+
+               function getImageDataCallback(theResponse){
+                  SLogger.getInstance().traceEnter();
+                  JSLogger.getInstance().trace("Response [" + theResponseText +" ]");
+                  SLogger.getInstance().traceExit();
+               }
+   
+               function getFirstCollectionImageFromServer(theResponseText){
+                  JSLogger.getInstance().traceEnter();
+                  JSLogger.getInstance().trace("Response [" + theResponseText +" ]");
+                  var rows = JSON.parse(theResponseText)['data'];
+
+                  for (var row in rows){
+                     JSLogger.getInstance().trace("Collection : id [ " + rows[row].CollectionId +
+                           " ] [ " + rows[row].CollectionName + " ]");
+                  
+                     JSLogger.getInstance().trace("Create Ajax object");
+                     var ajaxObject = new Ajax();
+                     ajaxObject.setAsyn();
+                     ajaxObject.setPostMethod();
+                     ajaxObject.setCallback(getImageDataCallback);
+                     JSLogger.getInstance().debug("Url whete the data will be send [ <?php print($url);?>" 
+                                    +"php/Database/RequestFromWeb.php ]");
+                     ajaxObject.setUrl("<?php print($url);?>php/Database/RequestFromWeb.php");
+                     var requestParams = {};
+                     requestParams.<?php print(COMMAND);?> = <?php print("\"".COMMAND_SELECT."\"");?>;
+                     requestParams.<?php print(PARAMS);?> = {};
+                     requestParams.<?php print(PARAMS);?>.<?php print(PARAM_TABLE);?> = <?php print("\""
+                           .TB_TypeCollectionImage::TB_TypeCollectionImageTableC ."\"");?>;
+                     requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?> = {};
+                     requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(PARAM_NUM_ROWS)?> = 1
+                     requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(PARAM_SEARCH_BY);?> = {};
+                     requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(PARAM_SEARCH_BY);?>.<?php print(PARAM_SEARCH_COLUMN);?> = "<?php print(TB_TypeCollectionImage::CollectionIdColumnC);?>";
+                     requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(PARAM_SEARCH_BY);?>.<?php print(PARAM_SEARCH_VALUE);?> = rows[row].CollectionId;
+                     JSLogger.getInstance().debug("Command parameters [ " + JSON.stringify(requestParams) +" ]");
+
+                     ajaxObject.setParameters(JSON.stringify(requestParams));
+                     ajaxObject.send();
+                  }
+                  JSLogger.getInstance().traceExit();
+               };
+            
                $('#View-Most-Cakes').click(function(){
                   JSLogger.getInstance().trace("Create Ajax object");
                   var ajaxObject = new Ajax();
-                  ajaxObject.setSyn();
+                  ajaxObject.setAsyn();
                   ajaxObject.setPostMethod();
+                  ajaxObject.setCallback(getFirstCollectionImageFromServer);
                   JSLogger.getInstance().debug("Url whete the data will be send [ <?php print($url);?>" 
                   +"php/Database/RequestFromWeb.php ]");
                   ajaxObject.setUrl("<?php print($url);?>php/Database/RequestFromWeb.php");
@@ -181,7 +224,7 @@
 
                   ajaxObject.setParameters(JSON.stringify(requestParams));
                   ajaxObject.send();
-                  JSLogger.getInstance().trace("Response [ " + ajaxObject.getResponse() + " ]");
+                  
                });
             </script>
          </section>

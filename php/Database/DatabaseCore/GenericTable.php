@@ -385,17 +385,22 @@
        * @param integer $theNumRows
        */
       public function skip($theNumRows){
-         
-         if ($theNumRows <= $this->getCardinality()){
+         //$this->loggerM->trace("Enter");
+         if ($theNumRows >= $this->getCardinality()){
             $this->loggerM->warn("The skipped [ $theNumRows ] is greater then or equal the tables rows [ " .
                         $this->getCardinality() . " ]");
          }
          if ($theNumRows == 0){
             $this->loggerM->warn("The skipped num rows is 0");
          }
-         if ($theNumRows > 0 && $theNumRows < $this->getCardinality()){
-            $this->rowIdxM + $theNumRows - 1;
+         if (($theNumRows > 0) && ($theNumRows < $this->getCardinality())){
+            
+            for ($i = 0;  $i < $theNumRows; $i++){
+               $this->next();
+            }
          }
+         
+         //$this->loggerM->trace("Exit");
       }
       
       /**
