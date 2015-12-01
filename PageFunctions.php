@@ -156,6 +156,34 @@
             <div id="View-Most-Cakes" class="View-More">
                <span class="Text-View-More">Ver mas</span>
             </div>
+            
+            <script type="text/javascript">
+               $('#View-Most-Cakes').click(function(){
+                  JSLogger.getInstance().trace("Create Ajax object");
+                  var ajaxObject = new Ajax();
+                  ajaxObject.setSyn();
+                  ajaxObject.setPostMethod();
+                  JSLogger.getInstance().debug("Url whete the data will be send [ <?php print($url);?>" 
+                  +"php/Database/RequestFromWeb.php ]");
+                  ajaxObject.setUrl("<?php print($url);?>php/Database/RequestFromWeb.php");
+                  var requestParams = {};
+                  requestParams.<?php print(COMMAND);?> = <?php print("\"".COMMAND_SELECT."\"");?>;
+                  requestParams.<?php print(PARAMS);?> = {};
+                  requestParams.<?php print(PARAMS);?>.<?php print(PARAM_TABLE);?> = <?php print("\""
+                           .TB_MenuCollection::TB_MenuCollectionTableC ."\"");?>;
+                  requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?> = {};
+                  requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(PARAM_SKIP_ROWS);?> = $('#Cakes-Grid li').length;
+                  requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(PARAM_NUM_ROWS)?> = 3;
+                  requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(PARAM_SEARCH_BY);?> = {};
+                  requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(PARAM_SEARCH_BY);?>.<?php print(PARAM_SEARCH_COLUMN);?>="<?php print(TB_MenuCollection::MenuIdColumnC);?>";
+                  requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(PARAM_SEARCH_BY);?>.<?php print(PARAM_SEARCH_VALUE);?> = "2";
+                  JSLogger.getInstance().debug("Command parameters [ " + JSON.stringify(requestParams) +" ]");
+
+                  ajaxObject.setParameters(JSON.stringify(requestParams));
+                  ajaxObject.send();
+                  JSLogger.getInstance().trace("Response [ " + ajaxObject.getResponse() + " ]");
+               });
+            </script>
          </section>
 <?php 
          SingletonHolder::getInstance()->getObject('Logger')->trace("Exit");

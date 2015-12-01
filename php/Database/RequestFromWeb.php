@@ -38,7 +38,13 @@
    define(COMMAND_INSERT, "I");
    define(COMMAND_UPDATE, "U");
    define(COMMAND_DELETE, "D");
+   define(COMMAND_SELECT, "S");
    define(PARAM_KEY, "key");
+   define(PARAM_SKIP_ROWS, "skipRows");
+   define(PARAM_NUM_ROWS, "numRows");
+   define(PARAM_SEARCH_BY, "searchBy");
+   define(PARAM_SEARCH_COLUMN, "searchColumn");
+   define(PARAM_SEARCH_VALUE, "searchValue");
    define(RESULT_CODE, "ResultCode");
    define(MSG_ERROR, "ErrorMsg");
    define(RESULT_CODE_SUCCESS, 200);
@@ -733,6 +739,151 @@
       $logger->trace("Exit");
    }
 
+   function selectData($theTable, $theData, &$theResult){
+      global $logger;
+      $logger->trace("Enter");
+      $logger->trace("Select data from  [ " . $theTable->getTableName() ." ]");
+      $logger->trace("with params: [ ".json_encode($theData)." ]");
+      if (isset($theData[PARAM_SEARCH_BY])){
+         $logger->trace("Search by column [ ".
+                                  $theData[PARAM_SEARCH_BY][PARAM_SEARCH_COLUMN] .
+                                  " ] value [ " .
+                                  $theData[PARAM_SEARCH_BY][PARAM_SEARCH_VALUE] . 
+                                   " ]");
+         if (! $theTable->searchByColumn($theData[PARAM_SEARCH_BY][PARAM_SEARCH_COLUMN],
+                                     $theData[PARAM_SEARCH_BY][PARAM_SEARCH_VALUE])){
+            $logger->trace("The search has not had success");
+            return;
+         }
+      }
+      $numRows = 0;
+      
+      $skipRows = 0;
+      if (isset($theData[PARAM_SKIP_ROWS])){
+         $skipRows = $theData[PARAM_SKIP_ROWS];
+      }
+      if (isset($theData[PARAM_SKIP_ROWS])){
+         $numRows = $theData[PARAM_NUM_ROWS];
+      }
+      if ($numRows == 0){
+         $numRows = $theTable->getCardinality() - $skipRows;
+      }
+      $theTable->skip($skipRows);
+
+      $idx = 0;
+      $theResult[PARAM_DATA] = array();
+      while ($theTable->next() && $idx < $numRows){
+         $rowData = array();
+
+         if (strcmp($theTable->getTableName(),TB_Configuration::TB_ConfigurationTableC) == 0){
+
+             $rowData['Property'] = $theTable->getProperty();
+             $rowData['Value'] = $theTable->getValue();
+             $rowData['Description'] = $theTable->getDescription();
+             $rowData['Label'] = $theTable->getLabel();
+             $rowData['DataType'] = $theTable->getDataType();
+         }
+
+         if (strcmp($theTable->getTableName(),TB_Menu::TB_MenuTableC) == 0){
+
+             $rowData['Id'] = $theTable->getId();
+             $rowData['Option'] = $theTable->getOption();
+         }
+
+         if (strcmp($theTable->getTableName(),TB_SlideImagesHome::TB_SlideImagesHomeTableC) == 0){
+
+             $rowData['Id'] = $theTable->getId();
+             $rowData['Path'] = $theTable->getPath();
+         }
+
+         if (strcmp($theTable->getTableName(),TB_ImageType::TB_ImageTypeTableC) == 0){
+
+             $rowData['Id'] = $theTable->getId();
+             $rowData['Type'] = $theTable->getType();
+         }
+
+         if (strcmp($theTable->getTableName(),TB_Users::TB_UsersTableC) == 0){
+
+             $rowData['Id'] = $theTable->getId();
+             $rowData['Name'] = $theTable->getName();
+             $rowData['Email'] = $theTable->getEmail();
+             $rowData['Password'] = $theTable->getPassword();
+         }
+
+         if (strcmp($theTable->getTableName(),TB_CookiesByCollection::TB_CookiesByCollectionTableC) == 0){
+
+             $rowData['CollectionId'] = $theTable->getCollectionId();
+             $rowData['CollectionName'] = $theTable->getCollectionName();
+             $rowData['ImageId'] = $theTable->getImageId();
+             $rowData['ImagePath'] = $theTable->getImagePath();
+             $rowData['ImageDescription'] = $theTable->getImageDescription();
+             $rowData['ImageName'] = $theTable->getImageName();
+         }
+
+         if (strcmp($theTable->getTableName(),TB_CakesByCollection::TB_CakesByCollectionTableC) == 0){
+
+             $rowData['CollectionId'] = $theTable->getCollectionId();
+             $rowData['CollectionName'] = $theTable->getCollectionName();
+             $rowData['ImageId'] = $theTable->getImageId();
+             $rowData['ImagePath'] = $theTable->getImagePath();
+             $rowData['ImageDescription'] = $theTable->getImageDescription();
+             $rowData['ImageName'] = $theTable->getImageName();
+         }
+
+         if (strcmp($theTable->getTableName(),TB_ModelsByCollection::TB_ModelsByCollectionTableC) == 0){
+
+             $rowData['CollectionId'] = $theTable->getCollectionId();
+             $rowData['CollectionName'] = $theTable->getCollectionName();
+             $rowData['ImageId'] = $theTable->getImageId();
+             $rowData['ImagePath'] = $theTable->getImagePath();
+             $rowData['ImageDescription'] = $theTable->getImageDescription();
+             $rowData['ImageName'] = $theTable->getImageName();
+         }
+
+         if (strcmp($theTable->getTableName(),TB_MenuCollection::TB_MenuCollectionTableC) == 0){
+
+             $rowData['MenuId'] = $theTable->getMenuId();
+             $rowData['MenuOption'] = $theTable->getMenuOption();
+             $rowData['CollectionId'] = $theTable->getCollectionId();
+             $rowData['CollectionName'] = $theTable->getCollectionName();
+         }
+
+         if (strcmp($theTable->getTableName(),TB_ImagesAndCollection::TB_ImagesAndCollectionTableC) == 0){
+
+             $rowData['CollectionId'] = $theTable->getCollectionId();
+             $rowData['CollectionName'] = $theTable->getCollectionName();
+             $rowData['CollectionMenuId'] = $theTable->getCollectionMenuId();
+             $rowData['ImageId'] = $theTable->getImageId();
+             $rowData['ImagePath'] = $theTable->getImagePath();
+             $rowData['ImageDescription'] = $theTable->getImageDescription();
+             $rowData['ImageName'] = $theTable->getImageName();
+         }
+
+         if (strcmp($theTable->getTableName(),TB_TypeCollectionImage::TB_TypeCollectionImageTableC) == 0){
+
+             $rowData['TypeCollectionImageId'] = $theTable->getTypeCollectionImageId();
+             $rowData['TypeId'] = $theTable->getTypeId();
+             $rowData['TypeName'] = $theTable->getTypeName();
+             $rowData['CollectionId'] = $theTable->getCollectionId();
+             $rowData['CollectionName'] = $theTable->getCollectionName();
+             $rowData['CollectionMenuId'] = $theTable->getCollectionMenuId();
+             $rowData['ImagePath'] = $theTable->getImagePath();
+             $rowData['ImageDescription'] = $theTable->getImageDescription();
+         }
+
+         if (strcmp($theTable->getTableName(),TB_News::TB_NewsTableC) == 0){
+
+             $rowData['Id'] = $theTable->getId();
+             $rowData['DateTime'] = $theTable->getDateTime();
+             $rowData['Title'] = $theTable->getTitle();
+             $rowData['New'] = $theTable->getNew();
+         }
+         $logger->trace("Add row [ $idx] [json_encode($rowData) ]");
+         $theResult[PARAM_DATA][strval($idx)] = $rowData;
+         $idx++;
+      }
+      $logger->trace("Exit");
+   }
    
    /******************* MAIN *********************************/
 
@@ -772,6 +923,10 @@
          if (strcmp(strtoupper($strCommand), COMMAND_DELETE) == 0){
             $logger->debug("It is a delete command in table [ ". $table->getTableName() . " ]");
             delete($table, $params[PARAM_DATA], $resultArray);
+         }
+         if (strcmp(strtoupper($strCommand), COMMAND_SELECT) == 0){
+            $logger->debug("It is a select command in table [ " . $table->getTableName() . " ]");
+            selectData($table, $params[PARAM_DATA], $resultArray);
          }
          $logger->trace("The request has been processed. Result [ " . json_encode($resultArray) ." ]");
         

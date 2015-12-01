@@ -4,9 +4,7 @@
     * them expecific data.
     */
 
-   if ( ! strpos(get_include_path(), dirname(__FILE__))){ 
-      set_include_path( get_include_path() . PATH_SEPARATOR . dirname(__FILE__));
-   }
+   set_include_path( get_include_path() . PATH_SEPARATOR . dirname(__FILE__));
    
    include_once 'TableIf.php';
    include_once 'LoggerMgr/LoggerMgr.php';
@@ -178,10 +176,9 @@
        */
       public function delete(){
          $this->loggerM->trace("Enter");
-         $result = DatabaseMgr::delete($this->tableMappingM, current($this->tableDataM));
+         DatabaseMgr::delete($this->tableMappingM, current($this->tableDataM));
          //$this->refresh();
          $this->loggerM->trace("Exit");
-         return $result;
       }
       /**
        * Inserts data in the table. The data are passed in an array parameter, 
@@ -381,6 +378,24 @@
          $this->loggerM->trace("Enter");
          $this->loggerM->trace("Exit");
          return $this->strErrorM;
+      }
+      
+      /**
+       * Skips to the a row.
+       * @param integer $theNumRows
+       */
+      public function skip($theNumRows){
+         
+         if ($theNumRows <= $this->getCardinality()){
+            $this->loggerM->warn("The skipped [ $theNumRows ] is greater then or equal the tables rows [ " .
+                        $this->getCardinality() . " ]");
+         }
+         if ($theNumRows == 0){
+            $this->loggerM->warn("The skipped num rows is 0");
+         }
+         if ($theNumRows > 0 && $theNumRows < $this->getCardinality()){
+            $this->rowIdxM + $theNumRows - 1;
+         }
       }
       
       /**

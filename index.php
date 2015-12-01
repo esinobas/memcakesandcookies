@@ -14,6 +14,7 @@
       <!--  Plugins -->
       <script type="text/javascript" src="./plugins/JQuery/jquery-1.9.0.js"></script>
       <script type="text/javascript" src="./plugins/JSLogger/JSLogger.js"></script>
+      <script type="text/javascript" src="./plugins/Ajax/Ajax.js"></script>
       <script type="text/javascript" src="./plugins/ImagesSlide/ImagesSlide.js"></script>
       
       <!--  Plugins styles -->
@@ -37,6 +38,7 @@
          require_once 'Database/TB_SlideImagesHome.php';
          require_once 'Database/TB_MenuCollection.php';
          require_once 'Database/TB_TypeCollectionImage.php';
+         require_once 'Database/RequestFromWeb.php';
          
          //Declare the global variables
          
