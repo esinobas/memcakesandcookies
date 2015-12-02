@@ -166,6 +166,28 @@
       }
       
       /**
+       * Writes the Cookies section
+       */
+      static private function getCookiesSection(){
+         SingletonHolder::getInstance()->getObject('Logger')->trace("Enter");
+         ?>
+               <spam class="Anchor" id="Cookies"></spam>
+               <section id="Cookies-Section" class="Detail-Section">
+                  <h2>Cookies</h2>
+                  <div id="Cookies-Grid" class="Grid">
+      <?php
+                     self::writeTheFirstCollectionImage(3);
+?>
+                  </div>
+                  <div id="View-Most-Cookies" class="View-More">
+                     <span class="Text-View-More">Ver mas</span>
+                  </div>
+               </section>
+<?php 
+         SingletonHolder::getInstance()->getObject('Logger')->trace("Exit");
+      }
+      
+      /**
        * Writes the cakes section
        */
       static private function getCakesSection(){
@@ -337,6 +359,7 @@
                         TB_TypeCollectionImage::TB_TypeCollectionImageTableC, 
                         $tbCollectionImages);
             self::getCakesSection(); 
+            self::getCookiesSection();
 ?>
          </section>
 <?php 

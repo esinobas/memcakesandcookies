@@ -111,10 +111,12 @@ nav ul li:hover{
 }
 .Anchor{
  
-   display: block;
+   
    visibility: hidden;
    height: 125px; /*same header*/
    margin-top: -125px; /*same header*/
+   width: 100%;
+   float: left;
 }
 
 #Main-Div{
