@@ -149,29 +149,9 @@ nav ul li:hover{
 }
 
 .Grid{
- 
-   width: 100%;
-   display: block;
-   float: left;
    overflow: hidden;
-   
 }
 
-.Grid-Col{
-   text-align: center;
-   display: inherit;
-   float: inherit;
-   width: calc(100% / 3);
-}
-.Grid-Row{
- 
-   list-style-type: none;
-   width: 100%;
-   padding-left: 0px;
-   display: inherit;
-   float: inherit;
-   margin-bottom: 5px;
-}
 .Grid-Col img{
  
    max-width: 150px;

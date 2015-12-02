@@ -7,6 +7,18 @@
    class PageFunctions{
       
       /**
+       * Private constants
+       * 
+       */
+      
+      /**
+       * 
+       */
+      const NUM_GRID_COLUMNS_C = 3;
+      
+      const NUM_GRID_ROWS_C = 2;
+      
+      /**
        * Writes the page header
        */
       static public function getHeader(){
@@ -87,7 +99,7 @@
          
          $numCols = 3;
          $closePrevious = false;
-         $maxNumElements = 3 * 2;
+         $maxNumElements = self::NUM_GRID_COLUMNS_C * self::NUM_GRID_ROWS_C;
          $numElements = 0;
          
          $tbMenuCollection->searchByColumn(TB_MenuCollection::MenuIdColumnC, "2");
@@ -111,7 +123,7 @@
                }
                $fileName = $arrayPathFilename[count($arrayPathFilename) -1 ];
                SingletonHolder::getInstance()->getObject('Logger')->trace("File Path [ $filePath ]. File Name [ $fileName ]");
-               if ($numCols == 3){
+               if ($numCols == self::NUM_GRID_COLUMNS_C){
                   if($closePrevious){
                   ?>
                      </ul>
@@ -127,7 +139,7 @@
                   $closePrevious = true;
                }
 ?>
-               <li class="Grid-Col">
+               <li class="Grid-Col Grid-3-Cols">
                <h3>
 <?php 
                print($tbMenuCollection->getCollectionName());
@@ -174,7 +186,7 @@
                      newRow = $('<ul class="Grid-Row New-Row"></ul>');
                      $('#Cakes-Grid').append(newRow);
                   }
-                  var newColumn = $('<li class="Grid-Col"></li>');
+                  var newColumn = $('<li class="Grid-Col Grid-3-Cols"></li>');
                   newColumn.append('<h3>' + jsonResponse.data[0].CollectionName+'</h3>');
                   newColumn.append('<img src="<?php print($url);?>'+jsonResponse.data[0].ImagePath+'"></img>');
                   newRow.append(newColumn);
@@ -191,7 +203,7 @@
                      $('#Cakes-Grid').animate({
                         height: newHeight+"px"
                         }, 
-                        2000,
+                        1000,
                         function(){
                                     $('#Cakes-Grid').css('height','')
                                   }
@@ -264,7 +276,7 @@
                            .TB_MenuCollection::TB_MenuCollectionTableC ."\"");?>;
                   requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?> = {};
                   requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(PARAM_SKIP_ROWS);?> = $('#Cakes-Grid li').length;
-                  requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(PARAM_NUM_ROWS)?> = 3;
+                  requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(PARAM_NUM_ROWS)?> = <?php print(self::NUM_GRID_COLUMNS_C);?>;
                   requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(PARAM_SEARCH_BY);?> = {};
                   requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(PARAM_SEARCH_BY);?>.<?php print(PARAM_SEARCH_COLUMN);?>="<?php print(TB_MenuCollection::MenuIdColumnC);?>";
                   requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(PARAM_SEARCH_BY);?>.<?php print(PARAM_SEARCH_VALUE);?> = "2";

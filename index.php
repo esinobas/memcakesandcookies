@@ -18,6 +18,7 @@
       <script type="text/javascript" src="./plugins/ImagesSlide/ImagesSlide.js"></script>
       
       <!--  Plugins styles -->
+      <link rel="stylesheet" href="./style/GridStyle.css">
       <link rel="stylesheet" href="./plugins/ImagesSlide/style.css">
       <link rel="stylesheet" href="./plugins/Instagram/style.css">
       
