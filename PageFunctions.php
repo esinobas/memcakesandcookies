@@ -179,9 +179,15 @@
                      self::writeTheFirstCollectionImage(3);
 ?>
                   </div>
+                  
                   <div id="View-Most-Cookies" class="View-More">
                      <span class="Text-View-More">Ver mas</span>
                   </div>
+                  <script type="text/javascript">
+                     if ($('#Cookies-Grid .Grid-Col').length < <?php print((self::NUM_GRID_COLUMNS_C*self::NUM_GRID_ROWS_C));?>){
+                        $('#Cookies-Section .Text-View-More').hide();
+                     }         
+                  </script>
                </section>
 <?php 
          SingletonHolder::getInstance()->getObject('Logger')->trace("Exit");
@@ -205,6 +211,11 @@
             <div id="View-Most-Cakes" class="View-More">
                <span class="Text-View-More">Ver mas</span>
             </div>
+            <script type="text/javascript">
+               if ($('#Cakes-Grid .Grid-Col').length < <?php print((self::NUM_GRID_COLUMNS_C*self::NUM_GRID_ROWS_C));?>){
+                  $('#Cakes-Section .Text-View-More').hide();
+               }         
+            </script>
             
             <script type="text/javascript">
 
@@ -287,7 +298,7 @@
                      ajaxObject.send();
                      numImagesToLoad ++;
                   }
-                  if (numImagesToLoad < 3){
+                  if (numImagesToLoad < <?php print(self::NUM_GRID_COLUMNS_C);?>){
                      showViewMore = false;
                   }
                   JSLogger.getInstance().traceExit();
