@@ -75,49 +75,47 @@
       }
       
       /**
-       * Writes the cakes section
+       * Get from the data base the collections and their first image and 
+       * they are written in the grid
+       * @param integer $theType
        */
-      static private function getCakesSection(){
-         SingletonHolder::getInstance()->getObject('Logger')->trace("Enter");
-?>
-         <spam class="Anchor" id="Cakes"></spam>
-         <section id="Cakes-Section" class="Detail-Section">
-            <h2>Cakes</h2>
-            <div id="Cakes-Grid" class="Grid">
-<?php
-         $tbMenuCollection = new TB_MenuCollection();
-         $tbMenuCollection->open();
-         $tbCollectionImages = new TB_TypeCollectionImage();
-         $tbCollectionImages->open();
+      static private function writeTheFirstCollectionImage($theType){
          
+         SingletonHolder::getInstance()->getObject('Logger')->trace("Enter");
+         SingletonHolder::getInstance()->getObject('Logger')->trace("Search collections and theirs first images for the type [ $theType ]");
          SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->rewind();
          SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->searchByKey('URL');
          $url = SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->getValue();
          SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->rewind();
          SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->searchByKey('thumbnailsPath');
          $thumbnailPath = SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->getValue();
-         
-         $numCols = 3;
+          
+         $numCols = self::NUM_GRID_COLUMNS_C;
          $closePrevious = false;
          $maxNumElements = self::NUM_GRID_COLUMNS_C * self::NUM_GRID_ROWS_C;
          $numElements = 0;
-         
-         $tbMenuCollection->searchByColumn(TB_MenuCollection::MenuIdColumnC, "2");
+          
+         $tbMenuCollection = SingletonHolder::getInstance()->getObject(TB_MenuCollection::TB_MenuCollectionTableC);
+         $tbMenuCollection->rewind();
+         $tbMenuCollection->searchByColumn(TB_MenuCollection::MenuIdColumnC, strval($theType));
+          
+         $tbCollectionImages = SingletonHolder::getInstance()->getObject(TB_TypeCollectionImage::TB_TypeCollectionImageTableC);
+          
          while ($tbMenuCollection->next() && $numElements < $maxNumElements){
-            SingletonHolder::getInstance()->getObject('Logger')->trace("Get the first Collection Image [ " . 
+            SingletonHolder::getInstance()->getObject('Logger')->trace("Get the first Collection Image [ " .
                   $tbMenuCollection->getCollectionName() ." ]");
-           
+             
             $tbCollectionImages->rewind();
             if ($tbCollectionImages->searchByColumn(TB_TypeCollectionImage::CollectionIdColumnC,
-                                                $tbMenuCollection->getCollectionId())){
-            
+                  $tbMenuCollection->getCollectionId())){
+         
                SingletonHolder::getInstance()->getObject('Logger')->trace(
-                     "The image [ " . $tbCollectionImages->getImagePath() . 
+                     "The image [ " . $tbCollectionImages->getImagePath() .
                      " ] has been getted");
                $arrayPathFilename = explode("/",$tbCollectionImages->getImagePath());
                $filePath = "";
                for ($idx = 0; $idx < count($arrayPathFilename); $idx++){
-                 if ($idx != count($arrayPathFilename) -1 ){
+                  if ($idx != count($arrayPathFilename) -1 ){
                      $filePath .= $arrayPathFilename[$idx] . "/";
                   }
                }
@@ -125,10 +123,10 @@
                SingletonHolder::getInstance()->getObject('Logger')->trace("File Path [ $filePath ]. File Name [ $fileName ]");
                if ($numCols == self::NUM_GRID_COLUMNS_C){
                   if($closePrevious){
-                  ?>
+?>
                      </ul>
-                  <?php 
-                    $closePrevious = false;
+<?php 
+                     $closePrevious = false;
                     
                   }
 ?>
@@ -142,28 +140,45 @@
                <li class="Grid-Col Grid-3-Cols">
                <h3>
 <?php 
-               print($tbMenuCollection->getCollectionName());
+                  print($tbMenuCollection->getCollectionName());
 ?>
                </h3>
                <img src="<?php print(createThumbnail($filePath, 
-                                 $fileName, 150, 150,
-                                 $filePath.$thumbnailPath 
-                                 ,"Thumb_",
-                                  SingletonHolder::getInstance()->getObject('Logger')));?>">
+                                     $fileName, 150, 150,
+                                     $filePath.$thumbnailPath 
+                                     ,"Thumb_",
+                                    SingletonHolder::getInstance()->getObject('Logger')));?>">
                </li>
-
 <?php 
                $numCols++;
                $numElements ++;
             }
-           
+                    
          } 
          if ($closePrevious){
 ?>
             </ul>
 <?php 
          }
-?> 
+ 
+                  
+         SingletonHolder::getInstance()->getObject('Logger')->trace("Exit");
+      }
+      
+      /**
+       * Writes the cakes section
+       */
+      static private function getCakesSection(){
+         SingletonHolder::getInstance()->getObject('Logger')->trace("Enter");
+?>
+         <spam class="Anchor" id="Cakes"></spam>
+         <section id="Cakes-Section" class="Detail-Section">
+            <h2>Cakes</h2>
+            <div id="Cakes-Grid" class="Grid">
+<?php
+               self::writeTheFirstCollectionImage(2);
+         
+?>
             </div>
             <div id="View-Most-Cakes" class="View-More">
                <span class="Text-View-More">Ver mas</span>
@@ -311,6 +326,16 @@
          <section id="Main-Section" class="Main-Section">
            
 <?php
+            $tbMenuCollection = new TB_MenuCollection();
+            $tbMenuCollection->open();
+            $tbCollectionImages = new TB_TypeCollectionImage();
+            $tbCollectionImages->open();
+            SingletonHolder::getInstance()->setObject(
+                        TB_MenuCollection::TB_MenuCollectionTableC, 
+                        $tbMenuCollection);
+            SingletonHolder::getInstance()->setObject(
+                        TB_TypeCollectionImage::TB_TypeCollectionImageTableC, 
+                        $tbCollectionImages);
             self::getCakesSection(); 
 ?>
          </section>
