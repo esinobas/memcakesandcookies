@@ -159,10 +159,10 @@
             
             <script type="text/javascript">
 
-               function getImageDataCallback(theResponse){
-                  SLogger.getInstance().traceEnter();
+               function getImageDataCallback(theResponseText){
+                  JSLogger.getInstance().traceEnter();
                   JSLogger.getInstance().trace("Response [" + theResponseText +" ]");
-                  SLogger.getInstance().traceExit();
+                  JSLogger.getInstance().traceExit();
                }
    
                function getFirstCollectionImageFromServer(theResponseText){

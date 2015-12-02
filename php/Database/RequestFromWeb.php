@@ -890,7 +890,7 @@
   
    $method = $_SERVER['REQUEST_METHOD'];
    
-   //if (count($_POST) > 0){
+   if (count($_POST) > 0 || count($_GET) > 0){
       $logger = LoggerMgr::Instance()->getLogger("RequestFromWeb.php");
    
 
@@ -944,6 +944,6 @@
         
       }
       print(json_encode($resultArray));
-   //} 
+   } 
    
 ?>
