@@ -162,6 +162,18 @@
                function getImageDataCallback(theResponseText){
                   JSLogger.getInstance().traceEnter();
                   JSLogger.getInstance().trace("Response [" + theResponseText +" ]");
+                  var jsonResponse = JSON.parse(theResponseText);
+                  //Check if the new row exists
+                  var newRow = $('#Cakes-Grid .New-Row');
+                  if (newRow.length == 0){
+                     JSLogger.getInstance().trace("Create a new row");
+                     newRow = $('<ul class="Grid-Row New-Row"></ul>');
+                     $('#Cakes-Grid').append(newRow);
+                  }
+                  var newColumn = $('<li class="Grid-Col"></li>');
+                  newColumn.append('<h3>' + jsonResponse.data[0].CollectionName+'</h3>');
+                  newColumn.append('<img src="<?php print($url);?>'+jsonResponse.data[0].ImagePath+'"></img>');
+                  newRow.append(newColumn);
                   JSLogger.getInstance().traceExit();
                }
    
