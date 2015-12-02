@@ -177,7 +177,7 @@
                      JSLogger.getInstance().trace("Create Ajax object");
                      var ajaxObject = new Ajax();
                      ajaxObject.setAsyn();
-                     ajaxObject.setPostMethod();
+                     ajaxObject.setGetMethod();
                      ajaxObject.setCallback(getImageDataCallback);
                      JSLogger.getInstance().debug("Url whete the data will be send [ <?php print($url);?>" 
                                     +"php/Database/RequestFromWeb.php ]");
@@ -204,7 +204,7 @@
                   JSLogger.getInstance().trace("Create Ajax object");
                   var ajaxObject = new Ajax();
                   ajaxObject.setAsyn();
-                  ajaxObject.setPostMethod();
+                  ajaxObject.setGetMethod();
                   ajaxObject.setCallback(getFirstCollectionImageFromServer);
                   JSLogger.getInstance().debug("Url whete the data will be send [ <?php print($url);?>" 
                   +"php/Database/RequestFromWeb.php ]");

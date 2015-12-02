@@ -756,7 +756,6 @@
             return;
          }
       }
-      $logger->trace("The result has [ " .$theTable->getCardinality(). " ] rows");
       $numRows = 0;
       
       $skipRows = 0;
@@ -769,7 +768,6 @@
       if ($numRows == 0){
          $numRows = $theTable->getCardinality() - $skipRows;
       }
-      $logger->trace("Skip rows [ $skipRows ]");
       $theTable->skip($skipRows);
 
       $idx = 0;
@@ -880,7 +878,7 @@
              $rowData['Title'] = $theTable->getTitle();
              $rowData['New'] = $theTable->getNew();
          }
-         $logger->trace("Add row [ $idx ] [ ". json_encode($rowData) . " ]");
+         $logger->trace("Add row [ $idx ] [ " . json_encode($rowData) ." ]");
          $theResult[PARAM_DATA][strval($idx)] = $rowData;
          $idx++;
       }
@@ -890,13 +888,26 @@
    /******************* MAIN *********************************/
 
   
-   if (count($_POST) > 0){
+   $method = $_SERVER['REQUEST_METHOD'];
+   
+   //if (count($_POST) > 0){
       $logger = LoggerMgr::Instance()->getLogger("RequestFromWeb.php");
    
 
-      $logger->info("A request has been received from web");
+      $logger->info("A request [ $method ] has been received from web");
       $resultArray = array();
-      if (!isset ($_POST[COMMAND]) || ! isset ($_POST[PARAMS])){
+      $strCommand = null;
+      $strParams = null;
+      
+      if ($method == "POST"){
+         $strCommand = $_POST[COMMAND];
+         $strParams = $_POST[PARAMS];
+      }
+      if ($method == "GET"){
+         $strCommand = $_GET[COMMAND];
+         $strParams = $_GET[PARAMS];
+      }
+      if (!isset ($strCommand ) || ! isset ($strParams)){
          $resultArray[RESULT_CODE] = RESULT_CODE_INTERNAL_ERROR;
          $resultArray[MSG_ERROR] = "Unmatched format request. Absence of param COMMAND or PARAMS";
          $logger->error(json_encode($resultArray));
@@ -905,13 +916,12 @@
          
       }else{
          $resultArray[RESULT_CODE] = RESULT_CODE_SUCCESS;
-         $strCommand = $_POST[COMMAND];
-         $strParams = $_POST[PARAMS];
+         
          $logger->trace("The command is [ $strCommand ] and the params are [ $strParams ]");
          $params = json_decode($strParams, true);
          $table = getTable($params[PARAM_TABLE]);
          $logger->trace("The command parameter is [ $strCommand ]");
-         $logger->trace("Open the table [ $params[PARAM_TABLE] ]");
+         $logger->trace("Open the table [ " .$table->getTableName(). " ]");
          $table->open();
       
          if (strcmp(strtoupper($strCommand), COMMAND_UPDATE) == 0){
@@ -934,6 +944,6 @@
         
       }
       print(json_encode($resultArray));
-   } 
+   //} 
    
 ?>

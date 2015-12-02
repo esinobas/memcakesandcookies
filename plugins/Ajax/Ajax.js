@@ -2,7 +2,7 @@
 
 function Ajax(){
 
-   JSLogger.getInstance().registerLogger(arguments.callee.name, JSLogger.levelsE.WARN);
+   JSLogger.getInstance().registerLogger(arguments.callee.name, JSLogger.levelsE.DEBUG);
    JSLogger.getInstance().traceEnter();
    
    this.urlM = "";
@@ -106,15 +106,28 @@ Ajax.prototype.send = function(){
          var parameters = JSON.parse(this.parametersM);  
          var parameterString = ""; 
          var firstParameter = true;
+
          for (var key in parameters){
-            JSLogger.getInstance().trace("[ " + key +" ][ " + parameters[key] + " ]");
+         
+            if (typeof(parameters[key])==="object"){
+               JSLogger.getInstance().trace("[ " + key +" ][ " +
+                     JSON.stringify(parameters[key]) + " ]");
+            }else{
+               JSLogger.getInstance().trace("[ " + key +" ][ " + parameters[key] + " ]");
+            }
+            
             if (!firstParameter){
                parameterString = parameterString + "&";
-                          
+                       
             }else{
                firstParameter = false;            
             }
-            parameterString = parameterString + key + "="+parameters[key];
+         
+            if (typeof(parameters[key])==="object"){
+               parameterString = parameterString + key + "="+JSON.stringify(parameters[key]);
+            }else{
+               parameterString = parameterString + key + "="+parameters[key];
+            }
          }
          this.urlM = this.urlM+"?"+parameterString;
          JSLogger.getInstance().debug("New url: [ " + this.urlM + " ]");
@@ -160,16 +173,16 @@ Ajax.prototype.send = function(){
                }else{
                   parameterString = parameterString + key + "="+parameters[key];
                }
-         }
+            }
             
             JSLogger.getInstance().trace("Parameters String [ " + parameterString + " ]");
-         xmlHttpRequest.send(parameterString);
+            xmlHttpRequest.send(parameterString);
         }else{
            JSLogger.getInstance().debug("Send request without parameters");
            xmlHttpRequest.send();
         }
       }else{
-         JSLogger.getInstance().debug("GET request without parameters");
+         JSLogger.getInstance().debug("GET request parameters");
          xmlHttpRequest.send();
       }
             
