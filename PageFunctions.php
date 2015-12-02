@@ -161,6 +161,7 @@
 
                var numImagesToLoad = 0;
                var showViewMore = true;
+               var height = 0;
                
                function getImageDataCallback(theResponseText){
                   JSLogger.getInstance().traceEnter();
@@ -181,8 +182,24 @@
                   if (--numImagesToLoad == 0){
                      JSLogger.getInstance().trace("All images have been loaded");
                      $('#View-Most-Cakes img').remove();
+                     newRow.removeClass('New-Row');
+                     var newHeight = parseInt(height) + parseInt(newRow.css('height'));
+                     
+                     JSLogger.getInstance().trace("Grid height from [ " + height +
+                           " ] to [ " + newHeight +"px ]");
+                     
+                     $('#Cakes-Grid').animate({
+                        height: newHeight+"px"
+                        }, 
+                        2000,
+                        function(){
+                                    $('#Cakes-Grid').css('height','')
+                                  }
+                        );
+                     
+                     
                      if (showViewMore){
-                        $('#View-Most-Cakes span').css('display', '');
+                        $('#View-Most-Cakes span').show();
                      }
                   }
                   JSLogger.getInstance().traceExit();
@@ -228,8 +245,9 @@
                };
             
                $('#View-Most-Cakes').click(function(){
-
-                  $('#View-Most-Cakes span').css('display', 'none');
+                  height = $('#Cakes-Grid').css('height');
+                  $('#Cakes-Grid').css('height', height);
+                  $('#View-Most-Cakes span').hide();
                   $('#View-Most-Cakes').append('<img src="<?php print($url);?>images/ajax-loader.gif"></img>');
                   JSLogger.getInstance().trace("Create Ajax object");
                   var ajaxObject = new Ajax();
