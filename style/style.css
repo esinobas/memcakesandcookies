@@ -153,6 +153,7 @@ nav ul li:hover{
    width: 100%;
    display: block;
    float: left;
+   overflow: hidden;
    
 }
 
@@ -196,4 +197,9 @@ nav ul li:hover{
 .Text-View-More:hover{
  
    cursor: pointer; 
+}
+
+.Hide{
+ 
+   display: none;
 }

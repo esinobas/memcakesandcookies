@@ -2,7 +2,7 @@
 
 function Ajax(){
 
-   JSLogger.getInstance().registerLogger(arguments.callee.name, JSLogger.levelsE.DEBUG);
+   JSLogger.getInstance().registerLogger(arguments.callee.name, JSLogger.levelsE.WARN);
    JSLogger.getInstance().traceEnter();
    
    this.urlM = "";

@@ -159,6 +159,9 @@
             
             <script type="text/javascript">
 
+               var numImagesToLoad = 0;
+               var showViewMore = true;
+               
                function getImageDataCallback(theResponseText){
                   JSLogger.getInstance().traceEnter();
                   JSLogger.getInstance().trace("Response [" + theResponseText +" ]");
@@ -174,6 +177,14 @@
                   newColumn.append('<h3>' + jsonResponse.data[0].CollectionName+'</h3>');
                   newColumn.append('<img src="<?php print($url);?>'+jsonResponse.data[0].ImagePath+'"></img>');
                   newRow.append(newColumn);
+
+                  if (--numImagesToLoad == 0){
+                     JSLogger.getInstance().trace("All images have been loaded");
+                     $('#View-Most-Cakes img').remove();
+                     if (showViewMore){
+                        $('#View-Most-Cakes span').css('display', '');
+                     }
+                  }
                   JSLogger.getInstance().traceExit();
                }
    
@@ -208,11 +219,18 @@
 
                      ajaxObject.setParameters(JSON.stringify(requestParams));
                      ajaxObject.send();
+                     numImagesToLoad ++;
+                  }
+                  if (numImagesToLoad < 3){
+                     showViewMore = false;
                   }
                   JSLogger.getInstance().traceExit();
                };
             
                $('#View-Most-Cakes').click(function(){
+
+                  $('#View-Most-Cakes span').css('display', 'none');
+                  $('#View-Most-Cakes').append('<img src="<?php print($url);?>images/ajax-loader.gif"></img>');
                   JSLogger.getInstance().trace("Create Ajax object");
                   var ajaxObject = new Ajax();
                   ajaxObject.setAsyn();
