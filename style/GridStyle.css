@@ -1,0 +1,55 @@
+@CHARSET "UTF-8";
+
+/** 
+ * File with the style sheet for a grid
+ * 
+ * The grid format must
+ *    <ul class="Grid>
+ *       <!-- The Grid rows are il tags -->
+ *       <li class="Grid-Row>
+ *          <!-- The grid column can be any element, but it is recomendable a div 
+ *                The number of columns, is defined in class -->
+ *          <div class="Grid-Col Grid-3-Cols">
+ *             Column #1
+ *          </div>
+ *          <div class="Grid-Col Grid-3-Cols">
+ *             Column #2
+ *          </div>
+  *          <div class="Grid-Col Grid-3-Cols">
+ *             Column #3
+ *          </div>
+ *       </li>
+ *    </ul>
+ */
+ 
+  
+ .Grid{
+   width: 100%;
+   display: block;
+   float: left;
+}
+
+.Grid-Row{
+ 
+   list-style-type: none;
+   width: 100%;
+   padding-left: 0px;
+   display: inherit;
+   float: inherit;
+   margin-bottom: 5px;
+}
+
+.Grid-Col{
+   text-align: center;
+   display: inherit;
+   float: inherit;
+}
+
+
+.Grid-3-Cols{
+   width: calc(100% / 3);
+}
+
+.Grid-4-Cols{
+   width: calc(100% / 4);
+}
