@@ -399,7 +399,36 @@
             var numImagesToLoad = 0;
             var showViewMore = true;
             var height = 0;
+<?php
+            SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->rewind(); 
+            SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->searchByKey('thumbnailsPath');
+?>
+            var thumbPath = "<?php print(SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->getValue());?>";
 
+            /**
+             * Funtcion that adds a directory to the final path
+             */
+            function addDirectory(thePath, theDirectoryToAdd){
+               JSLogger.getInstance().traceEnter();
+               JSLogger.getInstance().trace("Original path [ " +thePath + " ]");
+               JSLogger.getInstance().trace("Directory to add [ " +theDirectoryToAdd + " ]");
+               var arrayTokens = thePath.split("/");
+               var newPath = "";
+               
+               for (var idx = 0; idx < arrayTokens.length; idx++){
+                  JSLogger.getInstance().trace("Token [ " + arrayTokens[idx] + " ]");
+                  if (idx < (arrayTokens.length - 1) ){
+                     newPath += arrayTokens[idx] +"/";
+                  }
+                  if (idx ==  (arrayTokens.length - 1) ){
+                     newPath += theDirectoryToAdd + "/" + arrayTokens[idx];
+                  }
+                 
+               }
+               JSLogger.getInstance().trace("Return [ " + newPath + " ]");
+               JSLogger.getInstance().traceExit();
+               return newPath;
+            }
             /**
              * Callback that loads an image after a get requesto to the server
              *
@@ -421,7 +450,7 @@
                }
                var newColumn = $('<li class="Grid-Col Grid-3-Cols"></li>');
                newColumn.append('<h3>' + jsonResponse.data[0].CollectionName+'</h3>');
-               newColumn.append('<img src="<?php print($url);?>'+jsonResponse.data[0].ImagePath+'"></img>');
+               newColumn.append('<img src="<?php print($url);?>'+addDirectory(jsonResponse.data[0].ImagePath, thumbPath)+'"></img>');
                newRow.append(newColumn);
 
                if (--numImagesToLoad == 0){
