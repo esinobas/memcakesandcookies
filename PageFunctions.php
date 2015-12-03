@@ -180,13 +180,17 @@
 ?>
                   </div>
                   
-                  <div id="View-Most-Cookies" class="View-More">
+                  <div id="View-More-Cookies" class="View-More">
                      <span class="Text-View-More">Ver mas</span>
                   </div>
                   <script type="text/javascript">
                      if ($('#Cookies-Grid .Grid-Col').length < <?php print((self::NUM_GRID_COLUMNS_C*self::NUM_GRID_ROWS_C));?>){
                         $('#Cookies-Section .Text-View-More').hide();
-                     }         
+                     }       
+                     $('#View-More-Cookies').click(function(){
+                        clickViewMore('Cookies-Section');
+                     }
+                  );  
                   </script>
                </section>
 <?php 
@@ -208,14 +212,17 @@
          
 ?>
             </div>
-            <div id="View-Most-Cakes" class="View-More">
+            <div id="View-More-Cakes" class="View-More">
                <span class="Text-View-More">Ver mas</span>
             </div>
             <script type="text/javascript">
                if ($('#Cakes-Grid .Grid-Col').length < <?php print((self::NUM_GRID_COLUMNS_C*self::NUM_GRID_ROWS_C));?>){
                   $('#Cakes-Section .Text-View-More').hide();
                }       
-               $('#View-Most-Cakes').click(clickViewMore);
+               $('#View-More-Cakes').click(function(){
+                     clickViewMore('Cakes-Section');
+                  }
+               );
             </script>
             
          </section>
@@ -402,12 +409,15 @@
                JSLogger.getInstance().traceEnter();
                JSLogger.getInstance().trace("Response [" + theResponseText +" ]");
                var jsonResponse = JSON.parse(theResponseText);
+               var sectionId = jsonResponse.addToCallback.SectionId;
+               JSLogger.getInstance().trace("The section id extraed from callback is [ " +
+                                          sectionId + " ]");
                //Check if the new row exists
-               var newRow = $('#Cakes-Grid .New-Row');
+               var newRow = $('#'+sectionId+' .Grid .New-Row');
                if (newRow.length == 0){
                   JSLogger.getInstance().trace("Create a new row");
                   newRow = $('<ul class="Grid-Row New-Row"></ul>');
-                  $('#Cakes-Grid').append(newRow);
+                  $('#'+sectionId+' .Grid').append(newRow);
                }
                var newColumn = $('<li class="Grid-Col Grid-3-Cols"></li>');
                newColumn.append('<h3>' + jsonResponse.data[0].CollectionName+'</h3>');
@@ -416,25 +426,26 @@
 
                if (--numImagesToLoad == 0){
                   JSLogger.getInstance().trace("All images have been loaded");
-                  $('#View-Most-Cakes img').remove();
+                  $('#' + sectionId + ' .View-More img').remove();
                   newRow.removeClass('New-Row');
                   var newHeight = parseInt(height) + parseInt(newRow.css('height'));
                   
                   JSLogger.getInstance().trace("Grid height from [ " + height +
                         " ] to [ " + newHeight +"px ]");
                   
-                  $('#Cakes-Grid').animate({
+                  $('#'+sectionId+' .Grid').animate({
                      height: newHeight+"px"
                      }, 
                      1000,
                      function(){
-                                 $('#Cakes-Grid').css('height','')
+                              $('#'+sectionId+' .Grid').css('height','')
                                }
                      );
                   
                   
                   if (showViewMore){
-                     $('#View-Most-Cakes span').show();
+                  
+                     $('#' + sectionId + ' .View-More span').show();
                   }
                }
                JSLogger.getInstance().traceExit();
@@ -449,8 +460,9 @@
             function getFirstCollectionImageFromServer(theResponseText){
                JSLogger.getInstance().traceEnter();
                JSLogger.getInstance().trace("Response [" + theResponseText +" ]");
+               var addToCallback = JSON.parse(theResponseText)['addToCallback'];
                var rows = JSON.parse(theResponseText)['data'];
-
+                
                for (var row in rows){
                   JSLogger.getInstance().trace("Collection : id [ " + rows[row].CollectionId +
                         " ] [ " + rows[row].CollectionName + " ]");
@@ -473,6 +485,9 @@
                   requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(PARAM_SEARCH_BY);?> = {};
                   requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(PARAM_SEARCH_BY);?>.<?php print(PARAM_SEARCH_COLUMN);?> = "<?php print(TB_TypeCollectionImage::CollectionIdColumnC);?>";
                   requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(PARAM_SEARCH_BY);?>.<?php print(PARAM_SEARCH_VALUE);?> = rows[row].CollectionId;
+                  requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(ADD_TO_CALLBACK);?> = addToCallback;
+                   
+
                   JSLogger.getInstance().debug("Command parameters [ " + JSON.stringify(requestParams) +" ]");
 
                   ajaxObject.setParameters(JSON.stringify(requestParams));
@@ -480,7 +495,9 @@
                   numImagesToLoad ++;
                }
                if (numImagesToLoad < <?php print(self::NUM_GRID_COLUMNS_C);?>){
+                  
                   showViewMore = false;
+                 
                }
                JSLogger.getInstance().traceExit();
             };
@@ -488,13 +505,17 @@
             /**
              * Function that is called from the link or text View More for
              * show more collections in the main page.
+             *
+             * @param theSectionId: Section where the grid is located
             */
-            function clickViewMore(){
-            
-               height = $('#Cakes-Grid').css('height');
-               $('#Cakes-Grid').css('height', height);
-               $('#View-Most-Cakes span').hide();
-               $('#View-Most-Cakes').append('<img src="<?php print($url);?>images/ajax-loader.gif"></img>');
+            function clickViewMore(theSectionId){
+
+               JSLogger.getInstance().traceEnter();
+               JSLogger.getInstance().trace("The Section Id [ " + theSectionId +" ]");
+               height = $('#'+theSectionId+' .Grid').css('height');
+               $('#'+theSectionId+' .Grid').css('height', height);
+               $('#'+theSectionId+' .View-More span').hide();
+               $('#'+theSectionId+' .View-More').append('<img src="<?php print($url);?>images/ajax-loader.gif"></img>');
                JSLogger.getInstance().trace("Create Ajax object");
                var ajaxObject = new Ajax();
                ajaxObject.setAsyn();
@@ -514,6 +535,8 @@
                requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(PARAM_SEARCH_BY);?> = {};
                requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(PARAM_SEARCH_BY);?>.<?php print(PARAM_SEARCH_COLUMN);?>="<?php print(TB_MenuCollection::MenuIdColumnC);?>";
                requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(PARAM_SEARCH_BY);?>.<?php print(PARAM_SEARCH_VALUE);?> = "2";
+               requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(ADD_TO_CALLBACK);?> = {};
+               requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(ADD_TO_CALLBACK);?>.SectionId = theSectionId; 
                JSLogger.getInstance().debug("Command parameters [ " + JSON.stringify(requestParams) +" ]");
 
                ajaxObject.setParameters(JSON.stringify(requestParams));

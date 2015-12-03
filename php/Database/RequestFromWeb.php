@@ -50,6 +50,7 @@
    define(RESULT_CODE_SUCCESS, 200);
    define(RESULT_CODE_INTERNAL_ERROR, 500);
    define(RETURN_LAST_ID, "lastID");
+   define(ADD_TO_CALLBACK, "addToCallback");
 
 
    /****************** Functions *****************************/
@@ -898,14 +899,17 @@
       $resultArray = array();
       $strCommand = null;
       $strParams = null;
+     
       
       if ($method == "POST"){
          $strCommand = $_POST[COMMAND];
          $strParams = $_POST[PARAMS];
+         
       }
       if ($method == "GET"){
          $strCommand = $_GET[COMMAND];
          $strParams = $_GET[PARAMS];
+         
       }
       if (!isset ($strCommand ) || ! isset ($strParams)){
          $resultArray[RESULT_CODE] = RESULT_CODE_INTERNAL_ERROR;
@@ -939,6 +943,9 @@
          if (strcmp(strtoupper($strCommand), COMMAND_SELECT) == 0){
             $logger->debug("It is a select command in table [ " . $table->getTableName() . " ]");
             selectData($table, $params[PARAM_DATA], $resultArray);
+         }
+         if (isset($params[PARAM_DATA][ADD_TO_CALLBACK])){
+            $resultArray[ADD_TO_CALLBACK] = $params[PARAM_DATA][ADD_TO_CALLBACK];
          }
          $logger->trace("The request has been processed. Result [ " . json_encode($resultArray) ." ]");
         
