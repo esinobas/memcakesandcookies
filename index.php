@@ -54,6 +54,7 @@
       
    </head>
    <body>
+      <?php PageFunctions::writeJavascriptFunctions();?>
       <?php PageFunctions::getHeader();?>
       <?php PageFunctions::getImagesSlide();?>
       <div id="Main-Div">

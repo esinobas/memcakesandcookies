@@ -214,135 +214,16 @@
             <script type="text/javascript">
                if ($('#Cakes-Grid .Grid-Col').length < <?php print((self::NUM_GRID_COLUMNS_C*self::NUM_GRID_ROWS_C));?>){
                   $('#Cakes-Section .Text-View-More').hide();
-               }         
+               }       
+               $('#View-Most-Cakes').click(clickViewMore);
             </script>
             
-            <script type="text/javascript">
-
-               var numImagesToLoad = 0;
-               var showViewMore = true;
-               var height = 0;
-               
-               function getImageDataCallback(theResponseText){
-                  JSLogger.getInstance().traceEnter();
-                  JSLogger.getInstance().trace("Response [" + theResponseText +" ]");
-                  var jsonResponse = JSON.parse(theResponseText);
-                  //Check if the new row exists
-                  var newRow = $('#Cakes-Grid .New-Row');
-                  if (newRow.length == 0){
-                     JSLogger.getInstance().trace("Create a new row");
-                     newRow = $('<ul class="Grid-Row New-Row"></ul>');
-                     $('#Cakes-Grid').append(newRow);
-                  }
-                  var newColumn = $('<li class="Grid-Col Grid-3-Cols"></li>');
-                  newColumn.append('<h3>' + jsonResponse.data[0].CollectionName+'</h3>');
-                  newColumn.append('<img src="<?php print($url);?>'+jsonResponse.data[0].ImagePath+'"></img>');
-                  newRow.append(newColumn);
-
-                  if (--numImagesToLoad == 0){
-                     JSLogger.getInstance().trace("All images have been loaded");
-                     $('#View-Most-Cakes img').remove();
-                     newRow.removeClass('New-Row');
-                     var newHeight = parseInt(height) + parseInt(newRow.css('height'));
-                     
-                     JSLogger.getInstance().trace("Grid height from [ " + height +
-                           " ] to [ " + newHeight +"px ]");
-                     
-                     $('#Cakes-Grid').animate({
-                        height: newHeight+"px"
-                        }, 
-                        1000,
-                        function(){
-                                    $('#Cakes-Grid').css('height','')
-                                  }
-                        );
-                     
-                     
-                     if (showViewMore){
-                        $('#View-Most-Cakes span').show();
-                     }
-                  }
-                  JSLogger.getInstance().traceExit();
-               }
-   
-               function getFirstCollectionImageFromServer(theResponseText){
-                  JSLogger.getInstance().traceEnter();
-                  JSLogger.getInstance().trace("Response [" + theResponseText +" ]");
-                  var rows = JSON.parse(theResponseText)['data'];
-
-                  for (var row in rows){
-                     JSLogger.getInstance().trace("Collection : id [ " + rows[row].CollectionId +
-                           " ] [ " + rows[row].CollectionName + " ]");
-                  
-                     JSLogger.getInstance().trace("Create Ajax object");
-                     var ajaxObject = new Ajax();
-                     ajaxObject.setAsyn();
-                     ajaxObject.setGetMethod();
-                     ajaxObject.setCallback(getImageDataCallback);
-                     JSLogger.getInstance().debug("Url whete the data will be send [ <?php print($url);?>" 
-                                    +"php/Database/RequestFromWeb.php ]");
-                     ajaxObject.setUrl("<?php print($url);?>php/Database/RequestFromWeb.php");
-                     var requestParams = {};
-                     requestParams.<?php print(COMMAND);?> = <?php print("\"".COMMAND_SELECT."\"");?>;
-                     requestParams.<?php print(PARAMS);?> = {};
-                     requestParams.<?php print(PARAMS);?>.<?php print(PARAM_TABLE);?> = <?php print("\""
-                           .TB_TypeCollectionImage::TB_TypeCollectionImageTableC ."\"");?>;
-                     requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?> = {};
-                     requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(PARAM_NUM_ROWS)?> = 1
-                     requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(PARAM_SEARCH_BY);?> = {};
-                     requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(PARAM_SEARCH_BY);?>.<?php print(PARAM_SEARCH_COLUMN);?> = "<?php print(TB_TypeCollectionImage::CollectionIdColumnC);?>";
-                     requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(PARAM_SEARCH_BY);?>.<?php print(PARAM_SEARCH_VALUE);?> = rows[row].CollectionId;
-                     JSLogger.getInstance().debug("Command parameters [ " + JSON.stringify(requestParams) +" ]");
-
-                     ajaxObject.setParameters(JSON.stringify(requestParams));
-                     ajaxObject.send();
-                     numImagesToLoad ++;
-                  }
-                  if (numImagesToLoad < <?php print(self::NUM_GRID_COLUMNS_C);?>){
-                     showViewMore = false;
-                  }
-                  JSLogger.getInstance().traceExit();
-               };
-            
-               $('#View-Most-Cakes').click(function(){
-                  height = $('#Cakes-Grid').css('height');
-                  $('#Cakes-Grid').css('height', height);
-                  $('#View-Most-Cakes span').hide();
-                  $('#View-Most-Cakes').append('<img src="<?php print($url);?>images/ajax-loader.gif"></img>');
-                  JSLogger.getInstance().trace("Create Ajax object");
-                  var ajaxObject = new Ajax();
-                  ajaxObject.setAsyn();
-                  ajaxObject.setGetMethod();
-                  ajaxObject.setCallback(getFirstCollectionImageFromServer);
-                  JSLogger.getInstance().debug("Url whete the data will be send [ <?php print($url);?>" 
-                  +"php/Database/RequestFromWeb.php ]");
-                  ajaxObject.setUrl("<?php print($url);?>php/Database/RequestFromWeb.php");
-                  var requestParams = {};
-                  requestParams.<?php print(COMMAND);?> = <?php print("\"".COMMAND_SELECT."\"");?>;
-                  requestParams.<?php print(PARAMS);?> = {};
-                  requestParams.<?php print(PARAMS);?>.<?php print(PARAM_TABLE);?> = <?php print("\""
-                           .TB_MenuCollection::TB_MenuCollectionTableC ."\"");?>;
-                  requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?> = {};
-                  requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(PARAM_SKIP_ROWS);?> = $('#Cakes-Grid li').length;
-                  requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(PARAM_NUM_ROWS)?> = <?php print(self::NUM_GRID_COLUMNS_C);?>;
-                  requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(PARAM_SEARCH_BY);?> = {};
-                  requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(PARAM_SEARCH_BY);?>.<?php print(PARAM_SEARCH_COLUMN);?>="<?php print(TB_MenuCollection::MenuIdColumnC);?>";
-                  requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(PARAM_SEARCH_BY);?>.<?php print(PARAM_SEARCH_VALUE);?> = "2";
-                  JSLogger.getInstance().debug("Command parameters [ " + JSON.stringify(requestParams) +" ]");
-
-                  ajaxObject.setParameters(JSON.stringify(requestParams));
-                  ajaxObject.send();
-                  
-               });
-            </script>
          </section>
 <?php 
          SingletonHolder::getInstance()->getObject('Logger')->trace("Exit");
       }
       
-      /**
-       * Writes the cookies section
-       */
+
       
       /**
        * Writes the contact section
@@ -495,6 +376,155 @@
        */
       static public function getFooter(){
       }
+
       
+      /**
+       * Writes the javascript functions to be used in the web
+       */
+       static public function writeJavascriptFunctions(){
+         SingletonHolder::getInstance()->getObject('Logger')->trace("Enter");
+?>
+         <script type="text/javascript">
+            /**
+               Functions to be used in the web
+            */
+            //Global variables
+            var numImagesToLoad = 0;
+            var showViewMore = true;
+            var height = 0;
+
+            /**
+             * Callback that loads an image after a get requesto to the server
+             *
+             * @param the ResponseText is a string in a json format with the image data
+             */
+            function getImageDataCallback(theResponseText){
+               JSLogger.getInstance().traceEnter();
+               JSLogger.getInstance().trace("Response [" + theResponseText +" ]");
+               var jsonResponse = JSON.parse(theResponseText);
+               //Check if the new row exists
+               var newRow = $('#Cakes-Grid .New-Row');
+               if (newRow.length == 0){
+                  JSLogger.getInstance().trace("Create a new row");
+                  newRow = $('<ul class="Grid-Row New-Row"></ul>');
+                  $('#Cakes-Grid').append(newRow);
+               }
+               var newColumn = $('<li class="Grid-Col Grid-3-Cols"></li>');
+               newColumn.append('<h3>' + jsonResponse.data[0].CollectionName+'</h3>');
+               newColumn.append('<img src="<?php print($url);?>'+jsonResponse.data[0].ImagePath+'"></img>');
+               newRow.append(newColumn);
+
+               if (--numImagesToLoad == 0){
+                  JSLogger.getInstance().trace("All images have been loaded");
+                  $('#View-Most-Cakes img').remove();
+                  newRow.removeClass('New-Row');
+                  var newHeight = parseInt(height) + parseInt(newRow.css('height'));
+                  
+                  JSLogger.getInstance().trace("Grid height from [ " + height +
+                        " ] to [ " + newHeight +"px ]");
+                  
+                  $('#Cakes-Grid').animate({
+                     height: newHeight+"px"
+                     }, 
+                     1000,
+                     function(){
+                                 $('#Cakes-Grid').css('height','')
+                               }
+                     );
+                  
+                  
+                  if (showViewMore){
+                     $('#View-Most-Cakes span').show();
+                  }
+               }
+               JSLogger.getInstance().traceExit();
+            }
+
+            /**
+             * Get the first collection image form the server throught an 
+             * ajax request. It is a callback
+             * 
+             * @param theResponseText is a json string with collection data
+             */
+            function getFirstCollectionImageFromServer(theResponseText){
+               JSLogger.getInstance().traceEnter();
+               JSLogger.getInstance().trace("Response [" + theResponseText +" ]");
+               var rows = JSON.parse(theResponseText)['data'];
+
+               for (var row in rows){
+                  JSLogger.getInstance().trace("Collection : id [ " + rows[row].CollectionId +
+                        " ] [ " + rows[row].CollectionName + " ]");
+               
+                  JSLogger.getInstance().trace("Create Ajax object");
+                  var ajaxObject = new Ajax();
+                  ajaxObject.setAsyn();
+                  ajaxObject.setGetMethod();
+                  ajaxObject.setCallback(getImageDataCallback);
+                  JSLogger.getInstance().debug("Url whete the data will be send [ <?php print($url);?>" 
+                                 +"php/Database/RequestFromWeb.php ]");
+                  ajaxObject.setUrl("<?php print($url);?>php/Database/RequestFromWeb.php");
+                  var requestParams = {};
+                  requestParams.<?php print(COMMAND);?> = <?php print("\"".COMMAND_SELECT."\"");?>;
+                  requestParams.<?php print(PARAMS);?> = {};
+                  requestParams.<?php print(PARAMS);?>.<?php print(PARAM_TABLE);?> = <?php print("\""
+                        .TB_TypeCollectionImage::TB_TypeCollectionImageTableC ."\"");?>;
+                  requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?> = {};
+                  requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(PARAM_NUM_ROWS)?> = 1
+                  requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(PARAM_SEARCH_BY);?> = {};
+                  requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(PARAM_SEARCH_BY);?>.<?php print(PARAM_SEARCH_COLUMN);?> = "<?php print(TB_TypeCollectionImage::CollectionIdColumnC);?>";
+                  requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(PARAM_SEARCH_BY);?>.<?php print(PARAM_SEARCH_VALUE);?> = rows[row].CollectionId;
+                  JSLogger.getInstance().debug("Command parameters [ " + JSON.stringify(requestParams) +" ]");
+
+                  ajaxObject.setParameters(JSON.stringify(requestParams));
+                  ajaxObject.send();
+                  numImagesToLoad ++;
+               }
+               if (numImagesToLoad < <?php print(self::NUM_GRID_COLUMNS_C);?>){
+                  showViewMore = false;
+               }
+               JSLogger.getInstance().traceExit();
+            };
+
+            /**
+             * Function that is called from the link or text View More for
+             * show more collections in the main page.
+            */
+            function clickViewMore(){
+            
+               height = $('#Cakes-Grid').css('height');
+               $('#Cakes-Grid').css('height', height);
+               $('#View-Most-Cakes span').hide();
+               $('#View-Most-Cakes').append('<img src="<?php print($url);?>images/ajax-loader.gif"></img>');
+               JSLogger.getInstance().trace("Create Ajax object");
+               var ajaxObject = new Ajax();
+               ajaxObject.setAsyn();
+               ajaxObject.setGetMethod();
+               ajaxObject.setCallback(getFirstCollectionImageFromServer);
+               JSLogger.getInstance().debug("Url whete the data will be send [ <?php print($url);?>" 
+               +"php/Database/RequestFromWeb.php ]");
+               ajaxObject.setUrl("<?php print($url);?>php/Database/RequestFromWeb.php");
+               var requestParams = {};
+               requestParams.<?php print(COMMAND);?> = <?php print("\"".COMMAND_SELECT."\"");?>;
+               requestParams.<?php print(PARAMS);?> = {};
+               requestParams.<?php print(PARAMS);?>.<?php print(PARAM_TABLE);?> = <?php print("\""
+                        .TB_MenuCollection::TB_MenuCollectionTableC ."\"");?>;
+               requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?> = {};
+               requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(PARAM_SKIP_ROWS);?> = $('#Cakes-Grid li').length;
+               requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(PARAM_NUM_ROWS)?> = <?php print(self::NUM_GRID_COLUMNS_C);?>;
+               requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(PARAM_SEARCH_BY);?> = {};
+               requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(PARAM_SEARCH_BY);?>.<?php print(PARAM_SEARCH_COLUMN);?>="<?php print(TB_MenuCollection::MenuIdColumnC);?>";
+               requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(PARAM_SEARCH_BY);?>.<?php print(PARAM_SEARCH_VALUE);?> = "2";
+               JSLogger.getInstance().debug("Command parameters [ " + JSON.stringify(requestParams) +" ]");
+
+               ajaxObject.setParameters(JSON.stringify(requestParams));
+               ajaxObject.send();
+               
+           
+            }
+               
+         </script>
+<?php 
+         SingletonHolder::getInstance()->getObject('Logger')->trace("Exit");
+      }
    }
 ?>
