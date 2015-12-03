@@ -40,6 +40,7 @@
          require_once 'Database/TB_SlideImagesHome.php';
          require_once 'Database/TB_MenuCollection.php';
          require_once 'Database/TB_TypeCollectionImage.php';
+         require_once 'Database/TB_News.php';
          require_once 'Database/RequestFromWeb.php';
          
          //Declare the global variables

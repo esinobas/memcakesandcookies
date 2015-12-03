@@ -18,6 +18,10 @@
       
       const NUM_GRID_ROWS_C = 2;
       
+      const NUM_POSTS_COLUMNS_C = 2;
+      
+      const NUM_POST_ROWS_C = 2;
+      
       /**
        * Writes the page header
        */
@@ -165,6 +169,67 @@
          SingletonHolder::getInstance()->getObject('Logger')->trace("Exit");
       }
       
+      
+      /**
+       * Writes the blog or posts section
+       */
+      static private function getBlogSection(){
+         SingletonHolder::getInstance()->getObject('Logger')->trace("Enter");
+?>
+         <spam class="Anchor" id="Blog"></spam>
+         <section id="Blog-Section" class="Detail-Section">
+             <div id="Blog-Grid" class="Grid">
+<?php
+               $tbPost = new TB_News();
+               $tbPost->open();
+               $numPost = 0;
+               $numCols = self::NUM_POSTS_COLUMNS_C;
+               $closePrevious = false;
+               while ($tbPost->next() &&
+                     $numPost < (self::NUM_POST_ROWS_C * self::NUM_POSTS_COLUMNS_C)){
+                  
+                  
+                  if ($numCols == self::NUM_POSTS_COLUMNS_C){
+                     if($closePrevious){
+?>
+                        </ul>
+<?php 
+                        $closePrevious = false;
+                     }
+?>
+                     <ul class="Grid-Row">
+<?php
+                     $numCols = 0;
+                     $closePrevious = true;
+                  } 
+?>
+                  <li class="Grid-Col Grid-2-Cols">
+                     <div class="Post-Title">
+                     <?php print($tbPost->getTitle());?>
+                     </div>
+                     <div class="Post-Date">
+                     <?php print($tbPost->getDateTime());?>
+                     </div>
+                     
+                  </li>
+<?php 
+                  $numPost ++;
+               }
+?>
+             </div>
+                        
+             <div id="View-More-Blog" class="View-More">
+                <span class="Text-View-More">Ver mas</span>
+             </div>
+             <script type="text/javascript">
+                  
+             </script>
+          </section>
+<?php 
+            SingletonHolder::getInstance()->getObject('Logger')->trace("Exit");
+         }
+        
+      
       /**
        * Writes the Cookies section
        */
@@ -257,6 +322,7 @@
             SingletonHolder::getInstance()->setObject(
                         TB_TypeCollectionImage::TB_TypeCollectionImageTableC, 
                         $tbCollectionImages);
+            self::getBlogSection();
             self::getCakesSection(); 
             self::getCookiesSection();
 ?>
