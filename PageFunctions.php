@@ -146,7 +146,7 @@
                <img src="<?php print(createThumbnail($filePath, 
                                      $fileName, 150, 150,
                                      $filePath.$thumbnailPath 
-                                     ,"Thumb_",
+                                     ,"",
                                     SingletonHolder::getInstance()->getObject('Logger')));?>">
                </li>
 <?php 

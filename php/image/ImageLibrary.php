@@ -43,7 +43,7 @@
     */
     ($loggerImageLibrary != null ? $loggerImageLibrary->trace("Exit"):null);
     
-    return $image->converToThumbnail($theThumbnailPath, $theWitdh, $theHeight,$theThumbnailPrefix, true);
+    return $image->converToThumbnail($theThumbnailPath, $theWitdh, $theHeight,$theThumbnailPrefix);
            
      
  }

@@ -33,6 +33,7 @@
          require_once './PageFunctions.php';
          require_once 'Instagram/Instagram.php';
          require_once 'image/ImageLibrary.php';
+         require_once 'image/ImageFunctions.php';
          
          //Include the tables files
          require_once 'Database/TB_Configuration.php';
@@ -54,6 +55,23 @@
       
    </head>
    <body>
+      <?php
+          $tbConfiguration = SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC);
+          $tbConfiguration->searchByKey('thumbnailsPath');
+          $thumbDir = $tbConfiguration->getValue();
+          $tbConfiguration->rewind();
+          $tbConfiguration->searchByKey('cakesImagesPath');
+          
+          createThumbnailsFromDirectory($tbConfiguration->getValue(),
+                                       array("jpg"),
+                                       $tbConfiguration->getValue().$thumbDir,150, 150);
+          
+          $tbConfiguration->rewind();
+          $tbConfiguration->searchByKey('cookiesImagesPath');
+          createThumbnailsFromDirectory($tbConfiguration->getValue(),
+                array("jpg"),
+                $tbConfiguration->getValue().$thumbDir,150, 150);
+      ?>
       <?php PageFunctions::writeJavascriptFunctions();?>
       <?php PageFunctions::getHeader();?>
       <?php PageFunctions::getImagesSlide();?>
