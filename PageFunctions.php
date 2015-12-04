@@ -683,6 +683,49 @@
             function viewMoreBlogPostCallback(theResponse){
                JSLogger.getInstance().traceEnter();
                JSLogger.getInstance().trace("Response [ " + theResponse + " ]");
+               var rows = JSON.parse(theResponse)['data'];
+               for (var row in rows){
+                  var newRow = $('#Blog-Section .Grid .New-Row');
+                  if (newRow.length == 0){
+                     JSLogger.getInstance().trace("Create a new row");
+                     newRow = $('<ul class="Grid-Row New-Row"></ul>');
+                     $('#Blog-Section .Grid').append(newRow);
+                  }
+                  var newColumn = $('<li class="Grid-Col Grid-2-Cols"></li>');
+                  var newPost = $('<div class="Post"></div>');
+                  var newHeader= $('<div class="Post-Header"></div>');
+                  newHeader.append('<div class="Post-Title">' + rows[row].Title 
+                                                +'</div>');
+                  newPost.append(newHeader);
+                  newPost.append('<div class="Post-Begin">' + rows[row].New
+                                             +'</div>');
+                  newPost.append('<div class="Post-Read">Leer</div>');
+                  newColumn.append(newPost);
+                  newRow.append(newColumn);
+               }
+
+               JSLogger.getInstance().trace("All post has been loaded");
+               $('#Blog-Section .View-More img').remove();
+               newRow.removeClass('New-Row');
+               var newHeight = parseInt(height) + parseInt(newRow.css('height'));
+               
+               JSLogger.getInstance().trace("Grid height from [ " + height +
+                     " ] to [ " + newHeight +"px ]");
+               
+               $('#Blog-Section .Grid').animate({
+                  height: newHeight+"px"
+                  }, 
+                  1000,
+                  function(){
+                           $('#Blog-Section .Grid').css('height','')
+                            }
+                  );
+               
+               if(rows.length == <?php print(self::NUM_POSTS_COLUMNS_C);?>){
+                  $('#Blog-Section .View-More span').show();
+               }
+            
+               
                JSLogger.getInstance().traceExit();
              }
             /**
