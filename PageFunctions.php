@@ -169,7 +169,23 @@
          SingletonHolder::getInstance()->getObject('Logger')->trace("Exit");
       }
       
-      
+      /**
+       * Extracts and returns the date (dd/mm/YYYY) from a timestamp
+       * @param String with the $theTimestap
+       * @return String with the date in format dd/mm/YYYY
+       */
+      static private function getDate($theTimestap){
+         SingletonHolder::getInstance()->getObject('Logger')->trace("Enter");
+         SingletonHolder::getInstance()->getObject('Logger')->trace("Timestamp [  $theTimestap ]");
+         $timestamp = strtotime($theTimestap);
+         $date = getDate($timestamp)['mday'] . "/" . 
+                 getDate($timestamp)['mon'] . "/" . 
+                 getDate($timestamp)['year'];
+         
+         
+         SingletonHolder::getInstance()->getObject('Logger')->trace("Exit");
+         return $date;
+      }
       /**
        * Writes the blog or posts section
        */
@@ -210,17 +226,21 @@
                            <?php print($tbPost->getTitle());?>
                            </div>
                            <div class="Post-Date">
-                           <?php print($tbPost->getDateTime());?>
+                           <?php print(self::getDate($tbPost->getDateTime()));?>
                            </div>
                         </div>
                         <div class="Post-Begin">
+                           <?php print($tbPost->getNew());?>
                         </div>
                         <div class="Post-Read">
+                           Leer
                         </div>
                      </div>
                   </li>
 <?php 
                   $numPost ++;
+                  $numCols ++;
+                  
                }
 ?>
              </div>

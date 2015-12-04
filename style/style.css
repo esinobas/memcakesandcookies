@@ -209,6 +209,74 @@ nav ul li:hover{
    cursor: pointer; 
 }
 
+.Post{
+   display: block;
+   float: left;
+   padding: 20px 10px;
+   margin-right: 5px;
+   width: calc(100% - 32px);
+   border-style: solid;
+   border-width: 1px;
+}
+
+.Post p{
+ 
+   margin: 0px;
+}
+
+.Post-Header{
+   width: calc(100% - 20px);
+   display: block;
+   float: left;
+   padding: 0px 10px;
+}
+.Post-Title{
+   width: 230px;
+   /*display: inline;*/
+   float: left;
+   text-align: left;
+    font-size: 16px;
+}
+.Post-Date{
+ 
+   width: 88px;
+   /*display: inline;*/
+   float: left;
+   text-align: right;
+   font-size: 12px;
+}
+.Post-Header, .Post-Title, .Post-Date, .Post-Read{
+ 
+   font-family: Ubuntu;
+}
+
+.Post-Title, .Post-Date, .Post-Read{
+  
+   color: #ce5c00;
+ 
+}
+
+.Post-Read{
+   width: 100%;
+   display: block;
+   float: left;
+   font-size: 13px;
+   text-align: right;
+   margin-top: 20px;
+}
+
+.Post-Begin{
+ 
+   font-family: Arimo;
+   font-size: 12px;
+   text-align: justify;
+   width: 100%;
+   height: 150px;
+   float:left;
+   margin-top: 10px;
+   overflow: hidden;
+}
+
 .Hide{
  
    display: none;
