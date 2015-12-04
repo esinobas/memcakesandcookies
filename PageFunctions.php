@@ -234,7 +234,7 @@
                         </div>
                         
                         <div class="Post-Read">
-                           Leer
+                           <span class="Post-Read-Text">Leer</span>
                         </div>
                      </div>
                   </li>
@@ -696,10 +696,17 @@
                   var newHeader= $('<div class="Post-Header"></div>');
                   newHeader.append('<div class="Post-Title">' + rows[row].Title 
                                                 +'</div>');
+                  var date = rows[row].DateTime.split(" ");
+                  
+                  var day = date[0].split("-")[2];
+                  var month = date[0].split("-")[1];
+                  var year = date[0].split("-")[0];
+                  newHeader.append('<div class="Post-Date">' + day 
+                        +'/'+month+'/'+year+'</div>');
                   newPost.append(newHeader);
                   newPost.append('<div class="Post-Begin">' + rows[row].New
                                              +'</div>');
-                  newPost.append('<div class="Post-Read">Leer</div>');
+                  newPost.append('<div class="Post-Read"><span class="Post-Read-Text">Leer</span></div>');
                   newColumn.append(newPost);
                   newRow.append(newColumn);
                }
