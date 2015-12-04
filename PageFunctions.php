@@ -232,6 +232,7 @@
                         <div class="Post-Begin">
                            <?php print($tbPost->getNew());?>
                         </div>
+                        
                         <div class="Post-Read">
                            Leer
                         </div>
@@ -249,7 +250,14 @@
                 <span class="Text-View-More">Ver mas</span>
              </div>
              <script type="text/javascript">
-                  
+                if ($('#Blog-Grid .Grid-Col').length < <?php print((self::NUM_POSTS_COLUMNS_C*self::NUM_POST_ROWS_C));?>){
+                   $('#Blog-Section .Text-View-More').hide();
+                }       
+                $('#View-More-Blog').click(function(){
+                   clickViewmoreBlogPosts();
+                   }
+                );
+             
              </script>
           </section>
 <?php 
@@ -652,7 +660,7 @@
                requestParams.<?php print(PARAMS);?>.<?php print(PARAM_TABLE);?> = <?php print("\""
                         .TB_MenuCollection::TB_MenuCollectionTableC ."\"");?>;
                requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?> = {};
-               requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(PARAM_SKIP_ROWS);?> = $('#Cakes-Grid li').length;
+               requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(PARAM_SKIP_ROWS);?> = $('#'+theSectionId+' .Grid li').length;
                requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(PARAM_NUM_ROWS)?> = <?php print(self::NUM_GRID_COLUMNS_C);?>;
                requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(PARAM_SEARCH_BY);?> = {};
                requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(PARAM_SEARCH_BY);?>.<?php print(PARAM_SEARCH_COLUMN);?>="<?php print(TB_MenuCollection::MenuIdColumnC);?>";
@@ -666,7 +674,49 @@
                
            
             }
-               
+
+            /**
+             * Callback for show the more blog posts
+             * 
+             * @param theResponse: The response from the server when the query has been finished
+             */
+            function viewMoreBlogPostCallback(theResponse){
+               JSLogger.getInstance().traceEnter();
+               JSLogger.getInstance().trace("Response [ " + theResponse + " ]");
+               JSLogger.getInstance().traceExit();
+             }
+            /**
+             * Show more blog post in the page
+             */
+            function clickViewmoreBlogPosts(){
+               JSLogger.getInstance().traceEnter();
+               height = $('#Blog-Section .Grid').css('height');
+               $('#Blog-Section .Grid').css('height', height);
+               $('#Blog-Section .View-More span').hide();
+               $('#Blog-Section .View-More').append('<img src="<?php print($url);?>images/ajax-loader.gif"></img>');
+               JSLogger.getInstance().trace("Create Ajax object");
+               var ajaxObject = new Ajax();
+               ajaxObject.setAsyn();
+               ajaxObject.setGetMethod();
+               ajaxObject.setCallback(viewMoreBlogPostCallback);
+               JSLogger.getInstance().debug("Url whete the data will be send [ <?php print($url);?>" 
+               +"php/Database/RequestFromWeb.php ]");
+               ajaxObject.setUrl("<?php print($url);?>php/Database/RequestFromWeb.php");
+               var requestParams = {};
+               requestParams.<?php print(COMMAND);?> = <?php print("\"".COMMAND_SELECT."\"");?>;
+               requestParams.<?php print(PARAMS);?> = {};
+               requestParams.<?php print(PARAMS);?>.<?php print(PARAM_TABLE);?> = <?php print("\""
+                        .TB_News::TB_NewsTableC ."\"");?>;
+               requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?> = {};
+               requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(PARAM_SKIP_ROWS);?> = $('#Blog-Section .Grid li').length;
+               requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(PARAM_NUM_ROWS)?> = <?php print(self::NUM_POSTS_COLUMNS_C);?>;
+               JSLogger.getInstance().debug("Command parameters [ " + JSON.stringify(requestParams) +" ]");
+
+               ajaxObject.setParameters(JSON.stringify(requestParams));
+               ajaxObject.send();
+         
+               JSLogger.getInstance().traceExit();
+            }   
          </script>
 <?php 
          SingletonHolder::getInstance()->getObject('Logger')->trace("Exit");
