@@ -244,7 +244,7 @@
                            </div>
                         </div>
                         <div class="Post-Begin">
-                           <?php print(self::getPlainTextIntroFromHtml($tbPost->getNew(), 200));?>
+                           <?php print(self::getPlainTextIntroFromHtml($tbPost->getNew(), 150));?>
                         </div>
                         
                         <div class="Post-Read">
@@ -718,8 +718,8 @@
                   newHeader.append('<div class="Post-Date">' + day 
                         +'/'+month+'/'+year+'</div>');
                   newPost.append(newHeader);
-                  newPost.append('<div class="Post-Begin">' + rows[row].New
-                                             +'</div>');
+                  newPost.append('<div class="Post-Begin">' + jQuery(rows[row].New).text().substr(0,150)
+                                             +' ...</div>');
                   newPost.append('<div class="Post-Read"><span class="Post-Read-Text">Leer</span></div>');
                   newColumn.append(newPost);
                   newRow.append(newColumn);
