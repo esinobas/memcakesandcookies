@@ -1,5 +1,21 @@
 @CHARSET "UTF-8";
 
+/**
+* Import the page fonts
+*/
+@font-face{
+   font-family: Ubuntu;
+   src: url(../fonts/Ubuntu/Ubuntu-Regular.ttf);
+}
+@font-face{
+   font-family: Ubuntu-Light;
+   src: url(../fonts/Ubuntu/Ubuntu-Light.ttf);
+}
+@font-face{
+   font-family: Arimo;
+   src: url(../fonts/Arimo/Arimo-Regular.ttf);
+}
+
 html{
  
 }
@@ -59,6 +75,9 @@ nav{
    margin-left: 980px;*/
    margin-top: 30px;
    float: right;
+   font-family: Ubuntu;
+   /*font-weight: bold;*/
+   font-size: 20px;
 }
 
 nav ul{
@@ -138,6 +157,13 @@ nav ul li:hover{
    float: left;
  
 }
+.Detail-Section h2{
+ 
+   width: 100%;
+   text-align: center;
+   font-family: Ubuntu-Light;
+   font-size: 55px;
+}
 .Lateral-Side{
    
    width: 300px;
@@ -162,6 +188,8 @@ nav ul li:hover{
 .Grid-Col h3{
  
    margin: 0px;
+   font-family: Ubuntu;
+   font-size: 16px;
 }
 
 .View-More{
@@ -173,8 +201,8 @@ nav ul li:hover{
    padding-top: 10px;
 }
 .Text-View-More{
- 
-   font-size: 12px;
+   font-family: Ubuntu;
+   font-size: 14px;
 }
 .Text-View-More:hover{
  

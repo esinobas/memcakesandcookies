@@ -204,13 +204,20 @@
                   } 
 ?>
                   <li class="Grid-Col Grid-2-Cols">
-                     <div class="Post-Title">
-                     <?php print($tbPost->getTitle());?>
+                     <div class="Post">
+                        <div class="Post-Header">
+                           <div class="Post-Title">
+                           <?php print($tbPost->getTitle());?>
+                           </div>
+                           <div class="Post-Date">
+                           <?php print($tbPost->getDateTime());?>
+                           </div>
+                        </div>
+                        <div class="Post-Begin">
+                        </div>
+                        <div class="Post-Read">
+                        </div>
                      </div>
-                     <div class="Post-Date">
-                     <?php print($tbPost->getDateTime());?>
-                     </div>
-                     
                   </li>
 <?php 
                   $numPost ++;
