@@ -163,6 +163,8 @@ nav ul li:hover{
    text-align: center;
    font-family: Ubuntu-Light;
    font-size: 55px;
+   background-color: orange;
+   color: white
 }
 .Lateral-Side{
    
