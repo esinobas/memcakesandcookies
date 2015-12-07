@@ -603,10 +603,10 @@
                   }
 ?>
                    <li>
-                     <?php print($currentYear);?>
+                     <div id="Year-<?php print($currentYear);?>" class="Date-Div"><?php print($currentYear);?></div>
                      <ul>
                         <li>
-                           <?php print(self::getMonthName($currentMonth));?>
+                           <div id="Year-Month-<?php print($currentYear);?>-<?php print(self::getMonthName($currentMonth));?>" class="Date-Div"><?php print(self::getMonthName($currentMonth));?></div>
                            <ul>
 <?php 
                   $year = $currentYear;
@@ -618,7 +618,7 @@
                            </ul>
                         </li>
                         <li>
-                           <?php print(self::getMonthName($currentMonth));?>
+                           <div id="Year-Month-<?php print($currentYear);?>-<?php print(self::getMonthName($currentMonth));?>" class="Date-Div"><?php print(self::getMonthName($currentMonth));?></div>
                            <ul>
 <?php
                      $month = $currentMonth;
@@ -627,7 +627,7 @@
 ?>
                <li>
                   <a href="<?php print($url);?>?post=<?php print($tbPosts->getId());?>">
-                     <?php SingletonHolder::getInstance()->getObject('Logger')->trace("XXX: ". strip_tags($tbPosts->getTitle()));?>
+                     
                      <?php print(strip_tags($tbPosts->getTitle()));?>
                   </a>
                </li>
@@ -642,7 +642,14 @@
          </li>
        </ul>
          <script type="text/javascript">
-            //$('#Post-By-Date ul').hide();
+            $('#Post-By-Date ul').hide();
+            $('#Post-By-Date > li').click(function(){
+               $(this).children('ul').show();
+            });
+            $('#Post-By-Date > li > ul > li').click(function(){
+               
+               $(this).children('ul').show();
+            });
          </script>
          
 <?php 
