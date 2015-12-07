@@ -600,8 +600,11 @@
 <?php 
                   }
 ?>
-                  <ul><?php print($currentYear);?>
-                     <ul><?php print( self::getMonthName($currentMonth));?>
+                  <div class="Label-Date"><?php print($currentYear);?></div>
+
+                  <ul>
+                   <div class="Label-Date"><?php print(self::getMonthName($currentMonth));?></div>
+                     <ul>
 <?php 
                   $year = $currentYear;
                   $month = $currentMonth;
@@ -610,7 +613,8 @@
                      SingletonHolder::getInstance()->getObject('Logger')->trace("Writing post for month [ $currentMonth ]");
 ?>
                         </ul>
-                        <ul><?php print(self::getMonthName($currentMonth));?>
+                        <div class="Label-Date"><?php print(self::getMonthName($currentMonth));?></div>
+                        <ul>
 <?php
                      $month = $currentMonth;
                   }

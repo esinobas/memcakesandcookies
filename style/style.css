@@ -362,12 +362,28 @@ nav ul li:hover{
  
    font-family: Ubuntu;
    font-size: 14px;
+   float: left;
+   display: block;
 }
-
+.Label-Date{
+   display: block;
+   float: left;
+   width: calc(100% - 35px);
+   padding-left: 35px;
+   color: #ce5c00;
+   padding-bottom: 5px;
+   padding-top: 5px;
+}
 #Post-By-Date ul>ul{
  
    padding: 0px 20px;
    
+}
+
+#Post-By-Date lu{
+ 
+   display: block;
+   float: left;
 }
 #Post-By-Date li {
    list-style: none;
