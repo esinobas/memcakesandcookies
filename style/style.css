@@ -361,8 +361,28 @@ nav ul li:hover{
 #Post-By-Date{
  
    font-family: Ubuntu;
+   font-size: 14px;
 }
 
+#Post-By-Date ul>ul{
+ 
+   padding: 0px 20px;
+   
+}
+#Post-By-Date li {
+   list-style: none;
+   margin-left: 25px;
+   padding: 3px;
+   
+ }
+ #Post-By-Date li p{
+   margin: 0px;
+ }
+ #Post-By-Date li a{
+ 
+   text-decoration: none;
+   color: #F58F00;
+ }
 .Hide{
  
    display: none;
