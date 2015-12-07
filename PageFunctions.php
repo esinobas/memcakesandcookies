@@ -234,7 +234,7 @@
                   } 
 ?>
                   <li class="Grid-Col Grid-2-Cols">
-                     <div class="Post">
+                     <div id="Post-<?php print($tbPost->getId());?>" class="Post">
                         <div class="Post-Header">
                            <div class="Post-Title">
                            <?php print($tbPost->getTitle());?>
@@ -706,7 +706,7 @@
                      $('#Blog-Section .Grid').append(newRow);
                   }
                   var newColumn = $('<li class="Grid-Col Grid-2-Cols"></li>');
-                  var newPost = $('<div class="Post"></div>');
+                  var newPost = $('<div id="Post-'+ rows[row].Id +'"class="Post"></div>');
                   var newHeader= $('<div class="Post-Header"></div>');
                   newHeader.append('<div class="Post-Title">' + rows[row].Title 
                                                 +'</div>');
