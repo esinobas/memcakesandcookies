@@ -205,6 +205,9 @@
        */
       static private function getBlogSection(){
          SingletonHolder::getInstance()->getObject('Logger')->trace("Enter");
+         SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->rewind();
+         SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->searchByKey('URL');
+         $url = SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->getValue();
 ?>
          <spam class="Anchor" id="Blog"></spam>
          <section id="Blog-Section" class="Detail-Section">
@@ -248,7 +251,7 @@
                         </div>
                         
                         <div class="Post-Read">
-                           <span class="Post-Read-Text">Leer</span>
+                           <a href="<?php print($url);?>?post=<?php print($tbPost->getId());?>"><span class="Post-Read-Text">Leer</span></a>
                         </div>
                      </div>
                   </li>
@@ -720,7 +723,8 @@
                   newPost.append(newHeader);
                   newPost.append('<div class="Post-Begin">' + jQuery(rows[row].New).text().substr(0,150)
                                              +' ...</div>');
-                  newPost.append('<div class="Post-Read"><span class="Post-Read-Text">Leer</span></div>');
+                  newPost.append('<div class="Post-Read"><span class="Post-Read-Text"><a href="<?php print($url);?>post=' +
+                                                      rows[row].Id +'">Leer</a></span></div>');
                   newColumn.append(newPost);
                   newRow.append(newColumn);
                }
