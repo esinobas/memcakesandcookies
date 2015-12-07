@@ -334,6 +334,29 @@ nav ul li:hover{
    width: 100%;
 }
 
+#Lasts-Five-Posts{
+   display: block;
+   float: left;
+   margin-top: 126px;
+   padding: 0px 10px;
+   width: calc(100% - 20px);
+   font-family: Ubuntu;
+   text-align: left;
+}
+#Last-Five-Posts-Title{
+   color: #ce5c00;
+   font-size: 16px;
+}
+
+#Last-Posts-List{
+   text-align: left;
+   font-size: 14px;
+   color: #F58F00;
+}
+#Last-Posts-List a{
+   color: #F58F00;
+   text-decoration: none;
+}
 .Hide{
  
    display: none;

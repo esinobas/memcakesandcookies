@@ -162,6 +162,18 @@
       }
       
       /**
+       * Reset the table, if the table has had a search, it is des-done
+       */
+      public function reset(){
+         $this->loggerM->trace("Enter");
+         
+         if ($this->backupTableDataM != null){
+         
+            $this->mergeTableData();
+         }
+         $this->loggerM->trace("Exit");
+      }
+      /**
        * Initialize the table cursor
        */
       public function rewind(){

@@ -514,6 +514,45 @@
           
 <?php 
       }
+      
+      /**
+       * Writes the lasts  posts in the lateral
+       */
+      static private function getLastsPost(){
+         SingletonHolder::getInstance()->getObject('Logger')->trace("Enter");
+?>
+         <div id="Lasts-Five-Posts">
+<?php 
+            SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->rewind();
+            SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->searchBykey('URL');
+            $url = SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->getValue();
+            SingletonHolder::getInstance()->getObject(TB_News::TB_NewsTableC)->reset();
+            $tbPosts = SingletonHolder::getInstance()->getObject(TB_News::TB_NewsTableC);
+            $tbPosts->rewind();
+            SingletonHolder::getInstance()->getObject('Logger')->trace("NumRows: " . $tbPosts->getCardinality() );
+            $idx = 0;
+?>
+            <span id="Last-Five-Posts-Title">Últimas Entradas</span>
+            <ul id="Last-Posts-List">
+<?php 
+            while ($tbPosts->next() && $idx < 5){
+               SingletonHolder::getInstance()->getObject('Logger')->trace("Idx [ $idx ]");
+?>
+               <il class="Last-Post-Element">
+                  <a href="<?php print($url);?>?post=<?php print($tbPosts->getId());?>"><?php print($tbPosts->getTitle());?></a>
+               </il>
+
+<?php 
+               $idx ++;
+            }
+?>
+            </ul>
+         </div>
+         <div id="Post-By-Date">
+         </div>
+<?php 
+         SingletonHolder::getInstance()->getObject('Logger')->trace("Exit");
+      }
       /**
        * Writes the page web aside 
        */
@@ -525,6 +564,9 @@
                self::getInstagram();
                self::getFacebookPost();
                self::getTwiterTimeLine();
+            }else{
+               SingletonHolder::getInstance()->getObject('Logger')->trace("Show lasts post.");
+               self::getLastsPost();
             }
             
 ?>
