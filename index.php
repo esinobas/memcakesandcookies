@@ -28,6 +28,9 @@
          set_include_path(get_include_path().PATH_SEPARATOR . dirname(__FILE__) . '/php/'); 
          set_include_path(get_include_path().PATH_SEPARATOR . dirname(__FILE__) . '/plugins/');
          
+         /** Get the  get parameters is if necesary **/
+         $postId = $_GET['post'];
+         
          require_once 'LoggerMgr/LoggerMgr.php';
          require_once 'tools/SingletonHolder/SingletonHolder.php';
          require_once './PageFunctions.php';
@@ -57,28 +60,41 @@
    </head>
    <body>
       <?php
-          $tbConfiguration = SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC);
-          $tbConfiguration->searchByKey('thumbnailsPath');
-          $thumbDir = $tbConfiguration->getValue();
-          $tbConfiguration->rewind();
-          $tbConfiguration->searchByKey('cakesImagesPath');
+          if (isset($postId)){
+            SingletonHolder::getInstance()->getObject('Logger')->trace("The parameter post is present [ $postId ]");
+          }
           
-          createThumbnailsFromDirectory($tbConfiguration->getValue(),
+          if (! isset($postId)){
+            $tbConfiguration = SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC);
+            $tbConfiguration->searchByKey('thumbnailsPath');
+            $thumbDir = $tbConfiguration->getValue();
+            $tbConfiguration->rewind();
+            $tbConfiguration->searchByKey('cakesImagesPath');
+          
+            createThumbnailsFromDirectory($tbConfiguration->getValue(),
                                        array("jpg"),
                                        $tbConfiguration->getValue().$thumbDir,150, 150);
           
-          $tbConfiguration->rewind();
-          $tbConfiguration->searchByKey('cookiesImagesPath');
-          createThumbnailsFromDirectory($tbConfiguration->getValue(),
-                array("jpg"),
-                $tbConfiguration->getValue().$thumbDir,150, 150);
+            $tbConfiguration->rewind();
+            $tbConfiguration->searchByKey('cookiesImagesPath');
+            createThumbnailsFromDirectory($tbConfiguration->getValue(),
+                  array("jpg"),
+                  $tbConfiguration->getValue().$thumbDir,150, 150);
+            PageFunctions::writeJavascriptFunctions();
+          }   
+         PageFunctions::getHeader();
+         
+         if (!isset($postId)){
+            PageFunctions::getImagesSlide();
+         }
       ?>
-      <?php PageFunctions::writeJavascriptFunctions();?>
-      <?php PageFunctions::getHeader();?>
-      <?php PageFunctions::getImagesSlide();?>
       <div id="Main-Div">
-         <?php PageFunctions::getMainSection();?>
-         <?php PageFunctions::getAside();?>
+    <?php 
+       
+         PageFunctions::getMainSection($postId);
+         PageFunctions::getAside($postId);
+       
+       ?>
       </div>
       <?php PageFunctions::getFooter();?>
    </body>

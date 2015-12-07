@@ -348,6 +348,34 @@
       }
       
 
+      /**
+       * Writes the selected post
+       * 
+       * @param thePostId: The post id to show
+       */
+      static private function getSelectedPost($thePostId){
+         SingletonHolder::getInstance()->getObject('Logger')->trace("Enter");
+         SingletonHolder::getInstance()->getObject('Logger')->trace("Get and show the post id [ $thePostId ]");
+         $tbPosts = SingletonHolder::getInstance()->getObject(TB_News::TB_NewsTableC);
+         $tbPosts->open();
+         $tbPosts->searchByKey($thePostId);
+?>
+         <section class="Detail-Section">
+            <article class="Page-Post">
+               <div class="Page-Post-Title">
+                  <h1><?php print($tbPosts->getTitle());?></h1>
+               </div>
+               <div class="Page-Post-Date">
+                  <?php print(self::getDate($tbPosts->getDateTime()));?>
+               </div>
+               <div class="Page-Post-Text">
+                  <?php print($tbPosts->getNew());?>
+               </div>
+            </article>
+         </section>
+<?php 
+         SingletonHolder::getInstance()->getObject('Logger')->trace("Exit");
+      }
       
       /**
        * Writes the contact section
@@ -359,24 +387,30 @@
       /**
        * Writes the Main section
        */
-      static public function getMainSection(){
+      static public function getMainSection($thePostId){
 ?>
          <section id="Main-Section" class="Main-Section">
            
 <?php
-            $tbMenuCollection = new TB_MenuCollection();
-            $tbMenuCollection->open();
-            $tbCollectionImages = new TB_TypeCollectionImage();
-            $tbCollectionImages->open();
-            SingletonHolder::getInstance()->setObject(
+            if ( ! isset($thePostId)){
+               $tbMenuCollection = new TB_MenuCollection();
+               $tbMenuCollection->open();
+               $tbCollectionImages = new TB_TypeCollectionImage();
+               $tbCollectionImages->open();
+               SingletonHolder::getInstance()->setObject(
                         TB_MenuCollection::TB_MenuCollectionTableC, 
                         $tbMenuCollection);
-            SingletonHolder::getInstance()->setObject(
+               SingletonHolder::getInstance()->setObject(
                         TB_TypeCollectionImage::TB_TypeCollectionImageTableC, 
                         $tbCollectionImages);
-            self::getBlogSection();
-            self::getCakesSection(); 
-            self::getCookiesSection();
+               self::getBlogSection();
+               self::getCakesSection(); 
+               self::getCookiesSection();
+            }else{
+               SingletonHolder::getInstance()->getObject('Logger')->trace("Show post [ $thePostId ]");
+               SingletonHolder::getInstance()->setObject(TB_News::TB_NewsTableC, new TB_News());
+               self::getSelectedPost($thePostId);
+            }
 ?>
          </section>
 <?php 
@@ -483,13 +517,15 @@
       /**
        * Writes the page web aside 
        */
-      static public function getAside(){
+      static public function getAside($thePostId){
 ?>
          <aside id="Lateral-Side" class="Lateral-Side">
 <?php
-            self::getInstagram();
-            self::getFacebookPost();
-            self::getTwiterTimeLine();
+            if ( ! isset($thePostId)){
+               self::getInstagram();
+               self::getFacebookPost();
+               self::getTwiterTimeLine();
+            }
             
 ?>
          </aside>

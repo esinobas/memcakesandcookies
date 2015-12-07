@@ -253,7 +253,7 @@ nav ul li:hover{
    font-family: Ubuntu;
 }
 
-.Post-Title, .Post-Date, .Post-Read{
+.Post-Title, .Post-Date, .Post-Read, .Page-Post-Title, .Page-Post-Date{
   
    color: #ce5c00;
  
@@ -284,6 +284,54 @@ nav ul li:hover{
  
    text-decoration: none;
    color: inherit;
+}
+
+.Page-Post{
+ 
+   margin-top: 126px;
+   padding: 0px 40px;
+   text-align: justify;
+}
+
+
+.Page-Post-Date, .Page-Post-Title{
+   font-family: Ubuntu-Light;
+}
+
+.Page-Post-Date{
+   font-family: Ubuntu;
+   font-size: 18px;
+}
+
+.Page-Post-Date{
+   width: 100px;
+   height: 33px;
+   display: inline;
+   float: left;
+   text-align: right;
+   padding-top: 5px;
+}
+
+.Page-Post-Title{
+ 
+   
+   font-size: 28px;
+   display: inline;
+   float: left;
+   width: 540px;
+   padding-right: 20px;
+}
+.Page-Post-Title h1, .Page-Post-Title h1>p{
+   margin: 0px;
+}
+
+.Page-Post-Text{
+ 
+   font-family: Arimo;
+   font-size: 16px;
+   text-align: justify;
+   float: left;
+   width: 100%;
 }
 
 .Hide{
