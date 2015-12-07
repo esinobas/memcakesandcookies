@@ -515,6 +515,37 @@
 <?php 
       }
       
+      static private function getMonthName($theMonthNum){
+            switch ($theMonthNum){
+               case 1:
+                  return "Enero";
+               case 2:
+                  return "Febrero";
+               case 3:
+                  return "Marzo";
+               case 4:
+                  return "Abril";
+               case 5:
+                  return "Mayo";
+               case 6:
+                  return "Junio";
+               case 7:
+                  return "Julio";
+               case 8:
+                  return "Agosto";
+               case 9:
+                  return "Septiembre";
+               case 10:
+                  return "Octubre";
+               case 11:
+                  return "Noviembre";
+               case 12:
+                  return "Diciembre";
+               default:
+                  return "Unknown";
+            }
+      }
+      
       /**
        * Writes the lasts  posts in the lateral
        */
@@ -570,7 +601,7 @@
                   }
 ?>
                   <ul><?php print($currentYear);?>
-                     <ul><?php print($currentMonth);?>
+                     <ul><?php print( self::getMonthName($currentMonth));?>
 <?php 
                   $year = $currentYear;
                   $month = $currentMonth;
@@ -579,7 +610,7 @@
                      SingletonHolder::getInstance()->getObject('Logger')->trace("Writing post for month [ $currentMonth ]");
 ?>
                         </ul>
-                        <ul><?php print($currentMonth);?>
+                        <ul><?php print(self::getMonthName($currentMonth));?>
 <?php
                      $month = $currentMonth;
                   }
@@ -587,7 +618,8 @@
 ?>
                <li>
                   <a href="<?php print($url);?>?post=<?php print($tbPosts->getId());?>"
-                  <?php print($tbPosts->getTitle());?>
+                     <?php print($tbPosts->getTitle());?>
+                  </a>
                </li>
 <?php 
             }
