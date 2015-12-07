@@ -187,7 +187,7 @@
          return $date;
       }
       
-      static private function getPlainTextIntroFromHtml($html, $numchars) {
+      static private function getPlainTextIntroFromHtml($html, $numchars, $addThreePoins = true) {
          // Remove the HTML tags
          $html = strip_tags($html);
          // Convert HTML entities to single characters
@@ -195,8 +195,10 @@
          // Make the string the desired number of characters
          // Note that substr is not good as it counts by bytes and not characters
          $html = mb_substr($html, 0, $numchars, 'UTF-8');
-         // Add an elipsis
-         $html .= "…";
+         if ($addThreePoins){
+            // Add an elipsis
+            $html .= "…";
+         }
          return $html;
       }
       
@@ -569,9 +571,9 @@
             while ($tbPosts->next() && $idx < 5){
                SingletonHolder::getInstance()->getObject('Logger')->trace("Idx [ $idx ]");
 ?>
-               <il class="Last-Post-Element">
-                  <a href="<?php print($url);?>?post=<?php print($tbPosts->getId());?>"><?php print($tbPosts->getTitle());?></a>
-               </il>
+               <li class="Last-Post-Element">
+                  <a href="<?php print($url);?>?post=<?php print($tbPosts->getId());?>"><?php print(strip_tags($tbPosts->getTitle()));?></a>
+               </li>
 
 <?php 
                $idx ++;
@@ -579,7 +581,7 @@
 ?>
             </ul>
          </div>
-         <div id="Post-By-Date">
+         <ul id="Post-By-Date">
 <?php 
             $tbPosts->rewind();
             $year = 0;
@@ -596,15 +598,16 @@
                   if ($year != 0){
 ?>
                         </ul>
-                     </ul>
+                     </li>
 <?php 
                   }
 ?>
-                  <div class="Label-Date"><?php print($currentYear);?></div>
-
-                  <ul>
-                   <div class="Label-Date"><?php print(self::getMonthName($currentMonth));?></div>
+                   <li>
+                     <?php print($currentYear);?>
                      <ul>
+                        <li>
+                           <?php print(self::getMonthName($currentMonth));?>
+                           <ul>
 <?php 
                   $year = $currentYear;
                   $month = $currentMonth;
@@ -612,25 +615,36 @@
                   if ($currentMonth != $month){
                      SingletonHolder::getInstance()->getObject('Logger')->trace("Writing post for month [ $currentMonth ]");
 ?>
-                        </ul>
-                        <div class="Label-Date"><?php print(self::getMonthName($currentMonth));?></div>
-                        <ul>
+                           </ul>
+                        </li>
+                        <li>
+                           <?php print(self::getMonthName($currentMonth));?>
+                           <ul>
 <?php
                      $month = $currentMonth;
                   }
                }
 ?>
                <li>
-                  <a href="<?php print($url);?>?post=<?php print($tbPosts->getId());?>"
-                     <?php print($tbPosts->getTitle());?>
+                  <a href="<?php print($url);?>?post=<?php print($tbPosts->getId());?>">
+                     <?php SingletonHolder::getInstance()->getObject('Logger')->trace("XXX: ". strip_tags($tbPosts->getTitle()));?>
+                     <?php print(strip_tags($tbPosts->getTitle()));?>
                   </a>
                </li>
 <?php 
             }
-
+          
             
 ?>
-         </div>
+             </ul>
+            </li>
+           </ul>
+         </li>
+       </ul>
+         <script type="text/javascript">
+            //$('#Post-By-Date ul').hide();
+         </script>
+         
 <?php 
          SingletonHolder::getInstance()->getObject('Logger')->trace("Exit");
       }

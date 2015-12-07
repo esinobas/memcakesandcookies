@@ -352,6 +352,12 @@ nav ul li:hover{
    text-align: left;
    font-size: 14px;
    color: #F58F00;
+   list-style: none;
+   padding: 0px 15px;
+}
+.Last-Post-Element{
+   padding: 2px 0px;
+   
 }
 #Last-Posts-List a{
    color: #F58F00;
@@ -365,40 +371,27 @@ nav ul li:hover{
    float: left;
    display: block;
 }
-.Label-Date{
+#Post-By-Date, #Post-By-Date ul{
+   list-style: none;
+   padding: 0px 15px;
+   width: 100%;
+ 
+}
+#Post-By-Date li{
+ 
    display: block;
    float: left;
-   width: calc(100% - 35px);
-   padding-left: 35px;
-   color: #ce5c00;
-   padding-bottom: 5px;
-   padding-top: 5px;
-}
-#Post-By-Date ul>ul{
- 
-   padding: 0px 20px;
+   padding: 2px 0px;
+   width: 100%;
    
 }
 
-#Post-By-Date lu{
- 
-   display: block;
-   float: left;
-}
-#Post-By-Date li {
-   list-style: none;
-   margin-left: 25px;
-   padding: 3px;
-   
- }
- #Post-By-Date li p{
-   margin: 0px;
- }
- #Post-By-Date li a{
- 
-   text-decoration: none;
+#Post-By-Date li a{
    color: #F58F00;
+   text-decoration: none;
+
  }
+ 
 .Hide{
  
    display: none;
