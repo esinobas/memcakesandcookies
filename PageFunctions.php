@@ -549,6 +549,51 @@
             </ul>
          </div>
          <div id="Post-By-Date">
+<?php 
+            $tbPosts->rewind();
+            $year = 0;
+            $month = 0;
+            while($tbPosts->next()){
+               $currentYear = getDate(strtotime($tbPosts->getDateTime()))['year'];
+               $currentMonth = getDate(strtotime($tbPosts->getDateTime()))['mon'];
+               SingletonHolder::getInstance()->getObject('Logger')->trace("SaveYear-CurrentYear [ $year ][ $currentYear ]".
+                                                                     "SaveMont-CurrentMonth [ $month ][ $currentMonth ]");
+               
+               if ($currentYear != $year){
+                  SingletonHolder::getInstance()->getObject('Logger')->trace("Writing post for year [ $currentYear ]".
+                                                         " and month [ $currentMonth ]");
+                  if ($year != 0){
+?>
+                        </ul>
+                     </ul>
+<?php 
+                  }
+?>
+                  <ul><?php print($currentYear);?>
+                     <ul><?php print($currentMonth);?>
+<?php 
+                  $year = $currentYear;
+                  $month = $currentMonth;
+               }else{
+                  if ($currentMonth != $month){
+                     SingletonHolder::getInstance()->getObject('Logger')->trace("Writing post for month [ $currentMonth ]");
+?>
+                        </ul>
+                        <ul><?php print($currentMonth);?>
+<?php
+                     $month = $currentMonth;
+                  }
+               }
+?>
+               <li>
+                  <a href="<?php print($url);?>?post=<?php print($tbPosts->getId());?>"
+                  <?php print($tbPosts->getTitle());?>
+               </li>
+<?php 
+            }
+
+            
+?>
          </div>
 <?php 
          SingletonHolder::getInstance()->getObject('Logger')->trace("Exit");
