@@ -267,13 +267,6 @@ nav ul li:hover{
    text-align: right;
    margin-top: 15px;
 }
-.Post-Read-Text{
-   
-}
-.Post-Read-Text:hover{
-   cursor: pointer;
-}
-
 .Post-Begin{
  
    font-family: Arimo;
@@ -285,6 +278,12 @@ nav ul li:hover{
    margin-top: 20px;
    overflow: hidden;
    display: block;
+}
+
+.Post-Read-Text a{
+ 
+   text-decoration: none;
+   color: inherit;
 }
 
 .Hide{

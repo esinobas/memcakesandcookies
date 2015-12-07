@@ -251,7 +251,7 @@
                         </div>
                         
                         <div class="Post-Read">
-                           <a href="<?php print($url);?>?post=<?php print($tbPost->getId());?>"><span class="Post-Read-Text">Leer</span></a>
+                           <span class="Post-Read-Text"><a href="<?php print($url);?>?post=<?php print($tbPost->getId());?>">Leer</a></span>
                         </div>
                      </div>
                   </li>
