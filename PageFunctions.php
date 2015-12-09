@@ -147,11 +147,12 @@
                   print($tbMenuCollection->getCollectionName());
 ?>
                </h3>
-               <img src="<?php print(createThumbnail($filePath, 
+               <a href="<?php print($url)?>?collectionId=<?php print($tbMenuCollection->getCollectionId());?>"><img src="<?php print(createThumbnail($filePath, 
                                      $fileName, 150, 150,
                                      $filePath.$thumbnailPath 
                                      ,"",
                                     SingletonHolder::getInstance()->getObject('Logger')));?>">
+               </a>
                </li>
 <?php 
                $numCols++;
@@ -748,7 +749,8 @@
                }
                var newColumn = $('<li class="Grid-Col Grid-3-Cols"></li>');
                newColumn.append('<h3>' + jsonResponse.data[0].CollectionName+'</h3>');
-               newColumn.append('<img src="<?php print($url);?>'+addDirectory(jsonResponse.data[0].ImagePath, thumbPath)+'"></img>');
+               newColumn.append('<a href="<?php print($url);?>?collectionId='+
+                     jsonResponse.data[0].CollectionId+'"><img src="<?php print($url);?>'+addDirectory(jsonResponse.data[0].ImagePath, thumbPath)+'"></img></a>');
                newRow.append(newColumn);
 
                if (--numImagesToLoad == 0){
