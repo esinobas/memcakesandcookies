@@ -30,6 +30,7 @@
          
          /** Get the  get parameters is if necesary **/
          $postId = $_GET['post'];
+         $collectionId = $_GET['collectionId'];
          
          require_once 'LoggerMgr/LoggerMgr.php';
          require_once 'tools/SingletonHolder/SingletonHolder.php';
@@ -45,6 +46,7 @@
          require_once 'Database/TB_TypeCollectionImage.php';
          require_once 'Database/TB_News.php';
          require_once 'Database/RequestFromWeb.php';
+
          
          //Declare the global variables
          
@@ -84,14 +86,18 @@
           }   
          PageFunctions::getHeader();
          
-         if (!isset($postId)){
+         if (!isset($postId) && !isset($collectionId)){
             PageFunctions::getImagesSlide();
          }
       ?>
       <div id="Main-Div">
     <?php 
        
-         PageFunctions::getMainSection($postId);
+         if (!isset($collectionId)){
+            PageFunctions::getMainSection($postId);
+         }else{
+            PageFunctions::getCollectionImages($collectionId);
+         }
          PageFunctions::getAside($postId);
        
        ?>

@@ -971,5 +971,81 @@
 <?php 
          SingletonHolder::getInstance()->getObject('Logger')->trace("Exit");
       }
+      
+      /**
+       * Writes the collection images in the page
+       * @param theCollectionId: The collection identifier
+       */
+      
+      static public function getCollectionImages($theCollectionId){
+         SingletonHolder::getInstance()->getObject('Logger')->trace("Enter");
+         SingletonHolder::getInstance()->getObject('Logger')->trace("Geting images from collection [ $theCollectionId ]");
+         $tbTypeCollectionImage = new TB_TypeCollectionImage();
+         $tbTypeCollectionImage->open();
+         $tbTypeCollectionImage->searchByColumn(TB_TypeCollectionImage::CollectionIdColumnC, $theCollectionId);
+         $tbConfiguration = SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC);
+         $tbConfiguration->reset();
+         $tbConfiguration->searchByKey('URL');
+         $url = $tbConfiguration->getValue();
+         $tbConfiguration->reset();
+         $tbConfiguration->searchByKey('thumbnailsPath');
+         $thumbnailPath = $tbConfiguration->getValue();
+         
+?>
+         <section id="Main-Section" class="Main-Section">
+            <h1><?php print($tbTypeCollectionImage->getTypeName());?></h1>
+            <h2><?php print($tbTypeCollectionImage->getCollectionName());?></h2>
+            <div id="CollectionImages-<?php print($theCollectionId);?>" class="Grid">
+<?php
+            $numCols = self::NUM_GRID_COLUMNS_C;
+            $closePrevious = false;
+ 
+            while($tbTypeCollectionImage->next()){
+               if ($numCols == self::NUM_GRID_COLUMNS_C){
+                  if ($closePrevious){
+?>
+                     </ul>
+<?php 
+                     $closePrevious = false;
+                  }
+?>
+                  <ul class="Grid-Row">
+<?php
+                  $numCols = 0;
+                  $closePrevious = true;
+               }
+               $arrayPathFilename = explode("/",$tbTypeCollectionImage->getImagePath());
+               $filePath = "";
+               for ($idx = 0; $idx < count($arrayPathFilename); $idx++){
+                  if ($idx != count($arrayPathFilename) -1 ){
+                     $filePath .= $arrayPathFilename[$idx] . "/";
+                  }
+               }
+               $fileName = $arrayPathFilename[count($arrayPathFilename) -1 ];
+               SingletonHolder::getInstance()->getObject('Logger')->trace("File Path [ $filePath ]. File Name [ $fileName ]");
+                
+?>
+               <li class="Grid-Col Grid-3-Cols">
+                  <img alt="" src="<?php print(createThumbnail($filePath, 
+                                     $fileName, 150, 150,
+                                     $filePath.$thumbnailPath 
+                                     ,"",
+                                    SingletonHolder::getInstance()->getObject('Logger')));?>" title="<?php print($tbTypeCollectionImage->getImageDescription());?>">
+               </li>
+<?php
+                $numCols ++;
+            }
+            if ($closePrevious){
+?>
+               </ul>
+<?php 
+            } 
+?>
+            </div>
+         </section>         
+                    
+<?php
+         SingletonHolder::getInstance()->getObject('Logger')->trace("Exit");
+      }
    }
 ?>
