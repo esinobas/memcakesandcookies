@@ -992,9 +992,10 @@
          $thumbnailPath = $tbConfiguration->getValue();
          
 ?>
+         <div style="width: 100%; height: 125px;"></div>
          <section id="Main-Section" class="Main-Section">
-            <h1><?php print($tbTypeCollectionImage->getTypeName());?></h1>
-            <h2><?php print($tbTypeCollectionImage->getCollectionName());?></h2>
+            <h1 class="Class-H1"><?php print($tbTypeCollectionImage->getTypeName());?></h1>
+            <h2 class="Class-H2"><?php print($tbTypeCollectionImage->getCollectionName());?></h2>
             <div id="CollectionImages-<?php print($theCollectionId);?>" class="Grid">
 <?php
             $numCols = self::NUM_GRID_COLUMNS_C;

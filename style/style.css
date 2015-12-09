@@ -398,6 +398,24 @@ nav ul li:hover{
    color: #ce5c00;
  }
  
+.Class-H1, .Class-H2{
+ 
+   font-family: Ubuntu-Light
+}
+
+
+.Class-H1{
+ 
+   font-size: 34px;
+   color: #F58F00;
+}
+.Class-H2{
+ 
+   font-size: 28px;
+   color: #F58F00;
+   padding-left: 75px;
+}
+ 
 .Hide{
  
    display: none;

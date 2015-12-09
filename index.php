@@ -96,6 +96,7 @@
          if (!isset($collectionId)){
             PageFunctions::getMainSection($postId);
          }else{
+          
             PageFunctions::getCollectionImages($collectionId);
          }
          PageFunctions::getAside($postId);
