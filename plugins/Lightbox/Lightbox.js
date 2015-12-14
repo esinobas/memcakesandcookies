@@ -21,6 +21,7 @@ var Lightbox = Lightbox || {};
       JSLogger.getInstance().traceEnter();
       $('#Lightbox').remove();
       $('#Lightbox-shadow').remove();
+      $('body').removeClass('No-scrollbar-Lightbox');
       JSLogger.getInstance().traceExit();
    }
    
@@ -65,6 +66,12 @@ var Lightbox = Lightbox || {};
       
       lightboxM.css('margin-top', "-"+(lightboxM.height()/2)+"px");
       lightboxM.css('margin-left', "-"+(lightboxM.width()/2)+"px");
+      
+      var windowScrollTop = $(window).scrollTop();
+      var windowHeight = $(window).height();
+      JSLogger.getInstance().trace("scrollTop [ " + windowScrollTop +" ]. window height [ " + windowHeight + " ]");
+      
+      lightboxM.css('top',((parseInt(windowHeight)/2)+parseInt(windowScrollTop))+'px');
       
       JSLogger.getInstance().traceExit();
       
@@ -116,6 +123,13 @@ Lightbox.show = function(theImageObject, theImageLoad,
    image.hide();
    lightboxM.append(image);
    image.on('load',imageLoaded);
+   
+   $(document).keypress(function(e) {        
+      
+      if (e.keyCode == 27) {
+           closeLightbox();
+        }
+     });
    
    JSLogger.getInstance().traceExit();
 } 
