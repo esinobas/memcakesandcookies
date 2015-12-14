@@ -1027,11 +1027,13 @@
                 
 ?>
                <li class="Grid-Col Grid-3-Cols">
-                  <img alt="" src="<?php print(createThumbnail($filePath, 
+                  <img class="Gallery-Item" alt="" src="<?php print(createThumbnail($filePath, 
                                      $fileName, 150, 150,
                                      $filePath.$thumbnailPath 
                                      ,"",
-                                    SingletonHolder::getInstance()->getObject('Logger')));?>" title="<?php print($tbTypeCollectionImage->getImageDescription());?>">
+                                    SingletonHolder::getInstance()->getObject('Logger')));?>" title="<?php print($tbTypeCollectionImage->getImageDescription());?>"
+                                    data-image_source="<?php print($url.$filePath.$fileName);?>"
+                                    data-image_desc="<?php print($tbTypeCollectionImage->getImageDescription());?>">
                </li>
 <?php
                 $numCols ++;
@@ -1043,6 +1045,10 @@
             } 
 ?>
             </div>
+            <script type="text/javascript">
+               
+               Gallery.init("CollectionImages-<?php print($theCollectionId);?>");
+            </script>
          </section>         
                     
 <?php
