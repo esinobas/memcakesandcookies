@@ -14,9 +14,9 @@ var Gallery = Gallery || {};
 /**
  * Initialize the Gallery
  */
-Gallery.init = function(theHtmlObjectId){
+Gallery.init = function(theHtmlObjectId, theLoadImage){
 
-   JSLogger.getInstance().registerLogger("Gallery", JSLogger.levelsE.TRACE);
+   JSLogger.getInstance().registerLogger("Gallery", JSLogger.levelsE.WARN);
    JSLogger.getInstance().traceEnter();
    JSLogger.getInstance().trace("Init gallery for the object [ " + theHtmlObjectId + " ]");
    var numGalleryImages = $('#'+theHtmlObjectId+' img').length;
@@ -47,7 +47,10 @@ Gallery.init = function(theHtmlObjectId){
          var nextImage = (idx < numGalleryImages -1 );
      
          $(this).addClass('Gallery-Item');
-         $(this).click(function(){alert(idx)});
+         $(this).click(function(){
+            
+            Lightbox.show(objImage, theLoadImage);
+         });
       });
    
    

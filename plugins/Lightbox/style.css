@@ -1,9 +1,4 @@
-@font-face{
-font-family: Cookie;
-src:url('../../fonts/Cookie/Cookie-Regular.ttf')
-} 
- 
- #shadow{
+ #Lightbox-shadow{
  
    opacity: .75;
    background-color: white;
@@ -11,40 +6,40 @@ src:url('../../fonts/Cookie/Cookie-Regular.ttf')
    left: 0px;
    top: 0px;
    width: 100%;
-   height: 500%; 
+   height: 200%; 
    z-index: 10000;
-   display: none;
+   /*display: none;*/
  }
  
- #lightbox{
+ #Lightbox{
 
    opacity: 1;
    background-color: white;
    position: absolute;
    left: 50%;
    top: 50%;
-   width: 100%;
-   height: 100%; 
+   /*width: 100%;
+   height: 100%;*/
+   max-width: 800px;
+   max-height: 400px;
    z-index: 10000;
-   display: none;
-   padding: 10px;
+   display: inline;
+   /*padding: 20px 30px;*/
+   text-align: center;
    /*margin-top: -height/2*/
    /*margin-left: -width/2*/ 
+   background-color: red;
    
    
  }
  
+#Lightbox-Image{
+ 
+
+}
+
  #div_label{
     
-   font-family: cookie;
-   font-size: 30px; 
-
-   width: 100%;
-   height: 30px;
-   color: #F56A0F;
-   text-align: left;
-   font-weight: normal;
-   /*font-style: italic;*/
    
  }
  
@@ -57,3 +52,12 @@ src:url('../../fonts/Cookie/Cookie-Regular.ttf')
    height: 30px;
      
  }
+ 
+ .No-scrollbar-Lightbox{
+ 
+   overflow-y: hidden; 
+}
+
+.Lightbox-Hidden{
+   display: none;
+}

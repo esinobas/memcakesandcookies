@@ -17,12 +17,14 @@
       <script type="text/javascript" src="./plugins/Ajax/Ajax.js"></script>
       <script type="text/javascript" src="./plugins/ImagesSlide/ImagesSlide.js"></script>
       <script type="text/javascript" src="./plugins/Gallery/Gallery.js"></script>
+      <script type="text/javascript" src="./plugins/Lightbox/Lightbox.js"></script>
       
       <!--  Plugins styles -->
       <link rel="stylesheet" href="./style/GridStyle.css">
       <link rel="stylesheet" href="./plugins/ImagesSlide/style.css">
       <link rel="stylesheet" href="./plugins/Instagram/style.css">
       <link rel="stylesheet" href="./plugins/Gallery/style.css">
+       <link rel="stylesheet" href="./plugins/Lightbox/style.css">
       
       <!--  Style  -->
       <!-- Include the php dir in php path -->

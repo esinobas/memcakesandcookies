@@ -1046,8 +1046,9 @@
 ?>
             </div>
             <script type="text/javascript">
-               
-               Gallery.init("CollectionImages-<?php print($theCollectionId);?>");
+           
+               Gallery.init("CollectionImages-<?php print($theCollectionId);?>", 
+                     "<?php print($url."images/ajax-loader.gif");?>");
             </script>
          </section>         
                     
