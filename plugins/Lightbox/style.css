@@ -1,6 +1,11 @@
+ @font-face{
+   font-family: Arimo;
+   src: url(../.../fonts/Arimo/Arimo-Regular.ttf);
+}
+ 
  #Lightbox-shadow{
  
-   opacity: .75;
+   opacity: .95;
    background-color: white;
    position: absolute;
    left: 0px;
@@ -21,14 +26,14 @@
    /*width: 100%;
    height: 100%;*/
    max-width: 800px;
-   max-height: 400px;
+   max-height: 440px;
    z-index: 10000;
-   display: inline;
-   /*padding: 20px 30px;*/
+   display: block;
+   padding: 20px 30px;
    text-align: center;
    /*margin-top: -height/2*/
    /*margin-left: -width/2*/ 
-   background-color: red;
+   
    
    
  }
@@ -38,11 +43,18 @@
 
 }
 
- #div_label{
-    
-   
- }
+#Lightbox-Desc{
  
+   font-family: Arimo;
+   font-weight: bold;
+   font-size: 18px;
+   padding: 6px 0px;
+   width: 100%;
+   display: block;
+  
+  
+}
+
  #img_close{
    position: absolute;
    top: 0;
@@ -53,9 +65,9 @@
      
  }
  
- .No-scrollbar-Lightbox{
+.No-scrollbar-Lightbox{
  
-   overflow-y: hidden; 
+   overflow-y: hidden;
 }
 
 .Lightbox-Hidden{

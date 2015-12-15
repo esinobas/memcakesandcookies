@@ -14,6 +14,7 @@ var Lightbox = Lightbox || {};
 
    var lightboxM = null;
    var imageLoadSrcM = "./DefaultImageLoad.gif";
+   
 
 /***** Private functions ****/
 
@@ -38,17 +39,26 @@ var Lightbox = Lightbox || {};
       
       var maxHeight = lightboxM.css('max-height');
       var maxWidth = lightboxM.css('max-width');
+      var verticalPadding = parseInt(lightboxM.css('padding-top')) + parseInt(lightboxM.css('padding-bottom'));
+      var horizontalPadding = parseInt(lightboxM.css('padding-left')) + parseInt(lightboxM.css('padding-right'));
+      var descVerticalPadding = parseInt($('#Lightbox-Desc').css('padding-top')) + parseInt($('#Lightbox-Desc').css('padding-bottom'));
+      
       JSLogger.getInstance().trace("Max width [ " + maxWidth + " ], max height [ " +
                                  maxHeight + " ]");
+      
+      JSLogger.getInstance().trace("Verical padding [ " + verticalPadding + " ],Horizontal padding [ " +
+            horizontalPadding + " ]");
       
       var factorX = 1;
       var factorY = 1;
       
-      if (width > parseInt(maxWidth)){
-         factorX = parseInt(maxWidth)/width;
+      if (width > (parseInt(maxWidth) )){
+         factorX = (parseInt(maxWidth)) /width;
       }
-      if (height > parseInt(maxHeight)){
-         factorY = parseInt(maxHeight)/height;
+      JSLogger.getInstance().trace("Description Verical padding [ " + descVerticalPadding + " ]");
+      
+      if (height > (parseInt(maxHeight) - ($('#Lightbox-Desc').height()+ verticalPadding))){
+         factorY = (parseInt(maxHeight) - ($('#Lightbox-Desc').height()+ verticalPadding))/height;
       }
       JSLogger.getInstance().trace("Factor X [ " + factorX+ " ], Factor Y [ " +
             factorY + " ]");
@@ -56,7 +66,9 @@ var Lightbox = Lightbox || {};
       width = width * factorX * factorY;
       lightboxM.width(width);
       height = height * factorX * factorY;        
-      lightboxM.height(height);
+      lightboxM.height(height + $('#Lightbox-Desc').height() + verticalPadding);
+      
+      JSLogger.getInstance().trace("Lightbox desc [ " + $('#Lightbox-Desc').height() + " ]");
       
       theHtmlImg.width(width);
       theHtmlImg.height(height);
@@ -90,6 +102,7 @@ var Lightbox = Lightbox || {};
       JSLogger.getInstance().trace("The image was loaded");
       $('#Lightbox-Image-Load').addClass('Lightbox-Hidden');
       $('#Lightbox-Image').show();
+      $('#Lightbox-Desc').show();
       resizeLightbox($('#Lightbox-Image'));
       
       JSLogger.getInstance().traceExit();
@@ -122,6 +135,9 @@ Lightbox.show = function(theImageObject, theImageLoad,
    var image = $('<img src="' + theImageObject.src +'" id="Lightbox-Image">');
    image.hide();
    lightboxM.append(image);
+   var imageDesc = $('<div id="Lightbox-Desc">'+theImageObject.desc+'</div>');
+   imageDesc.hide();
+   lightboxM.append(imageDesc);
    image.on('load',imageLoaded);
    
    $(document).keypress(function(e) {        
