@@ -905,7 +905,7 @@
                   newPost.append(newHeader);
                   newPost.append('<div class="Post-Begin">' + jQuery(rows[row].New).text().substr(0,150)
                                              +' ...</div>');
-                  newPost.append('<div class="Post-Read"><span class="Post-Read-Text"><a href="<?php print($url);?>post=' +
+                  newPost.append('<div class="Post-Read"><span class="Post-Read-Text"><a href="<?php print($url);?>?post=' +
                                                       rows[row].Id +'">Leer</a></span></div>');
                   newColumn.append(newPost);
                   newRow.append(newColumn);
