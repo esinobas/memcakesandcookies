@@ -47,7 +47,8 @@ var Lightbox = Lightbox || {};
       JSLogger.getInstance().traceEnter();
       if (currentIndexM > 1 ){
          
-         var button = $('#pre-image');
+         var button = $('#prev-image');
+         
          if (button.length == 0){
             button = $('<img src="plugins/Lightbox/Arrow-left.png" id="prev-image" class="Navigate-Buttons">');
             button.css('left', '0px');
@@ -201,8 +202,14 @@ var Lightbox = Lightbox || {};
          
          if (e.keyCode == 27) {
               closeLightbox();
-           }
-        });
+         }
+         if (e.keyCode == 39 && $('#next-image:visible').length > 0){
+            loadNextImage();
+         }
+         if (e.keyCode == 37 && $('#prev-image:visible').length > 0){
+            loadPreviousImage();
+         }
+      });
       
       JSLogger.getInstance().traceExit();
       
