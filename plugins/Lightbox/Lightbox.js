@@ -14,6 +14,8 @@ var Lightbox = Lightbox || {};
 
    var lightboxM = null;
    var imageLoadSrcM = "./DefaultImageLoad.gif";
+   var prevImageM = null;
+   var nextImageM = null;
    
 
 /***** Private functions ****/
@@ -23,6 +25,33 @@ var Lightbox = Lightbox || {};
       $('#Lightbox').remove();
       $('#Lightbox-shadow').remove();
       $('body').removeClass('No-scrollbar-Lightbox');
+      JSLogger.getInstance().traceExit();
+   }
+   
+   function addPreviousImage(){
+      JSLogger.getInstance().traceEnter();
+      if (prevImageM != null){
+         JSLogger.getInstance().trace("Add previous image link or button");
+         var button = $('<img src="plugins/Lightbox/Arrow-left.png" id="prev-image" class="Navigate-Buttons">');
+         button.css('left', '0px');
+         var top = ($('#Lightbox-Image').height()/2) - (button.height()/2);
+         JSLogger.getInstance().trace("Top [ " + top + "px ]");
+         button.css('top', top+"px");
+         lightboxM.append(button);
+      }
+      JSLogger.getInstance().traceExit();
+   }
+   
+   function addNextImage(){
+      JSLogger.getInstance().traceEnter();
+      if (nextImageM != null){
+         JSLogger.getInstance().trace("Add next image link or button");
+         var button = $('<img src="plugins/Lightbox/Arrow-right.png" id="prev-image" class="Navigate-Buttons">');
+         button.css('right', '0px');
+         var top = ($('#Lightbox-Image').height()/2) - (button.height()/2);
+         button.css('top', top+"px");
+         lightboxM.append(button);
+      }
       JSLogger.getInstance().traceExit();
    }
    
@@ -104,9 +133,12 @@ var Lightbox = Lightbox || {};
       $('#Lightbox-Image').show();
       $('#Lightbox-Desc').show();
       resizeLightbox($('#Lightbox-Image'));
-      
+      addPreviousImage();
+      addNextImage();
       JSLogger.getInstance().traceExit();
    }
+   
+   
    
 /**** Public Functions ****/
 
@@ -126,6 +158,13 @@ Lightbox.show = function(theImageObject, theImageLoad,
    if (typeof theImageLoad !== 'undefined'){
       imageLoadSrcM = theImageLoad;
    }
+   if (typeof thePreviousImage !== 'undefined'){
+      prevImageM = thePreviousImage;
+   }
+   if (typeof theNextImage !== 'undefined'){
+      nextImageM = theNextImage;
+   }
+   
    JSLogger.getInstance().trace("The image load [ " + imageLoadSrcM +" ]");
    JSLogger.getInstance().trace("The image src [ " + theImageObject.src +" ] and desc [ " +
                              theImageObject.desc +" ]");

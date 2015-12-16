@@ -65,6 +65,11 @@
      
  }
  
+.Navigate-Buttons{
+ 
+   position: absolute;
+   z-index: 10000;
+}"
 .No-scrollbar-Lightbox{
  
    overflow-y: hidden;

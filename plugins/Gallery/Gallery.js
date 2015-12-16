@@ -87,7 +87,7 @@ Gallery.init = function(theHtmlObjectId, theLoadImage){
                      objNextImage.src  + 
                      " ] & next image desc [ " + objNextImage.desc + " ]");
             }
-            Lightbox.show(objImage, theLoadImage);
+            Lightbox.show(objImage, theLoadImage, objPreviousImage, objNextImage);
          });
       });
    
