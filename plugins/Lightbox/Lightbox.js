@@ -14,8 +14,8 @@ var Lightbox = Lightbox || {};
 
    var lightboxM = null;
    var imageLoadSrcM = "./DefaultImageLoad.gif";
-   var prevImageM = null;
-   var nextImageM = null;
+   var arrayImagesM = null;
+   var currentIndexM = 0;
    
 
 /***** Private functions ****/
@@ -28,29 +28,61 @@ var Lightbox = Lightbox || {};
       JSLogger.getInstance().traceExit();
    }
    
+   function loadPreviousImage(){
+      JSLogger.getInstance().traceEnter();
+      JSLogger.getInstance().trace("Current index [ " + currentIndexM + " ]");
+      $('.Navigate-Buttons').hide();
+      loadImageByIndex(--currentIndexM);
+      
+      JSLogger.getInstance().traceExit();
+   }
+   function loadNextImage(){
+      JSLogger.getInstance().traceEnter();
+      JSLogger.getInstance().trace("Current index [ " + currentIndexM + " ]");
+      $('.Navigate-Buttons').hide();
+      loadImageByIndex(++currentIndexM);
+      JSLogger.getInstance().traceExit();
+   }
    function addPreviousImage(){
       JSLogger.getInstance().traceEnter();
-      if (prevImageM != null){
-         JSLogger.getInstance().trace("Add previous image link or button");
-         var button = $('<img src="plugins/Lightbox/Arrow-left.png" id="prev-image" class="Navigate-Buttons">');
-         button.css('left', '0px');
+      if (currentIndexM > 1 ){
+         
+         var button = $('#pre-image');
+         if (button.length == 0){
+            button = $('<img src="plugins/Lightbox/Arrow-left.png" id="prev-image" class="Navigate-Buttons">');
+            button.css('left', '0px');
+            lightboxM.append(button);
+            button.click(loadPreviousImage);
+         }else{
+            button.show();
+         }
          var top = ($('#Lightbox-Image').height()/2) - (button.height()/2);
-         JSLogger.getInstance().trace("Top [ " + top + "px ]");
          button.css('top', top+"px");
-         lightboxM.append(button);
+         
+         
       }
       JSLogger.getInstance().traceExit();
    }
    
    function addNextImage(){
       JSLogger.getInstance().traceEnter();
-      if (nextImageM != null){
+      
+      if ( currentIndexM < ( arrayImagesM.length -1 )){
          JSLogger.getInstance().trace("Add next image link or button");
-         var button = $('<img src="plugins/Lightbox/Arrow-right.png" id="prev-image" class="Navigate-Buttons">');
-         button.css('right', '0px');
+         var button = $('#next-image');
+         
+         if (button.length == 0){
+            button = $('<img src="plugins/Lightbox/Arrow-right.png" id="next-image" class="Navigate-Buttons">');
+            button.css('right', '0px');
+            button.click(loadNextImage);
+            lightboxM.append(button);
+         }else{
+            button.show();
+         }
          var top = ($('#Lightbox-Image').height()/2) - (button.height()/2);
          button.css('top', top+"px");
-         lightboxM.append(button);
+         
+         
       }
       JSLogger.getInstance().traceExit();
    }
@@ -121,7 +153,12 @@ var Lightbox = Lightbox || {};
    function addImageLoad(){
       JSLogger.getInstance().traceEnter();
       JSLogger.getInstance().trace("Append image [" + imageLoadSrcM +" ]");
-      lightboxM.append('<img src= "' + imageLoadSrcM +'" title="Loading" id="Lightbox-Image-Load">');
+      var imageLoad = $('#Lightbox-Image-Load');
+      if (imageLoad == null){
+         lightboxM.append('<img src= "' + imageLoadSrcM +'" title="Loading" id="Lightbox-Image-Load">');
+      }else{
+         imageLoad.show()
+      }
       resizeLightbox($('#Lightbox-Image-Load'));
       JSLogger.getInstance().traceExit();
    }
@@ -154,7 +191,7 @@ var Lightbox = Lightbox || {};
       JSLogger.getInstance().trace("The image load [ " + imageLoadSrcM +" ]");
       
       
-      addImageLoad();
+      
       
       lightboxM.append('<img src="plugins/Lightbox/Close.png" id="img-close">')
       
@@ -175,6 +212,8 @@ var Lightbox = Lightbox || {};
       
       JSLogger.getInstance().traceEnter();
       
+      addImageLoad();
+      
       JSLogger.getInstance().trace("The image src [ " + theImageObject.src + 
                 " ] & image description [ " + theImageObject.desc +" ]");
       
@@ -189,6 +228,21 @@ var Lightbox = Lightbox || {};
 
       JSLogger.getInstance().traceExit();
    }
+   
+   function loadImageByIndex(theIndex){
+      JSLogger.getInstance().traceEnter();
+      JSLogger.getInstance().trace("Show images with index [ " + theIndex + " ]");
+      //If a previous image is begin showed, hides and removes it.
+      $('#Lightbox-Image').hide();
+      $('#Lightbox-Image').remove();
+      $('#Lightbox-Desc').hide();
+      $('#Lightbox-Desc').remove();
+      currentIndexM = theIndex;
+      loadImage(arrayImagesM[theIndex]);
+      
+      JSLogger.getInstance().traceExit();
+      
+   }
 /**** Public Functions ****/
 
 Lightbox.show = function(theImageObject, theImageLoad){
@@ -199,7 +253,8 @@ Lightbox.show = function(theImageObject, theImageLoad){
    showLightbox(theImageLoad);
    
    if (Array.isArray(theImageObject)){
-      null;
+      arrayImagesM = theImageObject;
+      loadImageByIndex(arrayImagesM[0]);
    }else
    {
       loadImage(theImageObject);

@@ -54,7 +54,7 @@ Gallery.init = function(theHtmlObjectId, theLoadImage){
          $(this).click(function(){
             //Save in the array images info the image selected idx +1 
             arrayImagesInfo[0] = idx + 1;
-            Lightbox.show(arrayImagesInfo[idx+1], theLoadImage);
+            Lightbox.show(arrayImagesInfo, theLoadImage);
          });
       });
    
