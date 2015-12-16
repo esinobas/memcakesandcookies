@@ -139,56 +139,74 @@ var Lightbox = Lightbox || {};
    }
    
    
+   function showLightbox(theImageLoad){
+      JSLogger.getInstance().traceEnter();
+      if (typeof theImageLoad !== 'undefined'){
+         imageLoadSrcM = theImageLoad;
+      }
+      $('body').addClass('No-scrollbar-Lightbox');
+      
+      $('body').append('<div id="Lightbox-shadow"></div>');
+      
+      lightboxM = $('<div id="Lightbox"></div>');
+      $('body').append(lightboxM);
+      
+      JSLogger.getInstance().trace("The image load [ " + imageLoadSrcM +" ]");
+      
+      
+      addImageLoad();
+      
+      lightboxM.append('<img src="plugins/Lightbox/Close.png" id="img-close">')
+      
+      $('#img-close').click(closeLightbox);
+      
+      $(document).keypress(function(e) {        
+         
+         if (e.keyCode == 27) {
+              closeLightbox();
+           }
+        });
+      
+      JSLogger.getInstance().traceExit();
+      
+   }
    
+   function loadImage(theImageObject){
+      
+      JSLogger.getInstance().traceEnter();
+      
+      JSLogger.getInstance().trace("The image src [ " + theImageObject.src + 
+                " ] & image description [ " + theImageObject.desc +" ]");
+      
+      var image = $('<img src="' + theImageObject.src +'" id="Lightbox-Image">');
+      image.hide();
+      lightboxM.append(image);
+      var imageDesc = $('<div id="Lightbox-Desc">'+theImageObject.desc+'</div>');
+      imageDesc.hide();
+      lightboxM.append(imageDesc);
+      image.on('load',imageLoaded);
+      
+
+      JSLogger.getInstance().traceExit();
+   }
 /**** Public Functions ****/
 
-Lightbox.show = function(theImageObject, theImageLoad, 
-                                 thePreviousImage, theNextImage){
+Lightbox.show = function(theImageObject, theImageLoad){
    
    JSLogger.getInstance().registerLogger("Lightbox", JSLogger.levelsE.TRACE);
    JSLogger.getInstance().traceEnter();
-   $('body').addClass('No-scrollbar-Lightbox');
    
-   $('body').append('<div id="Lightbox-shadow"></div>');
+   showLightbox(theImageLoad);
    
-   lightboxM = $('<div id="Lightbox"></div>');
-   $('body').append(lightboxM);
-   
-   
-   if (typeof theImageLoad !== 'undefined'){
-      imageLoadSrcM = theImageLoad;
-   }
-   if (typeof thePreviousImage !== 'undefined'){
-      prevImageM = thePreviousImage;
-   }
-   if (typeof theNextImage !== 'undefined'){
-      nextImageM = theNextImage;
+   if (Array.isArray(theImageObject)){
+      null;
+   }else
+   {
+      loadImage(theImageObject);
    }
    
-   JSLogger.getInstance().trace("The image load [ " + imageLoadSrcM +" ]");
-   JSLogger.getInstance().trace("The image src [ " + theImageObject.src +" ] and desc [ " +
-                             theImageObject.desc +" ]");
    
-   addImageLoad();
-   
-   var image = $('<img src="' + theImageObject.src +'" id="Lightbox-Image">');
-   image.hide();
-   lightboxM.append(image);
-   var imageDesc = $('<div id="Lightbox-Desc">'+theImageObject.desc+'</div>');
-   imageDesc.hide();
-   lightboxM.append(imageDesc);
-   image.on('load',imageLoaded);
-   
-   lightboxM.append('<img src="plugins/Lightbox/Close.png" id="img-close">')
-   
-   $('#img-close').click(closeLightbox);
-   
-   $(document).keypress(function(e) {        
-      
-      if (e.keyCode == 27) {
-           closeLightbox();
-        }
-     });
    
    JSLogger.getInstance().traceExit();
 } 
+

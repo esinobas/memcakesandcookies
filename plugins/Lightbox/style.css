@@ -69,7 +69,8 @@
  
    position: absolute;
    z-index: 10000;
-}"
+   cursor: pointer;
+}
 .No-scrollbar-Lightbox{
  
    overflow-y: hidden;
