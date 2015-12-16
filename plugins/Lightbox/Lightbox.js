@@ -140,6 +140,10 @@ Lightbox.show = function(theImageObject, theImageLoad,
    lightboxM.append(imageDesc);
    image.on('load',imageLoaded);
    
+   lightboxM.append('<img src="plugins/Lightbox/Close.png" id="img-close">')
+   
+   $('#img-close').click(closeLightbox);
+   
    $(document).keypress(function(e) {        
       
       if (e.keyCode == 27) {
