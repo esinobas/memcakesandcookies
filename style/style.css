@@ -419,13 +419,13 @@ nav ul li:hover{
 
 /* Contact form style */
 
-#Contact-Section{ 
+#Contact-Section, #Newsletter-Section{ 
 
  font-family: Ubuntu;
 
 }
 
-#Contact-Section p{
+#Contact-Section p, #Newsletter-Section p{
  
    
    font-size: 16px;
@@ -433,7 +433,7 @@ nav ul li:hover{
    text-align: justify;
 }
 
-#Contact-Form{
+#Contact-Form, #Newsletter-Form {
    
    display: block;
    padding: 10px 100px;
@@ -456,7 +456,7 @@ nav ul li:hover{
 
 .DataEntryButtonsContainer{
  
-   padding-left: 545px;
+   padding-left: 445px;
 }
 .DataEntryRow{
  
@@ -468,6 +468,12 @@ nav ul li:hover{
    border-color: #F58F00;
    color: white;
    background-color: #F58F00;
+}
+.enfasis{
+ 
+   font-weight: bold;
+   background-color: #FFA500;
+   color: white;
 }
 
 .Hide{

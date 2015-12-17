@@ -43,8 +43,8 @@
                   <ul>
                      <a href="<?php print( SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->getValue());?>#Cakes"><li>Cakes</li></a>
                      <a href="<?php print( SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->getValue());?>#Cookies"><li>Cookies</li></a>
-                     <!-- <li>Subscripcion</li> -->
                      <a href="<?php print( SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->getValue());?>#Contact"><li>Contacto</li></a>
+                     <a href="<?php print( SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->getValue());?>#Newsletter"><li>Newsletter</li></a>
                   </ul>
                </nav>
             </div>
@@ -442,8 +442,8 @@
                         <textarea rows="10" required></textarea>
                      </div>
                    </div>
+                   
                 </div>
-               </div>
                <div class="DataEntryButtonsContainer">
                   <div class="Round-Corners-Button DataEntryWindowButtonOk" id="Button-Contact">Enviar</div>
                </div>
@@ -531,9 +531,64 @@
 <?php 
       }
       
+      
       /**
        * Writes the newsletter section
        */
+      static public function getNewsletterSection(){
+?>
+         <spam class="Anchor" id="Newsletter"></spam>
+         <section id="Newsletter-Section" class="Detail-Section">
+            <h2>Newsletter</h2>
+            <p>
+               Si quieres estar al día de nuestras noticias, novedades,
+               participar en sorteos y promociones, no dudes en <span class="enfasis">subscribirte</span> y 
+               te infomaremos mediante un correo electrónico.
+            </p>
+            <div id="Newsletter-Form">
+               <div class="DataEntryContainer">
+                  <div class="DataEntryRow">
+                     <div class="DataEntryLabel" id="Nombre">
+                        Nombre:
+                     </div>
+                     <div class="DataEntryValue" id="Newleter-Name-Value">
+                        <input type="text">
+                     </div>
+                   </div>
+                   <div class="DataEntryRow">
+                     <div class="DataEntryLabel" id="Apellidos">
+                        Apellidos:
+                     </div>
+                     <div class="DataEntryValue" id="Newsletter-Surname-Value">
+                        <input type="text">
+                     </div>
+                   </div>
+                   <div class="DataEntryRow">
+                     <div class="DataEntryLabel" id="Correo-Electronico">
+                        Correo electrónico:
+                     </div>
+                     <div class="DataEntryValue" id="Newsletter-Email-Value">
+                        <input type="email">
+                     </div>
+                   </div>
+                   <div class="DataEntryRow">
+                     <div class="DataEntryLabel" id="Re-Correo-Electronico">
+                        Re-Correo electrónico:
+                     </div>
+                     <div class="DataEntryValue" id="Newsletter-ReEmail-Value">
+                        <input type="email">
+                     </div>
+                   </div>
+                </div>
+               <div class="DataEntryButtonsContainer">
+                  <div class="Round-Corners-Button DataEntryWindowButtonOk" id="Button-Newsletter">Subscribirse</div>
+               </div>
+            </div>
+            </div>
+         </section>
+<?php
+      }
+      
       /**
        * Writes the Main section
        */
@@ -557,6 +612,7 @@
                self::getCakesSection(); 
                self::getCookiesSection();
                self::getContactSection();
+               self::getNewsletterSection();
             }else{
                SingletonHolder::getInstance()->getObject('Logger')->trace("Show post [ $thePostId ]");
                SingletonHolder::getInstance()->setObject(TB_News::TB_NewsTableC, new TB_News());
