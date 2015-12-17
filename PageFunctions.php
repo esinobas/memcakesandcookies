@@ -536,6 +536,11 @@
        * Writes the newsletter section
        */
       static public function getNewsletterSection(){
+         
+         $tbConf = SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC);
+         $tbConf->reset();
+         $tbConf->searchByKey('URL');
+         $url = $tbConf->getValue();
 ?>
          <spam class="Anchor" id="Newsletter"></spam>
          <section id="Newsletter-Section" class="Detail-Section">
@@ -544,6 +549,13 @@
                Si quieres estar al día de nuestras noticias, novedades,
                participar en sorteos y promociones, no dudes en <span class="enfasis">subscribirte</span> y 
                te infomaremos mediante un correo electrónico.
+            </p>
+            <p>
+               <spam class="small-parraf">Si quieres dejar de recibir nuestros correos, usa el 
+               <a href="<?php print($url);?>#Contact">formulario 
+               de contacto</a>, escribiendo en los comentarios: <span class="enfasis">
+               Dar de baja newsletter</span>.
+               </spam>
             </p>
             <div id="Newsletter-Form">
                <div class="DataEntryContainer">
@@ -585,6 +597,44 @@
                </div>
             </div>
             </div>
+            <script type="text/javascript">
+            function subcribeNewsletter(){
+               JSLogger.getInstance().traceEnter();
+               var strData = DataEntryFunctions.getValues('#Newsletter-Form');
+               var data = JSON.parse(strData);
+               JSLogger.getInstance().trace("The subscriber data is [ " +
+                     strData +" ]");
+               //Check all data have been written
+               var emptyValues = new Array();
+               for (var key in data){
+                  JSLogger.getInstance().trace("Check value for key [ " + key + " ]");
+                  if (data[key].length == 0){
+                     JSLogger.getInstance().debug("The [ " + key + " ] value is empty");
+                     emptyValues[emptyValues.length] = key;
+                     
+                  }
+               }
+               if (emptyValues.length > 0){
+                  
+                  var text = "Por favor, debes especificar los siguientes campos:\n";
+                  for (var i = 0; i < emptyValues.length; i++){
+                     text += "\""+emptyValues[i] + "\"\n";
+                     JSLogger.getInstance().warn("The field [ " + emptyValues[i] +" ] is emtpy");
+                  }
+                  alert(text);
+                  JSLogger.getInstance().traceExit();
+                  return;
+               }
+               //Check the email
+               if (data['Correo-Electronico'].localeCompare(data['Re-Correo-Electronico']) != 0){
+                  alert('Revise su dirección de correo electrónico.');
+                  JSLogger.getInstance().warn("The email and re-email are not equals");
+                  JSLogger.getInstance().traceExit();
+                  return;
+               }
+            }
+            $('#Button-Newsletter').click(subcribeNewsletter);
+            </script>
          </section>
 <?php
       }

@@ -475,7 +475,10 @@ nav ul li:hover{
    background-color: #FFA500;
    color: white;
 }
-
+.small-parraf{
+ 
+   font-size: 12px;
+}
 .Hide{
  
    display: none;
