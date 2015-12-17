@@ -53,7 +53,7 @@
          require_once 'Database/TB_Configuration.php';
          require_once 'Database/TB_Menu.php';
          require_once 'Database/TB_SlideImagesHome.php';
-         require_once 'Database/RequestFromWeb.php';
+         require_once 'Database/RequestFromWebConstants.php';
          require_once 'Database/TB_TypeCollectionImage.php';
          require_once 'Database/TB_MenuCollection.php';
          require_once 'Database/TB_ImageType.php';

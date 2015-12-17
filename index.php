@@ -55,7 +55,7 @@
          require_once 'Database/TB_MenuCollection.php';
          require_once 'Database/TB_TypeCollectionImage.php';
          require_once 'Database/TB_News.php';
-         require_once 'Database/RequestFromWeb.php';
+         require_once 'Database/RequestFromWebConstants.php';
 
          
          //Declare the global variables
