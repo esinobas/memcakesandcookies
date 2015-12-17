@@ -384,6 +384,11 @@
        * Writes the contact section
        */
       static private function getContactSection(){
+         
+         $tbConf = SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC);
+         $tbConf->reset();
+         $tbConf->searchByKey('URL');
+         $url = $tbConf->getValue();
 ?>
          <spam class="Anchor" id="Contact"></spam>
          <section id="Contact-Section" class="Detail-Section">
@@ -457,9 +462,67 @@
                   JSLogger.getInstance().trace("Check value for key [ " + key + " ]");
                   if (data[key].length == 0){
                      JSLogger.getInstance().debug("The [ " + key + " ] value is empty");
-                     emptyValues[emptyValues.lenght] = key;
+                     emptyValues[emptyValues.length] = key;
+                     
                   }
                }
+               if (emptyValues.length > 0){
+                  
+                  var text = "Por favor, debes especificar los siguientes campos:\n";
+                  for (var i = 0; i < emptyValues.length; i++){
+                     text += "\""+emptyValues[i] + "\"\n";
+                     JSLogger.getInstance().warn("The field [ " + emptyValues[i] +" ] is emtpy");
+                  }
+                  alert(text);
+                  JSLogger.getInstance().traceExit();
+                  return;
+               }
+               //Check the email
+               if (data['Correo-Electronico'].localeCompare(data['Re-Correo-Electronico']) != 0){
+                  alert('Revise su dirección de correo electrónico.');
+                  JSLogger.getInstance().warn("The email and re-email are not equals");
+                  JSLogger.getInstance().traceExit();
+                  return;
+               }
+               //Send the email
+               JSLogger.getInstance().trace("Create Ajax object");
+               var ajaxObject = new Ajax();
+               ajaxObject.setSyn();
+               ajaxObject.setPostMethod();
+               ajaxObject.setCallback(null);
+               JSLogger.getInstance().debug("Url where the data will be send [ <?php print($url);?>" 
+                                 +"php/Email/SendEmail.php ]");
+               ajaxObject.setUrl("<?php print($url);?>php/Email/SendEmail.php");
+               var requestParams = {};
+               requestParams.emailsData = {};
+               requestParams.emailsData[0] = {};
+               requestParams.emailsData[0].address = "mem@memcakesandcookies.com";
+               
+               requestParams.emailsData[0].message = encodeURIComponent(data['Comentarios'].replace(/\"/g,"\\\""));
+               requestParams.emailsData[0].subject = encodeURIComponent(("Correo para MEMcakes&cookies.com de " + 
+                                                      data['Nombre'] + " " + 
+                                                      data['Apellidos'] + 
+                                                      ". Correo : "+
+                                                      data['Correo-Electronico']).replace(/\"/g,"\\\""));
+               requestParams.emailsData[0].from = data['Nombre'] + " " + 
+                                              data['Apellidos'] + 
+                                              "[ " + data['Correo-Electronico'] + " ]";
+
+               JSLogger.getInstance().debug("Command parameters [ " + JSON.stringify(requestParams) +" ]");
+
+               ajaxObject.setParameters(JSON.stringify(requestParams));
+               ajaxObject.send();
+
+               if (parseInt(ajaxObject.getResponse()) == 0){
+                  
+                  $('#Contact-Form').find('input, textarea').each(function(idx){
+                        $(this).val("");
+                  });
+                  alert("El mensaje se envio con exito.");
+               }else{
+                  alert("No se pudo enviar el mensaje. Intentelo más tarde");
+               }
+                                                      
                JSLogger.getInstance().traceExit();
             }
             $('#Button-Contact').click(sendContact);
