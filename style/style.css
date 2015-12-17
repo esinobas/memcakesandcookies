@@ -445,6 +445,7 @@ nav ul li:hover{
 }
 .DataEntryValue input:FOCUS, .DataEntryValue textarea:FOCUS{
    background-color: yellow;
+   color:red;
 
 }
 .DataEntryValue textarea{

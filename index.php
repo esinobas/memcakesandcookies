@@ -17,6 +17,7 @@
       <script type="text/javascript" src="./plugins/ImagesSlide/ImagesSlide.js"></script>
       <script type="text/javascript" src="./plugins/Gallery/Gallery.js"></script>
       <script type="text/javascript" src="./plugins/Lightbox/Lightbox.js"></script>
+      <script type="text/javascript" src="./plugins/DataEntry/DataEntryFunctions.js"></script>
       
       <!--  Plugins styles -->
       <link rel="stylesheet" href="./style/GridStyle.css">

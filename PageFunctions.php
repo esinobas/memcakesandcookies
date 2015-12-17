@@ -398,7 +398,7 @@
             <div id="Contact-Form">
                <div class="DataEntryContainer">
                   <div class="DataEntryRow">
-                     <div class="DataEntryLabel" id="Contact-Name-Label">
+                     <div class="DataEntryLabel" id="Nombre">
                         Nombre:
                      </div>
                      <div class="DataEntryValue" id="Contact-Name-Value">
@@ -406,7 +406,7 @@
                      </div>
                    </div>
                    <div class="DataEntryRow">
-                     <div class="DataEntryLabel" id="Contact-Surname-Label">
+                     <div class="DataEntryLabel" id="Apellidos">
                         Apellidos:
                      </div>
                      <div class="DataEntryValue" id="Contact-Surnam-Value">
@@ -414,7 +414,7 @@
                      </div>
                    </div>
                    <div class="DataEntryRow">
-                     <div class="DataEntryLabel" id="Contact-Email-Label">
+                     <div class="DataEntryLabel" id="Correo-Electronico">
                         Correo electrónico:
                      </div>
                      <div class="DataEntryValue" id="Contact-Email-Value">
@@ -422,7 +422,7 @@
                      </div>
                    </div>
                    <div class="DataEntryRow">
-                     <div class="DataEntryLabel" id="Contact-ReEmail-Label">
+                     <div class="DataEntryLabel" id="Re-Correo-Electronico">
                         Re-Correo electrónico:
                      </div>
                      <div class="DataEntryValue" id="Contact-ReEmail-Value">
@@ -430,7 +430,7 @@
                      </div>
                    </div>
                    <div class="DataEntryRow">
-                     <div class="DataEntryLabel" id="Contact-Coments-Label">
+                     <div class="DataEntryLabel" id="Comentarios">
                         Comentarios:
                      </div>
                      <div class="DataEntryValue" id="Contact-Coments-Value">
@@ -440,10 +440,31 @@
                 </div>
                </div>
                <div class="DataEntryButtonsContainer">
-                  <div class="Round-Corners-Button DataEntryWindowButtonOk">Enviar</div>
+                  <div class="Round-Corners-Button DataEntryWindowButtonOk" id="Button-Contact">Enviar</div>
                </div>
             </div>
          </section>
+         <script type="text/javascript">
+            function sendContact(){
+               JSLogger.getInstance().traceEnter();
+               var strData = DataEntryFunctions.getValues('#Contact-Form');
+               var data = JSON.parse(strData);
+               JSLogger.getInstance().trace("The contact data is [ " +
+                     strData +" ]");
+               //Check all data have been written
+               var emptyValues = new Array();
+               for (var key in data){
+                  JSLogger.getInstance().trace("Check value for key [ " + key + " ]");
+                  if (data[key].length == 0){
+                     JSLogger.getInstance().debug("The [ " + key + " ] value is empty");
+                     emptyValues[emptyValues.lenght] = key;
+                  }
+               }
+               JSLogger.getInstance().traceExit();
+            }
+            $('#Button-Contact').click(sendContact);
+            
+         </script>
 <?php 
       }
       

@@ -42,7 +42,7 @@ DataEntryFunctions.getValues = function(theHtmlId, theDataToAdd){
    $(theHtmlId).find(dataEntryRowClass_C).each(function(theIndex){
          JSLogger.getInstance().trace("The Index each command [ " + theIndex + " ]");
          var label = $(this).find(dataEntryLabelClass_C).attr('id');
-         var value = $(this).find(dataEntryValueClass_C).find('input').val();
+         var value = $(this).find(dataEntryValueClass_C).find('input, textarea').val();
          JSLogger.getInstance().trace("Label [ " + label + " ]. Value [ " +
                                        value +" ]");
          returnedValue[label] = value;
