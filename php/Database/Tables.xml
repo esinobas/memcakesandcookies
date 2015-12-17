@@ -839,4 +839,57 @@
          </orderBy>
       </phisical_tables>
    </table_definition>
+   
+   <table_definition>
+      <name>TB_Subscribers</name>
+      <columns>
+         <column>
+            <name>Id</name>
+            <type>Integer</type>
+         </column>
+         <column>
+            <name>Name</name>
+            <type>String</type>
+         </column>
+         <column>
+            <name>Surname</name>
+            <type>String</type>
+         </column>
+         <column>
+            <name>Email</name>
+            <type>String</type>
+         </column>
+      </columns>
+      <key>
+         <column>Id</column>
+      </key>
+      <phisical_tables>
+         <table>
+            <name>TB_Subscribers</name>
+            <columns>
+               <column>
+                  <name>Id</name>
+                  <logical>Id</logical>
+                  <type>Integer</type>
+               </column>
+               <column>
+                  <name>Name</name>
+                  <logical>Name</logical>
+                  <type>string</type>
+               </column>
+               <column>
+                  <name>Surname</name>
+                  <logical>Surname</logical>
+                  <type>string</type>
+               </column>
+               <column>
+                  <name>Email</name>
+                  <logical>Email</logical>
+                  <type>string</type>
+               </column>
+            </columns>
+            <key>Id</key>
+         </table>
+      </phisical_tables>
+   </table_definition>
 </Database>
