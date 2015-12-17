@@ -8,6 +8,7 @@
    set_include_path( get_include_path() . PATH_SEPARATOR . $_SERVER['DOCUMENT_ROOT'].
                       '/php/');
 
+   require_once 'RequestFromWebConstants.php';
    include_once 'LoggerMgr/LoggerMgr.php';
    include_once 'Database/TB_Configuration.php';
    include_once 'Database/TB_Menu.php';
@@ -21,6 +22,7 @@
    include_once 'Database/TB_ImagesAndCollection.php';
    include_once 'Database/TB_TypeCollectionImage.php';
    include_once 'Database/TB_News.php';
+   include_once 'Database/TB_Subscribers.php';
 
    /*** Definition of the global variables and constants ***/
    /**
@@ -29,28 +31,6 @@
 
    $logger = null;
 
-   define(COMMAND, "command");
-   define(PARAMS, "paramsCommand");
-   define(PARAM_TABLE, "Table");
-   define(PARAM_ROWS, "rows");
-   define(PARAM_ROW, "row");
-   define(PARAM_DATA, "data");
-   define(COMMAND_INSERT, "I");
-   define(COMMAND_UPDATE, "U");
-   define(COMMAND_DELETE, "D");
-   define(COMMAND_SELECT, "S");
-   define(PARAM_KEY, "key");
-   define(PARAM_SKIP_ROWS, "skipRows");
-   define(PARAM_NUM_ROWS, "numRows");
-   define(PARAM_SEARCH_BY, "searchBy");
-   define(PARAM_SEARCH_COLUMN, "searchColumn");
-   define(PARAM_SEARCH_VALUE, "searchValue");
-   define(RESULT_CODE, "ResultCode");
-   define(MSG_ERROR, "ErrorMsg");
-   define(RESULT_CODE_SUCCESS, 200);
-   define(RESULT_CODE_INTERNAL_ERROR, 500);
-   define(RETURN_LAST_ID, "lastID");
-   define(ADD_TO_CALLBACK, "addToCallback");
 
 
    /****************** Functions *****************************/
@@ -107,6 +87,10 @@
 
       if (strcmp($theTableName, TB_News::TB_NewsTableC) == 0){
          $returnedTable = new TB_News();
+      }
+
+      if (strcmp($theTableName, TB_Subscribers::TB_SubscribersTableC) == 0){
+         $returnedTable = new TB_Subscribers();
       }
       $logger->trace("Exit");
       return  $returnedTable;
@@ -422,6 +406,27 @@
                 }
             }
 
+            if (strcmp($theTable->getTableName(),TB_Subscribers::TB_SubscribersTableC) == 0){
+               if (isset($row[TB_Subscribers::NameColumnC])){
+                  $logger->trace("Set value to column [ ".
+                             TB_Subscribers::NameColumnC ." ] -> [ ".
+                             $row[TB_Subscribers::NameColumnC] ." ]");
+                  $theTable->setName($row[TB_Subscribers::NameColumnC ]);
+                }
+               if (isset($row[TB_Subscribers::SurnameColumnC])){
+                  $logger->trace("Set value to column [ ".
+                             TB_Subscribers::SurnameColumnC ." ] -> [ ".
+                             $row[TB_Subscribers::SurnameColumnC] ." ]");
+                  $theTable->setSurname($row[TB_Subscribers::SurnameColumnC ]);
+                }
+               if (isset($row[TB_Subscribers::EmailColumnC])){
+                  $logger->trace("Set value to column [ ".
+                             TB_Subscribers::EmailColumnC ." ] -> [ ".
+                             $row[TB_Subscribers::EmailColumnC] ." ]");
+                  $theTable->setEmail($row[TB_Subscribers::EmailColumnC ]);
+                }
+            }
+
             }else{
                $theResult[RESULT_CODE] = RESULT_CODE_INTERNAL_ERROR;
                $theResult[MSG_ERROR] = "The Key has not been found.";
@@ -616,6 +621,19 @@
                                 );
       }
 
+      if (strcmp($theTable->getTableName(),TB_Subscribers::TB_SubscribersTableC) == 0){
+
+         //Declare variables
+         $varName = $theData["Name"];
+         $varSurname = $theData["Surname"];
+         $varEmail = $theData["Email"];
+
+         $newId = $theTable->insert($varName
+                                ,$varSurname
+                                ,$varEmail
+                                );
+      }
+
       if( $newId != -1){
            $logger->trace("The insertion was exectuted successfully. ".
                            "The new Id is [ $newId ]");
@@ -725,6 +743,14 @@
       }
 
       if (strcmp($theTable->getTableName(),TB_News::TB_NewsTableC) == 0){
+         $composedKey = array();
+         $composedKey["Id"] = json_encode($jsonKey);
+         $logger->trace("Order table [ ".$theTable->getTableName().
+                  " ] with key [ " . json_encode($composedKey). " ]");
+          $theTable->searchByKey($composedKey);
+      }
+
+      if (strcmp($theTable->getTableName(),TB_Subscribers::TB_SubscribersTableC) == 0){
          $composedKey = array();
          $composedKey["Id"] = json_encode($jsonKey);
          $logger->trace("Order table [ ".$theTable->getTableName().
@@ -879,6 +905,14 @@
              $rowData['Title'] = $theTable->getTitle();
              $rowData['New'] = $theTable->getNew();
          }
+
+         if (strcmp($theTable->getTableName(),TB_Subscribers::TB_SubscribersTableC) == 0){
+
+             $rowData['Id'] = $theTable->getId();
+             $rowData['Name'] = $theTable->getName();
+             $rowData['Surname'] = $theTable->getSurname();
+             $rowData['Email'] = $theTable->getEmail();
+         }
          $logger->trace("Add row [ $idx ] [ " . json_encode($rowData) ." ]");
          $theResult[PARAM_DATA][strval($idx)] = $rowData;
          $idx++;
@@ -899,17 +933,14 @@
       $resultArray = array();
       $strCommand = null;
       $strParams = null;
-     
       
       if ($method == "POST"){
          $strCommand = $_POST[COMMAND];
          $strParams = $_POST[PARAMS];
-         
       }
       if ($method == "GET"){
          $strCommand = $_GET[COMMAND];
          $strParams = $_GET[PARAMS];
-         
       }
       if (!isset ($strCommand ) || ! isset ($strParams)){
          $resultArray[RESULT_CODE] = RESULT_CODE_INTERNAL_ERROR;
