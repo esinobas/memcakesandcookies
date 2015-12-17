@@ -383,6 +383,69 @@
       /**
        * Writes the contact section
        */
+      static private function getContactSection(){
+?>
+         <spam class="Anchor" id="Contact"></spam>
+         <section id="Contact-Section" class="Detail-Section">
+            <h2>Contacto</h2>
+            <p>
+               Rellene este formulario para cualquier consulta, duda o sugerencia 
+               que nos quiera hacer llegar.<br><br>
+               Nos pondremos en contacto con usted lo antes posible.
+               <br><br>
+               Gracias.
+            </p>
+            <div id="Contact-Form">
+               <div class="DataEntryContainer">
+                  <div class="DataEntryRow">
+                     <div class="DataEntryLabel" id="Contact-Name-Label">
+                        Nombre:
+                     </div>
+                     <div class="DataEntryValue" id="Contact-Name-Value">
+                        <input type="text">
+                     </div>
+                   </div>
+                   <div class="DataEntryRow">
+                     <div class="DataEntryLabel" id="Contact-Surname-Label">
+                        Apellidos:
+                     </div>
+                     <div class="DataEntryValue" id="Contact-Surnam-Value">
+                        <input type="text">
+                     </div>
+                   </div>
+                   <div class="DataEntryRow">
+                     <div class="DataEntryLabel" id="Contact-Email-Label">
+                        Correo electrónico:
+                     </div>
+                     <div class="DataEntryValue" id="Contact-Email-Value">
+                        <input type="email">
+                     </div>
+                   </div>
+                   <div class="DataEntryRow">
+                     <div class="DataEntryLabel" id="Contact-ReEmail-Label">
+                        Re-Correo electrónico:
+                     </div>
+                     <div class="DataEntryValue" id="Contact-ReEmail-Value">
+                        <input type="email">
+                     </div>
+                   </div>
+                   <div class="DataEntryRow">
+                     <div class="DataEntryLabel" id="Contact-Coments-Label">
+                        Comentarios:
+                     </div>
+                     <div class="DataEntryValue" id="Contact-Coments-Value">
+                        <textarea rows="10" required></textarea>
+                     </div>
+                   </div>
+                </div>
+               </div>
+               <div class="DataEntryButtonsContainer">
+                  <div class="Round-Corners-Button DataEntryWindowButtonOk">Enviar</div>
+               </div>
+            </div>
+         </section>
+<?php 
+      }
       
       /**
        * Writes the newsletter section
@@ -409,6 +472,7 @@
                self::getBlogSection();
                self::getCakesSection(); 
                self::getCookiesSection();
+               self::getContactSection();
             }else{
                SingletonHolder::getInstance()->getObject('Logger')->trace("Show post [ $thePostId ]");
                SingletonHolder::getInstance()->setObject(TB_News::TB_NewsTableC, new TB_News());

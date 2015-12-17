@@ -415,7 +415,20 @@ nav ul li:hover{
    color: #ce5c00;
    padding-left: 50px;
 }
+
+#Contact-Section p{
  
+   font-family: Ubuntu;
+   font-size: 16px;
+   padding: 0px 100px;
+   text-align: justify;
+}
+
+#Contact-Form{
+ 
+   display: block;
+   padding: 0px 100px;
+}
 .Hide{
  
    display: none;

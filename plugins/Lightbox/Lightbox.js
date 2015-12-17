@@ -254,7 +254,7 @@ var Lightbox = Lightbox || {};
 
 Lightbox.show = function(theImageObject, theImageLoad){
    
-   JSLogger.getInstance().registerLogger("Lightbox", JSLogger.levelsE.TRACE);
+   JSLogger.getInstance().registerLogger("Lightbox", JSLogger.levelsE.WARN);
    JSLogger.getInstance().traceEnter();
    
    showLightbox(theImageLoad);

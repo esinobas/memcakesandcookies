@@ -90,7 +90,7 @@
    width: calc(100% - 200px);
    
 }
-.DataEntryValue input{
+.DataEntryValue input, .DataEntryValue textarea{
    width: 100%;
 }
 

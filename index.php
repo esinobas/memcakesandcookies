@@ -24,7 +24,8 @@
       <link rel="stylesheet" href="./plugins/ImagesSlide/style.css">
       <link rel="stylesheet" href="./plugins/Instagram/style.css">
       <link rel="stylesheet" href="./plugins/Gallery/style.css">
-       <link rel="stylesheet" href="./plugins/Lightbox/style.css">
+      <link rel="stylesheet" href="./plugins/Lightbox/style.css">
+      <link rel="stylesheet" href="./plugins/DataEntry/DataEntry.css">
       
       <!--  Style  -->
       <!-- Include the php dir in php path -->
