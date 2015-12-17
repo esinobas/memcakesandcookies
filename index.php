@@ -8,8 +8,7 @@
       <meta name="keywords" content="cakes, tartas, cookies, galletas">
       <meta name="application-name" content="MEM Cakes & Cookies">
       
-      <!-- Styles -->
-      <link rel="stylesheet" href="./style/style.css">
+      
       
       <!--  Plugins -->
       <script type="text/javascript" src="./plugins/JQuery/jquery-1.9.0.js"></script>
@@ -26,8 +25,13 @@
       <link rel="stylesheet" href="./plugins/Gallery/style.css">
       <link rel="stylesheet" href="./plugins/Lightbox/style.css">
       <link rel="stylesheet" href="./plugins/DataEntry/DataEntry.css">
+      <link rel="stylesheet" href="./plugins/Styles/ButtonsStyles.css">
       
-      <!--  Style  -->
+      
+      <!-- Styles -->
+      <link rel="stylesheet" href="./style/style.css">
+      
+      
       <!-- Include the php dir in php path -->
       <?php
          set_include_path(get_include_path().PATH_SEPARATOR . dirname(__FILE__) . '/php/'); 

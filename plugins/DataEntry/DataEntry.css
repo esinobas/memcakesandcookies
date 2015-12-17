@@ -72,7 +72,9 @@
 .DataEntryRow{
    /*width: calc(100% - 40px); /* The 40px ara the DataEntryFrm padding 2x 20px. 
                      If that value is modified, then it must be recalculated*/
-   
+   display: block;
+   width: 100%;
+   float: left;
 }
 
 .DataEntryLabel, .DataEntryValue{
@@ -107,6 +109,7 @@
 .DataEntryContainer{
  
    width: 100%;
+   display: block;
 }
 
 .DataEntryWindowButtonOk, .DataEntryWindowButtonCancel{

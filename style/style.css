@@ -416,19 +416,58 @@ nav ul li:hover{
    padding-left: 50px;
 }
 
+/* Contact form style */
+
+#Contact-Section{ 
+
+ font-family: Ubuntu;
+
+}
+
 #Contact-Section p{
  
-   font-family: Ubuntu;
+   
    font-size: 16px;
    padding: 0px 100px;
    text-align: justify;
 }
 
 #Contact-Form{
- 
+   
    display: block;
-   padding: 0px 100px;
+   padding: 10px 100px;
 }
+
+.DataEntryValue input, .DataEntryValue textarea{
+   
+   color: #AB4D01;
+   font-size: 16px;
+}
+.DataEntryValue input:FOCUS, .DataEntryValue textarea:FOCUS{
+   background-color: yellow;
+
+}
+.DataEntryValue textarea{
+   resize: none;
+   font-size: 15px;
+}
+
+.DataEntryButtonsContainer{
+ 
+   padding-left: 545px;
+}
+.DataEntryRow{
+ 
+   padding: 3px 0px;
+}
+
+.Round-Corners-Button{
+   
+   border-color: #F58F00;
+   color: white;
+   background-color: #F58F00;
+}
+
 .Hide{
  
    display: none;
