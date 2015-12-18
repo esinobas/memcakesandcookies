@@ -2,7 +2,18 @@
 font-family: Cookie;
 src:url('../fonts/Cookie/Cookie-Regular.ttf')
 }
-
+@font-face{
+   font-family: Ubuntu;
+   src: url('../fonts/Ubuntu/Ubuntu-Regular.ttf');
+}
+@font-face{
+   font-family: Ubuntu-Light;
+   src: url('../fonts/Ubuntu/Ubuntu-Light.ttf');
+}
+@font-face{
+   font-family: Arimo;
+   src: url('../fonts/Arimo/Arimo-Regular.ttf');
+}
 body {
    
 }
@@ -88,12 +99,13 @@ html {
 
 #DataConfiguration{
  
-   font-size:22px;
+   font-size:14px;
    
 }
 #DataConfiguration > .Data-Grid-Row > .Data-Grid-Column > input{
    width: 100%;
    font-size: 12px;
+   font-family: inherit;
    
 }
 
@@ -102,14 +114,16 @@ html {
    background-color: #ff6600;
    border-color: #ff6600;
    color: white;
-   font-size: 18px;
+   font-size: 14px;
+   font-weight: bold;
 }
 #Button-Save-Configuration{
  
    float: right;
    margin-right: 100px;
    padding: 1px 10px;
-   font-size: 22px;
+   font-size: 14px;
+   font-weight: bold;
 }
 
 #Header-Home{
@@ -127,7 +141,7 @@ html {
 #Button-AddImageInHome{
  
    float: right;
-   width: 100px;
+   width: 115px;
    }
 #Images-Home-Container{
  
@@ -138,8 +152,8 @@ html {
 
 
 #data, .DataEntryWindow{
-   font-family: Cookie;
-  font-size: 26px;
+   font-family: Ubuntu;
+  font-size: 14px;
   color: #ff6600;
 }
 #data{
@@ -163,7 +177,7 @@ html {
    float: left;
    width: 50%;
    text-align: center;
- 
+   padding: 3px 0px;
 }
 
 .ListBox{
@@ -187,6 +201,7 @@ html {
    float: left;
    width: calc(100% - 250px - 5px - 5px);
    height: 100%;
+   padding-top: 3px;
  
 }
 
@@ -222,6 +237,8 @@ html {
  
    float: left;
    width: 54px;
+   font-size: 12px;
+   font-weight: normal;
 }
 .Grid-Image{
     width: 130px;
@@ -308,13 +325,15 @@ html {
 
 .News-Title{
    text-decoration: underline;
-   font-size: 35px;
+   font-size: 30px;
    font-weight: normal;
+   color: #ce5c00;
 }
 .News-Text{
    padding-top: 5px;
    height: calc(100% - 45px);
    overflow-y:scroll; 
+   font-family: Arimo;
 }
 .mce-content-body, .mce-content-body p{
    margin: 0px;
