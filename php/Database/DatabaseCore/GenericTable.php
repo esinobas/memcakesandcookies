@@ -405,7 +405,11 @@
          if ($theNumRows == 0){
             $this->loggerM->warn("The skipped num rows is 0");
          }
-         if (($theNumRows > 0) && ($theNumRows < $this->getCardinality())){
+         if (($theNumRows > 0) && ($theNumRows <= $this->getCardinality())){
+            
+            if ($theNumRows > $this->getCardinality()){
+               $theNumRows = $this->getCardinality();
+            }
             
             for ($i = 0;  $i < $theNumRows; $i++){
                $this->next();
