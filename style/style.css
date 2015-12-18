@@ -445,8 +445,8 @@ nav ul li:hover{
    font-size: 16px;
 }
 .DataEntryValue input:FOCUS, .DataEntryValue textarea:FOCUS{
-   background-color: yellow;
-   color:red;
+   background-color: #ffebdb;
+   color: blue;
 
 }
 .DataEntryValue textarea{
