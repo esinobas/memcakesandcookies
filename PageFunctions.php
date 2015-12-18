@@ -33,18 +33,34 @@
 <?php
          
          SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->searchByKey('URL');
+         $url = SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->getValue();
+         SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->reset();
+         SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->searchByKey('Facebook');
+         $facebook = SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->getValue();
+         SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->reset();
+         SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->searchByKey('Instagram');
+         $instagram = SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->getValue();
+         SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->reset();
+         SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->searchByKey('Twitter');
+         $twitter = SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->getValue();
+         
+         SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->reset();
+         SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->searchByKey('URL');
 ?>
          <div id="Solid-Header">
             <div id="Solid-Header-Center">
-               <a href="<?php print( SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->getValue());?>">
-                  <div id="Logo" style="background-image: url(<?php print( SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->getValue());?>images/logoCMYKwithoutBorder.jpg);"></div>
+               <a href="<?php print($url);?>">
+                  <div id="Logo" style="background-image: url(<?php print($url);?>images/logoCMYKwithoutBorder.jpg);"></div>
                </a>
                <nav>
                   <ul>
-                     <a href="<?php print( SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->getValue());?>#Cakes"><li>Cakes</li></a>
-                     <a href="<?php print( SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->getValue());?>#Cookies"><li>Cookies</li></a>
-                     <a href="<?php print( SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->getValue());?>#Contact"><li>Contacto</li></a>
-                     <a href="<?php print( SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->getValue());?>#Newsletter"><li>Newsletter</li></a>
+                     <a href="<?php print( $url);?>#Cakes"><li>Cakes</li></a>
+                     <a href="<?php print( $url);?>#Cookies"><li>Cookies</li></a>
+                     <a href="<?php print( $url);?>#Contact"><li>Contacto</li></a>
+                     <a href="<?php print( $url);?>#Newsletter"><li>Newsletter</li></a>
+                     <a href="<?php print($facebook);?>" title="Facebook" target="_blank"><li><img src="<?php print( $url);?>images/facebook.png" width="19"></li></a>
+                     <a href="https://www.instagram.com/<?php print($instagram);?>" title="Instagram" target="_blank"><li><img src="<?php print( $url);?>images/instagram.png" width="19"></li></a>
+                     <a href="<?php print($twitter);?>" title="Twitter" target="_blank"><li><img src="<?php print( $url);?>images/twitter.png" width="19"></li></a>
                   </ul>
                </nav>
             </div>
@@ -795,12 +811,12 @@
       }
       
       /**
-       * Writes the twiter timeline
+       * Writes the twitter timeline
        */
-      static private function getTwiterTimeLine(){
+      static private function getTwitterTimeLine(){
          
          SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->rewind();
-         SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->searchByKey('Twiter');
+         SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->searchByKey('Twitter');
 ?>
          <div class="Twiter-Widget">
             <a class="twitter-timeline" href="<?php print(SingletonHolder::getInstance()->getObject(TB_Configuration::TB_ConfigurationTableC)->getValue());?>" data-widget-id="670182839384678400">Tweets por el @MEMCyC.</a>
@@ -965,7 +981,7 @@
             if ( ! isset($thePostId)){
                self::getInstagram();
                self::getFacebookPost();
-               self::getTwiterTimeLine();
+               self::getTwitterTimeLine();
             }else{
                SingletonHolder::getInstance()->getObject('Logger')->trace("Show lasts post.");
                self::getLastsPost();
