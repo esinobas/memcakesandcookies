@@ -632,6 +632,51 @@
                   JSLogger.getInstance().traceExit();
                   return;
                }
+
+             //Insert the subscriber in the newsletter
+               JSLogger.getInstance().trace("Create Ajax object");
+               var ajaxObject = new Ajax();
+               ajaxObject.setSyn();
+               ajaxObject.setPostMethod();
+               ajaxObject.setCallback(null);
+               JSLogger.getInstance().debug("Url where the data will be send [ <?php print($url);?>" 
+                                 +"php/Database/RequestFromWeb.php ]");
+               ajaxObject.setUrl("<?php print($url);?>php/Database/RequestFromWeb.php");
+               var requestParams = {};
+               requestParams.<?php print(COMMAND);?> = <?php print("\"".COMMAND_INSERT."\"");?>;
+               requestParams.<?php print(PARAMS);?> = {};
+               requestParams.<?php print(PARAMS);?>.<?php print(PARAM_TABLE);?> = 
+                              "<?php print(TB_Subscribers::TB_SubscribersTableC);?>";
+               requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?> = {};
+               requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(TB_Subscribers::NameColumnC);?> = data['Nombre'];
+               requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(TB_Subscribers::SurnameColumnC);?> = data['Apellidos'];
+               requestParams.<?php print(PARAMS);?>.<?php print(PARAM_DATA);?>.<?php print(TB_Subscribers::EmailColumnC);?> = data['Correo-Electronico'];
+
+               JSLogger.getInstance().debug("Command parameters [ " + JSON.stringify(requestParams) +" ]");
+
+               ajaxObject.setParameters(JSON.stringify(requestParams));
+               ajaxObject.send();
+               JSLogger.getInstance().trace("Response [ " + ajaxObject.getResponse() + " ]");
+
+               if (ajaxObject.getResponse().indexOf("404 Not Found") != -1){
+                  JSLogger.getInstance().error("The script [ <?php print($url);?>"+
+                     "/php/Database/RequestFromWeb.php ] has been found");
+                   alert('No se ha podido registrar la peticion. Intentelo más tarde');
+               }else{
+                  var objResponse = JSON.parse(ajaxObject.getResponse());
+                  if (parseInt(objResponse['ResultCode']) != 200){
+                        alert('No se ha podido registrar las peticion.\n'+
+                              'Error: ' +objResponse['ErrorMsg']);
+                           
+                        JSLogger.getInstance().error("The newsletter has not been created. [ " +
+                            objResponse['ErrorMsg'] + " ]");
+                  }else{
+                     alert('Se ha realizado la subscripción.');
+                     $('#Newsletter-Form').find('input').each(function(idx){
+                        $(this).val("");
+                     });
+                  }
+               }
             }
             $('#Button-Newsletter').click(subcribeNewsletter);
             </script>
