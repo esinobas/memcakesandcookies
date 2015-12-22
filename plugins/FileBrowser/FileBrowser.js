@@ -196,16 +196,71 @@ var FileBrowser = FileBrowser || function (){
       return returnObject;
    }
    
+   /**
+    * Function that is executed when the user does double click on a file or directory
+    * The html object style is changed
+    */
+   function onDoubleClickFileOrDirectory(theJQueryObj){
+      
+      JSLogger.getInstance().traceEnter();
+      $('#btnSelect').attr("disabled", true);
+      $('#FileBrowser-delete').attr("disabled", true);
+      $('#FileBrowser-delete').css("background-image","url('"+
+            localGetCurrentPathM("FileBrowser.js")+"icons/disabled_delete.png'");
+      
+      JSLogger.getInstance().trace("Selected: [ " + 
+            theJQueryObj.attr('id') +" ]");
+      
+      if (theJQueryObj.attr('id') == ".."){
+         
+         JSLogger.getInstance().trace("Go to parent directory");
+         popFilesAndDirectories();
+         currentPathM = fullPathToString()
+         showFilesAndDirectories(currentPathM);
+      }
+      var directoryData = getFilesAndDirectories();
+      
+      if (directoryData[ theJQueryObj.attr('id') ] == null ){
+         JSLogger.getInstance().trace("Selected element: [ " + 
+               theJQueryObj.attr('id') +" ] is a file.");
+      }else{
+         JSLogger.getInstance().trace("Selected element: [ " + 
+               $(this).attr('id') +" ] is a directory. Entering into ...");
+         
+         stackPathM[idxStackM] = theJQueryObj.attr('id');
+         pushFilesAndDirectories(directoryData[ theJQueryObj.attr('id') ]);
+         
+         currentPathM = fullPathToString();
+         showFilesAndDirectories(currentPathM);
+      }
+      JSLogger.getInstance().traceExit();
+   }
    
    /**
     * Function that is executed when the user does click on a file or directory
     * The html object style is changed
     */
+   var clickTime = 0;
    function onClickFileOrDirectory(){
       JSLogger.getInstance().traceEnter();
       
       JSLogger.getInstance().trace("Selected: [ " + 
               $(this).attr('id') +" ]");
+      
+      if (clickTime == 0){
+         JSLogger.getInstance().trace("The click time is [ 0 ]");
+         clickTime = new Date().getTime();
+      }else{
+         JSLogger.getInstance().trace("The click time is [ " + clickTime + 
+               " ] and now is [ " + new Date().getTime() + " ] Diff [ " + 
+               (new Date().getTime() - clickTime) + " ]");
+         
+         if ((new Date().getTime() - clickTime) < 800){
+            onDoubleClickFileOrDirectory($(this));
+            
+         }
+         clickTime = 0;
+      }
       
       JSLogger.getInstance().trace("Set default css");
       $('.DataElement').css("background-color", "white");
@@ -258,45 +313,7 @@ var FileBrowser = FileBrowser || function (){
    }
    
 
-   /**
-    * Function that is executed when the user does double click on a file or directory
-    * The html object style is changed
-    */
-   function onDoubleClickFileOrDirectory(){
-      
-      JSLogger.getInstance().traceEnter();
-      $('#btnSelect').attr("disabled", true);
-      $('#FileBrowser-delete').attr("disabled", true);
-      $('#FileBrowser-delete').css("background-image","url('"+
-            localGetCurrentPathM("FileBrowser.js")+"icons/disabled_delete.png'");
-      
-      JSLogger.getInstance().trace("Selected: [ " + 
-            $(this).attr('id') +" ]");
-      
-      if ($(this).attr('id') == ".."){
-         
-         JSLogger.getInstance().trace("Go to parent directory");
-         popFilesAndDirectories();
-         currentPathM = fullPathToString()
-         showFilesAndDirectories(currentPathM);
-      }
-      var directoryData = getFilesAndDirectories();
-      
-      if (directoryData[ $(this).attr('id') ] == null ){
-         JSLogger.getInstance().trace("Selected element: [ " + 
-               $(this).attr('id') +" ] is a file.");
-      }else{
-         JSLogger.getInstance().trace("Selected element: [ " + 
-               $(this).attr('id') +" ] is a directory. Entering into ...");
-         
-         stackPathM[idxStackM] = $(this).attr('id');
-         pushFilesAndDirectories(directoryData[ $(this).attr('id') ]);
-         
-         currentPathM = fullPathToString();
-         showFilesAndDirectories(currentPathM);
-      }
-      JSLogger.getInstance().traceExit();
-   }
+   
 
    /**
     * Function that writes the files and directories in the file browser
@@ -323,7 +340,7 @@ var FileBrowser = FileBrowser || function (){
          objCandidate.append("<div>..</div>");
       
          objCandidate.click(onClickFileOrDirectory);
-         objCandidate.dblclick(onDoubleClickFileOrDirectory);
+         //objCandidate.dblclick(onDoubleClickFileOrDirectory);
          $('#FilesContainer').append(objCandidate);
       }
       var imageUrl = FileBrowser.prototype.getParameter(PAGE_URL_C, localParamsM)+"/"+ fullPathToString();
@@ -356,7 +373,7 @@ var FileBrowser = FileBrowser || function (){
          objCandidate.append("<div>"+candidate+"</div>");
          
          objCandidate.click(onClickFileOrDirectory);
-         objCandidate.dblclick(onDoubleClickFileOrDirectory);
+         //objCandidate.dblclick(onDoubleClickFileOrDirectory);
          
       }
       JSLogger.getInstance().traceExit();
